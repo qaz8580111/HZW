@@ -1,0 +1,175 @@
+﻿@{
+    Layout = null;
+}
+@model ZGM.Model.XTGL_ZFSJS
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Pending</title>
+
+    <link href="/Scripts/assets/data-tables/demo_table.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/data-tables/DT_bootstrap.css" rel="stylesheet" />
+
+    <link href="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.7.1.js"></script>
+
+    <script type="text/javascript" src="~/Scripts/js/jquery.idTabs.min.js"></script>
+    <script src="~/Scripts/assets/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/assets/data-tables/jquery.datatables.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/assets/data-tables/DT_bootstrap.js"></script>
+    <script type="text/javascript" src="~/Scripts/assets/data-tables/PLE_DT_bootstrap.js"></script>
+
+    <script src="~/Scripts/js/PageNotBack.js"></script>
+
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-zh-CN.js"></script>
+    <script type="text/javascript" src="~/Scripts/js/select-ui.min.js"></script>
+    <link href="~/Content/css/OA.css" rel="stylesheet" />
+
+    <link href="~/Scripts/layer/skin/layer.css" rel="stylesheet" />
+    <link href="~/Scripts/layer/skin/seaning/style.css" rel="stylesheet" />
+    <script src="~/Scripts/layer/layer.js"></script>
+     <script type="text/javascript">
+         layer.config({
+             skin: 'layer-ext-seaning',
+             offset: ['100px', '33%'],
+             title: '提示',
+             moveOut: true,
+             closeBtn: false,
+             extend: 'skin/seaning/style.css'
+         });
+
+    </script>
+    <script type="text/javascript">
+        var oTable;
+        $(document).ready(function () {
+            $("#StartTime").datepicker({ changeMonth: true, changeYear: true, showMonthAfterYear: true, showButtonPanel: true });
+            $("#EndTime").datepicker({ changeMonth: true, changeYear: true, showMonthAfterYear: true, showButtonPanel: true });
+            GetDataTable();
+        });
+        function GetDataTable() {
+            if (oTable != null) {
+                oTable.fnSettings().sAjaxSource = "/XTGL/PendingTableList";
+                oTable.fnDraw(true);
+            } else {
+                oTable = $('#PendingTable').dataTable({
+                    sAjaxSource: "/XTGL/PendingTableList",
+                    fnServerParams: function (aoData) {
+                        aoData.push(
+                            { "name": "EVENTTITLE", "value": $("#EVENTTITLE").val() },
+                            { "name": "StartTime", "value": $("#StartTime").val() },
+                            { "name": "EndTime", "value": $("#EndTime").val() },
+                            { "name": "SOURCEID", "value": $("#SOURCEID").val() },
+                            { "name": "EventNo", "value": $("#EventNo").val() }
+                            );
+                    },
+                    aoColumns: [
+                         {
+                             mDataProp: "LEVELNUM", sWidth: "90", sTitle: "紧急级别", fnRender: function (obj) {
+                                 if (obj.aData.LEVELNUM == 2) {
+                                     LEVELNAME = '<img title="紧急事件" src="/Images/images/JJSJ.png" />';
+                                 }
+                                 else if (obj.aData.LEVELNUM == 3) {
+                                     LEVELNAME = '<img title="特急事件" src="/Images/images/TJSJ.png" />';
+                                 }
+                                 else {
+                                     LEVELNAME = '<img title="一般事件" src="/Images/images/YBSJ.png" />';
+                                 }
+                                 return LEVELNAME
+                             }
+                         },
+                        { mDataProp: "EVENTCODE", sWidth: "220", sTitle: "事件编号", fnRender: function (obj) { return obj.aData.EVENTCODE } },
+                         {
+                             mDataProp: "EVENTTITLE", sTitle: "事件标题", fnRender: function (obj) {
+                                 var value = "<p style='text-align:left' title='" + obj.aData.EVENTTITLE + "'> " + obj.aData.EVENTTITLE + "</p>";
+                                 return value
+                             }
+                         },
+
+                        { mDataProp: "SOURCENAME", sWidth: "120", sTitle: "事件来源", fnRender: function (obj) { return obj.aData.SOURCENAME } },
+                        { mDataProp: "createtime", sWidth: "180", sTitle: "上报时间", fnRender: function (obj) { return obj.aData.createtime } },
+
+                     { mDataProp: "username", sWidth: "90", sTitle: "处理人", fnRender: function (obj) { return obj.aData.username } },
+                     {
+                         mDataProp: "mun",
+                         sWidth: "200",
+                         sTitle: "操作",
+                         fnRender: function (obj) {
+                             var value = "";
+                             value += '<a class="btn_ico_a_dispose" href="/XTGL/DealWith?ID=' + obj.aData.ZFSJID + '&WFSAID=' + obj.aData.wfsaid + '&WFSID=' + obj.aData.wfsid + '&WFDID=' + obj.aData.wfdid + '"><img src="/Images/btnimage/dispose.png" class="btn_ico_image" />处理</a>'
+                             var edit = '<a class="btn_ico_a_look" href="/XTGL/GetView?ID=' + obj.aData.ZFSJID + '&WFSID=' + obj.aData.wfsid + '&WFDID=' + obj.aData.wfdid + '&pathName=3"><img src="/Images/btnimage/look.png" class="btn_ico_image" />查看</a>';
+                             return value + " " + edit;
+                         }
+                     }
+                    ],
+                    aoColumnDefs: [{ sDefaultContent: '', aTargets: ['_all'] }],
+                    fnDrawCallback: function (oSettings) {
+                        var pagerIndex = oSettings._iDisplayStart / oSettings._iDisplayLength + 1;
+                        var $currentPager = $(".dataTables_paginate span a:contains('" + pagerIndex + "')");
+                        $currentPager.attr("style", "font-weight :bold;!important");
+                    }
+                });
+            }
+        }
+        //查询
+        function Search() {
+            var StartTime = $("#StartTime").val();
+            var EndTime = $("#EndTime").val();
+            if (StartTime > EndTime) {
+                layer.alert('开始时间不能大于结束时间！', {
+                    icon: 0,
+                    skin: 'layer-ext-seaning'
+                });
+                //alert("开始时间不能大于结束时间");
+                return;
+            }
+            oTable.fnPageChange('first', true);
+            oTable.fnClearTable(false);
+        }
+    </script>
+
+</head>
+<body>
+    <div class="place" style="background-image: url(/Images/images/righttop.gif)">
+        <span>位置：</span>
+        <ul class="placeul">
+            <li>挂起事件列表</li>
+        </ul>
+    </div>
+
+    <div class="rightinfo">
+        <div class="tools">
+            <table>
+                <tr>
+                    <td>事件编号：</td>
+                    <td>
+                        <input name="EventNo" id="EventNo" type="text" class="dfinputs" style="width: 130px; height: 32px;" /></td>
+                    <td>事件标题：</td>
+                    <td>
+                        <input name="EVENTTITLE" id="EVENTTITLE" type="text" class="dfinputs" style="width: 130px; height: 32px;" /></td>
+                    <td>开始时间：</td>
+                    <td>
+                        <input id="StartTime" type="text" readonly="readonly" class="dfinputs" data-date-format="yyyy-mm-dd" value="@string.Format("{0:yyyy-MM-dd}", DateTime.Now.AddMonths(-1))" style="width: 130px;height:32px;" /></td>
+                    <td>结束时间：</td>
+                    <td>
+                        <input id="EndTime" type="text" readonly="readonly" class="dfinputs" data-date-format="yyyy-mm-dd" value="@string.Format("{0:yyyy-MM-dd}", DateTime.Now)"style="width: 130px;height:32px;"/></td>
+                    <td>来源：</td>
+                    <td>@Html.DropDownList("SOURCEID", ViewBag.EventSource as IEnumerable<SelectListItem>, "请选择来源", new { onchange = "changeEventSourceID()", @class = "dfinputs", @style = "width:130px;height:35px" })
+                    </td>
+                    <td>
+                        <input name="" type="button" class="sure" onclick="Search()" style="margin-top: 0px;" value="查询" /></td>
+                </tr>
+            </table>
+            <div style="clear: both; margin-top: 10px;" class="tableListDiv">
+                <table class="tablelist" id="PendingTable" style="text-align: center">
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>

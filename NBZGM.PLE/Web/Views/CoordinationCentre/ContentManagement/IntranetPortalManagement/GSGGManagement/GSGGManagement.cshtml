@@ -1,0 +1,214 @@
+﻿@model Taizhou.PLE.Model.GSGGModels.GSGGPendModels
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    
+    <style type="text/css">
+        .head-color {
+            position: relative;
+            padding-left: 0;
+            padding-right: 0;
+            min-height: 40px;
+            border: 0;
+            background-image: none;
+            -webkit-box-shadow: none;
+            -moz-box-shadow: none;
+            -webkit-border-radius: 0;
+            -moz-border-radius: 0;
+            border-radius: 0;
+            background-color: rgba(46, 102, 194, 1) !important;
+            height: 75px;
+        }
+
+        .span {
+            margin-left: 10px;
+        }
+
+        #fluiddiv a {
+            float: left;
+            margin-bottom: 5px;
+            margin-left: 10px;
+        }
+    </style>
+    <link href="~/Content/PersonalWorkbenchIndex/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/PersonalWorkbenchIndex/assets/plugins/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/PersonalWorkbenchIndex/assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/PersonalWorkbenchIndex/assets/css/style-metro.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/PersonalWorkbenchIndex/assets/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/PersonalWorkbenchIndex/assets/css/style-responsive.css" rel="stylesheet" type="text/css" />
+    <!-- 表单美化插件样式 -->
+    <link href="~/Content/PersonalWorkbenchIndex/assets/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css" />
+    <!-- 日历日程插件样式 -->
+    <link href="~/Content/PersonalWorkbenchIndex/assets/plugins/fullcalendar/fullcalendar/fullcalendar.css" rel="stylesheet" type="text/css" />
+    <!-- 饼图插件样式 -->
+    <link href="~/Content/PersonalWorkbenchIndex/assets/plugins/jquery-easy-pie-chart/jquery.easy-pie-chart.css" rel="stylesheet" type="text/css" media="screen" />
+    <!-- 任务列表样式 -->
+    <link href="~/Content/PersonalWorkbenchIndex/assets/css/pages/tasks.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="~/Content/PersonalWorkbenchIndex/assets/plugins/data-tables/DT_bootstrap.css" rel="stylesheet" />
+    <!-- 收藏夹图标 -->
+   @* <link rel="shortcut icon" href="~/Images/favicon.ico" />*@
+    <script src="~/Scripts/assets/jquery/jquery.min.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            var content = $("#GSGGHidContent").val();
+            alert(content);
+            $("#GSGGShowContent").html(content)
+        });
+    </script>
+
+</head>
+<body>
+    <div class="head-color">
+        <a href="#">
+            <img class="nav-user-photo" src="/Images/base/logo.png">
+        </a>
+    </div>
+    <div class="container-fluid">
+        <div class="row-fluid" style="margin-top: 10px;">
+            <div class="span12">
+                <ul class="breadcrumb" style="margin-bottom: 10px;">
+                    <li>
+                        <i class="icon-home"></i>
+                        <a href="index.html">个人中心</a>
+                </ul>
+                <!-- END PAGE TITLE & BREADCRUMB-->
+            </div>
+        </div>
+        <div id="dashboard" style="margin-top: 10px;">
+            <!-- BEGIN DASHBOARD STATS 仪表盘 -->
+            <div class="row-fluid">
+                <div class="span2 responsive" data-desktop="span2">
+                    <div class="dashboard-stat yellow">
+                        <div class="visual">
+                            <i class="icon-credit-card"></i>
+                        </div>
+                        <div class="details">
+                            <div class="number">@ViewBag.ZFRYCoun</div>
+                            <div class="desc">执法队员</div>
+                        </div>
+                        <a class="more" target="_blank" href="http://10.1.1.5:8002/ZFGKPage.html?UerID=@ViewBag.UserID">查看更多 <i class="m-icon-swapright m-icon-white"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="span2 responsive" data-desktop="span2">
+                    <div class="dashboard-stat purple">
+                        <div class="visual">
+                            <i class="icon-male icon-2x"></i>
+                        </div>
+                        <div class="details">
+                            <div class="number">@ViewBag.zfsjListCount</div>
+                            <div class="desc">执法事件</div>
+                        </div>
+                        <a class="more" href="/EnforceLaw/TaskList">查看更多 <i class="m-icon-swapright m-icon-white"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="span2 responsive" data-desktop="span2">
+                    <div class="dashboard-stat red">
+                        <div class="visual">
+                            <i class="icon-remove-circle"></i>
+                        </div>
+                        <div class="details">
+                            <div class="number">
+                                @*  @ViewBag.CaseParkCount*@
+                                2821
+                            </div>
+                            <div class="desc">违停案件</div>
+                        </div>
+                        <a class="more" href="#">查看更多 <i class="m-icon-swapright m-icon-white"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="span2 responsive" data-desktop="span2">
+                    <div class="dashboard-stat blue">
+                        <div class="visual">
+                            <i class="icon-flag"></i>
+                        </div>
+                        <div class="details">
+                            <div class="number">
+                                @ViewBag.simpCaseCount
+                            </div>
+                            <div class="desc">简易案件</div>
+                        </div>
+                        <a class="more" href="/SimpleCase/Index">查看更多 <i class="m-icon-swapright m-icon-white"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="span2 responsive" data-desktop="span2">
+                    <div class="dashboard-stat blue">
+                        <div class="visual">
+                            <i class="icon-flag-checkered"></i>
+                        </div>
+                        <div class="details">
+                            <div class="number">
+                                @ViewBag.caseListCount
+                            </div>
+                            <div class="desc">
+                                一般案件
+                            </div>
+                        </div>
+                        <a class="more" href="/GeneralCase/PendingCaseList">查看更多 <i class="m-icon-swapright m-icon-white"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="span2 responsive" data-desktop="span2">
+                    <div class="dashboard-stat green">
+                        <div class="visual">
+                            <i class="icon-briefcase"></i>
+                        </div>
+                        <div class="details">
+                            <div class="number">
+                                @ViewBag.xzspListCount
+                            </div>
+                            <div class="desc">行政审批</div>
+                        </div>
+                        <a class="more" href="/Approval/Approval/">查看更多 <i class="m-icon-swapright m-icon-white"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- END DASHBOARD STATS -->
+            <div class="clearfix"></div>
+            <div id="fluiddiv" class="row-fluid">
+                <a class="btn blue-stripe" href="/MemberPatrolTask/Index">巡查监管系统<i style="margin-left: 10px;" class="m-icon-swapright m-icon-white"></i></a>
+                <a class="btn green-stripe" href="http://10.1.1.5:8002/ZFGKPage.html?UserID=">执法管控系统<i style="margin-left: 10px;" class="m-icon-swapright m-icon-white"></i></a>
+                <a class="btn yellow-stripe" href="/EnforceLaw/TaskList">公共服务系统<i style="margin-left: 10px;" class="m-icon-swapright m-icon-white"></i></a>
+                <a class="btn purple-stripe" href="/EnforceLaw/TaskList">执法事件系统<i style="margin-left: 10px;" class="m-icon-swapright m-icon-white"></i></a>
+                <a class="btn red-stripe" href="/GeneralCase/PendingCaseList">违停案件系统<i style="margin-left: 10px;" class="m-icon-swapright m-icon-white"></i></a>
+                <a class="btn yellow-stripe" href="/SimpleCase">简易案件系统<i style="margin-left: 10px;" class="m-icon-swapright m-icon-white"></i></a>
+                <a class="btn yellow-stripe" href="/SimpleCase/#">一般案件系统<i style="margin-left: 10px;" class="m-icon-swapright m-icon-white"></i></a>
+                <a class="btn yellow-stripe" href="/Approval/Approval">行政审批系统<i style="margin-left: 10px;" class="m-icon-swapright m-icon-white"></i></a>
+                <a class="btn yellow-stripe" href="htt://122.226.143.66:10007/TZ_Supervision.apk" target="_blank">移动执法系统<i style="margin-left: 10px;" class="m-icon-swapright m-icon-white"></i></a>
+                <a class="btn yellow-stripe">执法督察系统<i style="margin-left: 10px;" class="m-icon-swapright m-icon-white"></i></a>
+                <a class="btn yellow-stripe" href="http://10.1.1.30/Login">建筑垃圾系统<i style="margin-left: 10px;" class="m-icon-swapright m-icon-white"></i></a>
+                <a class="btn yellow-stripe" href="/GeneralCase/PendingCaseList">辅助决策系统<i style="margin-left: 10px;" class="m-icon-swapright m-icon-white"></i></a>
+                <a class="btn yellow-stripe" href="/FunItemManagement/Index">应用支持系统<i style="margin-left: 10px;" class="m-icon-swapright m-icon-white"></i></a>
+                <a class="btn yellow-stripe" href="http://10.1.1.11:8080/">办公自动系统<i style="margin-left: 10px;" class="m-icon-swapright m-icon-white"></i></a>
+                <a class="btn yellow-stripe" href="http://10.1.1.5:8001/">门&nbsp; 户&nbsp; 网&nbsp;站&nbsp; <i style="margin-left: 10px;" class="m-icon-swapright m-icon-white"></i></a>
+            </div>
+
+        </div>
+        <!-- END PORTLET-->
+
+        <div style="width: 100%; margin-top: 20px">
+            <div style="text-align:center">
+                <h1>@Model.SubJect</h1>
+            </div>
+            <div>
+                <input type="hidden" id="GSGGHidContent" value="@Model.Content" />
+                <p style="text-indent: 2em" id="GSGGShowContent"></p>
+            </div>
+            <div style="float:right; margin-right: 12%; margin-top:100px;font-weight:bold"; >
+                <span>发布时间: @Model.SendTime</span><span style="margin-left:10px">发布人：@Model.User_Name</span><span style="margin-left:10px">发布部门：@Model.User_Priv_Name</span>
+            <input type="button" value="关闭" onclick="javascript: window.close()" />
+            </div>
+        </div>
+    </div>
+</body>
+</html>

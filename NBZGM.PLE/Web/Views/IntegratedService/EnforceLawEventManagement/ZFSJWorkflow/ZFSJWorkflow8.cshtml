@@ -1,0 +1,520 @@
+﻿@using Taizhou.PLE.Model.ZFSJWorkflowModel.ZFSJWorkflow
+@model Taizhou.PLE.Model.ZFSJWorkflowModel.ZFSJWorkflow.Form108
+
+@{
+    Layout = null;
+    Form101 form101 = (Form101)ViewBag.form101;
+    Form102 form102 = (Form102)ViewBag.form102;
+    Form103 form103 = (Form103)ViewBag.form103;
+    Form104 form104 = (Form104)ViewBag.form104;
+    Form105 form105 = (Form105)ViewBag.form105;
+    Form106 form106 = (Form106)ViewBag.form106;
+    Form107 form107 = (Form107)ViewBag.form107;
+    
+}
+<style>
+    table th {
+        width: 10%;
+    }
+
+
+    table tr input.large {
+        width: 98%;
+    }
+
+    table tr input.small {
+        width: 94%;
+    }
+
+    table tr td .form-group div {
+        line-height: 30px;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("input[value='" + $("#FKYJ").val() + "']").prop("checked", "checked");
+        $("#refuse").click(function () {
+            $("#bc").val("2");
+        });
+        $("#QuestionDLID").change(function () {
+            var questionDLID = $(this).val();
+
+            $.get("/EnforceLaw/GetQuestionXL", { questionDLID: questionDLID },
+                function (data) {
+                    $("#QuestionXLID").empty();
+                    $("#QuestionXLID").append("<option value=''>请选择小类</option>");
+                    $.each(data, function (i, item) {
+                        $("#QuestionXLID").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                    });
+                });
+        });
+
+        $.get("/EnforceLaw/GetQuestionXL", { questionDLID: $("#QuestionDLID").val() },
+              function (data) {
+                  $("#QuestionXLID").empty();
+                  $("#QuestionXLID").append("<option value=''>请选择小类</option>");
+                  $.each(data, function (i, item) {
+                      if (item.Value == $("#strQuestionXLID").val()) {
+                          $("#QuestionXLID").append("<option value='" + item.Value + "'  selected='selected'>" + item.Text + "</option>");
+                      } else {
+                          $("#QuestionXLID").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                      }
+                  });
+              });
+
+        $("#CLFSID").change(function () {
+            var CLFSID = $(this).val();
+
+            if (CLFSID == "2") {
+                $("#anjuanBH").show();
+            }
+            else {
+                $("#anjuanBH").hide();
+            }
+            $.get("/EnforceLaw/GetCCFS", { CLFSID: CLFSID },
+                function (data) {
+                    $("#CCFSID").empty();
+                    $("#CCFSID").append("<option value=''>请选择</option>");
+                    $.each(data, function (i, item) {
+                        $("#CCFSID").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                    });
+                });
+        });
+        $.get("/EnforceLaw/GetCCFS", { CLFSID: $("#CLFSID").val() },
+               function (data) {
+                   $("#CCFSID").empty();
+                   $("#CCFSID").append("<option value=''>请选择</option>");
+                   $.each(data, function (i, item) {
+                       if (item.Value == $("#BCCCFSID").val()) {
+                           $("#CCFSID").append("<option value='" + item.Value + "' selected='selected'>" + item.Text + "</option>");
+                       }
+                       else {
+                           $("#CCFSID").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                       }
+                   });
+               });
+
+        if ($("#CLFSID").val() == "2") {
+            $("#anjuanBH").show();
+        }
+    });
+
+    function goback() {
+        window.history.go(-1);
+    }
+
+    function FormSubmit() {
+        $("#btn-success").attr("disabled", "disabled");
+        return true;
+    }
+
+    function mapInited() {
+        setTimeout(function () {
+            var DTMD = "@form101.DTWZ";
+            if (DTMD) {
+                DTMD = DTMD.replace('|', ',');
+                var mapCtrl = document.getElementById("mapCtrl").content.MapCtrl;
+                mapCtrl.AddMarker(DTMD);
+            }
+        }, 1000)
+    }
+
+
+</script>
+<div class="row-fluid">
+    <div class="span12" id="tabledata">
+        <div class="tab-content">
+            <div class="tab-pane active" id="detail">
+                <form method="post" enctype="multipart/form-data" action="/ZFSJWorkflow8/Commit" id="ZFSJWorkflow4">
+                    <div class="title" style="margin-bottom: 30px;">
+                        局长审核
+                    </div>
+                    <table class="table table-bordered">
+                        <tr>
+                            <th style="text-align: center; line-height: 30px;">事件标题
+                            </th>
+                            <td style="line-height: 30px; width: 40%;">
+                                <div class="form-group" style="margin-bottom: 5px;">
+                                    <div class="col-sm-9 col-lg-10 controls">
+                                        @form101.EventTitle
+                                    </div>
+                                </div>
+                            </td>
+                            <th style="text-align: center; line-height: 30px;">事件来源
+                            </th>
+                            <td style="line-height: 30px; width: 40%;">
+                                <div class="form-group" style="margin-bottom: 5px;">
+                                    <div class="col-sm-9 col-lg-10 controls">
+                                        @ViewBag.EventSource
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; line-height: 30px">相关联系人
+                            </th>
+                            <td style="line-height: 30px; width: 40%">
+                                <div class="form-group" style="margin-bottom: 5px;">
+                                    <div class="col-sm-9 col-lg-10 controls">
+                                        @form101.XGLXR
+                                    </div>
+                                </div>
+                            </td>
+                            <th style="text-align: center; line-height: 30px">相关联系人电话
+                            </th>
+                            <td style="line-height: 30px; width: 40%">
+                                <div class="form-group" style="margin-bottom: 5px;">
+                                    <div class="col-sm-9 col-lg-10 controls">
+                                        @form101.XGLXRDH
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; line-height: 30px;">事件地址
+                            </th>
+                            <td colspan="3">
+                                <div class="form-group" style="margin-bottom: 5px;">
+                                    <div class="col-sm-9 col-lg-10 controls">
+                                        @form101.EventAddress
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; line-height: 30px;">事件内容
+                            </th>
+                            <td colspan="3">
+                                <div class="form-group" style="margin-bottom: 5px;">
+                                    <div class="col-sm-9 col-lg-10 controls">
+                                        @form101.Content
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; line-height: 30px;">问题大类
+                            </th>
+                            <td style="line-height: 30px; width: 40%;">
+                                <div class="form-group" style="margin-bottom: 5px;">
+                                    <div class="col-sm-9 col-lg-10 controls">
+                                        @ViewBag.QuestionDL
+                                    </div>
+                                </div>
+                            </td>
+                            <th style="text-align: center; line-height: 30px;">问题小类
+                            </th>
+                            <td style="line-height: 30px; width: 40%;">
+                                <div class="form-group" style="margin-bottom: 5px;">
+                                    <div class="col-sm-9 col-lg-10 controls">
+                                        @ViewBag.QuestionXL
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        @*<tr>
+                            <th style="text-align: center; line-height: 30px;">所属区局
+                            </th>
+                            <td style="line-height: 30px; width: 40%;">
+                                <div class="form-group" style="margin-bottom: 5px;">
+                                    <div class="col-sm-9 col-lg-10 controls">
+                                        @ViewBag.ZSYDD
+                                    </div>
+                                </div>
+                            </td>
+                            <th style="text-align: center; line-height: 30px;">所属中队
+                            </th>
+                            <td style="line-height: 30px; width: 40%;">
+                                <div class="form-group" style="margin-bottom: 5px;">
+                                    <div class="col-sm-9 col-lg-10 controls">
+                                        @ViewBag.ZSYDDYZD
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>*@
+                        <tr>
+                            <th style="text-align: center; line-height: 30px;">发现时间
+                            </th>
+                            <td style="line-height: 30px; width: 40%;">
+                                <div class="form-group" style="margin-bottom: 5px;">
+                                    <div class="col-sm-9 col-lg-10 controls">
+                                        @form101.FXSJ
+                                    </div>
+                                </div>
+                            </td>
+                            <th style="text-align: center; line-height: 30px;">上报人员
+                            </th>
+                            <td style="line-height: 30px; width: 40%;">
+                                <div class="form-group" style="margin-bottom: 5px;">
+                                    <div class="col-sm-9 col-lg-10 controls">
+                                        @form101.ProcessUserName
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; line-height: 30px;">地理位置</th>
+                            <td colspan="4" style="padding: 8px;">
+                                <div class="form-group">
+                                    <div id="silverlightControlHost" style="width: 100%; height: 350px;">
+                                        <object id="mapCtrl" data="data:application/x-silverlight-2," type="application/x-silverlight-2" height="350px" width="100%">
+                                            <param name="source" value="/ClientBin/MapCtrl.xap" />
+                                            <param name="background" value="white" />
+                                            <param name="minRuntimeVersion" value="5.0.61118.0" />
+                                            <param name="autoUpgrade" value="true" />
+                                            <param id="initParams" name="initParams" value="IsGoogleMap=false,MapUrl=http://tmap.tzsjs.gov.cn/services/tilecache/chinaemap,X1=121.409266152472,Y1=28.6559834674633,X2=121.423424005508,Y2=28.6614766315258,Mode=2,PinUrl=./Images/pin.png,OffsetX=24,OffsetY=48" />
+                                            <a href="http://go.microsoft.com/fwlink/?LinkID=149156&v=5.0.61118.0" style="text-decoration: none">
+                                                <img src="http://go.microsoft.com/fwlink/?LinkId=161376" alt="Get Microsoft Silverlight" style="border-style: none" />
+                                            </a>
+                                        </object>
+                                        <iframe id="_sl_historyFrame" style="visibility: hidden; height: 0px; width: 0px; border: 0px"></iframe>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                    @if (form102 != null)
+                    {
+                        <table class="table table-bordered">
+                            <tr>
+                                <th colspan="4" style="font-weight: bold; height: 25px; font-size: 16px">执法中队派遣</th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; line-height: 30px;">派遣意见</th>
+                                <td colspan="3" style="height: 40px;">
+                                    @form102.PQYJ</td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; line-height: 30px;">派遣人</th>
+                                <td style="line-height: 30px; width: 40%;">
+                                    @form102.ProcessUserName</td>
+                                <th style="text-align: center; line-height: 30px;">派遣时间</th>
+                                <td style="line-height: 30px; width: 40%;">
+                                    @form102.PQSJ</td>
+                            </tr>
+                            @if (form102 != null && form102.THYJ != null)
+                            { 
+                                <tr>
+                                    <th style="text-align: center;">执法队员<br />
+                                        回退意见
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form102.THYJ
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+
+                        <table class="table table-bordered">
+                            <tr>
+                                <th colspan="4" style="font-weight: bold; height: 25px; font-size: 16px">中队队员处理</th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; line-height: 30px;">处理意见</th>
+                                <td colspan="3" style="height: 40px;">
+                                    @form103.ZFDYCLYJ</td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; line-height: 30px;">处理人</th>
+                                <td style="line-height: 30px; width: 40%;">
+                                    @form103.ProcessUserName</td>
+                                <th style="text-align: center; line-height: 30px;">处理时间</th>
+                                <td style="line-height: 30px; width: 40%;">
+                                    @form103.CLSJ</td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; line-height: 30px;">反馈意见
+                                </th>
+                                <td style="line-height: 30px" colspan="3">
+                                    <div class="form-group" style="margin-bottom: 5px;">
+                                        <div class="col-sm-9 col-lg-10 controls">
+                                            <input type="radio" name="fkyjradio" disabled="disabled" id="my" value="my" />满意
+                                        <input type="radio" name="fkyjradio" disabled="disabled" id="bmy" value="bmy" />不满意
+                                        <input type="radio" name="fkyjradio" disabled="disabled" id="wflx" value="wflx" />无法联系
+                                        @Html.Hidden("FKYJ", form103.FKYJ)
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            @if (form103 != null && !string.IsNullOrWhiteSpace(form103.THYJ))
+                            { 
+                                <tr>
+                                    <th style="text-align: center;">执法队员<br />
+                                        回退意见
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form103.THYJ
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+
+                        <table class="table table-bordered">
+                            <tr>
+                                <th colspan="4" style="font-weight: bold; height: 25px; font-size: 16px">中队长处理</th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; line-height: 30px;">处理意见</th>
+                                <td colspan="3" style="height: 40px;">
+                                    @form104.ZFZDZYJ</td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; line-height: 30px;">处理人</th>
+                                <td style="line-height: 30px; width: 40%;">
+                                    @form104.ProcessUserName</td>
+                                <th style="text-align: center; line-height: 30px;">处理时间</th>
+                                <td style="line-height: 30px; width: 40%;">
+                                    @form104.CLSJ</td>
+                            </tr>
+                            @if (form104 != null && form104.THYJ != null)
+                            { 
+                                <tr>
+                                    <th style="text-align: center;">执法中队<br />
+                                        回退意见
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form104.THYJ
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    
+                    }
+
+
+                    <table class="table table-bordered">
+                        <tr>
+                            <th colspan="4" style="font-weight: bold; height: 25px; font-size: 16px">执法副大队长审核</th>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; line-height: 30px;">审核意见</th>
+                            <td colspan="3" style="height: 40px;">
+                                @form105.ZFDDZYJ
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; line-height: 30px;">审核人</th>
+                            <td style="line-height: 30px; width: 40%;">
+                                @form105.ProcessUserName</td>
+                            <th style="text-align: center; line-height: 30px;">处理时间</th>
+                            <td style="line-height: 30px; width: 40%;">
+                                @form105.CLSJ</td>
+                        </tr>
+                        @if (form105 != null && form105.THYJ != null)
+                        { 
+                            <tr>
+                                <th style="text-align: center;">上级人员<br />
+                                    回退意见
+                                </th>
+                                <td colspan="3">
+                                    <div class="form-group" style="margin-bottom: 5px;">
+                                        <div class="col-sm-9 col-lg-10 controls">
+                                            @form105.THYJ
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+
+                    @if (form107 != null)
+                    {
+                        <table class="table table-bordered">
+                            <tr>
+                                <th colspan="4" style="font-weight: bold; height: 25px; font-size: 16px">执法大队长审核</th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; line-height: 30px;">审核意见</th>
+                                <td colspan="3" style="height: 40px;">
+                                    @form107.ZFDDYJ
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; line-height: 30px;">审核人</th>
+                                <td style="line-height: 30px; width: 40%;">
+                                    @form107.ProcessUserName</td>
+                                <th style="text-align: center; line-height: 30px;">处理时间</th>
+                                <td style="line-height: 30px; width: 40%;">
+                                    @form107.CLSJ</td>
+                            </tr>
+                        </table>
+                    
+                    }
+                  
+                   
+@*  判断从大队长到局长这里是否经过副局长这个流程*@
+                    @if (form106 != null)
+                    {
+                        <table class="table table-bordered">
+                            <tr>
+                                <th colspan="4" style="font-weight: bold; height: 25px; font-size: 16px">副局长审核</th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; line-height: 30px;">审核意见</th>
+                                <td colspan="3" style="height: 40px;">
+                                    @form106.ZFJZYJ
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; line-height: 30px;">审核人</th>
+                                <td style="line-height: 30px; width: 40%;">
+                                    @form106.ProcessUserName</td>
+                                <th style="text-align: center; line-height: 30px;">处理时间</th>
+                                <td style="line-height: 30px; width: 40%;">
+                                    @form106.CLSJ</td>
+                            </tr>
+                        </table>
+                    }
+
+                    <table class="table table-bordered">
+                        <tr>
+                            <th style="text-align: center; line-height: 30px;">审核意见
+                            </th>
+                            <td colspan="3">
+                                <div class="form-group" style="margin-bottom: 5px;">
+                                    <div class="col-sm-9 col-lg-10 controls">
+                                        @Html.TextAreaFor(model => model.ZFDDYJ, new { style = "width:98%;height:100px;" })
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+
+                    </table>
+                    @Html.Hidden("bc")
+                    @Html.Hidden("WIID")
+                    @Html.Hidden("AIID")
+                    @Html.Hidden("ADID")
+                    @Html.Hidden("THYJ")
+                    <div class="form-group" style="margin-bottom: 5px; margin-left: 130px;">
+                        <div class="col-sm-9 col-lg-10 controls">
+                            <input id="refuse" type="submit" class="btn btn-error" value="回  退">
+                            <input type="submit" class="btn btn-success" value="提　交" onsubmit="return FormSubmit();">
+                            <input type="button" onclick="goback();" style="margin-left: 5px;" class="btn goBack" value="返回" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        @*</div>*@
+        @*</div>*@
+    </div>
+</div>
+@Html.Hidden("strQuestionXLID")
+@Html.Hidden("BCCCFSID")
+
+
+

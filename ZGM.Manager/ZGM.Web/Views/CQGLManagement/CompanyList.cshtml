@@ -1,0 +1,366 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>企业拆迁列表</title>
+    <link href="/Scripts/assets/data-tables/demo_table.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/data-tables/DT_bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/css/OA.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-1.7.1.js"></script>
+    <script type="text/javascript" src="~/Scripts/js/select-ui.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/js/jquery.idTabs.min.js"></script>
+    <script src="~/Scripts/assets/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/assets/data-tables/jquery.datatables.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/assets/data-tables/DT_bootstrap.js"></script>
+    <script type="text/javascript" src="~/Scripts/assets/data-tables/PLE_DT_bootstrap.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-zh-CN.js"></script>
+
+    <script src="~/Scripts/js/PageNotBack.js"></script>
+    <link href="~/Scripts/layer/skin/layer.css" rel="stylesheet" />
+    <link href="~/Scripts/layer/skin/seaning/style.css" rel="stylesheet" />
+    <script src="~/Scripts/layer/layer.js"></script>
+    <style>
+        .black_overlay {
+            display: none;
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            z-index: 1001;
+            -moz-opacity: 0.8;
+            opacity: .80;
+            filter: alpha(opacity=80);
+        }
+
+        .white_content {
+            display: none;
+            position: absolute;
+            top: 10%;
+            left:35%;
+            width: 500px;
+            height:450px;
+            background-color: white;
+            z-index: 1002;
+            overflow: auto;
+        }
+
+        .addfilebtn {
+            width: 40px;
+            height: 22px;
+            line-height: 22px;
+            display: inline-block;
+            margin-top: 6px;
+            color: rgb(255, 255, 255);
+            background: transparent url("/Images/images/btnbg1.png") repeat-x scroll 0% 0%;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 3px;
+            cursor: pointer;
+            text-align: center;
+        }
+    </style>
+    <script type="text/javascript">
+        layer.config({
+            skin: 'layer-ext-seaning',
+            offset: ['100px', '33%'],
+            title: '提示',
+            moveOut: true,
+            closeBtn: false,
+            extend: 'skin/seaning/style.css'
+        });
+
+        $(document).ready(function () {
+            $("#usual1 ul").idTabs();
+            $('.tablelist tbody tr:odd').addClass('odd');
+            $(".tiptop a").click(function () {
+                $(".tip").fadeOut(200);
+                $("input[name='PARPALMONEY']").val("");
+                $("textarea[name='REMARKS']").val("");
+                $("#showfile").html("<div id='AddAfterFile' class='addfilebtn' onclick='AddAfterFile();' style='float:left;'>添加</div>");
+            });
+
+            $("#STime").datepicker({ changeMonth: true, changeYear: true, showMonthAfterYear: true, showButtonPanel: true });
+            $("#ETime").datepicker({ changeMonth: true, changeYear: true, showMonthAfterYear: true, showButtonPanel: true });
+            $("input[name='PAYPALTIME']").datepicker({ changeMonth: true, changeYear: true, showMonthAfterYear: true, showButtonPanel: true });
+            GetDataTable();
+        })
+
+        //后台回调js函数
+        function AddCallBack(flag) {
+            if (flag == 1) {
+                layer.alert("操作成功!", {
+                    icon: 1,
+                    skin: 'layer-ext-seaning'
+                }, function (index) {
+                    layer.close(index);
+                    location.href = "/CQGLManagement/CompanyList";
+                });
+            }
+            if (flag == 2) {
+                layer.alert("操作失败!", {
+                    icon: 0,
+                    skin: 'layer-ext-seaning'
+                }, function (index) {
+                    layer.close(index);
+                    location.href = "/CQGLManagement/CompanyList";
+                });
+            }
+        }
+
+        var oTable;
+        //填充企业拆迁列表
+        function GetDataTable() {
+            oTable = $('#CQGLEnterpriseTable').dataTable({
+                sAjaxSource: "/CQGLManagement/CQGLEnterprise_Grid",
+                fnServerParams: function (aoData) {
+                    aoData.push(
+                        { "name": "ProjectName", "value": $("#ProjectName :selected").text() == "请选择" ? "" : $("#ProjectName :selected").text() },
+                        { "name": "ProjectUser", "value": $("#ProjectUser").val() },
+                        { "name": "LegalName", "value": $("#LegalName").val() },
+                        { "name": "STime", "value": $("#STime").val() },
+                        { "name": "ETime", "value": $("#ETime").val() })
+                },
+                aoColumns: [
+                    {
+                        mDataProp: function (data) {
+                            var span = "<span title='" + data.ProjectName + "'>" + data.ProjectName + "</span>";
+                            return span;
+                        }
+                    },
+                    { mDataProp: "ProjectUser" },
+                    { mDataProp: "LegalName" },
+                    { mDataProp: "StartTime" },
+                    { mDataProp: "EndTime" },
+                    { mDataProp: "SignTime" },
+                    {
+                        mDataProp: function (data) {
+                            var edit = "<a class='btn_ico_a_delete' href='#' onclick=\"EditShow(" + data.EnterpriseID + ")\"><img src='/Images/btnimage/edit.png' class='btn_ico_image' />编辑</a>";
+                            var replay = "<a class='btn_ico_a_dispose' href='#' onclick=\"Replay(" + data.EnterpriseID + ")\"><img src='/Images/btnimage/pq.png' class='btn_ico_image' />支付</a>";
+                            var look = "<a class='btn_ico_a_look' href='#' onclick=\"Look(" + data.EnterpriseID + ")\"><img src='/Images/btnimage/look.png' class='btn_ico_image' />查看</a>";
+                            return edit + "  " + replay + "  " + look;
+                        }, "sClass": "center"
+                    }
+
+                ],
+                aoColumnDefs: [{ sDefaultContent: '', aTargets: ['_all'] }],
+                fnDrawCallback: function (oSettings) {
+                    var pagerIndex = oSettings._iDisplayStart / oSettings._iDisplayLength + 1;
+                    var $currentPager = $(".dataTables_paginate span a:contains('" + pagerIndex + "')");
+                    $currentPager.attr("style", "font-weight :bold;!important");
+                }
+            });
+        }
+
+        //查询
+        function Search() {
+            oTable.fnPageChange('first', true);
+            oTable.fnClearTable(false);
+        }
+
+        //查看企业拆迁详情
+        function Look(id) {
+            location.href = "/CQGLManagement/EnterpriseLook?EnterpriseId=" + id;
+        }
+
+        //验证表单
+        function validate_form(thisform) {
+            with (thisform) {
+                if (validate_required_float(PARPALMONEY, "支付金额不能为空!", "支付金额格式不正确!") == false)
+                { PARPALMONEY.focus(); return false }
+            }
+        }
+
+        //验证是否为空
+        function validate_required(field, alerttxt) {
+            with (field) {
+                if (value == null || value == "") {
+                    layer.alert(alerttxt, {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    });
+                    return false
+                }
+                else { return true }
+            }
+        }
+
+        //验证是否为空并且为数字
+        function validate_required_float(field, alertnulltxt, alerterrortxt) {
+            var intregex = /^[0-9]+(.[0-9]{1,5})?$/;
+            with (field) {
+                if (value == null || value == "") {
+                    layer.alert(alertnulltxt, {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    });
+                    return false
+                }
+                if (value != null && value != "" && !intregex.test(value)) {
+                    layer.alert(alerterrortxt, {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    });
+                    return false
+                }
+                if (value != null && value != "" && intregex.test(value))
+                { return true }
+            }
+        }
+
+        //获取url参数
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null)
+                return unescape(r[2]);
+            return null;
+        }
+
+        //添加文件按钮
+        function AddAfterFile(id) {
+            $("#AddAfterFile").after("<div style='margin: 20px 0px;text-align: left;'><input name='AddFile" + Math.random(10000, 99999) + "' type='file'  value='' /><b style='cursor:pointer;' onclick='DeleteFile(this);'>删除</b></div>");
+        }
+
+        //删除文件按钮
+        function DeleteFile(obj) {
+            $(obj).parent().remove();
+        }
+
+        //企业办理展示
+        function EditShow(id) {
+            location.href = "/CQGLManagement/AddCompany?EditHouseId=" + id;
+        }
+
+        //企业编辑展示
+        function Replay(id) {
+            $("input[name='hidden-enterpriseid']").val(id);
+            ShowDiv('QYZF', 'fade')
+            //$("#tip1,#fade").fadeIn(200);
+         
+
+
+        }
+        //弹出隐藏层
+        function ShowDiv(show_div, bg_div) {
+            document.getElementById(show_div).style.display = 'block';
+            document.getElementById(bg_div).style.display = 'block';
+            var bgdiv = document.getElementById(bg_div);
+            bgdiv.style.width = document.body.scrollWidth;
+            $("#" + bg_div).height($(document).height());
+        }
+        //关闭弹出层
+        function CloseDiv(show_div, bg_div) {
+            document.getElementById(show_div).style.display = 'none';
+            document.getElementById(bg_div).style.display = 'none';
+        };
+
+    </script>
+</head>
+<body>
+
+
+    <div class="place">
+        <span>位置：</span>
+        <ul class="placeul">
+            <li>企业拆迁列表</li>
+        </ul>
+    </div>
+
+    <div class="formbody">
+        <table>
+            <tr>
+                <td>项目名称：</td>
+                <td>
+                    @*<input id="ProjectName" type="text" class="dfinputs" style="width: 150px; height: 32px"/>*@
+                    @Html.DropDownList("ProjectName", ViewBag.project as IEnumerable<SelectListItem>, "请选择", new { @class = "dfinputs", @style = "width:180px;" })
+                </td>
+                <td>负责人：</td>
+                <td>
+                    <input id="ProjectUser" type="text" class="dfinputs" style="width: 150px; height: 32px" /></td>
+                <td>法人代表：</td>
+                <td>
+                    <input id="LegalName" type="text" class="dfinputs" style="width: 150px; height: 32px" /></td>
+                <td>签约时间：</td>
+                <td>
+                    <input id="STime" type="text" class="dfinputs" readonly="readonly" data-date-format="yyyy-mm-dd" value="" style="width: 120px; height: 32px" /></td>
+                <td>至</td>
+                <td>
+                    <input id="ETime" type="text" class="dfinputs" readonly="readonly" data-date-format="yyyy-mm-dd" value="" style="width: 120px; height: 32px" /></td>
+                <td>
+                    <input type="button" class="sure" value="查询" onclick="Search()" style="margin-top: 0px;" /></td>
+            </tr>
+        </table>
+
+        <div style="clear: both; margin-top: 10px;" class="tableListDiv">
+            <table class="tablelist" id="CQGLEnterpriseTable" style="text-align: center">
+                <thead>
+                    <tr>
+                        <th style="text-align: center">项目名称</th>
+                        <th style="text-align: center">负责人</th>
+                        <th style="text-align: center">法人代表</th>
+                        <th style="text-align: center;">项目启动时间</th>
+                        <th style="text-align: center;">项目完成时间</th>
+                        <th style="text-align: center;">签约日期</th>
+                        <th style="text-align: center; width: 200px;">操作</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+        <!--弹出层时背景层DIV-->
+        <div id="fade" class="black_overlay">
+        </div>
+        <div id="QYZF" class="white_content">
+            <div class="tiptop"><span>增加企业支付</span><a onclick="CloseDiv('QYZF','fade')"></a></div>
+            <form method="post" enctype="multipart/form-data" action="/CQGLManagement/MultiEMoneyCommit" target="hidden_frame" onsubmit="return validate_form(this)">
+
+                <div id="tab1" class="tabson">
+                    <table class="zdgc_table" style="margin-left: 50px;">
+                        <tr>
+                            <td style="width: 110px; text-align: center;">支付时间</td>
+                            <td>
+                                <input name="PAYPALTIME" type="text" class="dfinputs" readonly="readonly" data-date-format="yyyy-mm-dd" value="@string.Format("{0:yyyy-MM-dd}", DateTime.Now)"  style="height:32px"/>
+                         <tr>
+                            <td style="width: 110px; text-align: center;">支付金额</td>
+                            <td>
+                                <input name="PARPALMONEY" type="text" class="dfinputs" placeholder="请输入支付金额" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 110px; text-align: center; margin-top:50px">备注</td>
+                            <td>
+                                <textarea name="REMARKS" class="dtablefinputs" placeholder="请输入备注" style="height:150px"></textarea></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center;">上传附件</td>
+                            <td colspan="4">
+                                <div id="showfile" style="float: left;">
+                                    <div id="AddAfterFile" class="addfilebtn" onclick="AddAfterFile();" style="float: left;">添加</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="5">
+                                <input id="SaveBtn" type="submit" class="sure" style="float:right; margin-right: 20px;" value="保  存" />
+                                <input type="hidden" name="hidden-enterpriseid" value="0" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+            </form>
+        </div>
+
+        <iframe name='hidden_frame' id="hidden_frame" style="display: none"></iframe>
+</body>
+</html>

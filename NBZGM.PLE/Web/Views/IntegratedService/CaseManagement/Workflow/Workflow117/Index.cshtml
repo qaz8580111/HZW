@@ -1,0 +1,55 @@
+﻿@model Web.ViewModels.CaseViewModels.ViewModel17
+@using Taizhou.PLE.Model.CaseWorkflowModels
+
+@{
+    Taizhou.PLE.Model.CaseWorkflowModels.CaseForm wmCaseForm = ViewBag.CaseForm;
+    Taizhou.PLE.Model.CaseWorkflowModels.Form101 wmForm1 = wmCaseForm.FinalForm.Form101;
+    Taizhou.PLE.Model.CaseWorkflowModels.Form107 wmForm7 = wmCaseForm.FinalForm.Form107;
+    Taizhou.PLE.Model.CaseWorkflowModels.Form116 wmForm16 = wmCaseForm.FinalForm.Form116;
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("input[name=GZRQ]").datetimepicker();
+    });
+</script>
+<form id="workflow17Form" class="workflowForm" method="post" enctype="multipart/form-data" action="/Workflow117/Commit">
+    <div class="title">
+        制作处罚决定书  
+    </div>
+    <table class="workflow" border="0" cellspacing="0" cellpadding="0" style="width: 700px; border-collapse: collapse; margin: 0 auto; margin-top: 20px;">
+        <tr>
+            <th colspan="2">主办队员意见</th>
+            <td colspan="9">@Html.TextAreaFor(model => wmForm16.ZBDYYJ, new { style = "height:60px", disabled = "disabled" })</td>
+        </tr>
+        <tr>
+            <th colspan="2">协办队员意见</th>
+            <td colspan="9">@Html.TextAreaFor(model => model.XBDYYJ, new { style = "height:60px" })</td>
+        </tr>
+        <tr>
+            <th colspan="2">短信提醒</th>
+            <td colspan="10">
+                <input type="checkbox" id="FSDX" name="FSDX" value="" />
+                <label id="SMSNameAndSMSNum">@wmForm1.CBLDName 手机号：</label>
+                <label id="SMSUserNameAndNum"></label>
+                @Html.Hidden("CBLDID", wmForm1.CBLDID)
+                @Html.Hidden("CBLDNAME", wmForm1.CBLDName)
+            </td>
+        </tr>
+        <tr style="height: 0px; line-height: 0px;">
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="width: 92px; border: none; padding: 0px;"></td>
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="width: 72px; border: none; padding: 0px;"></td>
+            <td style="width: 52px; border: none; padding: 0px;"></td>
+            <td style="width: 52px; border: none; padding: 0px;"></td>
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="border: none; padding: 0px;">&nbsp;</td>
+        </tr>
+    </table>
+    <div class="clear"></div>
+    @Html.Hidden("WIID")
+    @Html.Hidden("AIID")
+</form>

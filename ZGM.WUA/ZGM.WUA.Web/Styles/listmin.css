@@ -1,0 +1,343 @@
+﻿html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+.main {
+    width: 281px;
+    height: 152px;
+    background-image: url('/images/pmin/minbg_05.png');
+    background-repeat: no-repeat;
+}
+
+.top {
+    width: 281px;
+    height: 120px;
+    display: block;
+    float: left;
+}
+
+.t_title {
+    font-size: 12px;
+    font-family: 'Microsoft YaHei';
+    text-align: center;
+    width: 281px;
+    height: 20px;
+    line-height: 20px;
+    color: #ffffff;
+    display: block;
+    position: absolute;
+}
+
+.btnclose {
+    width: 253px;
+    height: 10px;
+    float: left;
+    margin-left: 18px;
+    display: block;
+    margin-top: 10px;
+    position: relative;
+}
+
+    .btnclose span {
+        background-image: url('/images/plus_icon.png');
+        background-repeat: no-repeat;
+        line-height: 10px;
+        height: 10px;
+        width: 10px;
+        float: right;
+        margin-right: 2px;
+        cursor: pointer;
+        display: inline-block;
+    }
+
+        .btnclose span:hover {
+            opacity: 0.6;
+        }
+
+.t_left {
+    width: 106px;
+    height: 90px;
+    float: left;
+    margin-left: 18px;
+    display: inline-block;
+}
+
+.picoin {
+    /*width: 106px;*/
+    /*height: 90px;*/
+    margin: auto;
+    display: block;
+    padding-top: 25px;
+    max-width: 110px;
+    max-height: 100px;
+    /*display: inline-block;*/
+    /*text-align: center;*/
+    /*background-image: url('/images/pmin/pminicoin_03.png');*/
+    /*background-repeat: no-repeat;*/
+    /*background-position: center;*/
+}
+
+
+.cicoin {
+    width: 106px;
+    height: 90px;
+    margin: 0 auto;
+    display: inline-block;
+    background-image: url('/images/cmin/cminicoin_03.png');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.eventsminicoin {
+    width: 106px;
+    height: 90px;
+    margin: 0 auto;
+    display: inline-block;
+    background-image: url('/images/概要图标/事件.png');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+
+.partsminicoin {
+    width: 106px;
+    height: 90px;
+    margin: 0 auto;
+    display: inline-block;
+    background-image: url('/images/partsmin/partsminicoin01.png');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.t_right {
+    width: 119px;
+    height: 90px;
+    display: inline-block;
+    margin-right: 18px;
+    float: right;
+}
+
+.pname {
+    color: #fc5a11;
+    margin-top: 22px;
+    height: 16px;
+    line-height: 16px;
+    width: 69px;
+    display: inline-block;
+    text-align: left;
+    font-size: 16px;
+    font-family: 'Microsoft YaHei';
+}
+
+.pnumber {
+    color: #e9c726;
+    height: 16px;
+    line-height: 16px;
+    width: 50px;
+    display: inline-block;
+    text-align: left;
+    font-size: 16px;
+    font-family: 'Microsoft YaHei';
+      overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.cname {
+    color: #ed6929;
+    margin-top: 22px;
+    height: 16px;
+    line-height: 16px;
+    width: 20px;
+    display: inline-block;
+    text-align: left;
+    font-size: 16px;
+    font-family: 'Microsoft YaHei';
+}
+
+.cnumber {
+    color: #e9c726;
+    height: 16px;
+    line-height: 16px;
+    width: 50px;
+    display: inline-block;
+    text-align: left;
+    font-size: 16px;
+    font-family: 'Microsoft YaHei';
+}
+
+
+.eventsminname {
+    color: #fe1a1a;
+    margin-top: 22px;
+    height: 16px;
+    line-height: 16px;
+    width: 119px;
+    display: inline-block;
+    text-align: left;
+    font-size: 16px;
+    font-family: 'Microsoft YaHei';
+}
+
+
+.pposition {
+    color: #ffffff;
+    margin-top: 10px;
+    height: 16px;
+    line-height: 16px;
+    width: 119px;
+    display: inline-block;
+    text-align: left;
+    font-size: 16px;
+    font-family: 'Microsoft YaHei';
+}
+
+.partsminposition {
+    color: #ffffff;
+    margin-top: 16px;
+    height: 16px;
+    line-height: 16px;
+    width: 119px;
+    display: inline-block;
+    text-align: left;
+    font-size: 16px;
+    font-family: 'Microsoft YaHei';
+}
+
+.m_spilit {
+    background-image: url('/images/pmin/mspilit_03.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-position-y: 10px;
+    width: 10px;
+    height: 105px;
+    margin-left: 2px;
+    display: inline-block;
+}
+
+
+
+.bottom {
+    width: 125px;
+    height: 20px;
+    display: inline-block;
+    margin-left: 78px;
+    margin-top: 10px;
+}
+
+    .bottom > div:hover {
+        opacity: 0.6;
+    }
+
+.pdetail {
+    background-image: url('/images/pmin/pdetail_03.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    display: inline-block;
+    margin-left: 2px;
+    width: 14px;
+    height: 20px;
+    cursor: pointer;
+}
+.pdetailCamera {
+    background-image: url('/images/eventsmin/review.png');  
+}
+
+.pplayCamera {
+    background-image: url('/images/eventsmin/play.png');  
+}
+
+
+.proute {
+    background-image: url('/images/pmin/proute_03.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    display: inline-block;
+    margin-left: 2px;
+    width: 14px;
+    height: 20px;
+    cursor: pointer;
+}
+.del{
+    background-image: url('/images/pmin/plus_icon02.png');
+}
+.pmessage {
+    background-image: url('/images/pmin/pmessage_03.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    display: inline-block;
+    margin-left: 2px;
+    width: 14px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.pcase {
+    background-image: url('/images/pmin/pcase_03.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    display: inline-block;
+    margin-left: 2px;
+    width: 14px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.pother {
+    background-image: url('/images/pmin/pother_03.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    display: inline-block;
+    margin-left: 2px;
+    width: 14px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.pfollow {
+    background-image: url('/images/pmin/pfollow.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    display: inline-block;
+    margin-left: 2px;
+    width: 14px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.policecase {
+    position: absolute;
+    width: 50px;
+    height: 20px;
+    float: left;
+    margin-left: 24px;
+    margin-top:5px;
+    display: inline-block;
+}
+
+    .policecase div {
+        background-image: url('/images/pmin/psunicoin_03.png');
+        background-repeat: no-repeat;
+        background-position: center;
+        display: inline-block;
+        width: 14px;
+        height: 20px;
+        line-height: 20px;
+        float: left;
+    }
+
+    .policecase span {
+        display: inline-block;
+        color: #fe1a1a;
+        width: 26px;
+        height: 20px;
+        line-height: 20px;
+        vertical-align: central;
+        float: right;
+    }

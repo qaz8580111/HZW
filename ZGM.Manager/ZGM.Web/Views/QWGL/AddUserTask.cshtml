@@ -1,0 +1,557 @@
+﻿@{
+    Layout = null;
+}
+@model ZGM.Model.QWGL_USERTASKS
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AddUserTask</title>
+    <link href="~/Content/css/OA.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/Scripts/assets/bootstrap/bootstrap.min.css" />
+    <script src="~/Scripts/jquery-1.7.1.js"></script>
+    <script src="~/Scripts/assets/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-zh-CN.js"></script>
+    <script src="~/Scripts/assets/zTree/jquery.ztree.core-3.5.js"></script>
+    <script src="~/Scripts/js/IntegratedService/CaseManagement/Workflow/workflow.js"></script>
+    <script src="~/Scripts/js/PageNotBack.js"></script>
+
+    <link href="~/Scripts/layer/skin/layer.css" rel="stylesheet" />
+    <link href="~/Scripts/layer/skin/seaning/style.css" rel="stylesheet" />
+    <script src="~/Scripts/layer/layer.js"></script>
+    <script type="text/javascript">
+        layer.config({
+            skin: 'layer-ext-seaning',
+            offset: ['100px', '33%'],
+            title: '提示',
+            moveOut: true,
+            closeBtn: false,
+            extend: 'skin/seaning/style.css'
+        });
+    </script>
+    <style type="text/css">
+        .btn_AddandSubtract {
+            width: 30px;
+            float: left;
+            height: 30px;
+            border: 1px solid #BFBFBF;
+            font-size: 15px;
+            font-family: 'Microsoft Himalaya';
+            cursor: pointer;
+            color: #E5312A;
+            font-weight: bold;
+        }
+
+        .text_Style {
+            width: 50px;
+            height: 25px;
+            border-radius: 5px;
+            float: left;
+            background-color: #0093DB;
+            color: white;
+        }
+
+        .btn_ShowOrHide {
+            background: #555;
+            border: 0px;
+            color: white;
+            float: left;
+        }
+
+        a, a:focus {
+            text-decoration: none;
+            color: #000;
+        }
+    </style>
+    <script type="text/javascript">
+        //获取当前时间JS
+        function getNowFormatDate() {
+            var date = new Date();
+            var seperator1 = "-";
+            var seperator2 = ":";
+            var month = date.getMonth() + 1;
+            var strDate = date.getDate();
+            if (month >= 1 && month <= 9) {
+                month = "0" + month;
+            }
+            if (strDate >= 0 && strDate <= 9) {
+                strDate = "0" + strDate;
+            }
+            var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+                    + " " + date.getHours() + seperator2 + date.getMinutes();
+            return currentdate;
+        }
+
+        $(document).ready(function () {
+
+            $("#goback").click(function () {
+                var unitid = $("#unitID").val();
+                var date = $("#datetime").val();
+                location.href = "/QWGL/TeamTask?t=" + date + "&SSZDID=" + unitid;
+            });
+
+            $("input[name=StartDate]").datetimepicker({ changeMonth: true, changeYear: true, showMonthAfterYear: true, showButtonPanel: true });
+            $("input[name=EndDate]").datetimepicker({ changeMonth: true, changeYear: true, showMonthAfterYear: true, showButtonPanel: true });
+
+            $("input[readOnly]").keydown(function (e) {
+                e.preventDefault();
+            });
+            $("textarea[readOnly]").keydown(function (e) {
+                e.preventDefault();
+            });
+          
+            $("form").submit(function () {
+                document.getElementById("QDQYDT").value = "显示地图";
+                $("#QDQYDT").attr("onclick", "GetShowOrHide(this,'show','showmap2')");
+                document.getElementById("showmap2").style.display = 'none';
+                document.getElementById("XCQYDT").value = "显示地图";
+                $("#XCQYDT").attr("onclick", "GetShowOrHide(this,'show','showmap')");
+                document.getElementById("showmap").style.display = 'none';
+                var checkboxAreaArrayDY = new Array();
+                var checkboxArea = document.getElementsByName("ZDMemberIDs");
+                var checkedDY = 0;
+                for (var i = 0; i < checkboxArea.length; i++) {
+                    if (checkboxArea[i].checked == true) {
+                        checkedDY = 1
+                        checkboxAreaArrayDY.push(checkboxArea[i].value);
+                    }
+                }
+                if (checkedDY == 0) {
+                    layer.alert('请选择队员!', {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    });
+                    return false;
+                }
+                var checkboxAreaArrayXQ = new Array();
+                var checkboxArea = document.getElementsByName("weeks");
+                var checkedXQ = 0;
+                for (var i = 0; i < checkboxArea.length; i++) {
+                    if (checkboxArea[i].checked == true) {
+                        checkedXQ = 1
+                        checkboxAreaArrayXQ.push(checkboxArea[i].value);
+                    }
+                }
+                if (checkedXQ == 0) {
+                    layer.alert('请选择星期!', {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    });
+                    return false;
+                }
+                if ($("#AreaAddressArray").val() == "") {
+                    layer.alert('请选择区域!', {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    });
+                    return false;
+                }
+
+                var routeListROUTEIDArray = new Array();
+                var routeListROUTEID = document.getElementsByName("routeListROUTEID");
+                for (var j = 0; j < routeListROUTEID.length; j++) {
+                    if (routeListROUTEID[j].checked == true) {
+                        routeListROUTEIDArray.push(routeListROUTEID[j].value);
+                    }
+                }
+                document.getElementById("RouteArray").value = routeListROUTEIDArray;
+
+                var startDate = $("#StartDate").val();
+
+                var arr = startDate.split(" ");
+                var starttime = new Date(arr[0], arr[1]);
+                var Sarr = arr[1];
+                var start = starttime.getTime();
+
+                var endDate = $("#EndDate").val();
+                var arre = endDate.split(" ");
+                var endtime = new Date(arre[0], arre[1]);
+                var Earr = arre[1];
+                var end = endtime.getTime();
+                var time = getNowFormatDate();
+
+                if (startDate == "") {
+                    layer.alert('开始时间必须填!', {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    });
+                    return false;
+                }
+                if (endDate == "") {
+                    layer.alert('结束时间必须填!', {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    });
+                    return false;
+                }
+                if (Date.parse(startDate) < Date.parse(time)) {
+                    layer.alert('不可对过去时间进行任务新增!', {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    });
+                    return false;
+                }
+
+                if (Sarr >= Earr) {
+                    layer.alert('每日的结束时间要大于开始时间!', {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    });
+                    return false;
+                }
+                if (start > end) {
+                    layer.alert('结束时间必须大于开始时间!', {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    });
+                    return false;
+                }
+
+                var TASKCONTENT = $("#TASKCONTENT").val();
+                if (TASKCONTENT == null || TASKCONTENT == "") {
+                    layer.alert('工作内容不能为空!', {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    });
+                    return false;
+                }
+            });
+        });
+
+        function changeAreaMap(AREAID) {
+            document.getElementById("XCQYDT").value = "隐藏地图";
+            $("#XCQYDT").attr("onclick", "GetShowOrHide(this,'hide','showmap')");
+            document.getElementById("showmap").style.display = 'block';
+            $("#AreaAddressArray").val(AREAID.id);
+            setTimeout(function () {
+                var mapCtrl = document.getElementById("mapCtrl1").content.MapCtrl;
+                mapCtrl.Clears();
+                var Geometry = AREAID.value;
+                mapCtrl.AddPolygon("Green", Geometry);
+            }, 1000)
+        }
+        function changeSigninAreaMap(AREAID) {
+            document.getElementById("QDQYDT").value = "隐藏地图";
+            $("#QDQYDT").attr("onclick", "GetShowOrHide(this,'hide','showmap2')");
+            document.getElementById("showmap2").style.display = 'block';
+            $("#hid_Signin").val(AREAID.id);
+            setTimeout(function () {
+                var mapCtrl = document.getElementById("mapCtrl").content.MapCtrl;
+                mapCtrl.Clears();
+                var Geometry = AREAID.value;
+                mapCtrl.AddPolygon("Green", Geometry);
+            }, 1000)
+        }
+        $(document).ready(function () {
+            var GroupID = $("#groupid").val();
+            var unitID = @ViewBag.UnitId
+            GetAllUser(GroupID, unitID);
+        })
+
+        function btnQuery() {
+            var GroupID = $("#GroupID").val();
+            var unitID = @ViewBag.UnitId
+           GetAllUser(GroupID, unitID);
+        }
+
+
+        function GetAllUser(GroupID, unitID) {
+              $.ajax({
+                  url: "/QWGL/getZDMember",
+                  data: { unitID: unitID, GroupID: GroupID },
+                  type: "get",
+                  success: function (data) {
+                      $("#getZDMember").html(data);
+                      var checkbo = document.getElementsByName("ZDMemberIDs");
+                      var checkboxvalue = document.getElementById("userid").value;
+                      for (var i = 0; i < checkbo.length; i++) {
+                          if (checkbo[i].value == checkboxvalue) {
+                              checkbo[i].checked = true;
+                              break;
+                          }
+                      }
+                  },
+                  error: function (mes) {
+                      alert("操作失败");
+                  }
+              });
+
+        }
+
+    </script>
+    <script type="text/javascript">
+        function GetShowOrHide(o, otype, displayitem) {
+            if (otype == "show") {
+                o.value = "隐藏地图";
+                o.setAttribute("onclick", "GetShowOrHide(this,'hide','" + displayitem + "')");
+                document.getElementById(displayitem).style.display = 'block';
+            } else if (otype == 'hide') {
+                o.value = "显示地图";
+                o.setAttribute("onclick", "GetShowOrHide(this,'show','" + displayitem + "')");
+                document.getElementById(displayitem).style.display = 'none';
+            }
+        }
+
+        function RYselectAll() {
+            
+                var checkbo = document.getElementsByName("ZDMemberIDs");
+                var checkbox = document.getElementsByName("RYcheckbox");
+                if (checkbox[0].checked) {
+                    for (var i = 0; i < checkbo.length; i++) {
+                        if (checkbo[i].type == "checkbox") checkbo[i].checked = true;
+                    }
+                }
+                else {
+                    for (var i = 0; i < checkbo.length; i++) {
+                        if (checkbo[i].type == "checkbox") checkbo[i].checked = false;
+                    }
+                }
+        }
+
+        function XQselectAll() {
+            var checkbo = document.getElementsByName("weeks");
+            var checkbox = document.getElementsByName("XQcheckbox");
+            if (checkbox[0].checked) {
+                for (var i = 0; i < checkbo.length; i++) {
+                    if (checkbo[i].type == "checkbox") checkbo[i].checked = true;
+                }
+            }
+            else {
+                for (var i = 0; i < checkbo.length; i++) {
+                    if (checkbo[i].type == "checkbox") checkbo[i].checked = false;
+                }
+            }
+        }
+
+       
+
+    </script>
+</head>
+<body>
+    <div class="place" style="background-image: url(/Images/images/righttop.gif)">
+        <span>位置：</span>
+        <ul class="placeul">
+            <li><a href="/QWGL/TeamTask">队员任务</a></li>
+            <li>队员巡查任务管理</li>
+        </ul>
+    </div>
+    <div class="formbody">
+        <div class="box-content">
+            <form id="AddRouteForm" name="AddRouteForm" class="validation-form form-horizontal form-bordered form-row-stripped" method="post" action="/QWGL/ConmmitAddUserTask" enctype="multipart/form-data">
+                <input type="hidden" id="id" name="id" value="@Request["id"]" />
+                <input type="hidden" id="userid" value="@ViewBag.userid" />
+                <input type="hidden" id="date" name="date" value="@Request["date"]" />
+                <input type="hidden" name="AreaAddressArray" id="AreaAddressArray" />
+                <input type="hidden" name="RouteArray" id="RouteArray" />
+                <input type="hidden" name="QDQYName" id="QDQYName" />
+                <input type="hidden" name="unitID" id="unitID" value="@ViewBag.UnitId" />
+                <input type="hidden" name="datetime" id="datetime" value="@ViewBag.datetime" />
+                <input type="hidden" name="groupid" id="groupid" value="@ViewBag.groupid" />
+                <table class="table table-bordered">
+                    <tr>
+                        @*<th style="text-align: center; width: 10%;">所属中队
+                        </th>
+                        <td style="width: 40%;">
+                            <div class="form-group" style="margin-bottom: 5px;">
+                                <div>
+                                    @ViewBag.SSDD
+                                </div>
+                            </div>
+                        </td>*@
+                        <th style="width: 10%; text-align: center;">所属分队
+                        </th>
+                        <td style="width: 40%" >@*colspan="3">*@
+                            <div class="form-group" style="margin-bottom: 5px;">
+                                <div>
+                                    @ViewBag.unitName
+                                </div>
+                            </div>
+                        </td>
+                         <th style="text-align: center; width: 10%;">所属小组
+                        </th>
+                        <td style="width: 40%;">
+                            <div class="form-group">
+                                <div>
+                                 @Html.DropDownList("GroupID", ViewBag.userGroupList as IEnumerable<SelectListItem>, new { @class = "small" ,@onchange="btnQuery()"})
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="text-align: center;">队员选择
+                        </th>
+                        <td colspan="3">
+                            <div class="form-group" style="margin-bottom: 5px;">
+                                <div id="" style="width: 50px;float: left;margin-right: 8px;">
+                                     <input type="checkbox" name="RYcheckbox" id="RYcheckbox" style="margin-bottom: 2px; margin-top: 0px; margin-right: 5px;" checked onclick="RYselectAll()" />全选
+                                </div>
+                                <div id="getZDMember">
+                                </div>
+                              
+                                       
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="text-align: center; padding-top: 15px;">开始日期
+                        </th>
+                        <td>
+                            <div class="form-group" style="margin-bottom: 5px;">
+                                <div>
+                                    <input type="text" id="StartDate" name="StartDate" class="small" />
+                                </div>
+                            </div>
+                        </td>
+                        <th style="padding-left: 30px; padding-top: 15px;">结束日期
+                        </th>
+                        <td colspan="3">
+                            <div>
+                                <div>
+                                    <input type="text" id="EndDate" name="EndDate" class="small" />
+                                    <label class="help-inline" for="date" id="dateMsg" style="color: red"></label>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="text-align: center;">选择星期
+                        </th>
+                        <td colspan="3">
+                            <div class="form-group" style="margin-bottom: 5px;">
+                                 <div id="" style="width: 50px;float: left;margin-right: 8px;">
+                                     <input type="checkbox" name="XQcheckbox" style="margin-bottom: 2px; margin-top: 0px; margin-right: 5px;" onclick="XQselectAll()" checked/>全选
+                                </div>
+                                <div>
+                                    <span style="margin-right: 10px">
+                                        <input name="weeks" type="checkbox" value="Monday" style="margin-bottom: 2px; margin-top: 0px; margin-right: 5px;" checked/>周一</span>
+                                    <span style="margin-right: 10px">
+                                        <input name="weeks" type="checkbox" value="Tuesday" style="margin-bottom: 2px; margin-top: 0px; margin-right: 5px;" checked/>周二</span>
+                                    <span style="margin-right: 10px">
+                                        <input name="weeks" type="checkbox" value="Wednesday" style="margin-bottom: 2px; margin-top: 0px; margin-right: 5px;" checked/>周三</span>
+                                    <span style="margin-right: 10px">
+                                        <input name="weeks" type="checkbox" value="Thursday" style="margin-bottom: 2px; margin-top: 0px; margin-right: 5px;" checked/>周四</span>
+                                    <span style="margin-right: 10px">
+                                        <input name="weeks" type="checkbox" value="Friday" style="margin-bottom: 2px; margin-top: 0px; margin-right: 5px;" checked/>周五</span>
+                                    <span style="margin-right: 10px">
+                                        <input name="weeks" type="checkbox" value="Saturday" style="margin-bottom: 2px; margin-top: 0px; margin-right: 5px;" checked/>周六</span>
+                                    <span style="margin-right: 10px">
+                                        <input name="weeks" type="checkbox" value="Sunday" style="margin-bottom: 2px; margin-top: 0px; margin-right: 5px;" checked/>周日 </span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="text-align: center;">签到区域
+                        </th>
+                        <td colspan="3">
+                            <div class="form-group" style="margin-bottom: 5px;">
+
+                                @foreach (var i in @ViewBag.list_signin)
+                                {
+                                    <input type="radio" style="vertical-align: -2px;" name="SigninName" value="@(i.GEOMETRY)" onclick="changeSigninAreaMap(this)" id="@(i.AREAID)"/><strong>@(i.AREANAME)</strong>
+                                   
+                                }
+
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="text-align: center; padding-top: 15px;">签到区域位置
+                        </th>
+                        <td colspan="3">
+                            <input type="button" id="QDQYDT" class="btn_ShowOrHide" value="显示地图" onclick="GetShowOrHide(this, 'show', 'showmap2')" />
+                            <div id="showmap2" class="form-group" style="margin-bottom: 5px; display: none">
+                                <div style="margin-bottom: 45px">
+                                    <div id="silverlightControlHost" style="height: 322px;">
+                                        <object id="mapCtrl" data="data:application/x-silverlight-2," type="application/x-silverlight-2" height="350px" width="100%">
+                                            <param name="source" value="/ClientBin/MapCtrl.xap" />
+                                            <param name="background" value="white" />
+                                            <param name="minRuntimeVersion" value="5.0.61118.0" />
+                                            <param name="autoUpgrade" value="true" />
+                                            <param id="initParams" name="initParams" value="IsGoogleMap=false,MapUrl=@ZGM.Web.ConfigManager.MapUrl,X1=@ZGM.Web.ConfigManager.MapLonX1,Y1=@ZGM.Web.ConfigManager.MapLatY1,X2=@ZGM.Web.ConfigManager.MapLonX2,Y2=@ZGM.Web.ConfigManager.MapLatY2,Mode=1,PinUrl=./Images/pin.png,OffsetX=24,OffsetY=48,fileUrl=" />
+                                            <a href="http://go.microsoft.com/fwlink/?LinkID=149156&v=5.0.61118.0" style="text-decoration: none">
+                                                <img src="http://go.microsoft.com/fwlink/?LinkId=161376" alt="Get Microsoft Silverlight" style="border-style: none" />
+                                            </a>
+                                        </object>
+                                        <iframe id="_sl_historyFrame" style="visibility: hidden; height: 0px; width: 0px; border: 0px"></iframe>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th style="text-align: center;">巡查区域
+                        </th>
+                        <td colspan="3">
+                            <div class="form-group" style="margin-bottom: 5px;">
+                                <div id="showerrowone">
+                                    @foreach (var i in @ViewBag.areaList_add)
+                                    {
+                                        <input type="radio" style="vertical-align: -2px;" name="AREAID" value="@(i.GEOMETRY)" onclick="changeAreaMap(this)"  id="@(i.AREAID)"/><strong>@(i.AREANAME)</strong>
+                                    }
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="text-align: center; padding-top: 15px;">区域位置
+                        </th>
+                        <td colspan="3">
+                            <input type="button" id="XCQYDT" class="btn_ShowOrHide" value="显示地图" onclick="GetShowOrHide(this, 'show', 'showmap')" />
+                            <div id="showmap" class="form-group" style="margin-bottom: 5px; display: none">
+                                <div style="margin-bottom: 45px">
+                                    <div id="silverlightControlHost" style="height: 322px;">
+                                        <object id="mapCtrl1" data="data:application/x-silverlight-2," type="application/x-silverlight-2" height="350px" width="100%">
+                                            <param name="source" value="/ClientBin/MapCtrl.xap" />
+                                            <param name="background" value="white" />
+                                            <param name="minRuntimeVersion" value="5.0.61118.0" />
+                                            <param name="autoUpgrade" value="true" />
+                                            <param id="initParams" name="initParams" value="IsGoogleMap=false,MapUrl=@ZGM.Web.ConfigManager.MapUrl,X1=@ZGM.Web.ConfigManager.MapLonX1,Y1=@ZGM.Web.ConfigManager.MapLatY1,X2=@ZGM.Web.ConfigManager.MapLonX2,Y2=@ZGM.Web.ConfigManager.MapLatY2,Mode=1,PinUrl=./Images/pin.png,OffsetX=24,OffsetY=48,fileUrl=" />
+                                            <a href="http://go.microsoft.com/fwlink/?LinkID=149156&v=5.0.61118.0" style="text-decoration: none">
+                                                <img src="http://go.microsoft.com/fwlink/?LinkId=161376" alt="Get Microsoft Silverlight" style="border-style: none" />
+                                            </a>
+                                        </object>
+                                        <iframe id="_sl_historyFrame" style="visibility: hidden; height: 0px; width: 0px; border: 0px"></iframe>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="line-height: 80px;">
+                        <th style="text-align: center;">工作内容
+                        </th>
+                        <td colspan="3" style="height: 80px;">
+                            <div class="form-group" style="margin-bottom: 5px;">
+                                <div>
+                                    <textarea class="input-xlarge" style="height: 80px; width: 98.5%;" name="TASKCONTENT" id="TASKCONTENT"></textarea>
+
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" style="height: 80px;">
+                            <div class="form-group" style="margin-bottom: 5px;">
+                                <div style="margin-left: 10%;">
+                                    <button type="submit" class="btn btn-primary">确定</button>
+                                    <a style="margin-left: 2px;" id="goback" class="btn">返 回</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                </table>
+                <input type="hidden" name="hid_Signin" id="hid_Signin" />
+            </form>
+        </div>
+    </div>
+
+
+
+</body>
+</html>

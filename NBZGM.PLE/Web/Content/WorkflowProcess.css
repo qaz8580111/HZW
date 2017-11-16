@@ -1,0 +1,252 @@
+﻿.fontStyle * {
+    font-family: 宋体 !important;
+}
+
+#docItemsContainer {
+    display: table;
+}
+
+    #docItemsContainer .grid {
+        margin: 5px;
+        width: 200px;
+        float: left;
+        cursor: pointer;
+        border: 1px solid #fff;
+    }
+
+        #docItemsContainer .grid .grid-content .c_avatar {
+            width: 48px;
+            float: left;
+        }
+
+            #docItemsContainer .grid .grid-content .c_avatar img {
+                height: 48px;
+                width: auto;
+                border: 0px;
+            }
+
+        #docItemsContainer .grid .grid-content .conversation-info {
+            float: left;
+            margin-left: 8px;
+            width: 122px;
+            margin-top: 0px;
+        }
+
+            #docItemsContainer .grid .grid-content .conversation-info .conversation-title {
+                margin-left: 0px;
+                margin-top: 0px;
+                font-size: 12px;
+                width: 122px;
+                height: 30px;
+                line-height: 15px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+                #docItemsContainer .grid .grid-content .conversation-info .conversation-title SPAN {
+                    font-weight: normal;
+                }
+
+            #docItemsContainer .grid .grid-content .conversation-info .conversation-date-status {
+                height: 14px;
+                line-height: 14px;
+                margin-top: 2px;
+            }
+
+.selectItem {
+    border-color: rgb(78,169,236) !important;
+    background-color: rgb(216,234,255);
+}
+
+#docItemsContainer .grid:hover {
+    border-color: rgb(185,215,252);
+    background-color: rgb(246,250,255);
+}
+
+.accordion .accordion-head {
+    color: #393939;
+}
+
+.accordion .accordion-content {
+    padding-top: 5px;
+    padding-left: 5px;
+    margin-bottom: 5px;
+}
+
+.docBtn, .workflowBtn {
+    font-size: 13px;
+    margin: 5px 0px;
+    width: 160px;
+    text-align: left;
+}
+
+.inf_link {
+    margin-left: -16px;
+    margin-top: -4px;
+}
+
+.modal-backdrop {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 1040;
+    background-color: gray;
+    opacity: .8;
+    filter: alpha(opacity=80);
+}
+
+.leftbar-search {
+    width: 250px;
+    float: left;
+    border: 1px solid gray;
+}
+
+.content-search {
+    border: 1px solid gray;
+}
+
+/*****重写 box 样式*/
+
+.box {
+    margin-top: 10px;
+}
+
+
+    .box .box-title {
+        height: 36px;
+        line-height: 36px;
+        padding: 0px;
+        padding-left: 10px;
+        padding-right: 10px;
+        font-size: 14px;
+        font-weight: bold;
+        background-color: #b6d1f2;
+        text-shadow: 0 1px 0 #aecef4;
+    }
+
+        .box .box-title span {
+            display: inline-block;
+            line-height: 20px;
+            color: #fff;
+        }
+
+            .box .box-title span > i {
+                margin-right: 10px;
+            }
+
+        .box .box-title .box-tool {
+            display: inline-block;
+            float: right;
+            line-height: 20px;
+            margin-top: 6px;
+        }
+
+            .box .box-title .box-tool > a {
+                color: #fff;
+                font-size: 14px;
+                margin: 0 3px;
+                opacity: .6;
+                -webkit-transition: all .3s ease;
+                -moz-transition: all .3s ease;
+                -ms-transition: all .3s ease;
+                -o-transition: all .3s ease;
+                transition: all .3s ease;
+            }
+
+                .box .box-title .box-tool > a:hover {
+                    text-decoration: none;
+                    opacity: 1;
+                }
+
+                .box .box-title .box-tool > a.btn, .box .box-title .box-tool > .btn-group {
+                    margin-top: -2px;
+                }
+
+            .box .box-title .box-tool > .progress {
+                margin-top: 7px;
+            }
+
+        .box .box-title > .nav-tabs ~ .box-tool {
+            float: right;
+        }
+
+    .box .box-content {
+        padding: 10px;
+        background: #fff;
+    }
+
+        .box .box-content.no-padding {
+            padding: 0;
+        }
+
+.box-title > .nav-tabs {
+    border-bottom: 0;
+    padding-left: 0;
+    height: 30px;
+    line-height: 30px;
+    display: inline-block;
+    float: right;
+    margin: 0px;
+    margin-top: 6px;
+}
+
+    .box-title > .nav-tabs > li {
+        margin-bottom: 0;
+        line-height: 30px;
+        padding-top: 0px;
+    }
+
+        .box-title > .nav-tabs > li > a {
+            color: #fff;
+            height: 20px;
+            padding-bottom: 4px;
+            padding-top: 4px;
+            line-height: 20px;
+            border-color: transparent;
+            -webkit-border-radius: 0;
+            -moz-border-radius: 0;
+            border-radius: 0;
+        }
+
+            .box-title > .nav-tabs > li > a:hover {
+                padding-bottom: 3px;
+            }
+
+        .box-title > .nav-tabs > li.active > a:hover {
+            padding-bottom: 4px;
+        }
+
+        .box-title > .nav-tabs > li > a:hover {
+            background: #fff;
+            color: #444;
+            text-shadow: none;
+        }
+
+        .box-title > .nav-tabs > li.active > a, .box-title > .nav-tabs > li.active > a:hover {
+            color: #444;
+            text-shadow: none;
+            border-color: transparent;
+        }
+
+.workflow tr td #SMSUserNameAndNum {
+    float: left;
+    margin-left: 5px;
+    margin-top: 3px;
+    font-size: 12px;
+}
+
+.workflow tr td #FSDX {
+    float: left;
+    margin-top: 5px;
+}
+
+.workflow tr td #SMSNameAndSMSNum {
+    float: left;
+    margin-top: 3px;
+    margin-left: 5px;
+    font-size: 12px;
+}
+/***重写 table 样式**/
+table.table {
+    clear: none;
+}

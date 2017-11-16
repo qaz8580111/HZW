@@ -1,0 +1,424 @@
+﻿@section HeadStyles{
+    <link href="~/Scripts/assets/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/data-tables/demo_table.css" rel="stylesheet" />
+    <link href="~/Content/GRGZT.css" rel="stylesheet" />
+}
+@section FootScripts{
+    <script src="~/Scripts/assets/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/Scripts/assets/jquery-ui/jquery-ui-timepicker-zh-CN.js"></script>
+    <script src="~/Scripts/assets/flot/jquery.flot.js"></script>
+    <script src="~/Scripts/assets/flot/jquery.flot.resize.js"></script>
+    <script src="~/Scripts/assets/flot/jquery.flot.pie.js"></script>
+    <script src="~/Scripts/assets/flot/jquery.flot.stack.js"></script>
+    <script src="~/Scripts/assets/flot/jquery.flot.crosshair.js"></script>
+    <script src="~/Scripts/assets/flot/jquery.flot.tooltip.min.js"></script>
+    <script src="~/Scripts/js/GRGZT.js"></script>
+
+    <script type="text/javascript">
+        $("#rczxDatepicker").datepicker();
+    </script>
+}
+<div id="main-content" style="margin-left: 0px; width: 100%">
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="icon-home" style="font-size: 18px;"></i>
+                <a href="#">个人中心</a>
+                <span class="divider"><i class="icon-angle-right"></i></span>
+            </li>
+            <li class="active">个人工作台</li>
+        </ul>
+    </div>
+    <div style="margin-left: 11.5%;">
+        <div class="row" style="margin-left: 0px;">
+            <div class="span" style="width: 379px; margin-left: 10px;">
+                <div class="box margin-top-0px">
+                    <div id="gztGrid" class="box-content" style="height: 165px;">
+                        <div class="grxxGrid">
+                            <div class="thumbnail float-left">
+                                <img src="/UserManagement/RenderPhoto?userID=@Web.SessionManager.User.UserID" style=" width:50px;"/>
+                            </div>
+                            <div class="info">
+                                <div style="color: rgb(0,144,255); font-weight: bold;">@Web.SessionManager.User.UserName</div>
+                                <div class="margin-top-8px" title="@Web.SessionManager.User.UnitName" style="display:block;width:80px;white-space:nowrap;overflow:hidden;float:left;    
+                             -o-text-overflow: ellipsis;    /* for Opera */    
+                             text-overflow:ellipsis;">@Web.SessionManager.User.UnitName
+                                </div>
+                                <div class="margin-top-8px">@Web.SessionManager.User.PositionName</div>
+                            </div>
+                        </div>
+                        <div class="gzxxGrid">
+                            <div><strong>需关注事件</strong></div>
+                            <ul>
+                                <li>有 <span style="color: rgb(254,0,0);">5</span> 个案件即将到期</li>
+                                <li>有 <span style="color: rgb(254,0,0);">2</span> 条会议记录待处理</li>
+                                <li>有 <span style="color: rgb(254,0,0);">1</span> 项计划待安排</li>
+                            </ul>
+                        </div>
+                        <div style="float: left; border-top: 1px dashed #c9c9c9; margin-top: 10px; width: 352px;">
+                            <div style="width: 100%; height: 40px; line-height: 40px; margin-top: 20px;">
+                                <a href="#" class="btn btn-primary"><i class="icon-cog"></i>公文</a><span class="badge badge-success"
+                                    style="margin-left: -12px; vertical-align: top;">4</span>
+                                <a href="#" class="btn btn-primary"><i class="icon-user"></i>会议</a><span class="badge badge-success"
+                                    style="margin-left: -12px; vertical-align: top;">5</span>
+                                <a href="#" class="btn btn-primary"><i class="icon-cog"></i>消息</a><span class="badge badge-success"
+                                    style="margin-left: -12px; vertical-align: top;">6</span>
+                                <a href="#" class="btn btn-primary"><i class="icon-user"></i>任务</a><span class="badge badge-success"
+                                    style="margin-left: -12px; vertical-align: top;">2</span>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="span" style="width: 225px; margin-left: 10px;">
+                <div class="box margin-top-0px">
+                    <div class="box-content" style="padding-top: 5px; padding-bottom: 5px; height: 175px;">
+                        <div id="rczxDatepicker"></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="span" style="width: 379px; margin-left: 10px;">
+                <div class="box margin-top-0px">
+                    <div class="box-content rcapGrid" style="height: 165px;">
+                        <div class="title"><i class="icon-calendar"></i>日程安排</div>
+                        <ul class="iconic">
+                            <li><a href="#"><i class="icon-star-empty"></i>组织召开部门会议</a></li>
+                            <li><a href="#"><i class="icon-star-empty"></i>当天的值班任务与机会</a></li>
+                            <li><a href="#"><i class="icon-star-empty"></i>工作记录的整理</a></li>
+                            <li class="end"><a href="#"><i class="icon-star-empty"></i>当天未处理好的事情整理</a></li>
+                        </ul>
+                        <div class="foot"><a href="#">更多…</a></div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row" style="padding-top: 10px; margin-left: 0px;">
+            <div class="span" style="width: 225px; margin-left: 10px;">
+                <div class="box margin-top-0px">
+                    <div class="box-title height-18px">
+                        <h5><i class="icon-reorder"></i>常用应用入口</h5>
+                        <div class="box-tool">
+                            <a href="#" data-action="collapse"><i class="icon-chevron-up"></i></a>
+                        </div>
+                    </div>
+                    <div id="cyyylkContent" class="box-content" style="height: 418px;">
+                        <div class="cylkRow margin-top-10px">
+                            <div>
+                                <div>
+                                    <a href="/GeneralCase/PendingCaseList">
+                                        <img src="/Images/yy/yy-book.png" /></a>
+                                </div>
+                                <span>案件中心</span>
+                            </div>
+                            <div>
+                                <div>
+                                    <a href="#">
+                                        <img src="/Images/yy/yy-mail.png" /></a>
+                                </div>
+                                <span>信息中心</span>
+                            </div>
+                            <div>
+                                <div>
+                                    <a href="#">
+                                        <img src="/Images/yy/yy-txt.png" />
+                                    </a>
+                                </div>
+                                <span>文件中心</span>
+                            </div>
+                        </div>
+                        <div class="cylkRow">
+                            <div>
+                                <div>
+                                    <a href="#">
+                                        <img src="~/Images/yy/yy-doc.png" />
+                                    </a>
+                                </div>
+                                <span>管理中心</span>
+                            </div>
+                            <div>
+                                <div>
+                                    <a href="#">
+                                        <img src="~/Images/yy/yy-user.png" />
+                                    </a>
+                                </div>
+                                <span>队伍中心</span>
+                            </div>
+                            <div>
+                                <div>
+                                    <a href="#">
+                                        <img src="~/Images/yy/yy-tool.png" />
+                                    </a>
+                                </div>
+                                <span>工具中心</span>
+                            </div>
+                        </div>
+                        <div class="cylkRow">
+                            <div>
+                                <div>
+                                    <a href="#">
+                                        <img src="/Images/yy/yy-book.png" /></a>
+                                </div>
+                                <span>案件中心</span>
+                            </div>
+                            <div>
+                                <div>
+                                    <a href="#">
+                                        <img src="/Images/yy/yy-book.png" /></a>
+                                </div>
+                                <span>案件中心</span>
+                            </div>
+                            <div>
+                                <div>
+                                    <a href="#">
+                                        <img src="/Images/yy/yy-book.png" /></a>
+                                </div>
+                                <span>案件中心</span>
+                            </div>
+                        </div>
+                        <div class="cylkRow">
+                            <div>
+                                <div>
+                                    <a href="#">
+                                        <img src="/Images/yy/yy-book.png" /></a>
+                                </div>
+                                <span>案件中心</span>
+                            </div>
+                            <div>
+                                <div>
+                                    <a href="#">
+                                        <img src="/Images/yy/yy-book.png" /></a>
+                                </div>
+                                <span>案件中心</span>
+                            </div>
+                            <div>
+                                <div>
+                                    <a href="#">
+                                        <img src="/Images/yy/yy-book.png" /></a>
+                                </div>
+                                <span>案件中心</span>
+                            </div>
+                        </div>
+                        <div class="cylkRow">
+                            <div>
+                                <div>
+                                    <a href="#">
+                                        <img src="/Images/yy/yy-book.png" /></a>
+                                </div>
+                                <span>案件中心</span>
+                            </div>
+                            <div>
+                                <div>
+                                    <a href="#">
+                                        <img src="/Images/yy/yy-book.png" /></a>
+                                </div>
+                                <span>案件中心</span>
+                            </div>
+                            <div>
+                                <div>
+                                    <a href="#">
+                                        <img src="/Images/yy/yy-book.png" /></a>
+                                </div>
+                                <span>案件中心</span>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="span" style="width: 768px; margin-left: 10px;">
+                <div class="row" style="margin-left: 0px;">
+                    <div class="span" style="width: 768px; margin-left: 0px;">
+                        <div class="box">
+                            <div class="box-title height-18px">
+                                <h5><i class="icon-reorder"></i>任务列表</h5>
+                                <div class="box-tool">
+                                    <a href="#" data-action="collapse"><i class="icon-chevron-up"></i></a>
+                                </div>
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a href="#search-default" data-toggle="tab">案件</a></li>
+                                    <li><a href="#search-simple" data-toggle="tab">行政审批</a></li>
+                                    <li><a href="#search-advance" data-toggle="tab">其它</a></li>
+                                </ul>
+                            </div>
+                            <div class="box-content">
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="search-default">
+                                        @Html.Action("TaskList", "EnforceLaw")
+                                    </div>
+                                    <div class="tab-pane" id="search-simple">
+                                        @Html.Action("Index", "EnforceLaw")
+                                    </div>
+                                    <div class="tab-pane" id="search-advance">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>案件编号</th>
+                                                    <th>案由</th>
+                                                    <th>状态</th>
+                                                    <th>递送时间</th>
+                                                    <th>操作</th>
+                                                </tr>
+                                            </thead>
+                                            @*<tbody>
+                                            <tr>
+                                                <td>台城执立〔 2013 〕第 00017 号</td>
+                                                <td>占用绿地期满未恢复原装</td>
+                                                <td>立案</td>
+                                                <td>2013-09-04 14:21</td>
+                                            </tr>
+                                            <tr>
+                                                <td>台城执立〔 2013 〕第 00018 号</td>
+                                                <td>占用绿地期满未恢复原装</td>
+                                                <td>立案</td>
+                                                <td>2013-09-04 15:43</td>
+                                            </tr>
+                                            <tr>
+                                                <td>台城执立〔 2013 〕第 00019 号</td>
+                                                <td>占用绿地期满未恢复原装</td>
+                                                <td>立案</td>
+                                                <td>2013-09-06 11:51</td>
+                                            </tr>
+                                        </tbody>*@
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="padding-top: 10px; margin-left: 0px;">
+                    <div class="span" style="width: 379px; margin-left: 0px;">
+                        <div class="box">
+                            <div class="box-title height-18px">
+                                <h5><i class="icon-reorder"></i>值班表</h5>
+                                <div class="box-tool">
+                                    <a href="#" data-action="collapse"><i class="icon-chevron-up"></i></a>
+                                </div>
+                            </div>
+                            <div class="box-content" style="height: 181px;">
+
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>班次</th>
+                                            <th>人员</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>早班</td>
+                                            <td>中队队员1，中队队员2</td>
+                                        </tr>
+                                        <tr>
+                                            <td>中班</td>
+                                            <td>中队队员3，中队队员4</td>
+                                        </tr>
+                                        <tr>
+                                            <td>晚班</td>
+                                            <td>中队队员5，中队队员6</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span" style="width: 379px; margin-left: 10px;">
+                        <div class="box">
+                            <div class="box-title height-18px">
+                                <h5><i class="icon-reorder"></i>规章</h5>
+                                <div class="box-tool">
+                                    <a href="#" data-action="collapse"><i class="icon-chevron-up"></i></a>
+                                </div>
+                            </div>
+                            <div class="box-content" style="height: 181px;">
+                                <p class="guizhang"><a href="#" title="《中华人民共和国行政复议法实施条例》">《中华人民共和国行政复议法实…》</a></p>
+                                <p class="guizhang"><a href="#" title="《浙江省城市市容和环境卫生管理条例》">《浙江省城市市容和环境卫生管…》</a></p>
+                                <p class="guizhang">
+                                    <a href="#" title="《浙江省城市管理相对集中行政处罚权条例》">《浙江省城市管理相对集中行政…》</a>
+                                </p>
+                                <p class="guizhang"><a href="#" title="《无照经营查处取缔办法》">《无照经营查处取缔办法》</a></p>
+                                <p class="guizhang"><a href="#" title="《城市排水许可管理办法》">《城市排水许可管理办法》</a></p>
+                                <p class="guizhang-end"><a href="#" title="《城市建筑垃圾管理规定》">《城市建筑垃圾管理规定》</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="padding-top: 10px; margin-left: 0px;">
+            <div class="span" style="width: 225px; margin-left: 10px;">
+                <div class="box margin-top-0px">
+                    <div class="box-title height-18px">
+                        <h5><i class="icon-reorder"></i>推荐入口</h5>
+                        <div class="box-tool">
+                            <a href="#" data-action="collapse"><i class="icon-chevron-up"></i></a>
+                        </div>
+                    </div>
+                    <div id="tjlkContent" class="box-content" style="height: 200px;">
+                        <div class="tjlkRow">
+                            <button class="btn btn-circle btn-primary btn-xlarge">
+                                <i class="icon-question"></i>
+                            </button>
+                            <span class="title">帮助中心</span>
+                            <span class="other">获取有关使用方法</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="span" style="width: 379px; margin-left: 10px;">
+                <div class="box">
+                    <div class="box-title height-18px">
+                        <h5><i class="icon-reorder"></i>统计图表</h5>
+                        <div class="box-tool">
+                            <a href="#" data-action="collapse"><i class="icon-chevron-up"></i></a>
+                        </div>
+                    </div>
+                    <div class="box-content">
+                        <div id="visitors-chart" style="height: 190px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 10px; position: relative;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="span" style="width: 379px; margin-left: 10px;">
+                <div class="box">
+                    <div class="box-title height-18px">
+                        <h5><i class="icon-reorder"></i>统计图表</h5>
+                        <div class="box-tool">
+                            <a href="#" data-action="collapse"><i class="icon-chevron-up"></i></a>
+                        </div>
+                    </div>
+                    <div class="box-content">
+                        <div class="chart" id="chart_2" style="height: 200px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; position: relative;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="padding-top: 10px; padding-bottom: 10px; margin-left: 0px;">
+            <div class="span" style="width: 1004px; margin-left: 10px; margin-right: 10px;">
+                <div class="box">
+                    <div class="box-content">
+                        <a class="wblj" href="#">
+                            <img src="~/Images/link/caigou-link.png" /></a>
+                        <a class="wblj" href="#">
+                            <img src="~/Images/link/fazhi-link.png" /></a>
+                        <a class="wblj" href="#">
+                            <img src="~/Images/link/12345-link.png" /></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>2013 © 杭州天尊信息技术有限公司</p>
+    </footer>
+    <a id="btn-scrollup" class="btn btn-circle btn-large" href="#"><i class="icon-chevron-up"></i></a>
+</div>
+
+

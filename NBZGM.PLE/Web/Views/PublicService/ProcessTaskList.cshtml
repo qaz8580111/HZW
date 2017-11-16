@@ -1,0 +1,151 @@
+﻿@{
+    Layout = null;
+}
+@{
+    ViewBag.Title = "TaskList";
+    Layout = "~/Views/PublicService/_LayoutPublicService.cshtml";
+}
+
+@section HeadStyles_EnforceLawEventManage
+    {
+    <style type="text/css">
+        .table td.left {
+            text-align: left;
+        }
+
+        .table td.center {
+            text-align: center;
+        }
+    </style>
+}
+@section FootScripts_EnforceLawEventManage
+    {
+    <script type="text/javascript">
+        var oTable;
+        $(document).ready(function () {
+            var url = "/EventRegister/GGFWProcessTaskList";
+            $("#startTime").datepicker();
+            $("#endTime").datepicker();
+            $("#btnQuery").click(function () {
+                var url = "/EventRegister/GGFWProcessTaskList";
+                var strStartTime = $("#startTime").val();
+                var strEndTime = $("#endTime").val();
+
+                var startTime = new Date(strStartTime.replace(/-/g, "/"));
+                var endTime = new Date(strEndTime.replace(/-/g, "/"));
+
+                if (startTime > endTime) {
+                    alert("开始时间不能大于结束时间");
+                    return;
+                }
+                else {
+                    url += "?startTime=" + $("#startTime").val();
+                    url += "&endTime=" + $("#endTime").val();
+                }
+                if ($.trim($("#Title").val()) != "") {
+                    url += "&Title=" + escape($("#Title").val());
+                }
+                if ($.trim($("#LY").val()) != "") {
+                    url += "&LY=" + $("#LY").val();
+                }
+                BindDataTable(url);
+            });
+
+            $("#btnQuery").click();
+        });
+        //获取审批任务列表数据
+        function BindDataTable(url) {
+            if (oTable != null) {
+                oTable.fnSettings().sAjaxSource = url;
+                oTable.fnDraw(true);
+            } else {
+                oTable = $('#zfsjTable').dataTable({
+                    sAjaxSource: url,
+                    aoColumns: [
+                        { "mDataProp": "SEQNO", "sClass": "center" },
+                        { "mDataProp": "EventTitle", "sClass": "left" },
+                        { "mDataProp": "EventSource", "sClass": "center" },
+                         {
+                             "mDataProp": function (data) {
+                                 var CreateTime = "<span title='" + data.TitleTime + "'>" + data.CreateTime + "<span>";
+                                 return CreateTime;
+                             }, "sClass": "center"
+                         },
+                        { "mDataProp": "CreateUserName", "sClass": "left" },
+                        {
+                            "mDataProp": function (data) {
+                                var OverTime = "<span title='" + data.OverTitleTime + "'>" + data.OverTime + "<span>";
+                                return OverTime;
+                            }, "sClass": "center"
+                        },
+                        { "mDataProp": "ADName", "sClass": "left" },
+                        { "mDataProp": "USERNAME", "sClass": "left" },
+                        {
+                            "mDataProp": function (data) {
+                                var deal = "<a  href='/EventRegister/GGFWWorkflowProcess?ID=" + data.ID + "&type=sel'>处理 </a>";
+                                return deal;
+                            },
+                            "sClass": "center"
+                        }
+                    ],
+                    fnDrawCallback: function (oSettings) {
+                        var pagerIndex = oSettings._iDisplayStart / oSettings._iDisplayLength + 1;
+                        var $currentPager = $(".dataTables_paginate span a:contains('" + pagerIndex + "')");
+                        $currentPager.attr("style", "font-weight :bold;!important");
+                    }
+                });
+            }
+        }
+    </script>
+}
+
+@section BreadcrumbSection{
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li><a href="javascript:void(0)"><i class="icon-home"></i>公共服务</a></li>
+            <li>></li>
+            <li class="active">待办事件</li>
+        </ul>
+    </div>
+}
+<div class="row-fluid">
+    <div class="span12" id="tabledata">
+        <div class="box box-black" style="margin-top: 0px;">
+            <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+                <i class="icon-reorder" style="margin-right: 5px;"></i>事件列表
+            </div>
+            <div class="box-content" id="">
+                <label style="width: 70px; text-align: left; display: inline-block">开始时间</label>
+                <input type="text" id="startTime" style="margin-top:10px;width:150px" value="@string.Format("{0:yyyy-MM-dd}", DateTime.Now.AddMonths(-3))" class="datepicker" data-date-format="yyyy-mm-dd"/>
+                <label style="width: 70px; text-align: left; display: inline-block; margin-left: 10px;">结束时间</label>
+                <input type="text" id="endTime" style="margin-top:10px; width:150px" value="@string.Format("{0:yyyy-MM-dd}", DateTime.Now)"class="datepicker" data-date-format="yyyy-mm-dd"/>
+                <label style="width: 30px; text-align: left; display: inline-block; margin-left: 10px;">标题</label>
+                <input type="text" id="Title" style="margin-top: 10px; width: 150px" />
+                <label style="width: 30px; text-align: left; display: inline-block; margin-left: 10px;">来源</label>
+                @Html.DropDownList("LY", ViewBag.EventSource as IEnumerable<SelectListItem>)
+                <input id="btnQuery" type="button" class="btn btn-primary" title="查询" value="查 询" style="margin-left: 10px;" />
+
+            </div>
+            <div class="box-content" style="min-height: 400px;">
+                <table class="table table-bordered table-striped table-hover fill-head" id="zfsjTable">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center; width: 40px;">序号</th>
+                            <th style="text-align: center;">事件标题</th>
+                            <th style="text-align: center; width: 120px;">事件来源</th>
+                            <th style="text-align: center; width: 80px;">创建时间</th>
+                            <th style="text-align: center; width: 60px;">创建人</th>
+                            <th style="text-align: center; width: 80px;">到期时间</th>
+                            <th style="text-align: center; width: 70px;">当前状态</th>
+                            <th style="text-align: center; width: 70px;">当前处理人</th>
+                            <th style="text-align: center; width: 100px;">操作</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div style="clear: both"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

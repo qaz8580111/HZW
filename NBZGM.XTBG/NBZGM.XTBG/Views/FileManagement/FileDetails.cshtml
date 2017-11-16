@@ -1,0 +1,93 @@
+﻿@using NBZGM.XTBG.Models;
+@{
+    ViewBag.Title = "文件详情";
+    Layout = null;
+    List<XTBG_ATTACHMENT> AttachmentEntities = ViewBag.AttachmentEntities as List<XTBG_ATTACHMENT>;
+    XTBG_FILE FileEntity = ViewBag.FileEntity as XTBG_FILE;
+    decimal typeID = ViewBag.typeID;
+}
+<div class="modal-header bg-primary">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">文件详情</h4>
+</div>
+
+<div class="modal-body">
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="text-center"><b>@FileEntity.FILETITLE</b></div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="text-right">
+                <b>发件部门：</b><span>@FileEntity.CREATEUNITNAME</span>
+                <b>发件人：</b><span>@FileEntity.CREATEUSERNAME</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @FileEntity.FILECONTENT
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <ul class="nav nav-tabs" role="tablist">
+                @foreach (XTBG_ATTACHMENT Attachment in AttachmentEntities)
+                {
+                    <li role="presentation" style="width: 20%;">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <img class="pull-left" src="/Images/fileIoc.png" style="height: 3em; width: 2em; margin-right: 0.5em;" />
+                                <div style="width: 7em; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">@Attachment.ATTACHMENTNAME</div>
+                                <div>
+                                    <div class="pull-left">@Math.Round((Convert.ToDouble(Attachment.ATTACHMENTSIZE) / 1024 / 1024), 2).ToString()M</div>
+                                    <div class="pull-right">
+                                        <a href="/Common/DownloadFile?filepath=@Attachment.ATTACHMENTPATH&filename=@Attachment.ATTACHMENTNAME">下载</a>
+                                    </div>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal-footer">
+    @if (ViewBag.NextEntityID == null)
+    {
+        <input type="button" class="btn btn-default" id="btnAnno_EmailUP" value="上一份文件" disabled="disabled" />
+    }
+    else
+    {
+        <input type="button" class="btn btn-default" id="btnAnno_EmailUP" value="上一份文件">
+    }
+    @if (ViewBag.PreviousEntityID == null)
+    {
+        <input type="button" class="btn btn-default" id="btnAnno_EmaiDown" value="下一份文件" disabled="disabled" />  
+    }
+    else
+    {
+        <input type="button" class="btn btn-default" id="btnAnno_EmaiDown" value="下一份文件" />
+    }
+    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#btnAnno_EmailUP').on('click', function () {
+            showLgModel('/FileManagement/FileDetails?FILEID=@ViewBag.NextEntityID&typeID=@typeID');//PreviousEntityID
+        });
+        $('#btnAnno_EmaiDown').on('click', function () {
+            showLgModel('/FileManagement/FileDetails?FILEID=@ViewBag.PreviousEntityID&typeID=@typeID');//NextEntityID           
+        });
+    });
+</script>

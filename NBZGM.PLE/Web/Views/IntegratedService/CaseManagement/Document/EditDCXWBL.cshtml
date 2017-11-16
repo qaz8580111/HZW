@@ -1,0 +1,158 @@
+﻿@model Taizhou.PLE.Model.CaseDocModels.DCXWBL
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("input[name=StartDCXWYMD]").datepicker();
+        if (jQuery().timepicker) {
+            $(".timepicker-24").timepicker({
+                minuteStep: 1,
+                showSeconds: true,
+                showMeridian: false
+            })
+        }
+    });
+
+    //表单验证
+    function ValidateDocForm() {
+        return true;
+    }
+
+</script>
+<form class="docForm" method="post" action="/DocDCXWBL/CommitEditDocumetDCXWBL" style="margin-bottom: 30px;" enctype="multipart/form-data">
+    <div class="title">
+        调查（询问）笔录
+    </div>
+
+    <table class="workflow" border="0" cellspacing="0" cellpadding="0" style="width: 700px; border-collapse: collapse; margin: 0 auto; margin-top: 20px;">
+        <tr>
+            <th colspan="2">案由</th>
+            <td colspan="9">
+                @Html.TextBoxFor(model => model.AY)</td>
+        </tr>
+        <tr>
+            <th colspan="2">调查(询问)日期</th>
+            <td colspan="2">
+                @Html.TextBoxFor(model => model.StartDCXWYMD)
+            </td>
+            <th>开始时间</th>
+            <td colspan="2">
+                @Html.TextBoxFor(model => model.StartDCXWSJ, new { @class = "timepicker-24" })
+            </td>
+            <th>结束时间</th>
+            <td colspan="3">
+                @Html.TextBoxFor(model => model.EndDCXWSJ, new { @class = "timepicker-24" })
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">调查（询问）地点</th>
+            <td colspan="9">
+                @Html.TextBoxFor(model => model.DCXWDD)
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2" style="width: 130px;">被调查（询问）人</th>
+            <td style="width: 92px;">
+                @Html.TextBoxFor(model => model.BDCXWR)
+            </td>
+            <th>性别</th>
+            <td style="width: 62px;">
+                @Html.DropDownListFor(model => model.XB, ViewBag._xb as IEnumerable<SelectListItem>, new { @style = "width: 60px;height:30px;" })
+            </td>
+            <th>名族</th>
+            <td>
+                @Html.TextBoxFor(model => model.MZ)
+            </td>
+            <th>身份证<br />
+                号码</th>
+            <td colspan="3">
+                @Html.TextBoxFor(model => model.SFZHM)
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">工作单位</th>
+            <td colspan="4">
+                @Html.TextBoxFor(model => model.GZDW)
+            </td>
+            <th colspan="2">职务或职业</th>
+            <td colspan="3">
+                @Html.TextBoxFor(model => model.ZW)
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">邮编</th>
+            <td>
+                @Html.TextBoxFor(model => model.YB)
+            </td>
+            <th style="width: 60px;">与本案<br />
+                关系</th>
+            <td colspan="2">
+                @Html.TextBoxFor(model => model.YBAGX)
+            </td>
+            <th>电话</th>
+            <td colspan="4">
+                @Html.TextBoxFor(model => model.DH)
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">住址</th>
+            <td colspan="9">
+                @Html.TextBoxFor(model => model.ZZ)
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">调查(询问)人1</th>
+            <td colspan="2">
+                @Html.DropDownListFor(model => model.DCXWR1, ViewBag._dcxwr1 as IEnumerable<SelectListItem>)
+            </td>
+            <th colspan="2">调查(询问)人2</th>
+            <td colspan="2">
+                @Html.DropDownListFor(model => model.DCXWR2, ViewBag._dcxwr2 as IEnumerable<SelectListItem>)
+            </td>
+            <th>记录人</th>
+            <td colspan="3">
+                @Html.TextBoxFor(model => model.JLR)
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">工作单位</th>
+            <td colspan="9">
+                @Html.TextBoxFor(model => model.GZDW2)
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">笔录内容</th>
+            <td colspan="9">
+                @Html.TextAreaFor(model => model.Content, new { style = "height:350px" })
+            </td>
+        </tr>
+        <tr class="notHideTD">
+            <td style="width: 42px; border: none;"></td>
+            <td style="width: 42px; border: none;"></td>
+            <td colspan="9" style="border: none; padding-top: 10px;">
+                <input type="button" id="btnDocFormSubmit" class="btn btn-success" value="保   存" />
+            </td>
+        </tr>
+        <tr class="notHideTD">
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="border: none;">&nbsp;</td>
+        </tr>
+    </table>
+    @Html.Hidden("WIID")
+    @Html.Hidden("DDID")
+    @Html.Hidden("AIID")
+    @Html.Hidden("ADID")
+    @Html.Hidden("WICode")
+    @Html.Hidden("DIID")
+</form>
+
+
+
+

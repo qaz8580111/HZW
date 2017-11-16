@@ -1,0 +1,295 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+
+    <link href="/Scripts/assets/data-tables/demo_table.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/data-tables/DT_bootstrap.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/zTree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-1.7.1.js"></script>
+
+    <script src="~/Scripts/assets/data-tables/jquery.datatables.min.js"></script>
+    <script src="~/Scripts/assets/data-tables/DT_bootstrap.js"></script>
+    <script src="~/Scripts/assets/data-tables/PLE_DT_bootstrap.js"></script>
+
+    <script src="~/Scripts/assets/zTree/js/jquery.ztree.core.js"></script>
+    <script src="~/Scripts/assets/zTree/js/jquery.ztree.excheck.js"></script>
+    <script src="~/Scripts/assets/zTree/js/jquery.ztree.exedit.js"></script>
+
+    <link href="~/Content/css/OA.css" rel="stylesheet" />
+    <script src="~/Scripts/js/PageNotBack.js"></script>
+     <link href="~/Scripts/layer/skin/layer.css" rel="stylesheet" />
+    <link href="~/Scripts/layer/skin/seaning/style.css" rel="stylesheet" />
+    <script src="~/Scripts/layer/layer.js"></script>
+
+    <script type="text/javascript">
+        layer.config({
+            skin: 'layer-ext-seaning',
+            offset: ['100px', '33%'],
+            title: '提示',
+            moveOut: true,
+            closeBtn: false,
+            extend: 'skin/seaning/style.css'
+        });
+
+    </script>
+    <script type="text/javascript">
+        var oTable = null;
+        $(document).ready(function () {
+            var url = "/UserManagement/GetUsers?UnitID=";
+            var setting = {
+                callback: {
+                    onClick: function (event, treeId, treeNode) {
+                        var UnitID = treeNode.value;
+                        var isUser = treeNode.unitId;
+                        $("#UnitID")[0].value = UnitID;
+                        //改变导航条
+                        $("#tit").text("用户列表");
+                        // 隐藏添加列表
+                        $("#adduser").hide();
+                        //隐藏编辑表单
+                        $("#edituser").hide();
+                        // 显示列表表单
+                        $("#listuser").show();
+                        // 显示子节点列表数据
+                        oTable.fnPageChange('first', true);
+                        oTable.fnClearTable(false);
+                        BindDataTable(url + treeNode.value + "&isUser=" + isUser + "&random=" + Math.random());
+                    },
+                }
+            };
+
+            $.ajax({
+                type: 'GET',
+                dataType: 'json',
+                url: '/UserManagement/GetUserManageTree?random=' + Math.random(),
+                success: function (data) {
+                    if (data != null && data != "") {
+                        unitIDValue = '@ViewData["UnitID"]';
+                        var zNodes = data;
+                        $.fn.zTree.init($("#tree"), setting, zNodes);
+                        var treeObj = $.fn.zTree.getZTreeObj("tree");
+                        var node = treeObj.getNodeByParam("value", unitIDValue, null);
+                        treeObj.selectNode(node);
+                        treeObj.expandNode(node, true);
+                        BindDataTable(url + unitIDValue + "&isUser=0&random=" + Math.random());
+                    }
+                }
+
+            });
+            $("#addUser").click(function () {
+                var unitID = $("#UnitID").val();
+                AddUser(unitID);
+            });
+        });
+
+        //后台回调js函数
+        function AddCallBack(flag,message ) {
+            if (flag == 1) {
+                layer.alert("操作成功!", {
+                    icon: 1,
+                    skin: 'layer-ext-seaning'
+                });
+            }
+            if (flag == 2) {
+                layer.alert("操作失败!"+message+"数据出错", {
+                    icon: 0,
+                    skin: 'layer-ext-seaning'
+                });
+            }
+        }
+
+        //添加用户
+        function AddUser(UnitID) {
+            $("#tit").text("新增用户");
+            $.ajax(
+                {
+                    type: 'GET',
+                    url: '/UserManagement/AddUser?random=' + Math.random(),
+                    dataType: 'html',
+                    data: { unitID: UnitID },
+                    success: function (data) {
+                        //隐藏列表
+                        $("#listuser").hide();
+                        //隐藏编辑表单
+                        $("#edituser").hide();
+                        //显示添加表单
+                        $("#adduser").show();
+                        $("#adduser").html(data);
+                    }
+                });
+        }
+        function EditUser(userID) {
+            $("#tit").text("编辑用户");
+            $.ajax(
+                {
+                    type: 'GET',
+                    url: '/UserManagement/EditUser?random=' + Math.random(),
+                    dataType: 'html',
+                    data: { UserID: userID },
+                    success: function (data) {
+                        //隐藏列表
+                        $("#listuser").hide();
+                        //隐藏添加表单
+                        $("#adduser").hide();
+                        //显示编辑表单
+                        $("#edituser").show();
+                        $("#edituser").html(data);
+                    }
+                });
+        }
+
+        function DeleteUser(unitID, UserID) {
+           
+            layer.confirm('是否确认删除?', {
+                btn: ['是', '否'],
+                icon: 4,
+                //按钮
+            }, function () {
+                $.ajax({
+                    type: "GET",
+                    url: "/UserManagement/DeleteUser?UnitID=" + unitID + "&UserID=" + UserID,
+                    success: function (date) {
+                        layer.alert("删除成功", { icon: 1, skin: 'layer-ext-seaning' }, function (index) {
+                            layer.close(index);
+                            location.href = "/UserManagement/Index?UnitID=" + unitID;
+                        });
+                    }
+                });
+            }, function () {
+                layer.close();
+            });
+
+
+
+            //if (!window.confirm("是否确认删除" + userName)) {
+            //    return false;
+            //}
+            //return true;
+        }
+
+        //绑定列表
+        function BindDataTable(url) {
+            if (oTable != null) {
+                oTable.fnSettings().sAjaxSource = url;
+                oTable.fnDraw(true);
+            } else {
+                oTable = $('#UserTable').dataTable({
+                    sAjaxSource: url,
+
+                    aoColumns: [
+                        { "mDataProp": "UserName" },
+                        { "mDataProp": "UserAccount" },
+                        { "mDataProp": "ZFZBH" },
+                        { "mDataProp": "UnitName" },
+                        { "mDataProp": "PositionName" },
+                        {
+                            "mDataProp": function (data) {
+                                var unitID = $("#UnitID").val();
+                                var edit = "<a class='btn_ico_a_edit' href='#' onclick=\"EditUser(" + data.UserID + ")\"><img src='/Images/btnimage/edit.png' class='btn_ico_image' />编辑</a>";
+                                //var del = "<a  class='btn_ico_a_delete' href='/UserManagement/DeleteUser?UnitID=" + unitID + "&UserID=" + data.UserID + "' onclick=\"return DeleteUser(" + data.UserID + ",'" + data.UserName + "');\"><img src='/Images/btnimage/delete.png' class='btn_ico_image' />删除 </a>";
+                                var del = "<a  class='btn_ico_a_delete' href='#' onclick=\"DeleteUser('" + unitID + "','" + data.UserID + "');\"><img src='/Images/btnimage/delete.png' class='btn_ico_image' />删除 </a>";
+                                return edit + "  " + del;
+                            }, "sClass": "center"
+                        }
+                    ],
+                    fnDrawCallback: function (oSettings) {
+                        var pagerIndex = oSettings._iDisplayStart / oSettings._iDisplayLength + 1;
+                        var $currentPager = $(".dataTables_paginate span a:contains('" + pagerIndex + "')");
+                        $currentPager.attr("style", "font-weight :bold;!important");
+                    }
+                });
+            }
+        }
+        function CheckFile() {
+            var f = document.getElementById("uploadfile").files;
+            //检查是否为空
+            if (f.length == 0) {
+                layer.alert("请选择导入文件!", {
+                    icon: 0,
+                    skin: 'layer-ext-seaning'
+                }, function (index) {
+                    layer.close(index);                    
+                });
+                return false;
+            }
+            //类型
+            if (f[0].name.indexOf("xls") < 0 && f[0].name.indexOf("xlsx") < 0) {
+                layer.alert("请选择导入xls或xlsx文件!", {
+                    icon: 0,
+                    skin: 'layer-ext-seaning'
+                }, function (index) {
+                    layer.close(index);                    
+                });
+                return false;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="place">
+        <span>位置：</span>
+        <ul class="placeul">
+            <li>用户管理</li>
+        </ul>
+    </div>
+    <div style="width: 15%; float: left; margin: 10px">
+        <div class="formtitle">
+            <span>用户结构树</span>
+        </div>
+        <div>
+            <ul id="tree" class="ztree"></ul>
+        </div>
+    </div>
+    <div style="width: 75%; float: left; border: 1px;">
+        <div class="formbody">
+            <div class="formtitle"><span id="tit">用户列表</span></div>
+            <div id="listuser">
+                <ul class="seachform">
+                    <li>
+                        <input name="" type="button" class="sure" value="添加" id="addUser" />
+                    </li>
+                    <li style="float:right;">
+                        @using (Html.BeginForm("ImportExcel", "UserManagement", FormMethod.Post, new { enctype = "multipart/form-data", target = "hidden_frame", onsubmit = "return CheckFile();" }))
+                        {
+                            <a style="color: #2666e9;margin-right: 20px;" href="http://218.108.93.246:15212/用户添加.xlsx">模版下载</a>
+                            <input type="file" id="uploadfile" value="请选择文件" name="UploadFile" style="width:150px;" />
+                            <input class="sure" type="submit" value="导入" />
+                        }
+                        <iframe name='hidden_frame' id="hidden_frame" style="display:none"></iframe> 
+                    </li>
+                </ul>
+                <div style="clear: both; margin-top: 10px;" class="tableListDiv">
+                    <table class="tablelist" id="UserTable" style="text-align: center;">
+                        <thead>
+                            <tr>
+                                <th>用户名称</th>
+                                <th>用户帐号</th>
+                                <th>执法证号</th>
+                                <th>所属单位</th>
+                                <th>人员类别</th>
+                                <th style="text-align: center; width: 135px;">操作</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div style="display: none;" id="adduser">
+            </div>
+            <div style="display: none;" id="edituser">
+            </div>
+        </div>
+    </div>
+    @Html.Hidden("UnitID")
+    <script type="text/javascript">
+        $('.tablelist tbody tr:odd').addClass('odd');
+    </script>
+</body>
+</html>

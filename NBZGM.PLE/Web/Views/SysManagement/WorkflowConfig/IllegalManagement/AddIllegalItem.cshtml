@@ -1,0 +1,184 @@
+﻿@model Taizhou.PLE.Model.ILLEGALITEM
+
+<script type="text/javascript">
+    $(function () {
+        var a = function (e) { $(e).closest(".control-group").removeClass("success") };
+        $(".validation-form").validate({
+            errorElement: "span", errorClass: "help-inline",
+            focusInvalid: false, ignore: "",
+            invalidHandler: function (e, t) { },
+            highlight: function (e) {
+                $(e).closest(".control-group").removeClass("success").addClass("error")
+            },
+            unhighlight: function (e) {
+                $(e).closest(".control-group").removeClass("error"); setTimeout(function () { a(e) }, 3e3)
+            }, success: function (e) {
+                e.closest(".control-group").removeClass("error").addClass("success")
+            }
+        });
+
+        $("#ssdl").change(function () {
+            var illegaClassID = $(this).find("option:selected").val();
+            var url = "/IllegalManagement/GetIllegalClasses?IllegaClassID=" + illegaClassID;
+            $("#ssxl").empty();
+            $("#ssxl").append($("<option value='0'>请选择小类</option>"));
+            BindSelect($("#ssxl"), url);
+        });
+        $("#ssxl").change(function () {
+            var illegaClassID = $(this).find("option:selected").val();
+            var url = "/IllegalManagement/GetIllegalClasses?IllegaClassID=" + illegaClassID;
+            $("#ILLEGALCLASSID").empty();
+            $("#ILLEGALCLASSID").append($("<option value='0'>请选择子类</option>"));
+            BindSelect($("#ILLEGALCLASSID"), url);
+        });
+
+        $("#ssdl").change(function () {
+            if ($("select[name=ssdl]").val() != "0")
+            {
+                $("#ssdlDIV").removeClass("error").addClass("success");
+                $("#ssdl_error").text("");
+            }
+        });
+
+        $("#ssxl").change(function () {
+            if ($("select[name=ssxl]").val() != "0")
+            {
+                $("#ssxlDIV").removeClass("error").addClass("success");
+                $("#ssxl_error").text("");
+            }
+        });
+
+        $("#ILLEGALCLASSID").change(function () {
+            if ($("select[name=ILLEGALCLASSID]").val() != "0")
+            {
+                $("#sszlDIV").removeClass("success").addClass("error");
+                $("#sszl_error").text("");
+            }
+        });
+        $("form").submit(function () {
+            var flag = true;
+            var ssdl = $("select[name=ssdl]").val();
+            var ssxl = $("select[name=ssxl]").val();
+            var sszl = $("select[name=ILLEGALCLASSID]").val();
+
+            if (ssdl == "0") {
+                falg = false;
+                $("#ssdlDIV").removeClass("success").addClass("error");
+                $("#ssdl_error").text("必选字段");
+            }
+
+            if (ssxl == "0") {
+                falg = false;
+                $("#ssxlDIV").removeClass("success").addClass("error");
+                $("#ssxl_error").text("必选字段");
+
+            }
+
+            if (sszl == "0") {
+                falg = false;
+                $("#sszlDIV").removeClass("success").addClass("error");
+                $("#sszl_error").text("必选字段");
+            }
+
+            return flag;
+        });
+    });
+    function BindSelect($select, url) {
+        $.getJSON(url, function (data) {
+            if (data != null) {
+                $.each(data, function (i, n) {
+                    $select.append($("<option value=\"" + n.ID + "\">" + n.Name + "</option>"));
+                });
+            }
+        });
+    }
+
+    function goback()
+    {
+        var ID = "@ViewBag.ID";
+        var type = "@ViewBag.type";
+        window.location.href = "/IllegalManagement/IllegalItem?ID=" + ID + "&&Type=" + type;
+       
+    };
+
+  
+
+    
+
+</script>
+<div class="box box-black" style="margin-top: 0px;">
+    <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+
+        <i class="icon-reorder" style="margin-right: 5px;"></i>添加违法事项
+    </div>
+    <div class="box-content">
+        <form id="AddIllegalItemForm" name="AddIllegalItemForm" class="validation-form form-horizontal form-bordered form-row-stripped" method="post" action="/IllegalManagement/CommitAddIllegalItem" enctype="multipart/form-data">
+            <div class="control-group" id="ssdlDIV">
+                <label for="ssdl" class="control-label">所属大类</label>
+                <div class="controls">
+                    @Html.DropDownList("ssdl", ViewBag.dlList as IEnumerable<SelectListItem>, new { @class = "input-xlarge", style = "width:284px;" })
+                     <Label class="help-inline" id="ssdl_error" for="ssdl"></Label>
+                </div>
+            </div>
+            <div class="control-group" id="ssxlDIV">
+                <label for="ssxl" class="control-label">所属小类</label>
+                <div class="controls">
+                    <select id="ssxl" name="ssxl" class="input-xlarge" style = "width:284px;">
+                        <option value="0">请选择小类</option>
+                    </select>
+                     <Label class="help-inline" id="ssxl_error" for="ssxl"></Label>
+                </div>
+            </div> <div class="control-group" id="sszlDIV">
+                <label for="ILLEGALCLASSID" class="control-label">所属子类</label>
+                <div class="controls">
+                    <select id="ILLEGALCLASSID" name="ILLEGALCLASSID" class="input-xlarge" style = "width:284px;">
+                        <option value="0">请选择子类</option>
+                    </select>
+                     <Label class="help-inline" id="sszl_error" for="ILLEGALCLASSID"></Label>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="ILLEGALCODE" class="control-label">代码</label>
+                <div class="controls">
+                    <input type="text" name="ILLEGALCODE" id="ILLEGALCODE" placeholder="Text input" class="input-xlarge" data-rule-required="true">
+                    <span class="help-inline" for="ILLEGALCODE"></span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="ILLEGALITEMNAME" class="control-label">名称</label>
+                <div class="controls">
+                    <input type="text" name="ILLEGALITEMNAME" id="ILLEGALITEMNAME" placeholder="Text input" class="input-xlarge" data-rule-required="true">
+                    <span class="help-inline" for="ILLEGALITEMNAME"></span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="WEIZE" class="control-label">违则</label>
+                <div class="controls">
+                    <input type="text" name="WEIZE" id="WEIZE" placeholder="Text input" class="input-xlarge">
+                    <span class="help-inline" for="WEIZE"></span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="FZZE" class="control-label">罚则</label>
+                <div class="controls">
+                    <input type="text" name="FZZE" id="FZZE" placeholder="Text input" class="input-xlarge" >
+                    <span class="help-inline" for="FZZE"></span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="PENALTYCONTENT" class="control-label">处罚</label>
+                <div class="controls">
+                    <input type="text" name="PENALTYCONTENT" id="PENALTYCONTENT" placeholder="Text input" class="input-xlarge" >
+                    <span class="help-inline" for="PENALTYCONTENT"></span>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary"><i class="icon-ok"></i>确定</button>
+                <button type="button" class="btn goback" onclick="goback();">返回</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+

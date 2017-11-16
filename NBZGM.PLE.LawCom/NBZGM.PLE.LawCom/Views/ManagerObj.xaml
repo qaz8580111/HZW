@@ -1,0 +1,58 @@
+﻿<UserControl x:Class="Taizhou.PLE.LawCom.Views.ManagerObj"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    mc:Ignorable="d"
+    d:DesignHeight="400" d:DesignWidth="229">
+
+    <Grid x:Name="LayoutRoot">
+        <telerik:RadWindow x:Name="radWindow" Header="执法管控                           " Width="229" Height="400" CanMove="True" 
+                           telerik:StyleManager.Theme="Windows8" FontFamily="Microsoft YaHei" 
+                           FontSize="16" CanClose="False" ResizeMode="CanMinimize" WindowState="Minimized" WindowStateChanged="radWindow_WindowStateChanged">
+            <telerik:RadWindow.Content>
+                <telerik:RadTabControl x:Name="radTab" telerik:StyleManager.Theme="Windows8" Margin="0,1,0,0" Visibility="Collapsed">
+                    <telerik:RadTabItem x:Name="rtiPerson" Header="队员" Tag="Person" Width="50" FontFamily="Microsoft YaHei" FontSize="14" IsSelected="True">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox x:Name="txtQueryPersonInfo" KeyDown="txtQueryInfo_KeyDown" Margin="5,5,0,0" Width="170" Height="25" FontFamily="Microsoft YaHei" telerik:StyleManager.Theme="Windows8"/>
+                                <Button x:Name="btnQueryPersonInfo" Click="btnQueryInfo_Click"  Margin="3,4,0,0" Content="查询" FontFamily="Microsoft YaHei" FontSize="14.667" Width="41" Height="25" telerik:StyleManager.Theme="Windows8"/>
+                            </StackPanel>
+                            <telerik:RadBusyIndicator x:Name="busyPerson" IsBusy="True" BusyContent="加载中..." telerik:StyleManager.Theme="Windows8" Margin="0,40,0,0"/>
+                            <telerik:RadTreeView x:Name="rtvPerson" telerik:StyleManager.Theme="Windows8" BorderThickness="0" Height="305" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                            </telerik:RadTreeView>
+                            <telerik:RadTreeView x:Name="rtvPersonQuery" telerik:StyleManager.Theme="Windows8" BorderThickness="0" Visibility="Collapsed" Height="305" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                            </telerik:RadTreeView>
+                        </StackPanel>
+                    </telerik:RadTabItem>
+
+                    <!--<telerik:RadTabItem x:Name="rtiCar" Header="车辆" Tag="Car" Width="50" FontFamily="Microsoft YaHei" FontSize="14" IsSelected="False">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox x:Name="txtQueryCarInfo" KeyDown="txtQueryInfo_KeyDown" Margin="5,5,0,0" Width="170" Height="25" FontFamily="Microsoft YaHei" telerik:StyleManager.Theme="Windows8"/>
+                                <Button x:Name="btnQueryCarInfo" Click="btnQueryInfo_Click"  Margin="3,4,0,0" Content="查询" FontFamily="Microsoft YaHei" FontSize="14.667" Width="41" Height="25" telerik:StyleManager.Theme="Windows8"/>
+                            </StackPanel>
+                            <telerik:RadBusyIndicator x:Name="busyCar" IsBusy="True" BusyContent="加载中。。。" telerik:StyleManager.Theme="Windows8" Margin="0,40,0,0"/>
+                            <telerik:RadTreeView x:Name="rtvCar" telerik:StyleManager.Theme="Windows8" BorderThickness="0" Height="305" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                            </telerik:RadTreeView>
+                            <telerik:RadTreeView x:Name="rtvCarQuery" telerik:StyleManager.Theme="Windows8" BorderThickness="0" Visibility="Collapsed" Height="305" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                            </telerik:RadTreeView>
+                        </StackPanel>
+                    </telerik:RadTabItem>-->
+                    <telerik:RadTabItem x:Name="rtiEvent" Header="事件" Tag="Case" Width="50" FontFamily="Microsoft YaHei" FontSize="14" IsSelected="False">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox x:Name="txtQueryEventInfo" KeyDown="txtQueryInfo_KeyDown" Margin="5,5,0,0" Width="170" Height="25" FontFamily="Microsoft YaHei" telerik:StyleManager.Theme="Windows8"/>
+                                <Button x:Name="btnQueryEventInfo" Click="btnQueryInfo_Click"  Margin="3,4,0,0" Content="查询" FontFamily="Microsoft YaHei" FontSize="14.667" Width="41" Height="25" telerik:StyleManager.Theme="Windows8"/>
+                            </StackPanel>
+                            <telerik:RadBusyIndicator x:Name="busyEvent" IsBusy="True" BusyContent="加载中。。。" telerik:StyleManager.Theme="Windows8" Margin="0,40,0,0"/>
+                            <telerik:RadTreeView x:Name="rtvEvent" telerik:StyleManager.Theme="Windows8" Height="305" BorderThickness="0" ScrollViewer.VerticalScrollBarVisibility="Visible"/>
+                            <telerik:RadTreeView x:Name="rtvEventQuery" telerik:StyleManager.Theme="Windows8" BorderThickness="0" Visibility="Collapsed" Height="305" ScrollViewer.VerticalScrollBarVisibility="Visible"/>
+                        </StackPanel>
+                    </telerik:RadTabItem>
+                </telerik:RadTabControl>
+            </telerik:RadWindow.Content>
+        </telerik:RadWindow>
+    </Grid>
+</UserControl>

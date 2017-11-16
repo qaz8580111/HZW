@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "GGFWPrintMe";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        //获得后台传过来的值
+        var ContentMes = $("#ContentMesHidden").val();
+        $("#getContent").html(ContentMes);
+        //打印
+        printme();
+    })
+
+    //打印
+    function printme() {
+        document.body.innerHTML = document.getElementById("GGFWPrintMe").innerHTML;
+        window.print();
+    }
+</script>
+
+
+
+<div class="box box-black" style="margin: 5px;">
+    <table>
+        <tr>
+            <td>
+                <input type="hidden" id="ContentMesHidden" value="@ViewBag.SbMes"/>
+            </td>
+        </tr>
+    </table>
+    <div id="GGFWPrintMe">
+        <table>
+            <tr>
+                <td></td>
+            </tr>
+        </table>
+        <div id="getContent" style="margin-top: 5px;"></div>
+
+        <div style="clear: both"></div>
+    </div>
+</div>
+

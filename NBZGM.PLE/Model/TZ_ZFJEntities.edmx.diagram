@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4da824de9eda40a7b01e73c845f3fd9c" Name="关系图1" ZoomLevel="31">
+        <EntityTypeShape EntityType="TZ_ZFJModel.HT_CD_GOV" Width="1.5" PointX="8.9271885906007089" PointY="22.370549525306817" />
+        <EntityTypeShape EntityType="TZ_ZFJModel.HT_USER_NEW" Width="1.5" PointX="8.07516805458589" PointY="27.610084427339064" />
+        <EntityTypeShape EntityType="TZ_ZFJModel.HT_VEH_VIOREC" Width="1.5" PointX="11.680794635638964" PointY="15.350109643931551" />
+        <EntityTypeShape EntityType="TZ_ZFJModel.HT_CD_ENUM" Width="1.5" PointX="11.649965973407944" PointY="20.811135838185965" />
+        <EntityTypeShape EntityType="TZ_ZFJModel.HT_CD_VIOCODE" Width="1.5" PointX="10.732141082516005" PointY="25.375890758529255" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

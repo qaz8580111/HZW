@@ -1,0 +1,302 @@
+/* ==全局设置== */
+
+BODY{
+background:#e0e0e0;
+color:#666666;
+font-size:12px;
+line-height:150%;
+text-decoration: none;
+margin:0px;
+} 
+
+TD{
+color:#666666;
+font-size:12px;
+line-height:150%;
+}
+
+SELECT{
+color:#666666;
+FONT-SIZE: 12px;
+HEIGHT: 20px;
+}
+
+
+A{text-decoration: none;}
+A:link {color:#666666;}
+A:visited {color:#666666;}
+A:active {color:#666666;}
+A:hover{color:#ff6611}
+
+
+li{line-height:150%}
+li.fang {LIST-STYLE-TYPE: square;}
+li.img  {LIST-STYLE-IMAGE: url(li.gif)}
+
+ul {MARGIN: 0px 5px 0px 25px}
+ul.fang {LIST-STYLE-TYPE: square }
+ul.img  {LIST-STYLE-IMAGE: url(li.gif)}
+
+
+
+.INPUT{
+color:#666666;
+font-size:12px;
+height:20px;
+padding:3px;
+border:1px #cccccc solid;
+}
+
+.TEXTAREA{
+color:#666666;
+font-size:12px;
+padding:3px;
+border:1px #cccccc solid;
+
+
+}
+
+
+.button{color:#333333;font-size:12px;border:1px outset}
+
+
+/* ==栏目菜单样式== */
+
+.menu {width:70px;padding-top:3px;white-space: nowrap} 
+A.menu {color:#000000;font-size:12px;text-decoration: none} 
+A.menu:link{color:#ffffff;}
+A.menu:visited{color:#ffffff;}
+A.menu:active{color:#DCCE2F;}
+A.menu:hover{color:#E621ED;}
+
+
+.menunow {width:70px;padding-top:3px;white-space: nowrap} 
+A.menunow {color:#E09725;font-size:12px;text-decoration: none} 
+A.menunow:link{color:#ffffff;}
+A.menunow:visited{color:#ffffff;}
+A.menunow:active{color:#780000;}
+A.menunow:hover{color:#ff6611;}
+
+
+.btmenu {color:#333333;font-size:12px;line-height:150%;text-decoration: none} 
+A.btmenu:link{color:#333333;}
+A.btmenu:visited{color:#333333;}
+A.btmenu:active{color:#333333;}
+A.btmenu:hover{color:#ff6611;}
+
+.smenu {color:#ffffff;font-size:12px;line-height:150%;text-decoration: none} 
+A.smenu:link{color:#ffffff;}
+A.smenu:visited{color:#ffffff;}
+A.smenu:active{color:#ffffff;}
+A.smenu:hover{color:#ffffff;}
+
+.smenuv {color:#555555;font-size:12px;line-height:150%;text-decoration: none} 
+td.smenuv {border:0px #dddddd solid} 
+A.smenuv:link{color:#555555;}
+A.smenuv:visited{color:#555555;}
+A.smenuv:active{color:#555555;}
+A.smenuv:hover{color:#555555;}
+
+
+/* ==页内导航样式== */
+
+.nav {color:#666666;font-size:12px;} 
+td.nav {padding-left:5px} 
+
+
+/* ==表格样式== */
+
+td.title{background:#eeeeee }
+td.con{background:#ffffff}
+.table{border:1px #dddddd solid}
+.tablemenu{color:#555555;BORDER-RIGHT: #cccccc 1px solid; BORDER-TOP: #cccccc 1px solid; BORDER-LEFT: #cccccc 1px solid;background:#eeeeee}
+.line{background:#dddddd}
+
+
+
+/* ==交替样式== */
+
+.list{BACKGROUND-COLOR: expression((this.sectionRowIndex%2==0)?'#f5f5f5':'#ffffff');font-size:14px;}
+
+
+/* =={#lanTitle#}列表样式== */
+
+.tList{color:#333333;line-height:22px;font-size:12px}
+.tList1{color:#b0b0b0;line-height:150%;font-size:12px}
+
+a.tList{font-size:12px;;text-decoration: none;}
+a.tList:link{color:#333333}
+a.tList:visited{color:#333333}
+a.tList:active{color:#333333}
+a.tList:hover{color:#ff6611}
+
+/* ==图片列表样式== */
+
+td.piclist{background:#ffffff}
+div.piclist{border:1px #dddddd solid;width:50px;height:50px;padding:1px;background:#ffffff}
+
+a.pictitle{color:#666666;font-size:12px;line-height:26px}
+div.pictitle{border:0px #dddddd solid;padding:1px;background:#ffffff}
+
+
+
+/* ==更多链接样式== */
+
+a.more{font-size:12px;;text-decoration: none;}
+a.more:link{color:#555555;}
+a.more:visited{color:#555555;}
+a.more:active{color:#555555;}
+a.more:hover{color:#ff6611;}
+
+/* ==树型菜单样式== */
+
+.dtree {color: #555555;font-size: 12.00px;	white-space: nowrap;}
+.dtree img  {border: 0px;	vertical-align: middle;}
+.dtree a   {color: #555555;font-size: 12.00px;	TEXT-DECORATION: none}
+.dtree a.node{color: #555555;white-space: nowrap;padding: 1px 2px 1px 2px;TEXT-DECORATION: none}
+.dtree a.nodeSel {color: #555555;font-size: 12.00px;	white-space: nowrap;	padding: 1px 2px 1px 2px;TEXT-DECORATION: none}
+.dtree a.node:hover {color: #555555;font-size: 12.00px;	TEXT-DECORATION: none}
+.dtree a.nodeSel:hover {color: #555555;	font-size: 12.00px;TEXT-DECORATION: none}
+.dtree a.nodeSel {background-color: #cfdfef;font-size: 12.00px;}
+.dtree .clip {overflow: hidden;}
+
+/* ==翻页样式== */
+
+.pagesinfo {color:#555555;font-size:12px;}
+.pagesnow {color:#D07E36;font-size:14px;text-decoration: none}
+.pages {color:#666666;font-size:14px;text-decoration: none}
+
+
+/* ==文章频道检索列表样式== */
+
+td.newsquery{height:23px}
+
+.newsquery{color:#666666;line-height:150%;font-size:12px}
+a.newsquery{color:#666666;line-height:150%;font-size:12px;text-decoration: none}
+a.newsquery:link{color:#666666;}
+a.newsquery:active{color:#666666;}
+a.newsquery:visited{color:#666666;}
+a.newsquery:hover{color:#ff6611;}
+
+.newsquerytitle{border:1px #eeeeee solid;background:#f0f0f0}
+.newsquerytime{color:#555555;font-size:12px}
+
+
+/* ==文章频道详情样式== */
+
+.newstitle {color:#333333;font-size:18px;font-weight:bold}
+.newsinfo {background:#f0f0f0;color:#555555;font-size:12px;}
+.newscon {color:#666666;font-size:14px;line-height:160%;padding:15px}
+
+
+/* ==一级分类列表样式== */
+
+.class{color:#666666;font-size:12px;}
+a.class{color:#666666;text-decoration: none}
+a.class:link{color:#666666;}
+a.class:visited{color:#666666;}
+a.class:hover{color:#ff6611;}
+
+table.class{border:1px #dddddd solid}
+td.class{padding-left:10px}
+
+/* ==二级分类列表样式== */
+
+table.bigclass{border:1px #dddddd solid}
+td.bigclass{background:#eeeeee;padding-left:10px;height:25px}
+
+.bigclass{color:#666666;font-size:12px;line-height:150%}
+a.bigclass{color:#666666;font-weight:bold;line-height:150%;text-decoration: none}
+a.bigclass:link{color:#666666;}
+a.bigclass:visited{color:#666666;}
+a.bigclass:actived{color:#666666;}
+a.bigclass:hover{color:#ff6611;}
+
+
+table.smallclass{border:0px #dddddd solid}
+td.smallclass{background:#f7f7f7;padding-left:10px;height:18px}
+
+.smallclass{color:#555555;font-size:12px;line-height:150%}
+a.smallclass{color:#555555;line-height:150%;text-decoration: none}
+a.smallclass:link{color:#555555;}
+a.smallclass:visited{color:#555555;}
+a.smallclass:actived{color:#555555;}
+a.smallclass:hover{color:#ff6611;}
+
+
+
+/* ==下载频道样式== */
+
+td.downquery{height:22px}
+
+.downquery{color:#666666;line-height:150%;font-size:12px}
+a.downquery{color:#666666;line-height:150%;font-size:12px;text-decoration: none}
+a.downquery:link{color:#666666;}
+a.downquery:active{color:#666666;}
+a.downquery:visited{color:#666666;}
+a.downquery:hover{color:#ff6611;}
+
+.downquerytitle{}
+.downquerytime{color:#555555;font-size:12px}
+
+.downpropname{color:#555555;font-size:12px;background:#dddddd}
+.downprop{color:#555555;font-size:12px;padding-left:10px;background:#f0f0f0}
+.downintro {color:#666666;font-size:12px;line-height:150%;}
+
+
+/* ==图文频道样式== */
+
+.cpline{background:#dddddd}
+td.cpquery{background:#ffffff;}
+div.cpquery{border:1px #eeeeee solid;padding:5px;background:#ffffff;}
+
+a.cpquerytitle{color:#666666;font-size:12px;line-height:26px}
+div.cpquerytitle{border:1px #eeeeee solid;padding:2px;background:#f7f7f7}
+
+
+.cppropname{color:#555555;font-size:12px;background:#dddddd}
+.cpprop{color:#555555;font-size:12px;padding-left:10px;background:#f0f0f0}
+.cpintro {color:#666666;font-size:12px;line-height:150%;}
+
+
+/* ==提示信息样式== */
+
+.notic{font-size:12px;color:#666666}
+.noticerr{font-size:12px;color:#ff6600}
+.noticlink{font-size:12px;color:#ff6600}
+
+
+/* ==会员频道样式== */
+
+.mustfill {color:#ff0000;font-size:14px;}
+.memberinfo{color:#555555;}
+
+
+/* ==评论样式== */
+
+td.bbsquery{height:23px}
+
+.bbsquery{color:#666666;line-height:150%;font-size:12px}
+a.bbsquery{color:#666666;line-height:150%;font-size:12px;text-decoration: none}
+a.bbsquery:link{color:#666666;}
+a.bbsquery:active{color:#666666;}
+a.bbsquery:visited{color:#666666;}
+a.bbsquery:hover{color:#ff6611;}
+
+.bbsquerytitle{border:1px #eeeeee solid;background:#f0f0f0}
+.bbsquerytime{color:#555555;font-size:12px}
+
+
+.bbstitle{background:#eeeeee}
+.bbscon{background:#ffffff}
+.bbstable{background:#dddddd;}
+.bbsline{background:#dddddd}
+
+
+/* ==全站搜索样式== */
+
+.searchtitle{color:#666666;font-size:14px;line-height:32px}
+a.searchtitle{color:#666666;font-size:14px;line-height:32px}
+.searchbody{color:#333333;font-size:13px;line-height:18px;height:60px}
+.searchtime{color:#555555;font-size:12px}
+

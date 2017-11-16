@@ -1,0 +1,307 @@
+﻿@model Web.ViewModels.CaseViewModels.ViewModel1
+@using Taizhou.PLE.Model.CaseWorkflowModels
+
+<form id="workflow101Form" class="workflowForm" method="post" enctype="multipart/form-data" action="/Workflow101/Commit">
+    <div class="title">
+        立案审批表
+    </div>
+    @Html.Hidden("IsRollback")
+    <table class="workflow" border="0" cellspacing="0" cellpadding="0" style="width: 700px; border-collapse: collapse; margin: 0 auto; margin-top: 20px;">
+        <tr>
+            <th colspan="2">文书编号</th>
+            <td colspan="9">
+                @Html.TextBoxFor(model => model.WSBH)
+                <label class="formErrorMsg" id="error_WSBH"></label>
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">案　　由</th>
+            <td colspan="9">
+                @Html.TextBoxFor(model => model.AY)
+                <label class="formErrorMsg" id="error_AY"></label>
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">发案地点</th>
+            <td colspan="9">
+                @Html.TextBoxFor(model => model.FADD)
+
+            </td>
+        </tr>
+        <tr>
+
+            <th colspan="2">发案时间</th>
+            <td colspan="3" class="control-group" id="td_FASJ">
+                @Html.TextBoxFor(model => model.FASJ)
+                <label class="formErrorMsg" id="error_FASJ"></label>
+            </td>
+
+            <th colspan="2">案件来源</th>
+            <th colspan="4" class="control-group" id="td_AJLYID">
+                @Html.DropDownListFor(mode => mode.AJLYID, ViewBag.AJLYSelectList as IEnumerable<SelectListItem>)
+                <label class="formErrorMsg" id="error_AJLYID"></label>
+                @Html.Hidden("AJLYName")
+            </th>
+        </tr>
+        <tr>
+            <th colspan="2">是否立案</th>
+            @if (Model.SFLA != null)
+            {
+                <td colspan="3">
+                    @Html.RadioButton("SFLA", "la", Model.SFLA == "la")立案
+                    @Html.RadioButton("SFLA", "zf", Model.SFLA == "zf")作废
+                </td>
+            }
+            else
+            {
+                <td colspan="3">
+                    @Html.RadioButton("SFLA", "la", true)立案
+                    @Html.RadioButton("SFLA", "zf", false)作废
+                </td>
+            }
+
+            <th colspan="2">是否为重大案件</th>
+            @if (Model.SFWZDAN != null)
+            {
+                <td colspan="4">
+                    @Html.RadioButton("SFWZDAN", "s", Model.SFWZDAN == "s")是
+                    @Html.RadioButton("SFWZDAN", "f", Model.SFWZDAN == "f")否
+                </td>
+            }
+            else
+            {
+                <td colspan="4">
+                    @Html.RadioButton("SFWZDAN", "s", false)是
+                    @Html.RadioButton("SFWZDAN", "f", true)否
+                </td>
+            }
+        </tr>
+        <tr>
+            <th style="width: 42px;" rowspan="6">当事<br />
+                人基<br />
+                本情<br />
+                况</th>
+            <th colspan="2">当事人类型</th>
+            @if (Model.DSRLX != null)
+            {
+                <td colspan="8">
+                    @Html.RadioButton("DSRLX", "dw", Model.DSRLX == "dw", new { @class = "dsrlxdw" })单位
+                    @Html.RadioButton("DSRLX", "gr", Model.DSRLX == "gr", new { @class = "dsrlxgr" })个人
+                </td>
+            }
+            else
+            {
+                <td colspan="8">
+                    @Html.RadioButton("DSRLX", "dw", true, new { @class = "dsrlxdw" })单位
+                    @Html.RadioButton("DSRLX", "gr", false, new { @class = "dsrlxgr" })个人
+                </td>
+            }
+        </tr>
+        <tr>
+            <th style="width: 42px;" rowspan="2">单位</th>
+            <th style="width: 42px;">名称</th>
+            <td colspan="4">
+                @Html.TextBoxFor(model => model.OrgForm.MC, new { @class = "dw" })
+            </td>
+            <th colspan="2">组织机构<br />
+                代码证编号</th>
+            <td colspan="2">
+                @Html.TextBoxFor(model => model.OrgForm.ZZJGDMZBH, new { @class = "dw" })
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">法定代表人<br />
+                （负责人）姓名</th>
+            <td colspan="3">
+                @Html.TextBoxFor(model => model.OrgForm.FDDBRXM, new { @class = "dw" })
+            </td>
+            <th colspan="2">职务</th>
+            <td colspan="2">
+                @Html.TextBoxFor(model => model.OrgForm.ZW, new { @class = "dw" })
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 42px;" rowspan="2">个人</th>
+            <th style="width: 42px;">姓名</th>
+            <td style="width: 92px;">
+                @Html.TextBoxFor(model => model.PersonForm.XM, new { @class = "gr" })
+            </td>
+            <th style="width: 42px;">性别</th>
+            <td style="width: 72px;">
+                @Html.DropDownListFor(mode => mode.PersonForm.XB, ViewBag.XBSelectList as IEnumerable<SelectListItem>, new { @class = "gr" })
+            </td>
+            <th style="width: 52px;">出生<br />
+                年月</th>
+            <td style="width: 102px;" colspan="2">
+                @Html.TextBoxFor(model => model.PersonForm.CSNY, new { @class = "gr" })
+            </td>
+            <th style="width: 42px;">民族</th>
+            <td style="width: 92px;">
+                @Html.TextBoxFor(model => model.PersonForm.MZ, new { @class = "gr" })
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 42px;">身份<br />
+                证号</th>
+            <td colspan="2">
+                @Html.TextBoxFor(model => model.PersonForm.SFZH, new { @class = "gr" })
+            </td>
+            <th style="width: 72px;">工作单位</th>
+            <td colspan="5">
+                @Html.TextBoxFor(model => model.PersonForm.GZDW, new { @class = "gr" })
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">住所地<br />
+                （住址）</th>
+            <td colspan="5">
+                @Html.TextBoxFor(model => model.ZSD)
+            </td>
+            <th style="width: 42px;">联系<br />
+                电话</th>
+            <td colspan="2">
+                @Html.TextBoxFor(model => model.LXDH)
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 42px;">案情<br />
+                摘要</th>
+            <td colspan="10">
+                @Html.TextAreaFor(model => model.AQZY)
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 42px;">违法<br />
+                行为</th>
+            <td colspan="10" id="wfxw">
+                <div>
+                    违法行为代码：@Html.TextBoxFor(model => model.IllegalForm.Code)
+                </div>
+                <div>
+                    @Html.DropDownList("IllegalClass1ID", ViewBag.dlSelectList as IEnumerable<SelectListItem>, "请选择大类")
+                    @Html.DropDownList("IllegalClass2ID", ViewBag.xlSelectList as IEnumerable<SelectListItem>, "请选择小类")
+                </div>
+                <div>
+                    @Html.DropDownList("IllegalClass3ID", ViewBag.zlSelectList as IEnumerable<SelectListItem>, "请选择子类")
+
+                    <select id="IllegalForm_ID" name="IllegalForm.ID" class="chzn-select">
+                        <option value="" selected="selected">请选择违法行为</option>
+                        @foreach (var item in ViewBag.wfxwSelectList as IEnumerable<SelectListItem>)
+                        {
+                            <option value="@item.Value" selected="@item.Selected">@item.Text</option>
+                        }
+                    </select>
+                    @Html.Hidden("IllegalForm.Name")
+                    @Html.Hidden("IllegalForm.WeiZe")
+                    @Html.Hidden("IllegalForm.FaZe")
+                    @Html.Hidden("IllegalForm.Code")
+                    @Html.Hidden("IllegalForm.ChuFa")
+                </div>
+                @{
+                    string WeiZe = "";
+                    string FaZe = "";
+                    string ChuFa = "";
+                    if (Model.IllegalForm != null)
+                    {
+                        WeiZe = Model.IllegalForm.WeiZe;
+                        FaZe = Model.IllegalForm.FaZe;
+                        ChuFa = Model.IllegalForm.ChuFa;
+                    }
+                }
+                <div id="div1">
+                    适用的违则:@WeiZe
+                </div>
+                <div id="div2">
+                    适用的罚则：@FaZe
+                </div>
+                <div id="div3">
+                    适用的处罚：@ChuFa
+                </div>
+
+                <label class="formErrorMsg" id="error_IllegalItemID"></label>
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 42px;">立案<br />
+                理由</th>
+            <td colspan="10">
+                @Html.TextAreaFor(model => model.LALY)
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 42px;">拟办<br />
+                意见</th>
+            <td colspan="10">
+                @Html.TextAreaFor(model => model.NBYJ)
+            </td>
+        </tr>
+        @if (!string.IsNullOrWhiteSpace(Model.THYJ))
+        {
+            <tr>
+                <th style="width: 42px;">回退<br />
+                    意见</th>
+                <td colspan="10">
+                    @Html.TextAreaFor(model => model.THYJ, new { disabled = "disabled" })
+                </td>
+            </tr>
+        }
+         <tr>
+            <th style="width: 42px;">拟办<br />
+                队员</th>
+            <td colspan="5">
+                @Html.DropDownListFor(model => model.NBDYID1, ViewBag.nbdySelectList1 as IEnumerable<SelectListItem>)
+                <label class="formErrorMsg" id="error_NBDY1"></label>
+                @Html.HiddenFor(model=>model.NBDYNAME1)
+            </td>
+            <td colspan="5">
+                @Html.DropDownListFor(model => model.NBDYID2, ViewBag.nbdySelectList2 as IEnumerable<SelectListItem>)
+                <label class="formErrorMsg" id="error_NBDY2"></label>
+                 @Html.HiddenFor(model=>model.NBDYNAME2)
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 42px;">承办<br />
+                单位</th>
+            <td colspan="5">
+                @Html.DropDownListFor(model => model.CBDWID, ViewBag.CBDWSelectList as SelectList, "请选择")
+                <label class="formErrorMsg" id="error_CBDWID"></label>
+                @Html.Hidden("CBDWName")
+            </td>
+            <th style="width: 42px;">承办<br />
+                领导</th>
+            <td colspan="4">
+                @Html.DropDownListFor(model => model.CBLDID, ViewBag.CBLDSelectList as List<SelectListItem>, "请选择")
+                <label class="formErrorMsg" id="error_CBLDID"></label>
+                @Html.Hidden("CBLDName")
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 42px;">短信提醒</th>
+            <td colspan="10">&nbsp;&nbsp;
+                <input type="checkbox" id="FSDX" name="FSDX" value="" />
+                <label id="SMSUserNameAndNum"></label>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 42px; border: none;"></td>
+            <td colspan="10" style="border: none; padding-top: 10px;">
+                <input id="btnSaveForm" type="button" class="btn btn-success" value="暂　存">
+            </td>
+        </tr>
+        <tr style="height: 0px; line-height: 0px;">
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="width: 92px; border: none; padding: 0px;"></td>
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="width: 72px; border: none; padding: 0px;"></td>
+            <td style="width: 52px; border: none; padding: 0px;"></td>
+            <td style="width: 52px; border: none; padding: 0px;"></td>
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="border: none; padding: 0px;">&nbsp;</td>
+        </tr>
+    </table>
+    @Html.HiddenFor(model => model.WIID)
+    @Html.HiddenFor(model => model.AIID)
+</form>

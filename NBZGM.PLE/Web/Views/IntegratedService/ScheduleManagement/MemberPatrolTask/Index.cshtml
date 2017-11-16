@@ -1,0 +1,131 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/IntegratedService/ScheduleManagement/_LayoutScheduleManagement.cshtml";
+}
+@model Taizhou.PLE.Model.XCJGUSERTASK
+@section HeadStyles_ScheduleManage{
+    <link href="~/Scripts/assets/fullcalendar/fullcalendar/fullcalendar.css" rel="stylesheet" />
+}
+
+@section FootScripts_ScheduleManage{
+    <script src="~/Scripts/assets/fullcalendar/fullcalendar/fullcalendar.min.js"></script>
+    <style type="text/css">
+        .table-hover tbody tr:hover > td, .table-hover tbody tr:hover > th {
+            background: none;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            var GetTableOneMes = $("#GetTableOneMes").val();
+            var GetTableContentMes = $("#GetTableContentMes").val();
+
+            $("#SSZDID").html
+            $("#TableOne").html(GetTableOneMes);
+            $("#TableNext").html(GetTableContentMes);
+
+
+            //大队下拉列表改变
+            $("#SSQJID").change(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/Approval/GetZD",
+                    data: { DDID: $(this).val() },
+                    cache: false,
+                    success: function (data) {
+                        $("#SSZDID").empty();
+                        $("#SSZDID").append("<option value=''>请选择</option>");
+                        $.each(data, function (i, item) {
+                            $("#SSZDID").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                        });
+                    }
+                });
+            })
+
+        })
+
+        function AddUserTask(id, date) {
+            location = "/MemberPatrolTask/AddUserTask?id=" + id + "&date=" + date;
+        }
+        function EditUserTask(id, date) {
+            location = "/MemberPatrolTask/EditUserTask?id=" + id + "&date=" + date;
+        }
+        function OnLastWeek() {
+            location = $("#urlUpWeek").val() + "&SSZDID=" + $("#SSZDID").val();
+
+        }
+        function OnNextWeek() {
+            location = $("#urlNextWeek").val() + "&SSZDID=" + $("#SSZDID").val();
+        }
+        function btnQuery() {
+            var time = $("#t").val();
+            var SSZDID = escape($("#SSZDID").val());
+            location = "/MemberPatrolTask/Index?t=" + time + "&SSZDID=" + SSZDID;
+        }
+        function YesOnmousemove(tdId) {
+            $("#td_" + tdId).css("background", "#919191");
+        }
+        function YesOnmouseout(tdId) {
+            $("#td_" + tdId).css("background", "#cbbfbf");
+        }
+        function NoOnmousemove(tdId) {
+            $("#td_" + tdId).css("background", "#EBEBEB");
+        }
+        function NoOnmouseout(tdId) {
+            $("#td_" + tdId).css("background", "#f2f5f7");
+        }
+    </script>
+}
+
+@section BreadcrumbSection{
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li><a href="javascript:void(0)"><i class="icon-home"></i>综合业务</a></li>
+            <li>></li>
+            <li><a href="javascript:void(0)">巡查监管</a></li>
+            <li>></li>
+            <li class="active">队员任务管理</li>
+        </ul>
+    </div>
+}
+
+<div class="box box-black" style="margin: 5px;">
+    <div class="box-content">
+        <div id="calendar"></div>
+    </div>
+    <input type="hidden" id="t"  name="t"  value="@Request["t"]"/>
+    <input type="hidden" id="urlUpWeek"  name="urlUpWeek"  value="@ViewBag.urlUpWeek"/>
+    <input type="hidden" id="urlNextWeek"  name="urlNextWeek"  value="@ViewBag.urlNextWeek"/>
+
+    <input type="hidden" id="GetTableOneMes"  name="GetTableOneMes"  value="@ViewBag.GetTableOneMes"/>
+    <input type="hidden" id="GetTableContentMes"  name="GetTableContentMes"  value="@ViewBag.GetTableContentMes"/>
+
+    <div class="query">
+        <table>
+            <tr>
+
+                <td style="width: 250px">
+                    @Html.DropDownListFor(model => model.SSQJID, ViewBag.DAIDList as IEnumerable<SelectListItem>, new { @class = "input-xlarge", style = "width:284px;" })
+                </td>
+                <td style="width: 250px">
+                    @Html.DropDownListFor(model => model.SSZDID, ViewBag.unitList as IEnumerable<SelectListItem>, new { @class = "input-xlarge", style = "width:284px;",  onchange = "btnQuery()" })
+                </td>
+
+                <td style="text-align: right">
+                    <input type="button" id="btnLastWeek" style="margin-top: 5px; margin-bottom: 0px;" class="btn btn-info" value="上一周"
+                        onclick="OnLastWeek()" />
+                    <input type="button" id="btnNextWeek" style="margin-top: 5px; margin-bottom: 0px;" class="btn btn-info" value="下一周"
+                        onclick="OnNextWeek()" />
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+    <table class="table table-bordered table-striped table-hover fill-head" id="MemberPatrolRoute" style="margin-top:15px;">
+        <thead id="TableOne"></thead>
+        <tbody id="TableNext"></tbody>
+    </table>
+
+</div>

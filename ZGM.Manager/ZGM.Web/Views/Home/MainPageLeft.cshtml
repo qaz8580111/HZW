@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>智慧钟公庙管理平台</title>
+    <link href="~/Content/css/style.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+     <script src="~/Scripts/js/PageNotBack.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //导航切换
+            $(".menuson li").click(function () {
+                $(".menuson li.active").removeClass("active")
+                $(this).addClass("active");
+            });
+        })
+       
+    </script>
+
+
+</head>
+<!---->
+
+<body >
+    <dl class="leftmenu"  style=" background:url(/Images/images/leftbg.png)">
+        @{
+            var i = 0;
+            foreach (var item in ViewBag.ListFunction)
+            { 
+                <dd>
+                   
+                <ul class="menuson" id='ul'@i>
+                   @if (i == 0)
+                {
+           
+                    <li><cite></cite><a id="click_first" href="@item.URL" target="rightFrame"><img src="/Images/backfuncitionimage/@item.ICONPATH" title="@item.NAME" width="16px" height="16px" />&nbsp;&nbsp; @item.NAME</a><i></i></li>
+
+                    }
+                else
+                {
+                   
+                    <li><cite></cite><a  href="@item.URL" target="rightFrame"><img src="/Images/backfuncitionimage/@item.ICONPATH" title="@item.NAME" width="16px" height="16px"/>&nbsp;&nbsp; @item.NAME</a><i></i></li>
+
+                    }
+                </ul>
+            </dd>
+                i++;
+            }
+        }
+      
+    </dl>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            document.getElementById("click_first").click();
+
+        });
+    </script>
+</body>
+</html>

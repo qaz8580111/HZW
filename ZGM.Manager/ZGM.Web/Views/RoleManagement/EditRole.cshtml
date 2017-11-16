@@ -1,0 +1,151 @@
+﻿@{
+    Layout = null;
+}
+@model ZGM.Model.SYS_ROLES
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>EditRole</title>
+    <style type="text/css">
+        .blur {
+            border: 1px solid red;
+        }
+    </style>
+    <link href="/Content/css/OA.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <link href="/Scripts/assets/zTree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+    <script src="~/Scripts/assets/jquery-ui/jquery-ui.min.js"></script>
+    <script src="/Scripts/jquery-1.7.1.js"></script>
+    <script src="/Scripts/assets/zTree/js/jquery.ztree.core.js"></script>
+    <script src="/Scripts/assets/zTree/js/jquery.ztree.excheck.js"></script>
+    <script src="/Scripts/assets/zTree/js/jquery.ztree.exedit.js"></script>
+       <link href="~/Scripts/layer/skin/layer.css" rel="stylesheet" />
+    <link href="~/Scripts/layer/skin/seaning/style.css" rel="stylesheet" />
+    <script src="~/Scripts/layer/layer.js"></script>
+     <script src="~/Scripts/js/PageNotBack.js"></script>
+    <script type="text/javascript">
+        layer.config({
+            skin: 'layer-ext-seaning',
+            offset: ['100px', '33%'],
+            moveOut: true,
+            closeBtn: false,
+            extend: 'skin/seaning/style.css'
+        });
+
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#goback").click(function () {
+                location.href = '/RoleManagement/Index';
+            });
+
+            var setting = {
+                check: {
+                    enable: true
+                },
+                data: {
+                    simpleData: {
+                        enable: true
+                    }
+                }
+            };
+
+            $.ajax({
+                type: 'GET',
+                dataType: 'json',
+                url: '/RoleManagement/GetFunctionTreeData?ROLEID=' +@Model.ROLEID +'&random=' + Math.random(),
+                success: function (data) {
+                    if (data != null && data != "") {
+                        var zNodes = data;
+                        $.fn.zTree.init($("#tree"), setting, zNodes);
+                    }
+                }
+            });
+        });
+
+        function SetCheckedNodes() {
+
+            //$("#ROLENAME").removeClass("blur");
+            var ROLENAME = $("#ROLENAME").val();
+            if (ROLENAME == null || ROLENAME == "") {
+                //$("#ROLENAME").addClass("blur");
+                layer.alert('角色名称不能为空!', {
+                    icon: 0,
+                    skin: 'layer-ext-seaning'
+                });
+              
+                return false;
+            }
+
+            var treeObj = $.fn.zTree.getZTreeObj("tree");
+            var nodes = treeObj.getCheckedNodes(true);
+
+            var functionIDs = "";
+            for (var i = 0; i < nodes.length; i++) {
+                if (i == 0) {
+                    functionIDs += nodes[i].id;
+                    continue;
+                }
+                functionIDs += "," + nodes[i].id;
+            }
+            $("#CheckedFunctionIDs").val(functionIDs);
+
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <div class="place">
+        <span>位置：</span>
+        <ul class="placeul">
+            <li><a href="/RoleManagement/Index">角色管理</a></li>
+            <li>编辑角色</li>
+        </ul>
+    </div>
+    <form id="EditRoleForm" name="EditRoleForm" method="post" action="/RoleManagement/CommitEditRole">
+        <div class="forminfo">
+            <table>
+                <tr>
+                    <td>
+                        <label>角色名称<b>*</b></label></td>
+                    <td>
+                        <input name="ROLENAME" id="ROLENAME" type="text" class="dfinputs" placeholder="请输入角色名称必填" value="@Model.ROLENAME" /></td>
+                </tr>
+                <tr>
+                    <td style="vertical-align: top">
+                        <label>配置功能项</label></td>
+                    <td>
+                        <div id="tree" class="ztree">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>角色排序号</label></td>
+                    <td>
+                        <input name="SEQNUM" id="SEQNUM" type="text" class="dfinputs" placeholder="请输入功能项排序号" value="@Model.SEQNUM" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="vertical-align: top">
+                        <label>角色说明</label></td>
+                    <td>
+                        <textarea name="DESCRIPTION" class="dfinputs" id="dfinputs" style="width: 600px; height: 150px">@Model.DESCRIPTION</textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input name="" type="submit" class="butn" onclick="return SetCheckedNodes();" value="确定" />
+                        <input type="button" class="butn" value="返回" id="goback" /></td>
+
+                </tr>
+            </table>
+        </div>
+        @Html.Hidden("ROLEID")
+        @Html.Hidden("CheckedFunctionIDs")
+    </form>
+</body>
+</html>

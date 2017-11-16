@@ -1,0 +1,154 @@
+﻿@model Web.ViewModels.RelevantItemViewModels.ViewModel201
+<script src="~/Scripts/js/IntegratedService/CaseManagement/RelevantItemWorkflow/workflow201.js"></script>
+
+<div class="box" style="margin-top: 5px;">
+    <div class="box-title">
+        <span style="float: left; margin-top: 8px;"><i class="icon-th-large"></i></span>
+        <div class="box-tool" style="float: left;">
+            <div class="btn-group">
+                <a class="btn btn-primary dropdown-toggle" href="#" data-toggle="dropdown">新增相关事项审批</a>
+                <a class="btn btn-primary dropdown-toggle" href="#" data-toggle="dropdown"><span class="caret"></span></a>
+                <ul id="relevantItemBtnsContainer" class="dropdown-menu dropdown-primary">
+                </ul>
+            </div>
+        </div>
+        <ul class="nav nav-tabs">
+            <li><a id="hrefQTSXNBSPBDoc" href="#divQTSXNBSPBDocContainer" data-toggle="tab" style="display: none;"></a></li>
+            <li class="active"><a id="hrefQTSXNBSPForm" href="#divQTSXNBSPBFormContainer" data-toggle="tab">相关事项审批表</a></li>
+        </ul>
+    </div>
+    <div class="box-content">
+        <div id="alertPanel">
+        </div>
+        <form action="/Workflow201/Commit" method="post" enctype="multipart/form-data">
+            @Html.Hidden("DDID")
+            @Html.HiddenFor(model => model.ParentAIID)
+            @Html.HiddenFor(model => model.ParentWIID)
+            @Html.HiddenFor(model => model.WIID)
+            <div class="tab-content">
+                <div class="tab-pane active" id="divQTSXNBSPBFormContainer">
+                    <div class="title">
+                        相关事项内部审批表
+                    </div>
+                    <table class="workflow" border="0" cellspacing="0" cellpadding="0" style="width: 700px; border-collapse: collapse; margin: 0 auto; margin-top: 20px;">
+                        <tr>
+                            <th colspan="2">申请事项</th>
+                            <td colspan="4">@Html.TextBoxFor(model => model.SQSX)
+                                <label class="formErrorMsg" id="error_SQSX"></label>
+                            </td>
+                            <th colspan="2">编号</th>
+                            <td colspan="5">@Html.TextBoxFor(model => model.WSBH)
+                                <label class="formErrorMsg" id="error_WSBH"></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="2">案  由</th>
+                            <td colspan="4">@Html.TextBoxFor(model => model.AY)</td>
+                            <th colspan="2">立案日期</th>
+                            <td colspan="5">@Html.TextBox("LARQ", Model.LARQ != null ? Convert.ToDateTime(Model.LARQ).ToString("yyyy-MM-dd") : "")</td>
+                        </tr>
+                        <tr>
+                            <th rowspan="5">当事人情况</th>
+                            <th>姓名</th>
+                            <td colspan="2">@Html.TextBoxFor(model => model.XM)</td>
+                            <th>性别</th>
+                            <td colspan="2">
+                                <select name="XB" id="XB" style="width: 99%;" class="gr">
+                                    <option value="男">男</option>
+                                    <option value="女">女</option>
+                                </select></td>
+
+                            <th colspan="2">身份证号码</th>
+                            <td colspan="4">@Html.TextBoxFor(model => model.SFZH)</td>
+                        </tr>
+                        <tr>
+                            <th>职业</th>
+                            <td colspan="3">@Html.TextBoxFor(model => model.ZY)</td>
+                            <th>民族</th>
+                            <td colspan="2">@Html.TextBoxFor(model => model.MZ)</td>
+                            <th>职务</th>
+                            <td colspan="4">@Html.TextBoxFor(model => model.ZW)</td>
+                        </tr>
+                        <tr>
+                            <th>名称</th>
+                            <td colspan="4">@Html.TextBoxFor(model => model.MC)</td>
+                            <th colspan="2">法定代表人
+                (负责人)</th>
+                            <td colspan="5">@Html.TextBoxFor(model => model.FDDBR)</td>
+
+                        </tr>
+                        <tr>
+                            <th>工作<br />
+                                单位</th>
+                            <td colspan="5">@Html.TextBoxFor(model => model.GZDW)</td>
+                            <th>电  话</th>
+                            <td colspan="5">@Html.TextBoxFor(model => model.DH)</td>
+                        </tr>
+                        <tr>
+                            <th>住址<br />
+                                (住所)</th>
+                            <td colspan="5">@Html.TextBoxFor(model => model.ZZ)</td>
+                            <th>邮政<br />
+                                编码</th>
+                            <td colspan="5">@Html.TextBoxFor(model => model.YZBM)</td>
+                        </tr>
+                        <tr>
+                            <th>简要案情及申请理由依据和内容</th>
+                            <td colspan="12">@Html.TextAreaFor(model => model.JYAQ, new { style = "height:150px;" })</td>
+                        </tr>
+
+                        <tr>
+                            <th>承办人意见</th>
+                            <td colspan="12">@Html.TextAreaFor(model => model.CBRYJ, new { style = "height:80px;" })</td>
+                        </tr>
+                        <tr>
+                            <th style="width: 42px;">承办<br />
+                                单位</th>
+                            <td colspan="6">
+                                @Html.DropDownList("CBDWID", ViewBag.CBDWSelectList as SelectList, "请选择")
+
+                                @Html.Hidden("CBDWName")
+                            </td>
+                            <th style="width: 42px;">承办<br />
+                                领导</th>
+                            <td colspan="5">
+                                <select id="CBLDID" name="CBLDID">
+                                </select>
+                                <label class="formErrorMsg" id="error_CBLDID"></label>
+                                @Html.Hidden("CBLDName")
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="tab-pane" id="divQTSXNBSPBDocContainer">
+                </div>
+                <table class="workflow" border="0" cellspacing="0" cellpadding="0" style="width: 700px; border-collapse: collapse; margin: 0 auto; margin-top: 0px;">
+                    <tr class="notHideTD">
+                        <td style="width: 42px; border: none;"></td>
+                        <td colspan="11" style="border: none; padding-top: 10px;">
+                            <input id="btnBackStep" type="button" class="btn btn-success" value="上一步" style="display: none;" />
+                            <input id="btnNextStep" type="button" class="btn btn-success" value="下一步" style="display: none;" />
+                            <input id="btnSubmit" type="button" class="btn btn-success" value="提　交" />
+                        </td>
+                    </tr>
+                    <tr class="notHideTD">
+                        <td style="width: 52px; border: none;"></td>
+                        <td style="width: 52px; border: none;"></td>
+                        <td style="width: 52px; border: none;"></td>
+                        <td style="width: 52px; border: none;"></td>
+                        <td style="width: 52px; border: none;"></td>
+                        <td style="width: 52px; border: none;"></td>
+                        <td style="width: 52px; border: none;"></td>
+                        <td style="width: 52px; border: none;"></td>
+                        <td style="width: 52px; border: none;"></td>
+                        <td style="width: 52px; border: none;"></td>
+                        <td style="width: 52px; border: none;"></td>
+                        <td style="width: 52px; border: none;"></td>
+                        <td style="border: none;">&nbsp;</td>
+                    </tr>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+

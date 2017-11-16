@@ -1,0 +1,138 @@
+﻿@model Taizhou.PLE.Model.CaseDocModels.ZLXQGZTZS
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("input[name=ZLGZQX]").datetimepicker();
+        $("input[name=TZSJ]").datetimepicker();
+        $("input[name=FASJ]").datetimepicker();
+    });
+
+    function ValidateDocForm() {
+        var flag = true;
+        $(".formErrorMsg").hide();
+        $(".formErrorMsg").text("");
+        //验证文书编号
+        var wsbh = $("#WSBH").val();
+        if ($.trim(wsbh) == "") {
+            $("#error_BH").show();
+            $("#error_BH").text("请输入文书编号.")
+            flag = false;
+        }
+            //验证文书编号是否唯一
+        else {
+            var docId = $("#thisDIID").val();
+            var ddid = $("#DOCDDID").val();
+            $.ajax({
+                type: "post",
+                url: "/Document/ValidateEditWSBH",
+                data: "DDID=" + ddid + "&WSBH=" + wsbh + "&DocId=" + docId + "",
+                cache: false,
+                async: false,
+                success: function (data) {
+                    if (data != "True") {
+                        flag = false;
+                        $("#error_BH").show();
+                        $("#error_BH").text("该文书编号已存在.");
+                    }
+                }
+            });
+        }
+        return flag;
+    }
+</script>
+
+<form class="docForm" method="post" action="/DocZLXQGZTZS/CommitEditDocumentZLXQGZTZS" style="margin-top: 30px;" enctype="multipart/form-data">
+    @Html.Hidden("DOCDDID", Taizhou.PLE.Common.DocDefinition.ZLXQGZTZS)
+    <div class="title">
+        责令限期改正通知书
+    </div>
+    <table class="workflow" border="0" cellspacing="0" cellpadding="0" style="width: 700px; border-collapse: collapse; margin: 0 auto; margin-top: 20px;">
+        <tr>
+            <th colspan="2">编号</th>
+            <td colspan="9">
+                @Html.TextBoxFor(model => model.WSBH)
+                <label class="formErrorMsg" id="error_BH"></label>
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">当事人姓名或名称</th>
+            <td colspan="9">
+                @Html.TextBoxFor(model => model.DSR)
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">案发时间</th>
+            <td colspan="2">
+                @Html.TextBoxFor(model => model.FASJ)
+            </td>
+            <th colspan="1">案发地点</th>
+            <td colspan="6">
+                @Html.TextBoxFor(model => model.FADD)
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">违法行为</th>
+            <td colspan="9">
+                @Html.TextAreaFor(model => model.WFXW)
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">违反的规定</th>
+            <td colspan="9">
+                @Html.TextAreaFor(model => model.WFDEGD)
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">责令改正依据</th>
+            <td colspan="9">
+                @Html.TextAreaFor(model => model.ZLGZYJ)
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">改正内容</th>
+            <td colspan="9">
+                @Html.TextAreaFor(model => model.GZNR)
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">责令改正期限</th>
+            <td colspan="3">
+                @Html.TextBoxFor(model => model.ZLGZQX, "{0:yyyy-MM-dd HH:mm}")
+            </td>
+            <th colspan="2">通知时间</th>
+            <td colspan="4">
+                @Html.TextBoxFor(model => model.TZSJ, "{0:yyyy-MM-dd HH:mm}")
+            </td>
+        </tr>
+        <tr class="notHideTD">
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td colspan="9" style="border: none; padding-top: 10px;">
+                <input type="button" id="btnDocFormSubmit" class="btn btn-success" value="保   存" />
+            </td>
+        </tr>
+        <tr class="notHideTD">
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="border: none;">&nbsp;</td>
+        </tr>
+    </table>
+    @Html.Hidden("DDID")
+    @Html.Hidden("WIID")
+    @Html.Hidden("AIID")
+    @Html.Hidden("ADID")
+    @Html.Hidden("WICode")
+    <input type="hidden" id="thisDIID" name="DIID" value="@ViewBag.DIID" />
+</form>
+
+
+
+
+

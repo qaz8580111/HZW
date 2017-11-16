@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="70acb31d94b14c84a6b23dcf6609c7a5" Name="关系图1">
+        <EntityTypeShape EntityType="Model.SYS_FUNCTIONS" Width="1.5" PointX="5.25" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.SYS_IDENTITYS" Width="1.5" PointX="2.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.SYS_PHOTECAROUSELS" Width="1.5" PointX="4.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.SYS_ROLEFUNCTIONS" Width="1.5" PointX="7.5" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.SYS_ROLES" Width="1.5" PointX="5.25" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.SYS_UNITS" Width="1.5" PointX="3" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.SYS_UNITTYPES" Width="1.5" PointX="0.75" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.SYS_USERPOSITIONS" Width="1.5" PointX="3" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.SYS_USERROLES" Width="1.5" PointX="7.5" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.SYS_USERS" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.SYS_ZDXX" Width="1.5" PointX="13.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.SYS_ZONES" Width="1.5" PointX="15.75" PointY="15.75" IsExpanded="true" />
+        <AssociationConnector Association="Model.FK_SYS_ROLE_SRF_SF_SYS_FUNC" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_SYS_ROLE_REFERENCE_SYS_ROLE" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_SYS_USER_REFERENCE_SYS_ROLE" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_SYS_UNIT_REFERENCE_SYS_UNIT" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_SYS_USER_REFERENCE_SYS_UNIT" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_SYS_USER_SU_SUP_SYS_USER" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_SYS_USER_SUR_SU_SYS_USER" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Model.OA_ATTRACHS" Width="1.5" PointX="6.4512452811241365" PointY="20.68107638726061" />
+        <EntityTypeShape EntityType="Model.OA_CONTACTGROUPS" Width="1.5" PointX="8.8029617056264371" PointY="26.025776204665089" />
+        <EntityTypeShape EntityType="Model.OA_CONTACTS" Width="1.5" PointX="4.4967764394808452" PointY="9.2277609450871871" />
+        <EntityTypeShape EntityType="Model.OA_EMAILS" Width="1.5" PointX="5.3542649938511966" PointY="3.1473967298620367" />
+        <EntityTypeShape EntityType="Model.OA_FILES" Width="1.5" PointX="11.609834533003081" PointY="30.226959570416696" />
+        <EntityTypeShape EntityType="Model.OA_FINANCEAUDITS" Width="1.5" PointX="5.8714870539826745" PointY="18.763936304843025" />
+        <EntityTypeShape EntityType="Model.OA_FINANCES" Width="1.5" PointX="10.062689824990319" PointY="0.3984555603929123" />
+        <EntityTypeShape EntityType="Model.OA_MEETINGADDRESSES" Width="1.5" PointX="10.63689518656437" PointY="17.223111965331768" />
+        <EntityTypeShape EntityType="Model.OA_MEETINGS" Width="1.5" PointX="1.7321592335273321" PointY="19.75249938096502" />
+        <EntityTypeShape EntityType="Model.OA_NOTICES" Width="1.5" PointX="8.04623182492621" PointY="10.18579748747209" />
+        <EntityTypeShape EntityType="Model.OA_SCHEDULES" Width="1.5" PointX="3.5602999197134282" PointY="5.9250494418316748" />
+        <EntityTypeShape EntityType="Model.OA_TASKS" Width="1.5" PointX="11.748979987459713" PointY="12.622479280746765" />
+        <EntityTypeShape EntityType="Model.OA_USEREMAILS" Width="1.5" PointX="4.3887578586064082" PointY="18.896687412120723" />
+        <EntityTypeShape EntityType="Model.OA_USERFILES" Width="1.5" PointX="11.296330824166692" PointY="23.115352119838516" />
+        <EntityTypeShape EntityType="Model.OA_USERMEETINGS" Width="1.5" PointX="7.1651719003753609" PointY="16.385265968919391" />
+        <EntityTypeShape EntityType="Model.OA_USERNOTICES" Width="1.5" PointX="5.0754644316972533" PointY="1.146853253779399" />
+        <AssociationConnector Association="Model.FK_OA_CONTA_REFERENCE_OA_CONTA" />
+        <AssociationConnector Association="Model.FK_OA_USERF_REFERENCE_OA_FILES" />
+        <AssociationConnector Association="Model.FK_OA_MEETI_REFERENCE_OA_MEETI" />
+        <AssociationConnector Association="Model.FK_OA_USERN_REFERENCE_OA_NOTIC" />
+        <EntityTypeShape EntityType="Model.XTBG_SCHEDULE" Width="1.5" PointX="1.1664690306254053" PointY="17.866841518258138" />
+        <EntityTypeShape EntityType="Model.XTBG_MEETINGROOM" Width="1.5" PointX="10.855689536247258" PointY="7.0025505158130779" />
+        <EntityTypeShape EntityType="Model.XTBG_ATTACHMENT" Width="1.5" PointX="10.612884045863936" PointY="17.291403033440655" />
+        <EntityTypeShape EntityType="Model.XTBG_SMS" Width="1.5" PointX="1.0030976799331128" PointY="9.564658720774883" />
+        <EntityTypeShape EntityType="Model.XTBG_ANNOUNCEMENT" Width="1.5" PointX="11.005291766955187" PointY="30.777751773026655" />
+        <EntityTypeShape EntityType="Model.XTBG_MEETING" Width="1.5" PointX="10.941589230178664" PointY="13.387951335584722" />
+        <EntityTypeShape EntityType="Model.XTBG_FILE" Width="1.5" PointX="9.0736477529041686" PointY="29.33118067557513" />
+        <EntityTypeShape EntityType="Model.XTBG_EMAIL" Width="1.5" PointX="9.140721295560116" PointY="5.0194799029359034" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

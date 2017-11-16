@@ -1,0 +1,607 @@
+﻿@model Taizhou.PLE.Model.SimpleCaseModels.SimpleCase
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/IntegratedService/CaseManagement/_LayoutCaseManagement.cshtml";
+}
+
+@section HeadStyles_CaseManage{
+    <link href="~/Scripts/assets/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.css" rel="stylesheet" />
+
+    <style type="text/css">
+        table th {
+            width: 100px;
+        }
+
+        .large {
+            width: 100%;
+            line-height: 30px;
+            margin: 0px;
+        }
+
+        table tr input.small {
+            width: 96%;
+            line-height: 30px;
+            margin: 0px;
+        }
+
+        .input-xlarge {
+            width: 60%;
+        }
+
+        .table td.left {
+            text-align: left;
+        }
+
+        .table td.center {
+            text-align: center;
+        }
+
+        .display_none {
+            display: none;
+        }
+
+        .labelstyle {
+            padding-top: 0px!important;
+            text-align: right!important;
+            width: 100px!important;
+            line-height: 30px!important;
+            padding-right: 10px!important;
+        }
+
+        .divstyle {
+            margin-left: 10px!important;
+        }
+    </style>
+}
+
+@section FootScripts_CaseManage{
+    <script src="~/Scripts/assets/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-zh-CN.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#CaseTime").datetimepicker();
+            $("#ZFSJ").datepicker();
+
+            //激活菜单
+            $("#menuCase").addClass("active");
+
+            $(".dsrlxgr").click(function () {
+                $(".dw").addClass("display_none");
+                $(".gr").removeClass("display_none");
+            });
+
+            $(".dsrlxdw").click(function () {
+                $(".gr").addClass("display_none");
+                $(".dw").removeClass("display_none");
+
+            });
+
+            $(".dsrlxgr").click();
+
+            //表单验证
+            $("#btnSubmit").click(function () {
+                var flag = true;
+                $(".formErrorMsg").hide();
+                $(".formErrorMsg").text("");
+
+                //验证违法行为
+                var IllegalItem = $("#IllegalItemID").val();
+                if ($.trim(IllegalItem) == 0 || $.trim(IllegalItem) == "") {
+                    flag = false;
+                    $("#IllegalItem_error").show();
+                    $("#IllegalItem_error").text("请选择违法行为.");
+                }
+
+                //验证案件违法时间
+                var caseTime = $("#CaseTime").val();
+                if ($.trim(caseTime) == "") {
+                    flag = false;
+                    $("#error_CaseTime").show();
+                    $("#error_CaseTime").text("请输入违法时间.");
+                }
+
+                if (flag == true) {
+                    $("form[name='AddSimpleCaseForm']").submit();
+                    $("#btnSubmit").attr("disabled", "disabled");
+                }
+            });
+
+
+            $("#ssdl").change(function () {
+                var illegaClassID = $(this).find("option:selected").val();
+                var url = "/IllegalManagement/GetIllegalClasses?IllegaClassID=" + illegaClassID;
+                $("#ssxl").empty();
+                $("#ssxl").append($("<option value=''>请选择小类</option>"));
+                BindSelect($("#ssxl"), url);
+            });
+
+            $("#ssxl").change(function () {
+                var illegaClassID = $(this).find("option:selected").val();
+                var url = "/IllegalManagement/GetIllegalClasses?IllegaClassID=" + illegaClassID;
+                $("#sszl").empty();
+                $("#sszl").append($("<option value=''>请选择子类</option>"));
+                BindSelect($("#sszl"), url);
+            });
+
+            $("#sszl").change(function () {
+                var illegaClassID = $(this).find("option:selected").val();
+                var url = "/Workflow101/GetIllegalItems?IllegaClassID=" + illegaClassID;
+                $("#IllegalItemID").empty();
+                $("#IllegalItemID").append($("<option value=''>请选择违法行为</option>"));
+                BindSelect($("#IllegalItemID"), url);
+            });
+
+            //事件触发时获取违法行为信息
+            $("#IllegalItemID").change(function () {
+                var IllegalItemID = $(this).find("option:selected").val();
+                var url = "/Workflow101/GetIllegalInfomation?IllegalItemID=" + IllegalItemID;
+                $.getJSON(url, function (data) {
+                    if (data != null) {
+                        $("#wfxwdm").val(data.ILLEGALCODE)
+                        $("#WEIZE").html(data.WEIZE);
+                        $("#FZZE").html(data.FZZE);
+                    }
+                });
+            });
+
+            //输入违法行为代码回去违法事项
+            $("#wfxwdm").keyup(function () {
+                var wfxwdm = $("#wfxwdm").val();
+                if (wfxwdm.length == 1) {
+                    var 大类 = wfxwdm.substring(0, 1);
+                    var OptionNum = $("#ssdl").find("option").length;
+                    for (var i = 0; i < OptionNum; i++) {
+                        var option = document.getElementById("ssdl").options[i];
+                        if ($(option).text().substring(0, 1) == 大类) {
+                            $("#ssdl").val($(option).val());
+                            $("#ssxl").empty();
+                            BindSelect($("#ssxl"), "/Workflow101/GetIllegalClasses?IllegaClassID=" + $(option).val());
+                            $("#sszl").empty();
+                            $("#sszl").append($("<option value=''>请选择子类</option>"));
+                            $("#IllegalItemID").empty();
+                            $("#IllegalItemID").append($("<option value=''>请选择违法行为</option>"));
+                        }
+                    }
+                }
+
+                if (wfxwdm.length == 2) {
+                    var 小类 = wfxwdm.substring(1, 2);
+                    var OptionNum = $("#ssxl").find("option").length;
+                    for (var i = 0; i < OptionNum; i++) {
+                        var option = document.getElementById("ssxl").options[i];
+                        if ($(option).text().substring(1, 2) == 小类) {
+                            $("#ssxl").get(0).selectedIndex = i;
+                            $("#sszl").empty();
+                            BindSelect($("#sszl"), "/Workflow101/GetIllegalClasses?IllegaClassID=" + $(option).val());
+                            $("#IllegalItemID").empty();
+                            $("#IllegalItemID").append($("<option value=''>请选择违法行为</option>"));
+                            return;
+                        }
+                    }
+
+                }
+
+                if (wfxwdm.length == 3) {
+                    var 子类 = wfxwdm.substring(2, 3);
+                    var OptionNum = $("#sszl").find("option").length;
+                    for (var i = 0; i < OptionNum; i++) {
+                        var option = document.getElementById("sszl").options[i];
+                        if ($(option).text().substring(2, 3) == 子类) {
+                            $("#sszl").get(0).selectedIndex = i;
+                            $("#IllegalItemID").empty();
+                            BindSelect($("#IllegalItemID"), "/Workflow101/GetIllegalItems?IllegaClassID=" + $(option).val());
+                            return;
+                        }
+                    }
+                }
+
+                if (wfxwdm.length == 5) {
+                    var 违法行为 = wfxwdm.substring(3, 5);
+                    var OptionNum = $("#IllegalItemID").find("option").length;
+                    for (var i = 0; i < OptionNum; i++) {
+                        var option = document.getElementById("IllegalItemID").options[i];
+                        if ($(option).text().substring(3, 5) == 违法行为) {
+                            $("#IllegalItemID").val($(option).val());
+
+                            var IllegalItemID = $("#IllegalItemID").val();
+                            var url = "/Workflow101/GetIllegalInfomation?IllegalItemID=" + IllegalItemID;
+                            $.getJSON(url, function (data) {
+                                if (data != null) {
+                                    $("#wfxwdm").val(data.ILLEGALCODE)
+                                    $("#WEIZE").html("适用的违则：" + data.WEIZE);
+                                    $("#FZZE").html("适用的罚则：" + data.FZZE);
+                                }
+                            });
+                        }
+                    }
+                }
+                if (wfxwdm.length > 5) {
+                    $("#wfxwdm").val($("#wfxwdm").val().substring(0, 5));
+                }
+            });
+        })
+
+        function BindSelect($select, url) {
+            $.getJSON(url, function (data) {
+                if (data != null) {
+                    $.each(data, function (i, n) {
+                        $select.append($("<option value=\"" + n.ID + "\">" + n.Name + "</option>"));
+                    });
+                }
+            });
+        }
+
+        //地图描点
+        function MapDepicting() {
+            $("#mapDepicting").modal('show');
+        }
+
+        function onSilverlightError(sender, args) {
+            var appSource = "";
+            if (sender != null && sender != 0) {
+                appSource = sender.getHost().Source;
+            }
+
+            var errorType = args.ErrorType;
+            var iErrorCode = args.ErrorCode;
+
+            if (errorType == "ImageError" || errorType == "MediaError") {
+                return;
+            }
+
+            var errMsg = "Unhandled Error in Silverlight Application " + appSource + "\n";
+
+            errMsg += "Code: " + iErrorCode + "    \n";
+            errMsg += "Category: " + errorType + "       \n";
+            errMsg += "Message: " + args.ErrorMessage + "     \n";
+
+            if (errorType == "ParserError") {
+                errMsg += "File: " + args.xamlFile + "     \n";
+                errMsg += "Line: " + args.lineNumber + "     \n";
+                errMsg += "Position: " + args.charPosition + "     \n";
+            }
+            else if (errorType == "RuntimeError") {
+                if (args.lineNumber != 0) {
+                    errMsg += "Line: " + args.lineNumber + "     \n";
+                    errMsg += "Position: " + args.charPosition + "     \n";
+                }
+                errMsg += "MethodName: " + args.methodName + "     \n";
+            }
+
+            throw new Error(errMsg);
+        }
+
+        var geometry = "";
+
+        function MapConInited() {
+            var content = document.getElementById("mapCom").content;
+            var mapCom = content.MapCom;
+            var DTMD = $("input[name=DTMD]")[0].value;
+
+            mapCom.AddSimpleCase(DTMD);
+
+            mapCom.DrawCompleted = function (data) {
+                geometry = data;
+            }
+        }
+
+        $("#confirm").click(function () {
+            document.getElementById("DTMD").value = geometry;
+            $("#mapDepicting").modal('hide');
+        });
+
+        $("#back").click(function () {
+            $("#mapDepicting").modal('hide');
+        });
+    </script>
+}
+
+@section BreadcrumbSection{
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li><a href="javascript:void(0)"><i class="icon-home"></i>综合业务</a></li>
+            <li>></li>
+            <li><a href="javascript:void(0)">案件管理</a></li>
+            <li>></li>
+            <li><a href="javascript:void(0)">简易案件</a></li>
+            <li>></li>
+            <li class="active">添加案件</li>
+        </ul>
+    </div>
+}
+<div class="row-fluid">
+    <div class="span12" id="tabledata">
+        <div class="box box-black" style="margin-top: 0px;">
+            <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+                <i class="icon-reorder" style="margin-right: 5px;"></i>添加案件
+            </div>
+            <div class="box-content">
+                <form id="AddSimpleCaseForm" name="AddSimpleCaseForm"
+                    method="post" action="/SimpleCase/CommitSimpleCase" enctype="multipart/form-data">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th style="text-align: center; line-height: 30px">决定书编号
+                            </th>
+                            <td style="width: 40%;">
+                                <div class="form-group">
+                                    <input type="text" name="JDSBH" id="JDSBH" class="small" data-rule-required="true">
+                                </div>
+                            </td>
+                            <th style="text-align: center; line-height: 30px;">案件违法时间
+                            </th>
+                            <td style="width: 40%;">
+                                <div class="form-group">
+                                    <input type="text" name="CaseTime" id="CaseTime" class="small" data-rule-required="true">
+                                    <label class="formErrorMsg" id="error_CaseTime" style="color: #b94a48; font-size: 12px; font-family: 微软雅黑，宋体；; display: none;"></label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; line-height: 30px">当事人类型
+                            </th>
+                            <td style="width: 40%; line-height: 30px; margin-top: 20px" colspan="3">
+                                <div class="form-group">
+                                    @Html.RadioButton("DSRLX", "gr", true, new { @class = "dsrlxgr" })个人
+                                    @Html.RadioButton("DSRLX", "dw", false, new { @class = "dsrlxdw" })单位
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="gr">
+                            <th style="text-align: center; line-height: 30px">当事人姓名
+                            </th>
+                            <td style="width: 40%;">
+                                <div class="form-group">
+                                    <input type="text" name="DSRName" id="DSRName" class="small" data-rule-required="true">
+                                </div>
+                            </td>
+                            <th style="text-align: center; line-height: 30px">当事人性别</th>
+                            <td style="width: 40%;">
+                                <div class="form-group">
+                                    <input type="text" name="DSRGender" id="DSRGender" class="small" data-rule-required="true">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="gr">
+                            <th style="text-align: center; line-height: 30px">当事人身份证号</th>
+                            <td style="width: 40%;" colspan="3">
+                                <div class="form-group">
+                                    <input style="width: 98.5%" type="text" name="DSRIDNumber" id="DSRIDNumber" class="small" data-rule-required="true">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="dw">
+                            <th style="text-align: center; line-height: 30px">负责人姓名</th>
+                            <td style="width: 40%;">
+                                <div class="form-group">
+                                    <input type="text" name="FZRName" id="FZRName" class="small" data-rule-required="true">
+                                </div>
+                            </td>
+                            <th style="text-align: center; line-height: 30px">负责人职务</th>
+                            <td style="width: 40%;">
+                                <div class="form-group">
+                                    <input type="text" name="FZRPosition" id="FZRPosition" class="small" data-rule-required="true">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="dw">
+                            <th style="text-align: center; line-height: 30px">负责人所在地址</th>
+                            <td style="width: 40%;" colspan="3">
+                                <div class="form-group">
+                                    <input style="width: 98.5%" type="text" name="FZRAddress" id="FZRAddress" class="small" data-rule-required="true">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; line-height: 30px">代码</th>
+                            <td style="width: 40%;">
+                                <div class="form-group">
+                                    <input type="text" name="wfxwdm" id="wfxwdm" class="small" data-rule-required="true">
+                                </div>
+                            </td>
+                            <th style="text-align: center; line-height: 30px">案件违法地点</th>
+                            <td style="width: 40%;">
+                                <div class="form-group">
+                                    <input type="text" name="CaseAddress" id="CaseAddress" class="small" data-rule-required="true">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; line-height: 30px">所属大类</th>
+                            <td style="width: 40%;">
+                                <div class="form-group">
+                                    @Html.DropDownList("ssdl", ViewBag.dlList as IEnumerable<SelectListItem>, new { @class = "large" })
+                                </div>
+                            </td>
+                            <th style="text-align: center; line-height: 30px">所属小类</th>
+                            <td style="width: 40%;">
+                                <div class="form-group">
+                                    <select id="ssxl" name="ssxl" class="large">
+                                        <option value="0">请选择小类</option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; line-height: 30px">所属子类</th>
+                            <td style="width: 40%;">
+                                <div class="form-group">
+                                    <select id="sszl" name="sszl" class="large">
+                                        <option value="0">请选择子类</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <th style="text-align: center; line-height: 30px">所属小类</th>
+                            <td style="width: 40%;">
+                                <div class="form-group">
+                                    <select id="IllegalItemID" name="IllegalItemID" class="large">
+                                        <option value="0">请选择违法行为</option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; line-height: 30px">违则</th>
+                            <td style="width: 40%;">
+                                <div class="form-group">
+                                    <div id="WEIZE" style="height: 15px"></div>
+                                </div>
+                            </td>
+                            <th style="text-align: center; line-height: 30px">罚则</th>
+                            <td style="width: 40%;">
+                                <div class="form-group">
+                                    <div id="FZZE" style="height: 15px"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; line-height: 30px">罚款金额</th>
+                            <td style="width: 40%;">
+                                <div class="form-group">
+                                    <input type="text" name="FKJE" id="FKJE" class="small">
+                                </div>
+                            </td>
+                            <th style="text-align: center; line-height: 30px">交款银行</th>
+                            <td style="width: 40%;">
+                                <div class="form-group">
+                                    <input type="text" name="JKYH" id="JKYH" class="small">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; line-height: 30px">银行账号</th>
+                            <td style="width: 40%;">
+                                <div class="form-group">
+                                    <input type="text" name="BankAccount" id="BankAccount" class="small">
+                                </div>
+                            </td>
+                            <th style="text-align: center; line-height: 30px">银行户名</th>
+                            <td style="width: 40%;">
+                                <div class="form-group">
+                                    <input type="text" name="BankAccountName" id="BankAccountName" class="small">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; line-height: 30px">执法人姓名</th>
+                            <td style="width: 40%;">
+                                <div class="form-group">
+                                    <input type="text" name="ZFRName" id="ZFRName" class="small">
+                                </div>
+                            </td>
+                            <th style="text-align: center; line-height: 30px">执法证号</th>
+                            <td style="width: 40%;">
+                                <div class="form-group">
+                                    <input type="text" name="ZFZH" id="ZFZH" class="small">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; line-height: 30px">执法时间</th>
+                            <td style="width: 40%;">
+                                <div class="form-group">
+                                    <input type="text" name="ZFSJ" id="ZFSJ" class="small">
+                                </div>
+                            </td>
+                            <th style="text-align: center; line-height: 30px">地图描点</th>
+                            <td style="width: 40%;">
+                                <div class="form-group">
+                                    <input type="text" name="DTMD" id="DTMD" style="width: 82%" />
+                                    <button class="btn" type="button" onclick="MapDepicting()" style="margin-top: -10px; margin-left: 3px;">绘制</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; line-height: 30px">第一张图片</th>
+                            <td style="width: 40%;">
+                                <div class="form-group">
+                                    <select name="picturetype" style="width: 80px;">
+                                        <option value="0">处理前</option>
+                                        <option value="1">处理后</option>
+                                        <option value="2">其它</option>
+                                    </select>
+                                    <input type="file" name="picture1" id="picture1" class="small" style="width: 80%;">
+                                </div>
+                            </td>
+                            <th style="text-align: center; line-height: 30px">第二张图片</th>
+                            <td style="width: 40%;">
+                                <div class="form-group">
+                                    <select name="picturetype" style="width: 80px;">
+                                        <option value="0">处理前</option>
+                                        <option value="1">处理后</option>
+                                        <option value="2">其它</option>
+                                    </select>
+                                    <input type="file" name="picture2" id="picture2" class="small" style="width: 80%;">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; line-height: 30px">第三张图片</th>
+                            <td style="width: 40%;">
+                                <div class="form-group">
+                                    <select name="picturetype" style="width: 80px;">
+                                        <option value="0">处理前</option>
+                                        <option value="1">处理后</option>
+                                        <option value="2">其它</option>
+                                    </select>
+                                    <input type="file" name="picture3" id="picture3" class="small" style="width: 80%;">
+                                </div>
+                            </td>
+                            <th style="text-align: center; line-height: 30px">第四张图片</th>
+                            <td style="width: 40%;">
+                                <div class="form-group">
+                                    <select name="picturetype" style="width: 80px;">
+                                        <option value="0">处理前</option>
+                                        <option value="1">处理后</option>
+                                        <option value="2">其它</option>
+                                    </select>
+                                    <input type="file" name="picture4" id="picture4" class="small" style="width: 80%;">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; line-height: 30px"></th>
+                            <td colspan="3">
+                                <button type="button" id="btnSubmit" class="btn btn-primary">确定</button>
+                                <button type="button" class="btn goback" onclick="javascript:window.history.go(-1)">返回</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="mapDepicting" class="modal hide fade">
+    <div class="box box-black" style="margin-top: 0px;">
+        <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+            绘制
+        </div>
+        <div class="box-content" style="padding-top: 0px; padding-left: 0px; padding-right: 0px;">
+            <div id="silverlightControlHost" style="width: 100%; height: 400px;">
+                <object id="mapCom" data="data:application/x-silverlight-2," type="application/x-silverlight-2" style="width: 100%; height: 100%">
+                    <param name="source" value="/ClientBin/MapCom.xap" />
+                    <param name="onError" value="onSilverlightError" />
+                    <param name="background" value="white" />
+                    <param name="minRuntimeVersion" value="5.0.61118.0" />
+                    <param name="autoUpgrade" value="true" />
+                    <param name="initParams" value="Mode=1" />
+                    <a href="http://go.microsoft.com/fwlink/?LinkID=149156&v=5.0.61118.0" style="text-decoration: none">
+                        <img src="http://go.microsoft.com/fwlink/?LinkId=161376" alt="Get Microsoft Silverlight" style="border-style: none" />
+                    </a>
+                </object>
+            </div>
+            <div style="text-align: right; padding-top: 10px;">
+                <button id="confirm" class="btn btn-primary">确定</button>
+                <button id="back" class="btn goback" style="margin-right: 5px;">返回</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

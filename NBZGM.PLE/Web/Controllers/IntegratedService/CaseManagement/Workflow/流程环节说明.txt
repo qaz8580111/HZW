@@ -1,0 +1,13 @@
+﻿Workflow1	承办人员提出立案建议
+Workflow2	承办机构负责人审批立案建议
+Workflow3	承办人员调查取证并提出处理意见
+Workflow4	承办机构负责人审批处理意见
+Workflow5	法制机构负责人审批处理意见
+Workflow6	行政机构负责人审批处理意见
+Workflow7	承办人员告知当事人处理意见
+Workflow8	承办人员代当事人反馈处理意见
+Workflow9	承办人员提交申辩结果
+Workflow10	承办人员提交听证结果
+Workflow11	承办人员做出处罚决定
+Workflow12	承办人员告知处罚决定
+Workflow13	承办人员执行处罚决定

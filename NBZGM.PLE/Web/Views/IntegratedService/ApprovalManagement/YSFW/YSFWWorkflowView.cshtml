@@ -1,0 +1,622 @@
+﻿@model  Taizhou.PLE.Model.XZSPWorkflowModels.YSFW.YSFWForm
+
+@using Taizhou.PLE.Model.XZSPWorkflowModels.YSFW
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Views/IntegratedService/ApprovalManagement/_LayoutApprovalManagement.cshtml";
+    Form101 form101 = Model.FinalForm.Form101;
+    Form102 form102 = Model.FinalForm.Form102;
+    Form103 form103 = Model.FinalForm.Form103;
+    Form104 form104 = Model.FinalForm.Form104;
+    Form105 form105 = Model.FinalForm.Form105;
+    Form106 form106 = Model.FinalForm.Form106;
+    
+}
+<style type="text/css">
+    table th
+    {
+        width: 100px;
+    }
+
+    table tr input.large
+    {
+        width: 98%;
+    }
+
+    table tr input.small
+    {
+        width: 94%;
+    }
+</style>
+
+<div class="row-fluid">
+    <div class="span12" id="tabledata">
+        <div class="box box-black" style="margin-top: 0px;">
+            <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+                <i class="icon-reorder" style="margin-right: 5px;"></i>查看详细                
+            </div>
+            <div class="box-content">
+                @*<div class="box-tool">
+                    <a href="/ParkingCase" style="float: right; line-height: 20px; padding-top: 18px; padding-bottom: 8px;">返回</a>
+                </div>*@
+
+                <div class="tab-content">
+                    <div class="tab-pane active" id="detail">
+                        <table class="table table-bordered">
+
+                            @if (form102 == null)
+                            {
+                                <tr>
+                                    <th style="text-align: center;">项目名称
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form101.ProjectName
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">申请人/单位
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form101.Applicant
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">联系人
+                                    </th>
+                                    <td>
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form101.LinkMan
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <th style="padding-left: 30px!important">联系电话
+                                    </th>
+                                    <td>
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form101.Telephone
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">受理说明
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form101.Description
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">领导意见
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                <input type="text" name="description" class="large" />
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                            else if (form102 != null && form103 == null)
+                            {
+                                <tr>
+                                    <th style="text-align: center;">项目名称
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form101.ProjectName
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">申请人/单位
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form101.Applicant
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">联系人
+                                    </th>
+                                    <td>
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form101.LinkMan
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <th style="padding-left: 30px!important">联系电话
+                                    </th>
+                                    <td>
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form101.Telephone
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">受理说明
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form101.Description
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">领导意见
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form102.description
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">队员勘探反馈意见
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                <input type="text" name="description" class="large" />
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+        
+                            }
+                            else if (form103 != null && form104 == null)
+                            {
+                                <tr>
+                                    <th style="text-align: center;">项目名称
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form101.ProjectName
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">申请人/单位
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form101.Applicant
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">联系人
+                                    </th>
+                                    <td>
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form101.LinkMan
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <th style="padding-left: 30px!important">联系电话
+                                    </th>
+                                    <td>
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form101.Telephone
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">受理说明
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form101.Description
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">领导意见
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form102.description
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">队员勘探反馈意见
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form103.description
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">领导审核
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                <input type="text" name="description" class="large" />
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                            else if (form104 != null && form105 == null)
+                            {
+                                <tr>
+                                    <th style="text-align: center;">项目名称
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form101.ProjectName
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">申请人/单位
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form101.Applicant
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">联系人
+                                    </th>
+                                    <td>
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form101.LinkMan
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <th style="padding-left: 30px!important">联系电话
+                                    </th>
+                                    <td>
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form101.Telephone
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">受理说明
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form101.Description
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">领导意见
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form102.description
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">队员勘探反馈意见
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form103.description
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">领导审核
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form104.description
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">局领导审核
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                <input type="text" name="description" class="large" />
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                            else if (form105 != null && form106 == null)
+                            {
+                                <tr>
+                                    <th style="text-align: center;">项目名称
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form101.ProjectName
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">申请人/单位
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form101.Applicant
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">联系人
+                                    </th>
+                                    <td>
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form101.LinkMan
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <th style="padding-left: 30px!important">联系电话
+                                    </th>
+                                    <td>
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form101.Telephone
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">受理说明
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form101.Description
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">领导意见
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form102.description
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">队员勘探反馈意见
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form103.description
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">领导审核
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form104.description
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">局领导审核
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form105.description
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">结案归档
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                <input type="text" name="description" class="large" />
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                            else if (form106 != null)
+                            {
+                                <tr>
+                                    <th style="text-align: center;">项目名称
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form101.ProjectName
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">申请人/单位
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form101.Applicant
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">联系人
+                                    </th>
+                                    <td>
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form101.LinkMan
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <th style="padding-left: 30px!important">联系电话
+                                    </th>
+                                    <td>
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form101.Telephone
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">受理说明
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form101.Description
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">领导意见
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form102.description
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">队员勘探反馈意见
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form103.description
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">领导审核
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form104.description
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">局领导审核
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form105.description
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">局领导审核
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @form106.description
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>  
+                            }
+                            <tr>
+        <th></th>
+        <td colspan="3" style="border-left: none;">
+            <div class="form-group" style="margin-bottom: 5px;">
+                <div class="col-sm-9 col-lg-10 controls">                    
+                    <a style="float:right;" href="/Approval/Query" class="btn goBack">返　回</a>
+                </div>
+            </div>
+        </td>
+    </tr>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

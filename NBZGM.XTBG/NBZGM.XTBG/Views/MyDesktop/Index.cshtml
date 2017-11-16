@@ -1,0 +1,351 @@
+﻿@using NBZGM.XTBG.Models;
+@using NBZGM.XTBG.CustomModels;
+@{
+    ViewBag.Title = "桌面";
+    List<XTBG_MEETING> MeetingEntities = ViewBag.MeetingEntities as List<XTBG_MEETING>;
+    List<XTBG_ANNOUNCEMENT> AnnoEntities = ViewBag.AnnoEntities as List<XTBG_ANNOUNCEMENT>;
+    List<XTBG_EMAIL> MailEntities = ViewBag.MailEntities as List<XTBG_EMAIL>;
+    List<XTBG_SMS> SmsEntities = ViewBag.SmsEntities as List<XTBG_SMS>;
+    List<XTBG_FILE> FileEntities = ViewBag.FileEntities as List<XTBG_FILE>;
+    List<VMLi> Authority = ViewBag.Authority as List<VMLi>;
+    DateTime nowDt = DateTime.Now;
+    List<SYS_FUNCTIONS> FunctionEntities = ViewBag.FunctionEntities;
+}
+<div>
+    <div id="control">
+        <div class="pull-left decoration"></div>
+        <div id="control-children">
+            <ul class="nav nav-tabs">
+                <li role="presentation" class="active">
+                    <a role="tab" data-toggle="tab" aria-controls="MyDesktopIco" href="#MyDesktopIco">
+                        <i class="icon-circle"></i>
+                    </a>
+                </li>
+                <li role="presentation">
+                    <a role="tab" data-toggle="tab" aria-controls="MyDesktopContent" href="#MyDesktopContent">
+                        <i class="icon-circle"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="pull-right decoration">
+            @*<a>
+                <span class="glyphicon glyphicon-th" aria-hidden="true"></span>
+            </a>*@
+        </div>
+    </div>
+</div>
+<div class="clear"></div>
+<div class="tab-content">
+    <div role="tabpanel" class="tab-pane active text-center" id="MyDesktopIco">
+        <ul class="nav nav-tabs">
+            @foreach (VMLi li in Authority)
+            {
+                <li>
+                    @if (li.remaining != 0)
+                    {
+                        <span class="badge">@li.remaining</span>
+                    }
+                    <a data-url="@li.key" data-pane="@li.pane">
+                        <img src="~/Images/icon/@(li.value).png" style="height:94px;width:94px;" />
+                        <div>@li.value</div>
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="MyDesktopContent">
+        <div class="row">
+            @if (FunctionEntities.Where(m => m.FUNCTIONID == 115).FirstOrDefault() != null)
+            {
+                <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span>会议一览</span>
+                            <button type="button" class="more" data-url="MeetingManagement"><span aria-hidden="true">…</span></button>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-hover" id="meeting_table">
+                                @foreach (XTBG_MEETING meeting in MeetingEntities)
+                                {
+                                    <tr data-id="@meeting.MEETINGID">
+                                        <td class="nowrap">@if (meeting.STARTTIME > nowDt)
+                                                           {
+                                            <div class="info info-muted">未参加</div>
+                                                           }
+                                                           else
+                                                           {
+                                            <div class="info">已参加</div>
+                                                           }
+                                        </td>
+                                        <td>@meeting.MEETINGTITLE</td>
+                                        <td class="nowrap">@meeting.CREATETIME.Value.ToString("yyyy-MM-dd")</td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            }
+            @if (FunctionEntities.Where(m => m.FUNCTIONID == 116).FirstOrDefault() != null)
+            {
+                <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span>公告一览</span>
+                            <button type="button" class="more" data-url="AnnouncementManagement"><span aria-hidden="true">…</span></button>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-hover" id="announcement_table">
+                                @foreach (XTBG_ANNOUNCEMENT annon in AnnoEntities)
+                                {
+                                    <tr data-id="@annon.ANNOUNCEMENTID">
+                                        <td class="nowrap">@if (annon.USERIDS2 == null)
+                                                           {
+                                            <div class="info info-muted">未查看</div>
+                                                           }
+                                                           else if (annon.USERIDS2.Contains(ViewBag.UserID))
+                                                           {
+                                            <div class="info">已查看</div>
+                                                           }
+                                                           else
+                                                           {
+                                            <div class="info info-muted">未查看</div>
+                                                           }
+                                        </td>
+                                        <td>@annon.ANNOUNCEMENTTITLE</td>
+                                        <td class="nowrap">@annon.CREATETIME.Value.ToString("yyyy-MM-dd")</td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="row">
+            @if (FunctionEntities.Where(m => m.FUNCTIONID == 119).FirstOrDefault() != null)
+            {
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span>短信一览</span>
+                            <button type="button" class="more" data-url="SMSManagement"><span aria-hidden="true">…</span></button>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-hover" id="SMS_table">
+                                @foreach (XTBG_SMS sms in SmsEntities)
+                                {
+                                    <tr data-id="@sms.SMSID">
+                                        <td class="nowrap">
+                                            <div class="info">已发送</div>
+                                        </td>
+                                        <td>@sms.SMSCONTENT</td>
+                                        <td class="nowrap">@sms.CREATETIME.Value.ToString("yyyy-MM-dd")</td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            }
+            @if (FunctionEntities.Where(m => m.FUNCTIONID == 118).FirstOrDefault() != null)
+            {
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span>邮件一览</span>
+                            <button type="button" class="more" data-url="MailManagement"><span aria-hidden="true">…</span></button>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-hover" id="mail_table">
+                                @foreach (XTBG_EMAIL email in MailEntities)
+                                {
+                                    <tr data-id="@email.EMAILID">
+                                        <td class="nowrap">@if (email.USERIDS == null)
+                                                           {
+                                            <div class="info info-muted">未查看</div>
+                                                           }
+                                                           else if (email.USERIDS.Contains(ViewBag.UserID))
+                                                           {
+                                            <div class="info">已查看</div>
+                                                           }
+                                                           else
+                                                           {
+                                            <div class="info info-muted">未查看</div>
+                                                           }
+                                        </td>
+                                        <td>@email.EMAILTITLE</td>
+                                        <td class="nowrap">@email.CREATETIME.Value.ToString("yyyy-MM-dd")</td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            }
+            @if (FunctionEntities.Where(m => m.FUNCTIONID == 117).FirstOrDefault() != null)
+            {
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span>我的文件</span>
+                            <button type="button" class="more" data-url="FileManagement"><span aria-hidden="true">…</span></button>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-hover" id="file_table">
+                                @foreach (XTBG_FILE file in FileEntities)
+                                {
+                                    <tr data-id="@file.FILEID">
+                                        <td class="nowrap">@if (file.RECIPIENTUSERIDS2 == null)
+                                                           {
+                                            <div class="info info-muted">未查看</div>
+                                                           }
+                                                           else if (file.RECIPIENTUSERIDS2.Contains(ViewBag.UserID))
+                                                           {
+                                            <div class="info">已查看</div>
+                                                           }
+                                                           else
+                                                           {
+                                            <div class="info info-muted">未查看</div>
+                                                           }
+                                        </td>
+                                        <td>@file.FILETITLE</td>
+                                        <td class="nowrap">@file.CREATETIME.Value.ToString("yyyy-MM-dd")</td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+@section css{
+    <style type="text/css">
+        #control {
+            height: 2em;
+            line-height: 2em;
+            width: 6em;
+            border: 1px solid #7BA7FE;
+            margin: 2em auto 0em auto;
+            border-radius: 0.5em;
+            text-align: center;
+        }
+
+            #control .decoration {
+                width: 1em;
+                height: 2em;
+            }
+
+            #control ul li {
+                float: left !important;
+                margin: 0px !important;
+            }
+
+                #control ul li a {
+                    width: 2em;
+                    height: 2em;
+                    padding: 0em 0.5em;
+                    line-height: 2em;
+                    display: inline-block;
+                    white-space: nowrap;
+                    color: #CCC;
+                    text-decoration: none;
+                }
+
+                #control ul li.active > a {
+                    background-color: transparent;
+                    color: #50ABEC;
+                }
+
+        #MyDesktopIco ul {
+            margin: 0 10em;
+        }
+
+            #MyDesktopIco ul li {
+                margin: 1em;
+                width: 185px;
+                height: 195px;
+            }
+
+                #MyDesktopIco ul li a img {
+                    margin: 2em;
+                    -webkit-box-reflect: below 0 -webkit-linear-gradient(transparent,transparent 80%,rgba(255,255,255,.8));
+                }
+
+
+        .more {
+            color: #000;
+            float: right;
+            font-size: 2em;
+            font-weight: bold;
+            line-height: 1;
+            opacity: 0.2;
+            text-shadow: 0 1px 0 #fff;
+        }
+
+        .info {
+            color: #FFF;
+            padding: 0 0.25em;
+            background-color: #56BBEE;
+            border-radius: 0.25em;
+        }
+
+        .info-muted {
+            background-color: #A9A9A9;
+        }
+
+        .nav-tabs > li > a:hover, .nav > li > a:hover, .nav > li > a:focus {
+            background-color: transparent;
+        }
+
+        .badge {
+            background-color: red;
+            left: 122px;
+            position: absolute;
+            top: 30px;
+            z-index: 999;
+        }
+    </style>
+}
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('a[data-url=TaskManagement]').parent().addClass('disabled');
+            $('#announcement_table').on('click', 'tr', function () {
+                window.parent.showLgModel('/AnnouncementManagement/AnnoDetails?ANNOUNCEMENTID=' + $(this).attr('data-id') + '&typeID=1');
+            });
+            $('#mail_table').on('click', 'tr', function () {
+                window.parent.showLgModel('/MailManagement/MaiDetails?EMAILID=' + $(this).attr('data-id') + '&typeID=1');
+            });
+            $('#file_table').on('click', 'tr', function () {
+                window.parent.showLgModel('/FileManagement/FileDetails?FileID=' + $(this).attr('data-id') + '&typeID=1');
+            });
+            $('#meeting_table').on('click', 'tr', function () {
+                window.parent.showLgModel('/MeetingManagement/MeetingDetails?MEETINGID=' + $(this).attr('data-id') + '&typeID=1');
+            });
+            $('.more').on('click', function () {
+                var $dataUrl = $(this).attr('data-url');
+                window.parent.$('#center-left a[data-url="' + $dataUrl + '"]').trigger('click');
+                window.parent.$('#center-left a[data-url="' + $dataUrl + '"]').tab('show');
+            });
+            $('#MyDesktopIco').on('click', 'a', function () {
+                var $dataUrl = $(this).attr('data-url');
+                var $dataPane = $(this).attr('data-pane');
+                window.parent.$('#center-left a[data-url="' + $dataUrl + '"]').trigger('click');
+                window.parent.$('#center-left a[data-url="' + $dataUrl + '"]').tab('show');
+                if ($dataPane != '') {
+                    setTimeout(function () {
+                        //window.parent.$('#ifr' + $dataUrl).contents().find('a[href="#' + $dataPane + '"]').trigger('click');
+                        //window.parent.$('#ifr' + $dataUrl).contents().find('a[href="#' + $dataPane + '"]').tab('show');
+                        window.parent.$('#ifr' + $dataUrl)[0].contentWindow.activePane($dataPane);
+                    }, 1000);
+                }
+            });
+        });
+    </script>
+
+}

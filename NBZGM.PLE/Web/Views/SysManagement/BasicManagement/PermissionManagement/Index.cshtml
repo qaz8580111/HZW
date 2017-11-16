@@ -1,0 +1,320 @@
+﻿@{
+    ViewBag.FunctionName = "授权管理";
+    Layout = "~/Views/SysManagement/BasicManagement/_LayoutBasicManagement.cshtml";
+}
+
+@section HeadStyles{
+    <style type="text/css">
+        .center {
+            text-align: center !important;
+        }
+        .zTreeDiv {
+            padding-right: 5px;
+            overflow: auto;
+            height: 500px;
+        }
+    </style>
+}
+
+@section FootScripts{
+    <script type="text/javascript">
+        var oTable = null;
+        var settingTree = null;
+        $(document).ready(function () {
+
+            BindTreeUserRole("");
+
+            $("#sysPermissionManagement").addClass("active");
+
+            $("#btnSubmit").click(function () {
+                if ($("#userID").val() == "") {
+                    alert("请选择用户");
+                }
+                else {
+                    var strUserRoles = "/PermissionManagement/submitUserRole?userID=" + $("#userID").val() + "&userRole=";
+                    $(".roleCheck").each(function (i, n) {
+                        if ($(n).is(":checked")) {
+                            strUserRoles += ("," + $(n).attr("roleID"));
+                        }
+                    });
+                    $.ajax({
+                        url: strUserRoles,
+                        type: "get",
+                        success: function (data) {
+                            $("#information").fadeIn(500, function () {
+                                setTimeout(function () {
+                                    $("#information").fadeOut(1000);
+                                }, 2000);
+                            });
+                        }
+                    });
+                }
+
+            });
+
+            $("#SelectAll").change(function () {
+                var SelectAllStatus = true;
+                var status = $("#SelectAll").prop("checked");
+                //此循环用于判断全复选框钮状态
+
+                $.each($(".roleCheck"), function (i, n) {
+                    $(n).prop("checked", status);
+                });
+
+                //此循环用于获取所有所有被选中的复选框
+                var roleIDs = "";
+                $.each($(".roleCheck"), function (i, n) {
+                    if ($(n).prop("checked")) {
+                        roleIDs += ",";
+                        roleIDs += $(n).attr('roleID');
+                    }
+                });
+
+                BindTreeUserRole(roleIDs);
+            });
+
+
+            var treeURL = "/PermissionManagement/GetUsers?random=";
+            var setting = {
+                view: {
+                    dblClickExpand: false,
+                    selectedMulti: false
+                },
+                data: {
+                    simpleData: {
+                        enable: true
+                    }
+                },
+                callback: {
+                    beforeClick: function (treeId, treeNode) {
+                        if (treeNode.type != "User") {
+                            return false;
+                        }
+                        return true;
+                    },
+                    //该事件在节点被点击后触发
+                    onClick: function (event, treeId, treeNode) {
+                        var treeObj = $.fn.zTree.getZTreeObj("tree");
+                        if (treeNode.isParent) {
+                            treeObj.expandNode(treeNode);
+                        }
+
+                        if (treeNode.type == "User") {
+                            var URL = "/PermissionManagement/GetRoles?UserID=" + treeNode.value;
+                            $("#userID").val(treeNode.value);
+                            BindDataTable(URL);
+                        } else {
+                            $("#userID").val("");
+                            treeObj.cancelSelectedNode(treeNode);
+                        }
+                    }
+                }
+            };
+
+            $.ajax({
+                type: 'GET',
+                dataType: 'json',
+                url: treeURL + Math.random(),
+                success: function (data) {
+                    if (data != null && data != "") {
+                        var zNodes = data;
+                        $.fn.zTree.init($("#tree"), setting, zNodes);
+                        var treeObj = $.fn.zTree.getZTreeObj("tree");
+                    }
+                    BindDataTable("/PermissionManagement/GetRoles");
+                }
+            });
+
+        });
+
+        function BindDataTable(URL) {
+            if (oTable != null) {
+                oTable.fnSettings().sAjaxSource = URL;
+                oTable.fnDraw();
+            } else {
+                oTable = $('#RolesTable').dataTable({
+                    sAjaxSource: URL,
+                    fnDrawCallback: function () {
+                        //var SelectAllStatus = true;
+                        //$.each($(".roleCheck"), function (i, n) {
+                        //    if ($(n).prop("checked") == true) {
+                        //    }
+                        //    else {
+                        //        SelectAllStatus = false;
+                        //        return false;
+                        //    }
+                        //});
+                        BindCheckBox();
+
+                        // $("#SelectAll").prop('checked', SelectAllStatus);
+
+                        $(".roleCheck").click(function () {
+                            var SelectAllStatus = true;
+
+                            //此循环用于判断全复选框钮状态
+                            $.each($(".roleCheck"), function (i, n) {
+                                if (!$(n).prop("checked")) {
+                                    SelectAllStatus = false;
+                                    return false;
+                                }
+                            });
+
+                            //此循环用于获取所有所有被选中的复选框
+                            var roleIDs = "";
+                            $.each($(".roleCheck"), function (i, n) {
+                                if ($(n).prop('checked')) {
+                                    roleIDs += ",";
+                                    roleIDs += $(n).attr('roleID');
+                                }
+                            });
+                            $("#SelectAll").prop('checked', SelectAllStatus);
+                            BindTreeUserRole(roleIDs);
+                        });
+
+                        function BindCheckBox() {
+                            var SelectAllStatus = true;
+
+                            //此循环用于判断全复选框钮状态
+                            $.each($(".roleCheck"), function (i, n) {
+                                if (!$(n).prop("checked")) {
+                                    SelectAllStatus = false;
+                                    return false;
+                                }
+                            });
+
+                            //此循环用于获取所有所有被选中的复选框
+                            var roleIDs = "";
+                            $.each($(".roleCheck"), function (i, n) {
+                                if ($(n).prop('checked')) {
+                                    roleIDs += ",";
+                                    roleIDs += $(n).attr('roleID');
+                                }
+                            });
+                            $("#SelectAll").prop('checked', SelectAllStatus);
+                            BindTreeUserRole(roleIDs);
+                        }
+                    },
+                    aoColumns: [
+                        {
+                            "mDataProp": function (data) {
+                                var IsChecked = "";
+                                if (data.IsChecked == true) {
+                                    IsChecked = "checked ='checked'";
+                                }
+                                else {
+                                    IsChecked = "";
+                                }
+                                var checkbox = "<input type='checkbox'  class='roleCheck' roleID='" + data.RoleID + "' " + IsChecked + "  />"
+                                return checkbox;
+                            }, "sClass": "center"
+                        },
+                        { "mDataProp": "RoleName" },
+                        { "mDataProp": "Descripion" }
+                    ],
+                });
+            }
+        }
+
+        //给TreeUserRole绑定数据
+        function BindTreeUserRole(roleIDs) {
+            settingTree = {
+                check: {
+                    enable: true
+                },
+                data: {
+                    simpleData: {
+                        enable: true
+                    }
+                }
+            };
+            $.ajax({
+                type: 'GET',
+                dataType: 'json',
+                url: '/PermissionManagement/GetUserRoleTreeData?roleIDs=' + roleIDs + '&random=' + Math.random(),
+                success: function (data) {
+                    if (data != null && data != "") {
+                        var zNodes = data;
+                        $.fn.zTree.init($("#treeUserRole"), settingTree, zNodes);
+                    }
+                }
+            });
+        }
+
+    </script>
+}
+
+@section BreadcrumbSection{
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+
+            <li><a href="#"><i class="icon-home"></i>系统管理</a></li>
+            <li>></li>
+            <li><a href="#">基础管理</a></li>
+            <li>></li>
+            <li class="active" id="aaa">授权管理</li>
+            <li id="PermitInfo"></li>
+        </ul>
+    </div>
+}
+
+<div class="row-fluid">
+    <div class="span3">
+        <div class="box box-black" style="margin-top: 0px;">
+            <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+                <i class="icon-reorder" style="margin-right: 5px;"></i>用户结构树
+            </div>
+            <div class="box-content zTreeDiv">
+                <ul id="tree" class="ztree"></ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="span6" id="span3" style="display: inherit">
+        <div class="box box-black" style="margin-top: 0px;">
+            <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+                <i class="icon-table" style="margin-right: 5px;"></i>角色列表
+            </div>
+            <div class="box-content">
+                <table style="width: 100%; margin-bottom: 5px;">
+                    <tr>
+                        <td style="height: 30px; vertical-align: top; padding-bottom: 0px; padding-top0px;">
+                            <div id="information" class="alert alert-success" style="height: 12px; line-height: 12px; margin-bottom: 0px; margin-top: 0px; display: none">
+                                <strong>成功!</strong> 操作成功.
+                            </div>
+                        </td>
+                        <td style="height: 30px; vertical-align: top; width: 90px; padding-bottom: 0px; padding-top0px;">
+                            <button style="float: right;" type="button" id="btnSubmit" class="btn btn-primary"><i class="icon-ok"></i>保 存</button></td>
+                    </tr>
+                </table>
+                <table class="table table-bordered table-striped table-hover fill-head" id="RolesTable">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center; width: 40px;">
+                                <input type="checkbox" id="SelectAll" /></th>
+
+                            <th>角色名称</th>
+                            <th>角色说明</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div style="clear: both"></div>
+                <input type="hidden" id="userID" />
+            </div>
+        </div>
+    </div>
+
+
+    <div id="setFunctionsDiv" class="span3" style="display: inline">
+        <div class="box box-black" style="margin-top: 0px;">
+            <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+                <i class="icon-table" style="margin-right: 5px;"></i>功能项列表
+            </div>
+            <div id="treeContentDiv" class="box-content zTreeDiv">
+                <div id="treeUserRole" class="ztree">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+

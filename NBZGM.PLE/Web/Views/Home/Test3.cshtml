@@ -1,0 +1,28 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Test3</title>
+</head>
+<body>
+    <div>
+        @Html.Hidden("UserName")
+
+        <input type="text" name="UserName" id="UserName" />
+
+        @*@Html.TextBox("UserName")*@
+        @{
+            var userName = ViewData["UserName"];
+
+            string aa = "";
+            
+            
+        }
+    </div>
+</body>
+</html>

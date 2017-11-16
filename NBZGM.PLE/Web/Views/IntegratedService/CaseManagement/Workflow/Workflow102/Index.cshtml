@@ -1,0 +1,293 @@
+﻿@model Web.ViewModels.CaseViewModels.ViewModel2
+@using Taizhou.PLE.Model.CaseWorkflowModels
+
+@{
+    Taizhou.PLE.Model.CaseWorkflowModels.CaseForm wmCaseForm = ViewBag.CaseForm;
+    Taizhou.PLE.Model.CaseWorkflowModels.Form101 wmForm1 = wmCaseForm.FinalForm.Form101;
+}
+
+
+<form id="workflow2Form" class="workflowForm" name="workflow2Form" method="post" enctype="multipart/form-data"
+    action="/Workflow102/Commit">
+    <div class="title">
+        立案审批表
+    </div>
+    <table class="workflow" border="0" cellspacing="0" cellpadding="0" style="width: 700px; border-collapse: collapse; margin: 0 auto; margin-top: 20px;">
+        <tr>
+            <th colspan="2">文书编号</th>
+            <td colspan="9">
+                <input name="wsbh" type="text" id="wsbh" disabled="disabled" value="@wmForm1.WSBH" /></td>
+        </tr>
+        <tr>
+            <th colspan="2">案　　由</th>
+            <td colspan="9">
+                <input name="ay" type="text" id="ay" disabled="disabled" value="@wmForm1.AY" />
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">发案地点</th>
+            <td colspan="9">
+                <input name="fadd" type="text" id="fadd" disabled="disabled" value="@wmForm1.FADD" />
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">发案时间</th>
+            <td colspan="3">
+                <input type="text" name="fass" id="fass" disabled="disabled" value="@wmForm1.FASJ" />
+            </td>
+            <th colspan="2">案件来源</th>
+            <th colspan="4">
+                <select name="ajly" id="ajly" disabled="disabled">
+                    <option value="@wmForm1.AJLYID">@wmForm1.AJLYName</option>
+                </select></th>
+        </tr>
+        <tr>
+            <th colspan="2">是否立案</th>
+            <td colspan="3">
+                @{
+                    string laChecked = wmForm1.SFLA == "la" ? "checked=\"checked\"" : "";
+                    string zfChecked = wmForm1.SFLA == "zf" ? "checked=\"checked\"" : "";
+                }
+                <input type="radio" name="sfla" @laChecked value="la" id="sflala" disabled="disabled" />立案
+                <input type="radio" name="sfla" @zfChecked value="zf" id="sflazf" disabled="disabled" />作废
+            </td>
+            <th colspan="2">承办单位</th>
+            <th colspan="4">
+                <select name="cbdw" id="cbdw" disabled="disabled">
+                    <option value="@wmForm1.CBDWID">@wmForm1.CBDWName</option>
+                </select></th>
+        </tr>
+        <tr>
+            <th colspan="2">是否为重大案件</th>
+            <td colspan="9">
+                @{
+                    string sCheck = wmForm1.SFWZDAN == "s" ? "checked=\"checked\"" : "";
+                    string fCheck = wmForm1.SFWZDAN == "f" ? "checked=\"checked\"" : "";
+                }
+                <input type="radio" name="sfwzdaj" @sCheck value="s" id="swzdaj" disabled="disabled"/>是
+                <input type="radio" name="sfwzdaj" @fCheck value="f" id="fwzdaj" disabled="disabled"/>否
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 42px;" rowspan="6">当事<br />
+                人基<br />
+                本情<br />
+                况</th>
+            <th colspan="2">当事人类型</th>
+            <td colspan="8">
+                @{
+                    string dwChecked = wmForm1.DSRLX == "dw" ? "checked=\"checked\"" : "";
+                    string grChecked = wmForm1.DSRLX == "gr" ? "checked=\"checked\"" : "";
+                }
+                <input type="radio" name="dsrlx" @dwChecked value="dw" id="dsrlxdw" disabled="disabled" />单位
+                <input type="radio" name="dsrlx" @grChecked value="gr" id="dsrlxgr" disabled="disabled" />个人
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 42px;" rowspan="2">单位</th>
+            <th style="width: 42px;">名称</th>
+            <td colspan="4">
+                <input type="text" id="mc" name="mc"  disabled="disabled" value="@wmForm1.OrgForm.MC" />
+            </td>
+            <th colspan="2">组织机构<br />
+                代码证编号</th>
+            <td colspan="2">
+                <input type="text" id="zzjgdmzbh" name="zzjgdmzbh"  disabled="disabled" value="@wmForm1.OrgForm.ZZJGDMZBH" />
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">法定代表人<br />
+                （负责人）姓名</th>
+            <td colspan="3">
+                <input type="text" id="fddbrxm" name="fddbrxm"  disabled="disabled" value="@wmForm1.OrgForm.FDDBRXM" />
+            </td>
+            <th colspan="2">职务</th>
+            <td colspan="2">
+                <input type="text" id="zw" name="zw"  disabled="disabled" value="@wmForm1.OrgForm.ZW" />
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 42px;" rowspan="2">个人</th>
+            <th style="width: 42px;">姓名</th>
+            <td style="width: 92px;">
+                <input type="text" id="xm" name="xm" category="gr" disabled="disabled" value="@wmForm1.PersonForm.XM" />
+            </td>
+            <th style="width: 42px;">性别</th>
+            <td style="width: 72px;">
+                <select name="xb" id="xb" category="gr" disabled="disabled">
+                    <option value="@wmForm1.PersonForm.XB">@wmForm1.PersonForm.XB</option>
+                </select></td>
+            <th style="width: 52px;">出生<br />
+                年月</th>
+            <td style="width: 102px;" colspan="2">
+                <input type="text" id="csny" name="csny" category="gr" disabled="disabled" value="@wmForm1.PersonForm.CSNY" />
+            </td>
+            <th style="width: 42px;">民族</th>
+            <td style="width: 92px;">
+                <input type="text" id="mz" name="mz" category="gr" disabled="disabled" value="@wmForm1.PersonForm.MZ" />
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 42px;">身份<br />
+                证号</th>
+            <td colspan="2">
+                <input type="text" id="sfzh" name="sfzh" category="gr" disabled="disabled" value="@wmForm1.PersonForm.SFZH" />
+            </td>
+            <th style="width: 72px;">工作单位</th>
+            <td colspan="5">
+                <input type="text" id="gzdw" name="gzdw" category="gr" disabled="disabled" value="@wmForm1.PersonForm.GZDW" />
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">住所地<br />
+                （住址）</th>
+            <td colspan="5">
+                <input type="text" id="zsd" name="zsd" disabled="disabled" value="@wmForm1.ZSD" /></td>
+            <th style="width: 42px;">联系<br />
+                电话</th>
+            <td colspan="2">
+                <input type="text" id="lxdh" name="lxdh" disabled="disabled" value="@wmForm1.LXDH" />
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 42px;">案情<br />
+                摘要</th>
+            <td colspan="10">
+                <textarea id="aqzy" name="aqzy" disabled="disabled">@wmForm1.AQZY</textarea>
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 42px;">违法<br />
+                行为</th>
+            <td colspan="10" id="wfxw">
+                <div>
+                    违法行为代码：@wmForm1.IllegalForm.Code
+                </div>
+
+                <div>
+                    违法行为:@wmForm1.IllegalForm.Name
+                </div>
+                <div>
+                    适用的违则：@wmForm1.IllegalForm.WeiZe
+                </div>
+                <div>
+                    适用的罚则：@wmForm1.IllegalForm.FaZe
+                </div>
+                <div>
+                    适用的处罚：@wmForm1.IllegalForm.ChuFa
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 42px;">立案<br />
+                理由</th>
+            <td colspan="10">
+                <textarea id="laly" name="laly" disabled="disabled">@wmForm1.LALY</textarea>
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 42px;">拟办<br />
+                意见</th>
+            <td colspan="10">
+                <textarea id="nbyj" name="nbyj" disabled="disabled">@wmForm1.NBYJ</textarea>
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 42px;">拟办<br />
+                队员</th>
+            <td colspan="5">
+                <select name="NBDYID1" id="NBDYID1" disabled="disabled">
+                    <option value="@wmForm1.NBDYID1">@wmForm1.NBDYNAME1</option>
+                </select>
+            </td>
+            <td colspan="5">
+                <select name="NBDYID2" id="NBDYID2" disabled="disabled">
+                    <option value="@wmForm1.NBDYID2">@wmForm1.NBDYNAME2</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 42px;">办案<br />
+                单位<br />
+                意见</th>
+            <td colspan="10">
+                @Html.TextAreaFor(model => model.LDSPYJ)
+            </td>
+        </tr>
+        @if (!string.IsNullOrWhiteSpace(Model.THYJ))
+        {
+            <tr>
+                <th style="width: 42px;">退回<br />
+                    意见</th>
+                <td colspan="10">
+                    @Html.TextAreaFor(model => model.THYJ, new { disabled = "disabled" })
+                </td>
+            </tr>
+        }
+        <tr>
+            <th style="width: 42px;">主办<br />
+                人员</th>
+            <td colspan="5">
+                @Html.DropDownList("ZBDY", ViewBag.ZBUserSelectList as IEnumerable<SelectListItem>)
+                <label id="error_ZBDY" class="formErrorMsg"></label>
+            </td>
+            <th style="width: 42px;">协办<br />
+                人员</th>
+            <td colspan="4">
+                @Html.DropDownList("XBDY", ViewBag.XBUserSelectList as IEnumerable<SelectListItem>)
+                <label id="error_XBDY" class="formErrorMsg"></label>
+            </td>
+        </tr>
+        <tr>
+        <tr>
+            <th>法制<br />
+                处审<br />
+                核人</th>
+            <td colspan="10">
+                @Html.DropDownList("FZCSHRBH", ViewBag.FZCUserSelectList as IEnumerable<SelectListItem>)
+                @Html.HiddenFor(model => model.FZCSHR)
+                <label id="error_FZCSHRBH" class="formErrorMsg"></label>
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 42px;">分管<br />
+                领导</th>
+            <td colspan="10">
+                @Html.DropDownListFor(model => model.FGLDID, ViewBag.FGLDSelectList as IEnumerable<SelectListItem>)
+                @Html.Hidden("FGLDName")
+                <label id="error_FGLDID" class="formErrorMsg"></label>
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 42px;">短信提醒</th>
+            <td colspan="10">
+                <input type="checkbox" id="FSDX" name="FSDX" value="" />
+                <label id="SMSUserNameAndNum"></label>
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 42px;">是否同意</th>
+            <td colspan="10">
+                @Html.RadioButton("Approved", true, true)同意
+                @Html.RadioButton("Approved", false, false)不同意
+                @Html.Hidden("BackProcessUserId", wmForm1.ProcessUser.UserID)
+                @Html.Hidden("BackProcessUserName", wmForm1.ProcessUser.UserName)
+            </td>
+        </tr>
+        <tr style="height: 0px; line-height: 0px;">
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="width: 92px; border: none; padding: 0px;"></td>
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="width: 72px; border: none; padding: 0px;"></td>
+            <td style="width: 52px; border: none; padding: 0px;"></td>
+            <td style="width: 52px; border: none; padding: 0px;"></td>
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="border: none; padding: 0px;">&nbsp;</td>
+        </tr>
+    </table>
+    @Html.Hidden("WIID")
+    @Html.Hidden("AIID")
+</form>

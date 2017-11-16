@@ -1,0 +1,248 @@
+﻿@using Taizhou.PLE.Model.CaseWorkflowModels
+
+@{
+    ViewBag.Title = "WorkflowProcess";
+    Layout = "~/Views/IntegratedService/CaseManagement/_LayoutCaseManagement.cshtml";
+
+    CaseForm caseForm = null;
+    if (ViewBag.CaseForm != null)
+    {
+        caseForm = ViewBag.CaseForm;
+        Form101 form101 = new Form101();
+    }
+
+
+    string FormJSURL = "/Scripts/js/IntegratedService/CaseManagement/Workflow/workflow";
+    string workflowFormJSURL = FormJSURL + ViewBag.ADID + ".js";
+}
+
+@section HeadStyles_CaseManage{
+    <link href="~/Scripts/assets/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.css" rel="stylesheet" />
+    <link href="~/Content/workflowCommonForm.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/zTree/zTreeStyle.css" rel="stylesheet" />
+    <link href="~/Content/WorkflowProcess.css" rel="stylesheet" />
+    <style type="text/css">
+        #docTreeScroll {
+            padding-right: 5px;
+            overflow: auto;
+            width: 180px;
+        }
+    </style>
+}
+
+@section FootScripts_CaseManage{
+    <script src="~/Scripts/assets/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-zh-CN.js"></script>
+    <script src="~/Scripts/assets/zTree/jquery.ztree.core-3.5.js"></script>
+    <script src="~/Scripts/assets/loading-mask/loading.js"></script>
+    <script src="~/Scripts/js/DetectAdobeReader.js"></script>
+    <script src="@workflowFormJSURL"></script>
+    <script src="~/Scripts/js/IntegratedService/CaseManagement/Workflow/workflow.js"></script>
+    <script src="~/Scripts/js/IntegratedService/CaseManagement/Workflow/document.js"></script>
+    <script src="~/Scripts/js/IntegratedService/CaseManagement/Workflow/WorkflowProcess.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //收缩左侧的菜单栏
+            //$("#sidebar-collapse").click();
+
+            //设置菜单高亮样式
+            $("#menuCase").addClass("active");
+            $("#GeneralCase").css("display", "block");
+
+            if ($("#ADID").val() != "101" || $("#WIID").val() == "") {
+                $("#btn_workflowdDelete").hide();
+            };
+
+            //检测是否安装 PDF 插件
+            if (!hasPdfPlugin()) {
+                window.showModalDialog('/DownloadAdobeReader.html', '安装AdobeReader', 'height=200,width=600,top=0,left=' + (screen.width - 600) / 2 + ',toolbar=no,menubar=no,scrollbars=no, resizable=yes,location=no, status=no,z-look=yes');
+            }
+        });
+    </script>
+}
+@section BreadcrumbSection{
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li><a href="javascript:void(0)"><i class="icon-home"></i>综合业务</a></li>
+            <li>></li>
+            <li><a href="javascript:void(0)">案件管理</a></li>
+            <li>></li>
+            <li><a href="javascript:void(0)">一般案件</a></li>
+            <li>></li>
+            @if (ViewBag.ADID == 101)
+            {
+                <li class="active">申请立案</li>
+            }
+            else
+            {
+                <li><a href="javascript:void(0)">待处理列表</a></li>
+                <li>></li>
+                <li class="active">案件处理</li>
+            }
+        </ul>
+    </div>
+}
+<div id="alertPanel">
+</div>
+
+<div id="WorkProcessPanel" style="min-height: 500px;">
+    @Html.Hidden("WIID")
+    @Html.Hidden("ADID")
+    @Html.Hidden("AIID")
+    @Html.Hidden("DDID")
+    @Html.Hidden("DIID")
+    @Html.Hidden("IsNewWorkflow")
+
+    @*左侧部分*@
+    <div style="float: left; width: 21%; margin-left: 5px;">
+        <div class="grid" style="margin-top: 0px;">
+            <div class="grid-title">
+                <div class="pull-left">概要信息</div>
+                <div class="pull-right"></div>
+                <div class="clear"></div>
+            </div>
+            <div class="grid-content" style="padding: 5px;">
+                <table>
+                    <tr>
+                        <td style="width: 60px; vertical-align: top">当前环节:</td>
+                        <td>@ViewBag.ADName</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 60px; vertical-align: top">流程编号:</td>
+                        <td>
+                            @if (caseForm != null)
+                            {
+                                @caseForm.WICode
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 60px; vertical-align: top">案　　由:</td>
+                        <td>
+                            @if (caseForm != null)
+                            {
+                                @caseForm.WIName
+                            }
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="grid" style="margin-top: 5px; padding-left: 5px; height: 36px; line-height: 36px;">
+            <a id="aRelevantItemWorkflowProcess" href="/RelevantItemWorkflow/RelevantItemWorkflowProcess?ParentWIID=@ViewBag.WIID&ParentAIID=@ViewBag.AIID&WIID=&AIID=">跳转至相关事项审批页面</a>
+        </div>
+        @{
+            if (!ViewBag.IsNewWorkflow)
+            {
+            <div class="grid">
+                <div class="grid-title">
+                    <div class="pull-left">已有文书</div>
+                    <div class="pull-right"></div>
+                    <div class="clear"></div>
+                </div>
+                <div id="docTreeScroll" class="grid-content">
+                    <ul id="docTree" class="ztree" style="margin-left: -10px;"></ul>
+                </div>
+            </div>
+            }
+        }
+        <div class="grid">
+            <div class="grid-title">
+                <div class="pull-left">操作面板</div>
+                <div class="pull-right"></div>
+                <div class="clear"></div>
+            </div>
+            <div class="grid-content">
+                <div id="docBtnContainer">
+                </div>
+                @* <a id="btnWorkflowForm" style="width: 92%" class="btn workflowBtn btn-primary" href="javascript:void(0);">@ViewBag.ADName</a>*@
+            </div>
+        </div>
+        <div class="grid">
+            <div class="grid-content">
+                <a id="btnWorkflowForm" style="width: 92%" class="btn workflowBtn btn-primary" href="javascript:void(0);">@ViewBag.ADName</a>
+            </div>
+        </div>
+        <div class="grid">
+            <div class="grid-content">
+                <input class="btn btn-success" style="width: 100%;" type="button" id="btn_workflowSubmit" value="提交至下一工作流程环节" />
+                <input class="btn btn-danger" style="width: 100%; margin-top: 5px" type="button" id="btn_workflowdDelete" value="撤销工作流程" />
+            </div>
+        </div>
+    </div>
+
+    @* 右侧部分 *@
+    <div id="caseWorkflowPanel" style="margin-left: 23%; width: 76%">
+        <div id="docItemsPanel" class="grid tabPanel" style="min-height: 100px; display: none;">
+            <div id="docItemsContainer" class="grid-content">
+            </div>
+        </div>
+
+        <div id="docOperationPanel" class="tabPanel" style="margin-top: 8px; padding-bottom: 0px; height: 38px; display: none;">
+            <div class="pull-left">
+                <a id="operationAdd" class="btn" href="javascript:void(0);"><i class="icon-plus"></i>新 增</a>
+            </div>
+            <div class="pull-right">
+                <a id="operationEdit" class="btn" href="javascript:void(0);"><i class="icon-edit"></i>修 改</a>
+                <a id="operationDelete" class="btn" href="javascript:void(0);"><i class="icon-trash"></i>删 除</a>
+                <a id="operationPrint" class="btn" href="javascript:void(0);"><i class="icon-print"></i>打 印</a>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <div id="addDocPanel" class="grid tabPanel" style="display: none;">
+            <div class="grid-title">
+                <div class="pull-left">新增文书</div>
+                <div class="pull-right"></div>
+                <div class="clear"></div>
+            </div>
+            <div id="addDocContainer" class="grid-content">
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <div id="editDocPanel" class="grid tabPanel" style="display: none;">
+            <div class="grid-title">
+                <div class="pull-left">修改文书</div>
+                <div class="pull-right"></div>
+                <div class="clear"></div>
+            </div>
+            <div id="editDocContainer" class="grid-content">
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <div id="viewDocPanel" class="grid tabPanel" style="display: none;">
+            <div class="grid-title">
+                <div class="pull-left">查看文书</div>
+                <div class="pull-right"></div>
+                <div class="clear"></div>
+            </div>
+            <div class="grid-content">
+                <iframe id="ifrmViewDoc" src="" width="100%" height="800px" id="ifm" marginheight="0"
+                    marginwidth="0" scrolling="0" frameborder="0"></iframe>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <div id="workflowFormPanel" class="grid tabPanel" style="width: 100%">
+            <div class="grid-title">
+                <div class="pull-left">@ViewBag.ADName</div>
+                <div class="pull-right"></div>
+                <div class="clear"></div>
+            </div>
+            <div class="grid-content fontStyle nice-scroll">
+                @Html.Action("Index", (string)ViewBag.ControllerName,
+                     new
+                     {
+                         WIID = ViewBag.WIID,
+                         AIID = ViewBag.AIID,
+                         CaseForm = ViewBag.CaseForm
+                     })
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>

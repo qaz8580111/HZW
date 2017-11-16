@@ -1,0 +1,113 @@
+﻿@{
+    Layout = null;
+}
+  <style type="text/css">
+        .blur {
+            border: 1px solid red;
+        }
+    </style>
+<script src="~/Scripts/js/PageNotBack.js"></script>
+    <link href="~/Scripts/layer/skin/layer.css" rel="stylesheet" />
+    <link href="~/Scripts/layer/skin/seaning/style.css" rel="stylesheet" />
+    <script src="~/Scripts/layer/layer.js"></script>
+
+    <script type="text/javascript">
+        layer.config({
+            skin: 'layer-ext-seaning',
+            offset: ['100px', '33%'],
+            title: '提示',
+            moveOut: true,
+            closeBtn: false,
+            extend: 'skin/seaning/style.css'
+        });
+    </script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#goback").click(function () {
+            var parentFunctionID = $("#ParentID").val();
+            location.href = '/FunctionManagement/Index?ParentFunctionID=' + parentFunctionID;
+        });
+        $(function () {
+            $("#ICONPATH").change(function () {
+                var $file = $(this);
+                var fileObj = $file[0];
+                var windowURL = window.URL || window.webkitURL;
+                var dataURL;
+                var $img = $("#preview");
+
+                if (fileObj && fileObj.files && fileObj.files[0]) {
+                    dataURL = windowURL.createObjectURL(fileObj.files[0]);
+                    $img.attr('src', dataURL);
+                } else {
+                    dataURL = $file.val();
+                    var imgObj = document.getElementById("preview");
+                    // 两个坑:
+                    // 1、在设置filter属性时，元素必须已经存在在DOM树中，动态创建的Node，也需要在设置属性前加入到DOM中，先设置属性在加入，无效；
+                    // 2、src属性需要像下面的方式添加，上面的两种方式添加，无效；
+                    imgObj.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+                    imgObj.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = dataURL;
+
+                }
+            });
+        });
+    });
+    function SetCheckedNodes() {
+       
+        $("#NAME").removeClass("blur");
+        $("#CODE").removeClass("blur");
+        $("#URL").removeClass("blur");
+
+        var NAME = $("#NAME").val();
+        var CODE = $("#CODE").val();
+        var URL = $("#URL").val();
+
+        if (NAME == null || NAME == "") {
+            $("#NAME").addClass("blur");
+            alert("功能项名称不能为空!")
+            return false;
+        }
+        if (CODE == null || CODE == "") {
+            $("#CODE").addClass("blur");
+            alert("功能项代码不能为空!")
+            return false;
+        }
+        if (URL == null || URL == "") {
+            $("#URL").addClass("blur");
+            alert("功能项URL不能为空!")
+            return false;
+        }
+
+        return true;
+    }
+</script>
+<form id="AddFunctionForm" name="AddFunctionForm" method="post" action="/FunctionManagement/CommitAddFunction" >
+    <ul class="forminfo">
+        <li>
+            <label>功能项名称<b>*</b></label>
+            <input type="text" name="NAME" id="NAME" class="dfinputs" />
+        </li>
+        <li>
+            <label>功能项代码<b>*</b></label>
+            <input type="text" name="CODE" id="CODE" class="dfinputs" />
+        </li>
+        <li>
+            <label>功能项URL<b>*</b></label>
+            <input type="text" name="URL" id="URL" class="dfinputs" />
+        </li>
+        <li>
+            <label>功能项图标<b>*</b></label>
+            <input type="text" class="dfinputs" name="ICONPATH" id="ICONPATH" />
+        </li>
+        <li>
+            <label>排序号<b>*</b></label>
+            <input type="text" class="dfinputs" name="SEQNUM" ID="SEQNUM"/>
+        </li>
+        <li>
+            <label>&nbsp;</label>
+            <input name="" type="submit" class="butn" value="确定" onclick="return SetCheckedNodes();"/>
+            <input type="button" class="butn" value="返回" id="goback" />
+        </li>
+    </ul>
+    @Html.Hidden("ParentFunctionID")
+</form>
+

@@ -1,0 +1,97 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>预约会议室地址</title>
+    <link href="~/Content/css/OA.css" rel="stylesheet" />
+    <link href="/Scripts/assets/data-tables/demo_table.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/data-tables/DT_bootstrap.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="~/Scripts/jquery-1.7.1.js"></script>
+    <script type="text/javascript" src="~/Scripts/assets/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.js"></script>
+    <script type="text/javascript" src="~/Scripts/assets/timepicker/jquery-ui-timepicker-zh-CN.js"></script>
+
+    <script type="text/javascript" src="~/Scripts/js/jquery.idTabs.min.js"></script>
+
+    <script type="text/javascript" src="~/Scripts/assets/data-tables/jquery.datatables.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/assets/data-tables/DT_bootstrap.js"></script>
+    <script type="text/javascript" src="~/Scripts/assets/data-tables/PLE_DT_bootstrap.js"></script>
+    <script type="text/javascript" src="~/Scripts/js/PageNotBack.js"></script>
+
+    <link href="~/Scripts/assets/zTree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+    <script src="~/Scripts/assets/zTree/js/jquery.ztree.core.js"></script>
+    <script src="~/Scripts/assets/zTree/js/jquery.ztree.excheck.js"></script>
+    <script src="~/Scripts/assets/zTree/js/jquery.ztree.exedit.js"></script>
+
+    <script type="text/javascript" src="~/Scripts/js/select-ui.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            HocListtablelist();
+        });
+        var oTable;
+        function HocListtablelist() {
+            if (oTable != null) {
+                oTable.fnSettings().sAjaxSource = "/HocList/HocListTableList";
+                oTable.fnDraw(true);
+            } else {
+                oTable = $('#HocListtableList').dataTable({
+                    sAjaxSource: "/HocList/HocListTableList",
+                    "bLengthChange": false,
+                    fnServerParams: function (aoData) {
+                        aoData.push(
+                            );
+                    },
+                    aoColumns: [
+                        { mDataProp: "ADDRESSNAME" },
+                        { mDataProp: "MEETINGTITLE" },
+                        { mDataProp: "STIME" },
+                        { mDataProp: "ETIME" },
+                        { mDataProp: "USERNAME" },
+                    ],
+                    aoColumnDefs: [{ sDefaultContent: '', aTargets: ['_all'] }],
+                    fnDrawCallback: function (oSettings) {
+                        var pagerIndex = oSettings._iDisplayStart / oSettings._iDisplayLength + 1;
+                        var $currentPager = $(".dataTables_paginate span a:contains('" + pagerIndex + "')");
+                        $currentPager.attr("style", "font-weight :bold;!important");
+                    }
+                });
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="place">
+        <span>位置：</span>
+        <ul class="placeul">
+            <li>预约会议室地址</li>
+        </ul>
+    </div>
+
+     <div class="formbody">
+          <div style="margin-bottom: 10px">
+                <h6 style="font-size: 32px; text-align: center; margin-bottom: 20px; margin-top: 10px;">被预约会议室时刻表</h6>
+            </div>
+    <div style="clear: both; margin-top: 10px;" class="tableListDiv">
+        <table class="tablelist" id="HocListtableList">
+            <thead>
+                <tr>
+                    <th>会议地址名称</th>
+                    <th>会议标题</th>
+                    <th>会议开始时间</th>
+                    <th>会议结束时间</th>
+                    <th>会议创建人</th>
+                </tr>
+            </thead>
+
+        </table>
+    </div>
+         </div>
+</body>
+</html>

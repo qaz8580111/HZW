@@ -1,0 +1,387 @@
+﻿@using NBZGM.XTBG.CustomModels;
+@{
+    ViewBag.Title = "公告管理";
+    UserInfo UserEntity = ViewBag.UserEntity;
+}
+
+<ul class="nav nav-tabs navigation" role="tablist">
+    <li role="presentation" class="active"><a href="#settings1" aria-controls="settings1" role="tab" data-toggle="tab">我的公告</a></li>
+    @if (UserEntity.RoleIDS.Where(m => m.ROLEID == 16).FirstOrDefault() != null)
+    {
+        <li role="presentation"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">新建公告</a></li>
+        <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">已发公告</a></li>
+    }
+</ul>
+
+<div class="tab-content">
+    @* 我的公告*@
+    <div role="tabpanel" class="tab-pane active" id="settings1">
+        <div class="row">
+            <div class="col-md-12">
+                <label for="AnnoFaStatus">阅读状态：</label>
+                <div class="btn-group">
+                    <select id="AnnoFaStatus" class="form-control" name="StatusID">
+                        <option value="">全部</option>
+                        <option value="0">未读</option>
+                        <option value="1">已读</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <table class="table table-hover table-bordered" id="MyAnnouncement_Table">
+            <thead>
+                <tr>
+                    @*<th>序号</th>*@
+                    <th>发布人</th>
+                    <th>部门</th>
+                    <th>发布时间</th>
+                    <th>公告标题</th>
+                    <th>公告类型</th>
+                    <th>生效日期</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    @* 新建公告*@
+    <div role="tabpanel" class="tab-pane" id="home">
+        <div class="well-lg">
+            <form class="form-inline" id="NewAnnouncement_Form" action="/AnnouncementManagement/Commit">
+                <table class="table table-bordered" style="table-layout: fixed">
+                    <colgroup>
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                    </colgroup>
+                    <tr>
+                        <td>公告标题<span class="required">*</span></td>
+                        <td colspan="11">
+                            <input type="text" name="AnnouncementTitle" placeholder="" required="required" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>公告范围</td>
+                        <td colspan="11">
+                            <input type="text" id="UnitNames" name="UnitNames" placeholder="" required="required" onfocus="this.blur();" />
+                            <input type="hidden" id="AnnScopeIDs" name="AnnScopeIDs" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>公告类型<span class="required">*</span></td>
+                        <td colspan="3">
+                            <select name="AnnouncementType" id="AnnouncementType">
+                                <option value="">所有类型</option>
+                                <option value="0">决定</option>
+                                <option value="1">通知</option>
+                                <option value="2">通报</option>
+                                <option value="3">其他</option>
+                            </select>
+                        </td>
+                        <td>发布时间<span class="required">*</span></td>
+                        <td colspan="3">
+                            <input type="text" class="datetimepicker" name="CreateTime" placeholder="发布时间" required="required" id="Annostarttime" />
+                        </td>
+                        <td>有效时间<span class="required">*</span></td>
+                        <td colspan="3">
+                            <input type="text" class="datetimepicker" name="EffectiveDate" placeholder="有效时间" required="required" id="Annoendtime" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>文件附件</td>
+                        <td colspan="10">
+                            <table class="table table-hover table-bordered" id="FileName_Table">
+                                <thead>
+                                    <tr>
+                                        <th>文件名</th>
+                                        <th>大小</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td>
+                            <input type="hidden" id="AnnoouncementAttachmentIDs" name="AnnoouncementAttachmentIDs" />
+                            <input id="fileupload" class="hidden" type="file" name="files[]" data-url="/Common/UploadFile" multiple>
+                            <i class="icon-plus text-primary" id="FileSend_FileName_Add">添加</i>
+                            <i class="icon-trash text-muted" id="FileSend_FileName_Emptied">清空</i>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>公告内容<span class="required">*</span></td>
+                        <td colspan="11">
+                            <input type="hidden" name="AnnouncementContent" id="AnnouncementContent" />
+                            <textarea id="TextArea1" cols="20" rows="2" class="ckeditor"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="12" class="text-center">
+                            <input type="submit" class="btn btn-primary" value="发送" />
+                            <input type="reset" class="btn btn-default" value="重置" />
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    @* 公告查询*@
+    <div role="tabpanel" class="tab-pane" id="settings">
+        <form class="form-inline" id="FileNotRead_Form">
+            <div class="row">
+                <div class="col-md-3">
+                    <label for=" AnnouncementTitle">公告标题：</label>
+                    <input type="text" class="form-control calc100-6" name="AnnouncementTitle" placeholder="" />
+                </div>
+                <div class="col-md-3">
+                    <label for="AnnouncementType">公告类型：</label>
+                    <select class="form-control calc100-6" name="AnnouncementType" id="AnnouncementType1">
+                        <option value="">所有类型</option>
+                        <option value="0">决定</option>
+                        <option value="1">通知</option>
+                        <option value="2">通报</option>
+                        <option value="3">其他</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="ReleaseDate">发布时间：</label>
+                    <input type="text" class="form-control datetimepicker calc50-4" name="ReleaseTimeStart" placeholder="开始时间" id="Annostarttime1" />
+                    <label for="ReleaseDate">至</label>
+                    <input type="text" class="form-control datetimepicker calc50-4" name="ReleaseTimeEmd" placeholder="结束时间" id="meetingendtime1" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="CreateUserName">发布人：　</label>
+                    <input type="text" class="form-control calc100-6" name="CreateUserName" placeholder="" />
+                </div>
+                <div class="col-md-3">
+                    <label for="UnitName">发布部门：</label>
+                    <input type="text" class="form-control calc100-6" name="UnitName" placeholder="" />
+                </div>
+                <div class="col-md-6">
+                    <label for="EffectiveDate">有效时间：</label>
+                    <input type="text" class="form-control datetimepicker calc50-4" name="EffectiveTimeStart" placeholder="开始时间" id="Annostarttime2" />
+                    <label for="EffectiveDate">至</label>
+                    <input type="text" class="form-control datetimepicker calc50-4" name="EffectiveTimeEmd" placeholder="结束时间" id="Annoendtime2" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <input type="button" class="btn btn-default" value="检索" id="MyAnnouncement_btnQuery" />
+                    <input type="reset" class="btn btn-default" value="重置" />
+                </div>
+            </div>
+            <table class="table table-hover table-bordered" id="FileNotRead_Table">
+                <thead>
+                    <tr>
+                        @*<th>序号</th>*@
+                        <th>公告标题</th>
+                        <th>公告类型</th>
+                        <th>发布人</th>
+                        <th>发布时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+            </table>
+        </form>
+    </div>
+</div>
+
+@section css{
+    <style type="text/css">
+        textarea, input[type=text], select {
+            width: 100%;
+        }
+    </style>
+}
+
+@section scripts{
+    <script src="~/Scripts/ckeditor/ckeditor.js"></script>
+    <script src="~/Scripts/ckeditor/config.js"></script>
+    <script type="text/javascript">
+        function getAnnoType(innerData, type, rowData, meta) {
+            if (innerData == 0) { return "决定"; }
+            else if (innerData == 1) { return "通知"; }
+            else if (innerData == 2) { return "通报"; }
+            else if (innerData == 3) { return "其他"; }
+            else { return "所有类型" }
+        }
+        $(document).ready(function () {
+            CKEDITOR.replace('TextArea1');
+            $('#NewAnnouncement_Form input[type=submit]').on('click', function () {
+                $('#AnnouncementContent').val(encodeURI(CKEDITOR.instances.TextArea1.getData()));
+            });
+            InitUnitTreeModal({
+                UnitIDs: "#AnnScopeIDs",
+                UnitNames: "#UnitNames",
+            });
+            $(".datetimepicker").datetimepicker({ minView: "month", format: "yyyy-mm-dd", autoclose: true, language: 'zh-CN', })
+            .on('changeDate', function () {
+                $('#Annoendtime').datetimepicker('setStartDate', $('#Annostarttime').val())
+                $('#Annoendtime1').datetimepicker('setStartDate', $('#Annostarttime1').val())
+                $('#Annoendtime2').datetimepicker('setStartDate', $('#Annostarttime2').val())
+            });
+            $('#NewAnnouncement_Form').on('click', 'input[type=submit]', function () {
+                if ($('#meetingendtime').val() < $('#meetingstarttime').val()) { errorTimeMsg(); return false; }
+                if ($('#meetingendtime1').val() < $('#meetingstarttime1').val()) { errorTimeMsg(); return false; }
+                if ($('#meetingendtime2').val() < $('#meetingstarttime2').val()) { errorTimeMsg(); return false; }
+            });
+            $('#FileSend_FileName_Add').on('click', function () {
+                $('#fileupload').trigger('click');
+            });
+            $('#FileSend_FileName_Emptied').on('click', function () {
+                $('#FileName_Table tbody tr').remove();
+                $('#AnnoouncementAttachmentIDs').val('');
+            });
+            $('#FileName_Table').on('click', '.btnDelete', function () {
+                var AnnoouncementAttachmentIDs = $('#AnnoouncementAttachmentIDs').val();
+                AnnoouncementAttachmentIDs = AnnoouncementAttachmentIDs.replace(',' + $(this).attr('fileid') + ',', ',');
+                $('#AnnoouncementAttachmentIDs').val(AnnoouncementAttachmentIDs);
+                $(this).parent().parent().remove();
+            });
+            $('#fileupload').fileupload({
+                dataType: 'json',
+                done: function (e, data) {
+                    var AnnoouncementAttachmentIDs = $('#AnnoouncementAttachmentIDs').val();
+                    if (AnnoouncementAttachmentIDs == '') {
+                        AnnoouncementAttachmentIDs += ',';
+                    }
+                    $.each(data.result.files, function (index, file) {
+                        AnnoouncementAttachmentIDs = AnnoouncementAttachmentIDs + file.fileid + ',';
+                        $('#FileName_Table tbody').append(
+                            '<tr>\
+                                <td>'+ file.name + '</td>\
+                                <td class="text-center nowrap">' + file.size + '</td>\
+                                <td class="text-center ">\
+                                <i class="icon-trash text-muted btnDelete" fileid="'+ file.fileid + '">删除</i>\
+                                </td>\
+                            </tr>'
+                        )
+                    });
+                    $('#AnnoouncementAttachmentIDs').val(AnnoouncementAttachmentIDs);
+                }
+            });
+            $('#NewAnnouncement_Form').on('submit', submitForm);
+            $('#NewAnnouncement_Form').on('submit', function () {
+                MyAnnouncement_Table.ajax.reload(null, true);
+                FileNotRead_Table.ajax.reload(null, true);
+            });
+            var FileNotRead_Table = $('#FileNotRead_Table').DataTable({
+                bAutoWidth: false, bDeferRender: true, responsive: true, bServerSide: true, sServerMethod: 'post', bServerSide: true, bSort: false,
+                ajax: {
+                    url: '/AnnouncementManagement/GetAnnoMgrList',
+                    data: function (d) {
+                        var array = $("#FileNotRead_Form").serializeArray();
+                        $(array).each(function () {
+                            d[this.name] = this.value;
+                        });
+                    }
+                },
+                aoColumns: [
+                    //序号
+                    //{ 'mData': null, sClass: 'text-center nowrap' },
+                    @*//是否阅读
+                    {
+                        mData: 'USERIDS2', sClass: 'text-center nowrap', mRender: function (innerData, type, rowData, meta) {
+                            if (innerData == null) { return '未读'; }
+                            return innerData.indexOf('@ViewBag.UserID') == -1 ? '未读' : '已读';
+                        }
+                    },*@
+                    { 'mData': 'ANNOUNCEMENTTITLE' },
+                    { 'mData': 'ANNOUNCEMENTTYPE', sClass: 'text-center nowrap', mRender: getAnnoType },
+                    { 'mData': 'CREATEUSERNAME', sClass: 'text-center nowrap' },
+
+                    { 'mData': 'RELEASEDATE', sClass: 'text-center nowrap' },
+                    {
+                        'mData': null, 'sClass': 'text-center nowrap', mRender: function (innerData, type, rowData, meta) {
+                            return '<a class="btnSeeing">查看</a>|<a class="btnSeeing2">查阅情况</a>|<a class="AnnoWithdraw">撤回</a>';
+                        }
+                    }
+                ],
+                //fnDrawCallback: GenerateSerialNumber,
+            });
+            $("#MyAnnouncement_btnQuery").on("click", function () {
+                FileNotRead_Table.ajax.reload(null, true);
+            })
+            $('#FileNotRead_Table').on('click', '.btnSeeing', function () {
+                var nRow = $(this).parents('tr')[0];
+                var aData = FileNotRead_Table.row(nRow).data();
+                window.parent.showLgModel('/AnnouncementManagement/AnnoDetails?ANNOUNCEMENTID=' + aData.ANNOUNCEMENTID + '&typeID=2');
+                FileNotRead_Table.ajax.reload(null, true);
+                return false;
+            });
+            $('#FileNotRead_Table').on('click', '.btnSeeing2', function () {
+                var nRow = $(this).parents('tr')[0];
+                var aData = FileNotRead_Table.row(nRow).data();
+                window.parent.showLgModel('/AnnouncementManagement/AnnoCheck?ANNOUNCEMENTID=' + aData.ANNOUNCEMENTID);
+                FileNotRead_Table.ajax.reload(null, true);
+                return false;
+            });
+            $('#FileNotRead_Table').on("click", "a.AnnoWithdraw", function () {
+                var nRow = $(this).parents('tr')[0];
+                var aData = FileNotRead_Table.row(nRow).data();
+                $.post('/AnnouncementManagement/Delete', { ANNOUNCEMENTID: aData.ANNOUNCEMENTID })
+                    .success(function (data) {
+                        if (data.StatusID == 1) {
+                            FileNotRead_Table.draw(true);
+                            successMsg();
+                        }
+                    })
+                    .error(errorMsg);
+                MyAnnouncement_Table.ajax.reload(null, true);
+            });
+            var MyAnnouncement_Table = $('#MyAnnouncement_Table').DataTable({
+                bAutoWidth: false, bDeferRender: true, responsive: true, bServerSide: true, sServerMethod: 'post', bServerSide: true, bSort: false,
+                ajax: {
+                    url: '/AnnouncementManagement/GetMyAnnoList',
+                    data: function (d) {
+                        d.StatusID = $('#AnnoFaStatus').val();
+                    }
+                },
+                aoColumns: [
+                    //{ 'mData': null, sClass: 'text-center nowrap' },
+                    { 'mData': 'CREATEUSERNAME', sClass: 'text-center nowrap' },
+                    { 'mData': 'UNITNAME', sClass: 'text-center nowrap' },
+                    { 'mData': 'CREATETIME', sClass: 'text-center nowrap' },
+                    { 'mData': 'ANNOUNCEMENTTITLE' },
+                    { 'mData': 'ANNOUNCEMENTTYPE', sClass: 'text-center nowrap', mRender: getAnnoType },
+                    { 'mData': 'EFFECTIVEDATE', sClass: 'text-center nowrap' },
+                    {
+                        mData: 'USERIDS2', sClass: 'text-center nowrap', mRender: function (innerData, type, rowData, meta) {
+                            if (innerData == null) { return '未读'; }
+                            return innerData.indexOf('@ViewBag.UserID') == -1 ? '未读' : '已读';
+                        }
+                    },
+                    {
+                        'mData': null, 'sClass': 'text-center nowrap', mRender: function (innerData, type, rowData, meta) {
+                            return '<a class="btnSing">查看</a>';//|<a class="Withdraw">撤回</a>
+                        }
+                    }
+                ],
+                //fnDrawCallback: GenerateSerialNumber,
+            });
+            $("#AnnoFaStatus").on("change", function () {
+                MyAnnouncement_Table.ajax.reload(null, true);
+            });
+            $('#MyAnnouncement_Table').on('click', '.btnSing', function () {
+                var nRow = $(this).parents('tr')[0];
+                var aData = MyAnnouncement_Table.row(nRow).data();
+                window.parent.showLgModel('/AnnouncementManagement/AnnoDetails?ANNOUNCEMENTID=' + aData.ANNOUNCEMENTID + '&typeID=1');
+                MyAnnouncement_Table.ajax.reload(null, true);
+                return false;
+            });
+        });
+    </script>
+}

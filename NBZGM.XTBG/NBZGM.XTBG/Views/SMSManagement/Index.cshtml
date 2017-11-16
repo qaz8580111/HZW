@@ -1,0 +1,258 @@
+﻿@using NBZGM.XTBG.CustomModels;
+@{
+    ViewBag.Title = "短信管理";
+    UserInfo UserEntity = ViewBag.UserEntity;
+}
+
+<ul class="nav nav-tabs navigation" role="tablist">
+    <li role="presentation" class="active"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">我的短信</a></li>
+    <li role="presentation"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">发送短信</a></li>
+    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">已发短信</a></li>
+</ul>
+
+<div class="tab-content">
+    @*我的短信*@
+    <div role="tabpanel" class="tab-pane active" id="settings">
+        <table class="table table-hover table-bordered" id="MySms_Table">
+            <thead>
+                <tr>
+                    @*<th>序号</th>*@
+                    <th>发送人</th>
+                    <th>身份</th>
+                    <th>接收人</th>
+                    <th>内容</th>
+                    <th>发送时间</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    @* 发送短信*@
+    <div role="tabpanel" class="tab-pane" id="home">
+        <div class="well-lg">
+            <form class="form-inline" id="ShortMessageSend_Form" action="/SMSManagement/Commit">
+                <table class="table table-bordered" style="table-layout: fixed">
+                    <colgroup>
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                    </colgroup>
+                    <tr>
+                        <td>发送人<span class="required">*</span>
+                        </td>
+                        <td>
+                            @UserEntity.UserName
+                        </td>
+                        <td colspan="10">
+                            <input type="checkbox" name="SMSRemind" value="0" checked="checked" />
+                            个人
+                            <input type="checkbox" name="SMSRemind" value="1" />
+                            部门科室
+                            <input type="checkbox" name="SMSRemind" value="2" />
+                            街道办事处
+                            <input type="checkbox" name="SMSRemind" value="3" />
+                            街道党工委
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>接收人</td>
+                        <td colspan="11">
+                            <input type="text" class="calc100" name="RecipientUserNames" id="RecipientUserNames" placeholder="" onfocus="this.blur();" />
+                            <input type="hidden" id="RecipientUserIDs" name="RecipientUserIDs" />
+                            <input type="hidden" id="RecipientUserPhones" name="RecipientUserPhones" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>外部号码</td>
+                        <td colspan="11">
+                            <input type="text" id="ExternalNumber" name="ExternalNumber" placeholder="如果存在多个，请用 “，” 隔开" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>短信内容<span class="required">*</span></td>
+                        <td colspan="12">
+                            <textarea rows="5" name="SmsContent" required="required"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="12" class="text-center">
+                            <input type="submit" class="btn btn-primary" id="sendsms" value="发送" />
+                            <input type="reset" class="btn btn-default" value="取消" />
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    @*短信查询*@
+    <div role="tabpanel" class="tab-pane" id="profile">
+        <form class="form-inline" id="SMSIquiry_Form">
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="CreateUserName">发送人：　</label>
+                    <input type="text" class="form-control calc100-6" name="CreateUserName" placeholder="" />
+                </div>
+                <div class="col-md-4">
+                    <label>身份：</label>
+                    <input type="checkbox" name="SMSRemind" value="0" />
+                    个人
+                    <input type="checkbox" name="SMSRemind" value="1" />
+                    部门科室
+                    <input type="checkbox" name="SMSRemind" value="2" />
+                    街道办事处
+                    <input type="checkbox" name="SMSRemind" value="3" />
+                    街道党工委
+                </div>
+                <div class="col-md-4">
+                    <label for="RecipientUserNames">接收人：　</label>
+                    <input type="text" class="form-control calc100-6" name="RecipientUserNames" placeholder="" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="MessageContent">短信内容：</label>
+                    <input type="text" class="form-control calc100-6" name="SmsContent" placeholder="" />
+                </div>
+                <div class="col-md-6">
+                    <label for="CreateTime">发送日期：</label>
+                    <input type="text" class="form-control datetimepicker calc50-4" name="CreateTimeStart" placeholder="开始时间" />
+                    至                                                            
+                    <input type="text" class="form-control datetimepicker calc50-4" name="CreateTimeEmd" placeholder="结束时间" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <input type="button" class="btn btn-default" value="检索" id="btnMsmQueryFilter" />
+                    <input type="reset" class="btn btn-default" value="重置" />
+                </div>
+            </div>
+        </form>
+        <table class="table table-hover table-bordered" id="SmsMgr_Table">
+            <thead>
+                <tr>
+                    @*<th>序号</th>*@
+                    <th>发送人</th>
+                    <th>身份</th>
+                    <th>接收人</th>
+                    <th>内容</th>
+                    <th>发送时间</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+@section css{
+    <style type="text/css">
+        textarea, input[type=text] {
+            width: 100%;
+        }
+    </style>
+}
+<div id="UnitUserBox" class="menuContent">
+    <ul id="UnitUserTree" class="ztree"></ul>
+</div>
+@section scripts{
+    <script src="~/Scripts/jQuery-File-Upload-9.18.0/js/vendor/jquery.ui.widget.js"></script>
+    <script src="~/Scripts/jQuery-File-Upload-9.18.0/js/jquery.iframe-transport.js"></script>
+    <script src="~/Scripts/jQuery-File-Upload-9.18.0/js/jquery.fileupload.js"></script>
+    <script type="text/javascript">
+        function getIDENTITY(innerData, type, rowData, meta) {
+            if (innerData == 0) { return '个人'; }
+            else if (innerData == 1) { return '部门科室'; }
+            else if (innerData == 2) { return '街道办事处'; }
+            else if (innerData == 3) { return '街道党工委'; }
+            else { return '未知'; }
+        }
+        $(document).ready(function () {
+            InitUserTreeModal({
+                UserIDs: "#RecipientUserIDs",
+                UserNames: "#RecipientUserNames",
+                UserPhones: "#RecipientUserPhones",
+            });
+            $('input[type="checkbox"]').on('change', function () {
+                $(this).siblings('input[type="checkbox"]').prop('checked', false);
+            });
+            $(".datetimepicker").datetimepicker({
+                minView: "month",
+                format: "yyyy-mm-dd",
+                autoclose: true,
+                language: 'zh-CN',
+            });
+            $('#SMSIquiry_Form').on('click', 'input[type=submit]', function () {
+                if ($('#meetingendtime').val() < $('#meetingstarttime').val()) { errorTimeMsg(); return false; }
+            });
+            $('#sendsms').on('click', function () {
+                if ($('#RecipientUserIDs').val() == '' && $('#ExternalNumber').val() == '') {
+                    Messenger().post({ message: '接收人和外部号码不能同时为空！' + new Date().toLocaleString(), type: 'error', showCloseButton: true });
+                    return false;
+                }
+            });
+            $('#ShortMessageSend_Form').on('submit', submitForm);
+            $('#ShortMessageSend_Form').on('submit', function () {
+                MySms_Table.ajax.reload(null, true);
+                SmsMgr_Table.ajax.reload(null, true);
+            });
+            var SmsMgr_Table = $('#SmsMgr_Table').DataTable({
+                bAutoWidth: false, bDeferRender: true, responsive: true, bServerSide: true, sServerMethod: 'post', bServerSide: true, bSort: false,
+                ajax: {
+                    url: '/SMSManagement/GetSmsMgrList',
+                    data: function (d) {
+                        var array = $("#SMSIquiry_Form").serializeArray();
+                        $(array).each(function () {
+                            d[this.name] = this.value;
+                        });
+                    },
+                    error: errorMsg
+                },
+                aoColumns: [
+                    //{ 'mData': null, sClass: 'text-center nowrap' },
+                    { 'mData': 'CREATEUSERNAME', sClass: 'text-center nowrap' },
+                    { 'mData': 'IDENTITY', sClass: 'text-center nowrap', mRender: getIDENTITY },
+                    { 'mData': 'RECIPIENTUSERNAMES', sClass: 'nowrap', mRender: getDtContent },
+                    { 'mData': 'SMSCONTENT' },
+                    { 'mData': 'CREATETIME', sClass: 'text-center nowrap' },
+                ],
+                //fnDrawCallback: GenerateSerialNumber, 
+            });
+            $("#SmsMgr_Table").on("click", function () {
+                SmsMgr_Table.ajax.reload(null, true);
+            })
+            var MySms_Table = $('#MySms_Table').DataTable({
+                bAutoWidth: false, bDeferRender: true, responsive: true, bServerSide: true, sServerMethod: 'post', bServerSide: true, bSort: false,
+                ajax: {
+                    url: '/SMSManagement/GetMySmsList',
+                    data: function (d) {
+                        d.SmsStatusID = $('#SmsStatusID').val();
+                    },
+                    error: errorMsg
+                },
+                aoColumns: [
+                    //{ mData: null, sClass: 'text-center nowrap' },
+                    { 'mData': 'CREATEUSERNAME', sClass: 'text-center nowrap' },
+                    { 'mData': 'IDENTITY', sClass: 'text-center nowrap', mRender: getIDENTITY },
+                    { 'mData': 'RECIPIENTUSERNAMES', sClass: 'nowrap', mRender: getDtContent },
+                    { 'mData': 'SMSCONTENT' },
+                    { 'mData': 'CREATETIME', sClass: 'text-center nowrap' },
+                ],
+                //fnDrawCallback: GenerateSerialNumber,
+            });
+            $('#MySms_Table').on('click', '.btnLook', function () {
+                var nRow = $(this).parents('tr')[0];
+                var aData = MySms_Table.row(nRow).data();
+                window.parent.showLgModel('/SMSManagement/SMSDetails?SMSID=' + aData.SMSID);
+                return false;
+            });
+            $("#btnMsmQueryFilter").on("click", function () {
+                SmsMgr_Table.ajax.reload(null, true);
+            })
+        });
+    </script>
+}

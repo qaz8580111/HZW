@@ -1,0 +1,48 @@
+﻿@{   
+    Layout = null;
+}
+<style>
+    table th {
+        width: 100px;
+    }
+
+    table tr input.large {
+        width: 98%;
+    }
+
+    table tr input.small {
+        width: 94%;
+    }
+</style>
+<script type="text/javascript">
+    $(Document).ready(function () {
+
+        GetExplainInfo($("#APID").val());
+    });
+    function GetExplainInfo(APID) {
+        $.get("/Approval/GetExplainInfo", { APID: APID }, function (data) {
+            $("#explainInfo").html(data);
+        });
+    }
+</script>
+<div style="margin-left: 210px;" id="fileGo">
+    <div id="docManagePanel" class="tabForm" style="width: 300px">
+        <div id="docManage" class="grid" style="display: block;">
+            <div class="grid-content" id="docItems">
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+    <div id="viewDocPanel" class="grid tabPanel" style="display: none;">
+        <div class="grid-title">
+            <div class="pull-left">查看附件</div>
+            <div class="pull-right"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="grid-content">
+            <iframe id="ifrmViewDoc" src="" width="100%" height="800px" marginheight="0"
+                marginwidth="0" scrolling="0" frameborder="0"></iframe>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>

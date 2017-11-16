@@ -1,0 +1,133 @@
+﻿@{
+    
+    Layout = "~/Views/IntegratedService/EnforceTheLawManagement/_LayoutEnforceManagement.cshtml";
+}
+
+@section HeadStyles_EnforceManage
+    {
+    <style type="text/css">
+        .table td.left {
+            text-align: left;
+        }
+
+        .table td.center {
+            text-align: center;
+        }
+    </style>
+}
+@section FootScripts_EnforceManage
+    {
+    <script type="text/javascript">
+        var oTable;
+        $(document).ready(function () {
+            var url = "/EnforceTheLawManagement/RCDCProcessList";
+            $("#startTime").datepicker();
+            $("#endTime").datepicker();
+            $("#btnQuery").click(function () {
+                var url = "/EnforceTheLawManagement/RCDCProcessList";
+                var strStartTime = $("#startTime").val();
+                var strEndTime = $("#endTime").val();
+
+                var startTime = new Date(strStartTime.replace(/-/g, "/"));
+                var endTime = new Date(strEndTime.replace(/-/g, "/"));
+
+                if (startTime > endTime) {
+                    alert("开始时间不能大于结束时间");
+                    return;
+                }
+                else {
+                    url += "?startTime=" + $("#startTime").val();
+                    url += "&endTime=" + $("#endTime").val();
+                }
+                if ($.trim($("#Title").val()) != "") {
+                    url += "&Title=" + escape($("#Title").val());
+                }
+                BindDataTable(url);
+            });
+
+            $("#btnQuery").click();
+        });
+        //获取审批任务列表数据
+        function BindDataTable(url) {
+            if (oTable != null) {
+                oTable.fnSettings().sAjaxSource = url;
+                oTable.fnDraw(true);
+            } else {
+                oTable = $('#zfsjTable').dataTable({
+                    sAjaxSource: url,
+                    aoColumns: [
+                        { "mDataProp": "SEQNO", "sClass": "center" },
+                        { "mDataProp": "EventTitle", "sClass": "left" },
+                        { "mDataProp": "EventSource", "sClass": "center" },
+                        {
+                            "mDataProp": function (data) {
+                                var CreateTime = "<span title='" + data.TitleTime + "'>" + data.CreateTime + "<span>";
+                                return CreateTime;
+                            }, "sClass": "center"
+                        },
+                        { "mDataProp": "CreateUserName", "sClass": "left" },
+                        { "mDataProp": "CountAll", "sClass": "left" },
+                        { "mDataProp": "CountYB", "sClass": "left" },
+                        {
+                            "mDataProp": function (data) {
+                                var deal = "<a  href='/EnforceTheLawManagement/RCDCWorkflowProcess?ID=" + data.ID + "'>查看</a>";
+                                return deal;
+                            }, "sClass": "center"
+                        }
+                    ],
+                    fnDrawCallback: function (oSettings) {
+                        var pagerIndex = oSettings._iDisplayStart / oSettings._iDisplayLength + 1;
+                        var $currentPager = $(".dataTables_paginate span a:contains('" + pagerIndex + "')");
+                        $currentPager.attr("style", "font-weight :bold;!important");
+                    }
+                });
+            }
+        }
+    </script>
+}
+
+@section BreadcrumbSection{
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li><a href="javascript:void(0)"><i class="icon-home"></i>日常督查</a></li>
+            <li>></li>
+            <li class="active">已办日常督查</li>
+        </ul>
+    </div>
+}
+<div class="row-fluid">
+    <div class="span12" id="tabledata">
+        <div class="box box-black" style="margin-top: 0px;">
+            <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+                <i class="icon-reorder" style="margin-right: 5px;"></i>日常督查列表
+            </div>
+            <div class="box-content" id="">
+                <label style="width: 70px; text-align: left; display: inline-block">开始时间</label>
+                <input type="text" id="startTime" style="margin-top:10px;width:150px" value="@string.Format("{0:yyyy-MM-dd}", DateTime.Now.AddDays(-6))" class="datepicker" data-date-format="yyyy-mm-dd"/>
+                <label style="width: 70px; text-align: left; display: inline-block; margin-left: 10px;">结束时间</label>
+                <input type="text" id="endTime" style="margin-top:10px; width:150px" value="@string.Format("{0:yyyy-MM-dd}", DateTime.Now)"class="datepicker" data-date-format="yyyy-mm-dd"/>
+                <label style="width: 30px; text-align: left; display: inline-block; margin-left: 10px;">标题</label>
+                <input type="text" id="Title" style="margin-top: 10px; width: 150px" />
+                <input id="btnQuery" type="button" class="btn btn-primary" title="查询" value="查 询" style="margin-left: 10px;" />
+
+            </div>
+            <div class="box-content" style="min-height: 400px;">
+                <table class="table table-bordered table-striped table-hover fill-head" id="zfsjTable">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center; width: 40px;">序号</th>
+                            <th style="text-align: center;">事件标题</th>
+                            <th style="text-align: center; width: 60px;">事件来源</th>
+                            <th style="text-align: center; width: 80px;">创建时间</th>
+                            <th style="text-align: center; width: 60px;">创建人</th>
+                            <th style="text-align: center; width: 60px;">事件总数</th>
+                            <th style="text-align: center; width: 60px;">已办结数</th>
+                            <th style="text-align: center; width: 40px;">操作</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div style="clear: both"></div>
+            </div>
+        </div>
+    </div>
+</div>

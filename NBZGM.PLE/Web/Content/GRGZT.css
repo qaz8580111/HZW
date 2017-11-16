@@ -1,0 +1,321 @@
+﻿
+/*日期、局文化、天气*/
+#rqjwhtqContent {
+    height: 171px;
+}
+
+#rqjwhGrid {
+    box-sizing: border-box;
+    outline-color: invert;
+    height: 68px;
+}
+
+    #rqjwhGrid .pull-left {
+        width: 50%;
+        margin: 5px 0px;
+        text-align: center;
+    }
+
+    #rqjwhGrid .pull-right {
+        width: 44%;
+        margin-top: 5px;
+        margin-right: 5px;
+    }
+
+    #rqjwhGrid .nySpan {
+        text-align: center;
+        font-size: 14px;
+        line-height: 20px;
+        height: 20px;
+    }
+
+    #rqjwhGrid .daySpan {
+        text-align: center;
+        font-size: 24px;
+        line-height: 38px;
+        height: 30px;
+    }
+
+    #rqjwhGrid .jwhSpan {
+        text-align: center;
+        font-size: 14px;
+        line-height: 20px;
+        height: 20px;
+    }
+
+#rqjwhtqContent ul {
+    border-top: 1px dashed #c9c9c9;
+    box-sizing: border-box;
+    color: #686866;
+    margin-top: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+    padding-left: 0px;
+    list-style-position: outside;
+    list-style-type: none;
+    outline-color: invert;
+    outline-style: none;
+}
+
+    #rqjwhtqContent ul li {
+        width: 33%;
+        box-sizing: border-box;
+        color: #686866;
+        display: inline;
+        float: left;
+        text-align: center;
+    }
+
+        #rqjwhtqContent ul li .daySpan {
+            text-align: center;
+            margin: 5px;
+            font-size: 14px;
+            line-height: 30px;
+            height: 30px;
+        }
+
+        #rqjwhtqContent ul li .tqSpan {
+            text-align: center;
+            margin: 5px;
+        }
+
+        #rqjwhtqContent ul li .qwSpan {
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+            color: #62aaef;
+            width: 100%;
+            line-height: 30px;
+            height: 30px;
+        }
+
+/*常用应用入口*/
+
+#cyyylkContent {
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+    #cyyylkContent .contentTitle {
+        font-size: 14px;
+        line-height: 18px;
+        height: 18px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        margin-bottom: 5px;
+        border-bottom: 1px solid #ddd;
+        background-color:rgb(90, 180, 218);
+        color:#fff;
+    }
+
+    #cyyylkContent .cylkRow {
+        margin-top: 5px;
+        padding-left: 5px;
+    }
+
+         .cylkRow > div {
+            width: 60px;
+            text-align: center;
+            float: left;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+            .cylkRow > div > div {
+             height:50px;border:1px solid #ddd; border-radius:3px; margin:3px;background-color:rgb(228,232,241);
+            }
+            .cylkRow > div > div > a img{
+                padding-top:10px;
+                }
+
+        .cylkRow span {
+            display: inline-block;
+            color:rgb(2,92,142);
+        }
+
+ /*推荐入口*/
+
+    #tjContent .tjlkRow {
+        text-align: left;
+        margin-top: 10px;
+    }
+
+        .tjlkRow .btn {
+            float: left;
+            margin-right: 5px;
+        }
+
+        .tjlkRow .title {
+            float: left;
+            width: 140px;
+        }
+
+        .tjlkRow .other {
+            color: #999;
+            font-size: 12px;
+            display: inline-block;
+        }
+
+
+/*工作台*/
+    #gztGrid .grxxGrid {
+        float: left;
+    }
+
+        #gztGrid .grxxGrid .info {
+            float: left;
+            margin-left: 12px;
+            width: 80px;
+        }
+
+    #gztGrid .gzxxGrid {
+        float: left;
+        margin-left: 10px;
+        width: 170px;
+        border-left: 1px dashed #c9c9c9;
+        vertical-align: top;
+    }
+
+        #gztGrid .gzxxGrid div {
+            font-size: 14px;
+            margin-left: 10px;
+            margin-bottom: 5px;
+        }
+
+        #gztGrid .gzxxGrid ul {
+            margin-top: 0px;
+            margin-bottom: 0px;
+            padding-left: 10px;
+        }
+
+
+
+/*日历*/
+
+    #rczxDatepicker .ui-widget-content {
+        font-size: 1.1em;
+        width: 14em;
+        background-image:none;
+        border-radius:0px;
+        border:0px;
+    }
+
+    #rczxDatepicker .ui-widget-header {
+        background-color: rgb(249,249,249)!important;
+        border: 0px;
+        border-radius: 0px;
+    }
+
+        #rczxDatepicker .ui-widget-header .ui-datepicker-title {
+            font-family: 微软雅黑, 宋体 !important;
+        }
+
+    #rczxDatepicker table th {
+        font-family: 微软雅黑, 宋体 !important;
+        line-height: 14px;
+        border-spacing: initial;
+    }
+
+        #rczxDatepicker table th span {
+            padding: 0px;
+            margin: 0px;
+            border: 0px;
+        }
+
+    #rczxDatepicker table td {
+        border-spacing: initial;
+        line-height: 15px;
+    }
+
+        #rczxDatepicker table td a {
+            text-align: center;
+            background: none;
+            border: 0px;
+            padding: 0px;
+            margin: 0px;
+        }
+
+    #rczxDatepicker .ui-state-active {
+        background-color: rgb(0, 68, 204);
+        background-image: -ms-linear-gradient(rgb(0, 136, 204), rgb(0, 68, 204));
+        background-repeat: repeat-x;
+        color: #fff;
+    }
+
+/*日程中心*/
+.rcapGrid {
+    vertical-align: top;
+}
+
+    .rcapGrid .title{
+        font-size: 14px;
+         font-weight:bold;
+        border-bottom: 1px solid #ddd;
+        padding: 5px;
+        background-color:rgb(250,234,245);
+    }
+    .rcapGrid .title i{
+      padding-right:5px;
+      color:rgb(174,19,50);
+    }
+
+    .rcapGrid ul {
+        text-align: left;
+        margin-top: 2px;
+        margin-bottom: 0px;
+        padding-left: 0px;
+        margin-left: 5px;
+        margin-right: 5px;
+        padding-bottom:0px;
+    }
+
+    .rcapGrid ul li{
+      border-bottom: 1px dashed rgb(40,141,211);
+      padding-bottom: 2px;
+      margin-bottom: 2px;
+    }
+    .rcapGrid ul li.end{
+      border-bottom: 0px;
+      padding-bottom: 0px;
+    }
+     .rcapGrid ul li a{
+      font-size:12px;
+      color:rgb(66,61,65);
+    }
+    .rcapGrid ul li i{
+      padding-right:8px;
+      color:rgb(90, 180, 218);
+    }
+    .rcapGrid .foot{
+       margin-bottom:1px;
+       margin-right:5px;
+       margin-top:0px;
+       padding-top:0px;
+       text-align:right;
+       vertical-align:top;
+    }
+        .rcapGrid .foot a {
+            padding:0px;
+            margin:0px;
+           font-size:0.9em;
+           line-height:6px;
+           height:6px;
+        }
+/*外部链接*/
+.wblj img {
+   border: 1px solid #ddd;
+   /*padding:1px;*/
+}
+
+/*规章*/
+.guizhang {
+  border-bottom: 1px dashed rgb(40,141,211);
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+}
+
+.guizhang-end a{
+      color:rgb(66,61,65);
+    }
+     .guizhang a{
+      color:rgb(66,61,65);
+    }

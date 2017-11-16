@@ -1,0 +1,125 @@
+﻿@model Web.ViewModels.VMStreeStore
+@{   
+    Layout = null;
+}
+
+<script type="text/javascript">
+    //初始化地图
+    function mapInited() {
+        setTimeout(function () {
+            var GEOMETRY = document.getElementById("GEOMETRY").value;
+            if (GEOMETRY) {
+                var mapCtrl = document.getElementById("mapCtrl").content.MapCtrl;
+                mapCtrl.AddMarker(GEOMETRY);
+            }
+        }, 1000)
+    }
+</script>
+
+<div class="tab-pane active" id="detail">
+    <form id="AddStreeStore" name="AddStreeStore" class="validation-form form-horizontal form-bordered form-row-stripped" method="post" action="/StreeStore/Add" enctype="multipart/form-data">
+        <input type="hidden" name="PICTUREURLS" id="PICTUREURLS" value="@Model.PICTUREURLS">
+        <input type="hidden" name="GEOMETRY" id="GEOMETRY" value="@Model.GEOMETRY">
+        <table class="table table-bordered" style="width:100%">
+            <tr>
+                <th style="text-align: center; line-height: 30px; width:10%">店铺名称</th>
+                <td style="width: 40%;text-align:left;">
+                    @Model.SHOPNAME
+                </td>
+                <th style="text-align: center; line-height: 30px;">店铺地址</th>
+                <td style="width: 40%;text-align:left;">
+                    @Model.ADDRESS
+                </td>
+            </tr>
+            <tr>
+                <th style="text-align: center; line-height: 30px;">法人代表</th>
+                <td style="width: 40%;text-align:left;">
+                    @Model.SHOPUSERNAME
+                </td>
+                <th style="text-align: center; line-height: 30px;">联系方式</th>
+                <td style="width: 40%;text-align:left;">
+                    @Model.SHOPPHONE
+                </td>
+            </tr>
+            <tr>
+                <th style="text-align: center; line-height: 30px;">相关许可</th>
+                <td style="width: 40%;text-align:left; vertical-align:central" colspan="3">
+                    @if(Model.ISMTZP==1){
+                    <input type="checkbox" disabled="disabled" checked="checked" style="width:15px;float: left;margin-top:10px;" />
+                    }
+                    else
+                    {
+                    <input type="checkbox" disabled="disabled" style="width:15px;float: left;margin-top:10px;" />
+                    }
+                    <label class="control-label" style="width:60px;">门头招牌</label>
+                    <input name="ISMTZP" id="ISMTZP" type="hidden" />
+                    @if (Model.ISGSWSXKZ== 1)
+                    {
+                    <input type="checkbox" disabled="disabled" checked="checked" style="width:15px;float: left;margin-top:10px;margin-left:88px;" />
+                    }
+                    else
+                    {
+                    <input type="checkbox" disabled="disabled" style="width:15px;float: left;margin-top:10px;margin-left:88px;" />
+                    }
+                    <label class="control-label" style="width:100px;">工商卫生许可证</label>
+                    <input name="ISGSWSXKZ" id="ISGSWSXKZ" type="hidden" />
+                    @if (Model.ISPSXKZ==1)
+                    {
+                    <input type="checkbox" disabled="disabled" checked="checked" style="width:15px;float: left;margin-top:10px;margin-left:48px" />
+                    }
+                    else
+                    {
+                    <input type="checkbox" disabled="disabled" style="width:15px;float: left;margin-top:10px;margin-left:48px" /> 
+                    }
+                    <label class="control-label" style="width:74px;">排水许可证</label>
+                    <input name="ISPSXKZ" id="ISPSXKZ" type="hidden" />
+                    @if (Model.ISHJPL==1)
+                    {
+                    <input type="checkbox" disabled="disabled" checked="checked" style="width:15px;float: left;margin-top:10px;margin-left:84px"/>
+                    }
+                    else
+                    {
+                    <input type="checkbox" disabled="disabled" style="width:15px;float: left;margin-top:10px;margin-left:84px"/>
+                    }
+                    <label class="control-label" style="width:60px;">有无环评</label>
+                    <input name="ISHJPL" id="ISHJPL" type="hidden" />
+                </td>
+            </tr>
+            <tr>
+                <th style="text-align: center; line-height: 30px;">从事行业</th>
+                <td style="width: 40%;text-align:left;" colspan="3">
+                    @ViewBag.streestoretypeB->@ViewBag.streestoretypeS->@ViewBag.streestoretypeC
+                </td>
+            </tr>
+            <tr>
+                <th style="text-align: center; line-height: 30px;">地理位置</th>
+                <td style="width: 40%;text-align:left;" colspan="3">
+                    <div id="silverlightControlHost" style="width: 100%; height: 350px;">
+                            <object id="mapCtrl" data="data:application/x-silverlight-2," type="application/x-silverlight-2" height="350px" width="100%">
+                            <param name="source" value="/ClientBin/MapCtrl.xap" />
+                            <param name="background" value="white" />
+                            <param name="minRuntimeVersion" value="5.0.61118.0" />
+                            <param name="autoUpgrade" value="true" />
+                            <param id="initParams" name="initParams" value="IsGoogleMap=false,MapUrl=http://tmap.tzsjs.gov.cn/services/tilecache/chinaemap,X1=121.409266152472,Y1=28.6559834674633,X2=121.423424005508,Y2=28.6614766315258,Mode=1,PinUrl=./Images/pin.png,OffsetX=24,OffsetY=48" />
+                            <a href="http://go.microsoft.com/fwlink/?LinkID=149156&v=5.0.61118.0" style="text-decoration: none">
+                                <img src="http://go.microsoft.com/fwlink/?LinkId=161376" alt="Get Microsoft Silverlight" style="border-style: none" />
+                            </a>
+                        </object>
+                        <iframe id="_sl_historyFrame" style="visibility: hidden; height: 0px; width: 0px; border: 0px"></iframe>
+                    </div>
+                </td>
+            </tr>
+            <tr style="display:none;">
+                <th style="text-align: center; line-height: 30px;">地图坐标</th>
+                <td style="width: 40%;text-align:left;" colspan="3">
+                    @Model.GEOMETRY
+                </td>
+            </tr>
+        </table>
+        <div class="form-group" style="margin-bottom: 5px; margin-left: 130px;">
+            <div class="col-sm-9 col-lg-10">
+                <a style=" margin-left:2px;" href="@Url.Content("~/StreeStore/Index")" class="btn">返  回</a>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,84 @@
+﻿@model Taizhou.PLE.Model.CaseDocModels.SQWTS
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("input[name=WTSJ]").datetimepicker();
+    });
+
+    //表单验证
+    function ValidateDocForm() {
+        var flag = true;
+
+        $(".formErrorMsg").text("");
+        $(".formErrorMsg").hide();
+
+        //验证委托人
+        var wtr = $("#WTR").val();
+        if ($.trim(wtr) == "") {
+            flag = false;
+            $("#error_wtr").show();
+            $("#error_wtr").text("请输入委托人.");
+        }
+
+        //验证受委托人
+        var swtr = $("#SWTR").val();
+        if ($.trim(swtr) == "") {
+            flag = false;
+            $("#error_swtr").show();
+            $("#error_swtr").text("请输入受委托人.");
+        }
+        return flag;
+    }
+</script>
+
+<form class="docForm" method="post" action="/DocSQWTS/CommitEditDocumentSQWTS" style="margin-bottom: 30px;" enctype="multipart/form-data">
+    <div class="title">
+        授权委托书
+    </div>
+    <table class="workflow" border="0" cellspacing="0" cellpadding="0" style="width: 700px; border-collapse: collapse; margin: 0 auto; margin-top: 20px;">
+        <tr>
+            <th colspan="1">委托人</th>
+            <td colspan="2">@Html.TextBox("WTR")
+                <label class="formErrorMsg" id="error_wtr"></label>
+            </td>
+            <th colspan="1">受委托人</th>
+            <td colspan="2">@Html.TextBox("SWTR")
+                <label class="formErrorMsg" id="error_swtr"></label>
+            </td>
+        </tr>
+        <tr>
+            <th colspan="1">工作单位或住址</th>
+            <td colspan="2">@Html.TextBox("GZDWHZZ")</td>
+            <th colspan="1">身份证号码</th>
+            <td colspan="2">@Html.TextBox("SFZHM")</td>
+        </tr>
+        <tr>
+            <th colspan="1">联系电话</th>
+            <td colspan="2">@Html.TextBox("LXDH")</td>
+            <th colspan="1">前往地点</th>
+            <td colspan="2">@Html.TextBox("QWDD")</td>
+        </tr>
+        <tr>
+            <th colspan="1">委托行为</th>
+            <td colspan="2">@Html.TextBox("WTXW")</td>
+            <th colspan="1">委托时间</th>
+            <td colspan="2">@Html.TextBox("WTSJ", DateTime.Now.ToString("yyyy-MM-dd HH:mm"))</td>
+        </tr>
+
+        <tr class="notHideTD">
+            <td style="border: none;"></td>
+            <td colspan="3" style="border: none; padding-top: 10px;">
+                <input id="btnDocFormSubmit" type="button" class="btn btn-success" value="保   存" />
+            </td>
+        </tr>
+    </table>
+    @Html.Hidden("WIID")
+    @Html.Hidden("DDID")
+    @Html.Hidden("AIID")
+    @Html.Hidden("ADID")
+    @Html.Hidden("WICode")
+    @Html.Hidden("DIID")
+</form>
+
+
+

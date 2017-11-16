@@ -1,0 +1,180 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/SysManagement/BasicManagement/_LayoutBasicManagement.cshtml";
+}
+
+@section HeadStyles{
+    <style type="text/css">
+        .center
+        {
+            text-align: center !important;
+        }
+    </style>
+}
+
+@section FootScripts {
+    <script type="text/javascript" lang="ja">
+        var oTable = null;
+        $(function () {
+            $("#sysRoleManagement").addClass("active");
+            var url = "/RoleManagement/GetRoleJsonData?random=" + Math.random();
+            BindDataTable(url);
+
+        });
+
+        function showSetFunctionsPanel(roleID, roleName) {
+            $("#roleName").html(roleName);
+            $("#btnSaveSetFunctions").attr("roleID", roleID);
+            $("#roleListDiv").attr("class", "span9");
+            var setting = {
+                check: {
+                    enable: true
+                },
+                data: {
+                    simpleData: {
+                        enable: true
+                    }
+                }
+            };
+            $.ajax({
+                type: 'GET',
+                dataType: 'json',
+                url: '/RoleManagement/GetFunctionTreeData?RoleID=' + roleID + '&random=' + Math.random(),
+                success: function (data) {
+                    if (data != null && data != "") {
+                        var zNodes = data;
+                        $.fn.zTree.init($("#tree"), setting, zNodes);
+                        var height1 = $("#listContentDiv")[0].clientHeight;
+                        var height2 = $("#treeContentDiv")[0].clientHeight;
+                        var height = height1 > height2 ? height1 : height2;
+                        $("#listContentDiv").height(height);
+                        $("#treeContentDiv").height(height);
+                    }
+                }
+            });
+            $("#setFunctionsDiv").show();
+        }
+
+        function hideSetFunctionsPanel() {
+            $("#roleListDiv").attr("class", "span12");
+            $("#setFunctionsDiv").hide();
+        }
+
+        function saveSetFunctions() {
+            var treeObj = $.fn.zTree.getZTreeObj("tree");
+            var nodes = treeObj.getCheckedNodes(true);
+            var roleID = $("#btnSaveSetFunctions").attr("roleID");
+
+            var functionIDs = "";
+            for (var i = 0; i < nodes.length; i++) {
+                if (i == 0) {
+                    functionIDs += nodes[i].id;
+                    continue;
+                }
+                functionIDs += "," + nodes[i].id;
+            }
+
+            $.ajax(
+                    {
+                        type: 'POST',
+                        url: '/RoleManagement/CommitSaveRoleFunctions?random=' + Math.random(),
+                        dataType: 'html',
+                        data: { RoleID: roleID, FunctionIDs: functionIDs },
+                        success: function (data) {
+                            if (data) {
+                                hideSetFunctionsPanel();
+                            } else {
+                                alert("异常,请联系管理员。");
+                            }
+                        }
+                    });
+        }
+
+        function BindDataTable(url) {
+            var num = 0;
+            if (oTable != null) {
+                oTable.fnSettings().sAjaxSource = url;
+                oTable.fnDraw(true);
+            } else {
+                oTable = $('#RoleTable').dataTable({
+                    sAjaxSource: url,
+                    aoColumns: [
+                        { "mDataProp": "RoleName" },
+                        { "mDataProp": "Description" },
+                        { "mDataProp": "SeqNo" },
+                        {
+                            "mDataProp": function (data) {
+                                var edit = "<a class='btn btn-primary btn-small' href='/RoleManagement/EditRole?RoleID=" + data.RoleID + "'><i class='icon-edit'></i>编辑</a>";
+                                var del = "<a class='btn btn-danger btn-small' href='#'><i class='icon-trash'></i>删除</a>";
+                                var setFuns = "<a class='setFunctions btn btn-primary btn-small' roleID ='" + data.RoleID + "' roleName='" + data.RoleName + "' href='#'><i class='icon-edit'></i>功能项</a>";
+
+                                return edit + "  " + del + "  " + setFuns;
+                            }, "sClass": "center"
+                        }
+                    ],
+                    fnDrawCallback: function () {
+                        $(".setFunctions").click(function () {
+                            var roleID = $(this).attr("roleID");
+                            var roleName = $(this).attr("roleName");
+                            showSetFunctionsPanel(roleID, roleName);
+                        });
+                    }
+                });
+            }
+        }
+    </script>
+}
+
+@section BreadcrumbSection{
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+
+            <li><a href="#"><i class="icon-home"></i>系统管理</a></li>
+            <li>></li>
+            <li><a href="#">基础管理</a></li>
+            <li>></li>
+            <li class="active" id="aaa">角色管理</li>
+            <li id="RoleInfo"></li>
+        </ul>
+    </div>
+}
+<div class="row-fluid">
+    <div id="roleListDiv" class="span12">
+        <div class="box box-black" style="margin-top: 0px;">
+            <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+                <i class="icon-table" style="margin-right: 5px;"></i>角色列表
+            </div>
+            <div class="box-content">
+                <a class="btn btn-primary" href="/RoleManagement/AddRole">添 加</a>
+            </div>
+            <div id="listContentDiv" class="box-content">
+                <table class="table table-bordered table-striped table-hover fill-head" id="RoleTable">
+                    <thead>
+                        <tr>
+                            <th>角色名称</th>
+                            <th>角色说明</th>
+                            <th style="text-align: center; width: 100px;">排序号</th>
+                            <th style="text-align: center; width: 230px;">操作</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div style="clear: both"></div>
+            </div>
+        </div>
+    </div>
+    <div id="setFunctionsDiv" class="span3" style="display: none;">
+        <div class="box box-black" style="margin-top: 0px;">
+            <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+                <i class="icon-table" style="margin-right: 5px;"></i><span id="roleName"></span>
+            </div>
+            <div id="btnDiv" class="box-content" style="text-align: right;">
+                <a id="btnSaveSetFunctions" class='btn btn-primary btn-small' href="#" onclick="saveSetFunctions()"><i class="icon-save"></i>保 存</a>
+                <a class='btn btn-small' href="#" onclick="hideSetFunctionsPanel()">取 消</a>
+            </div>
+            <div id="treeContentDiv" class="box-content">
+                <div id="tree" class="ztree">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

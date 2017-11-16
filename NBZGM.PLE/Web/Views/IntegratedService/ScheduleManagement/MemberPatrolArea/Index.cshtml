@@ -1,0 +1,142 @@
+﻿@{
+    Layout = "~/Views/IntegratedService/ScheduleManagement/_LayoutScheduleManagement.cshtml";
+}
+
+@section HeadStyles_ScheduleManage{
+    <style type="text/css">
+        .center {
+            text-align: center !important;
+        }
+    </style>
+}
+
+@section FootScripts_ScheduleManage{
+    <script type="text/javascript">
+        var oTable = null;
+
+        $(document).ready(function () {
+
+            //绑定搜索按钮点击事件
+            $("#btnQuery").click(function () {
+                var url = "/MemberPatrolArea/GetMemberAreas";
+                //区域名称查询
+                var areaName = escape($("#txtAreaName").val());
+
+                url += "?areaName=" + areaName;
+                url += "&random=" + Math.random();
+
+                BindDataTable(url);
+            });
+
+            $("#btnQuery").click();
+        })
+
+        //定义 datatable 数据加载函数
+        function BindDataTable(url) {
+            if (oTable != null) {
+                oTable.fnSettings().sAjaxSource = url;
+                oTable.fnDraw(true);
+            } else {
+                oTable = $("#MemberPatrolArea").dataTable({
+                    sAjaxSource: url,
+                    aoColumns: [
+                        { "mDataProp": "areaName", "sClass": "left" },
+                        { "mDataProp": "areaDescription", "sClass": "left" },
+                        //{ "mDataProp": "draw", "sClass": "center" },
+                        { "mDataProp": "operating", "sClass": "center" }
+                    ],
+                    fnDrawCallback: function (oSettings) {
+                        var pagerIndex = oSettings._iDisplayStart / oSettings._iDisplayLength + 1;
+                        var $currentPager = $(".dataTables_paginate span a:contains('" + pagerIndex + "')");
+                        $currentPager.attr("style", "font-weight :bold;!important");
+                    }
+                });
+            }
+        }
+
+        function DeleteArea(areaID) {
+            if (!confirm("确认要删除?")) {
+                return;
+            }
+            $.ajax({
+                url: "/MemberPatrolArea/Delete?areaID=" + areaID,
+                type: "get",
+                success: function (data) { 
+                    if (data == 1) {
+                        if (!confirm("数据正在使用中,确定要删除?")) {
+                            return;
+                        }
+                        $.ajax({
+                            url: "/MemberPatrolArea/DeleteArea?areaID=" + areaID,
+
+                            type: "get",
+
+                            success: function (data) {
+
+                                location.reload();
+                            },
+                            error: function (mes) {
+                                alert("操作失败");
+                            }
+                        });
+                    } else
+                    {
+                        location.reload();
+                    }
+                    
+                },
+                error: function (mes) {
+                    alert("操作失败");
+                }
+            });
+        }
+
+    </script>
+}
+
+@section BreadcrumbSection{
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li><a href="javascript:void(0)"><i class="icon-home"></i>综合业务</a></li>
+            <li>></li>
+            <li><a href="javascript:void(0)">巡查监管</a></li>
+            <li>></li>
+            <li class="active">队员巡查区域管理</li>
+        </ul>
+    </div>
+}
+
+<div class="box box-black" style="margin: 5px;">
+    <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+        <i class="icon-reorder" style="margin-right: 5px;"></i>队员巡查区域列表
+    </div>
+    <div class="box-content" style="min-height: 400px;">
+        <div class="query">
+            <table>
+                <tr>
+                    <td style="width: 80px">
+                        <label style="vertical-align: bottom; margin-top: 5px; margin-bottom: 2px; float: left;">区域名称:</label></td>
+                    <td style="width: 250px">
+                        <input id="txtAreaName" type="text" style="margin-top: 5px; margin-bottom: 0px; float: left;" />
+                    </td>
+                    <td>
+                        <input id="btnQuery" type="button" style="margin-top: 5px; margin-bottom: 0px;" class="btn btn-info" title="查询" value="查 询">
+                        <a href="@Url.Content("~/MemberPatrolArea/AddArea")" style="margin-top: 5px; margin-bottom: 0px;" class="btn btn-info" title="添加">添 加</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <hr />
+        <table class="table table-bordered table-striped table-hover fill-head" id="MemberPatrolArea">
+            <thead>
+                <tr>
+                    <th style="text-align: center;">区域名称</th>
+                    <th style="text-align: center;">区域说明</th>
+                  @*  <th style="text-align: center;">绘制区域</th>*@
+                    <th style="text-align: center;">操作</th>
+                </tr>
+            </thead>
+        </table>
+        <div style="clear: both"></div>
+    </div>
+</div>

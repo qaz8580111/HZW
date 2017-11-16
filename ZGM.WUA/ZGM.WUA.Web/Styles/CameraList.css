@@ -1,0 +1,65 @@
+﻿.tab div:hover {
+    opacity: 0.8;
+    cursor: pointer;
+    background-color: #15b3fb;
+}
+
+.tabChecked {
+    background-color: #15b3fb;
+}
+
+.tab {
+    width: 201px;
+    height: 20px;
+    background-color: #294e73;
+    margin-top: 4px;
+    margin-left: 2px;
+    color: #ffffff;
+}
+
+    .tab div {
+        float: left;
+        display: inline-block;
+        width: 64px;
+        height: 20px;
+        font-size: 14px;
+        line-height: 20px;
+        font-family: 'Microsoft YaHei';
+    }
+
+.icoFolder {
+    background-image: url('../images/3Dperson.png');
+}
+.icoNoImg {
+     height:0px;
+    width: 0px;
+    background-image:url();
+}
+.icoKQCamera  { 
+    width:16px;
+    height:18px;
+     background: url('../images/球机_在线.png') no-repeat; 
+}
+.icoQJCamera {
+    width: 16px;
+    height: 18px;
+    background: url('../images/camera.png') no-repeat;
+}
+.icoKQCamera_offline {
+    width: 16px;
+    height: 18px;
+    background: url('../images/球机_在线.png') no-repeat;
+    -webkit-filter: grayscale(100%);
+    -webkit-filter: grayscale(1);
+    filter: grayscale(100%);
+    filter: gray;
+}
+.icoQJCamera_offline {
+    width: 16px;
+    height: 18px;
+    background: url('../images/camera.png') no-repeat;
+    -webkit-filter: grayscale(100%);
+    -webkit-filter: grayscale(1);
+    filter: grayscale(100%);
+    filter: gray;
+}

@@ -1,0 +1,209 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZGM.Web", "ZGM.Web\ZGM.Web.csproj", "{C0BF3E33-DB23-4AE7-BC29-DBB065AD5EEB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZGM.Model", "ZGM.Model\ZGM.Model.csproj", "{A978732A-122C-4074-89AE-E69466059146}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZGM.BLL", "ZGM.BLL\ZGM.BLL.csproj", "{C8365073-68F6-43D9-A896-DF08CCA2B452}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZGM.Common", "Common\ZGM.Common.csproj", "{003AD35C-98B1-46B4-8D45-9B1CC038821D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZGM.PhoneAPI", "ZGM.PhoneAPI\ZGM.PhoneAPI.csproj", "{07140D6B-BDE2-4D46-B49D-E35CF540E4A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZGM.PhoneAPITest", "ZGM.PhoneAPITest\ZGM.PhoneAPITest.csproj", "{17C8CCF1-26FF-4674-B47A-5DD6A600752C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZGM.CarGPSAddress", "ZGM.CarGPSAddress\ZGM.CarGPSAddress.csproj", "{0A03CF21-0DBA-4E6A-A5ED-4B6FB220F4C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZGM.OfflineAlarm", "ZGM.OfflineAlarm\ZGM.OfflineAlarm.csproj", "{5923F5D2-1F8D-40BC-99BF-05C5770C8A92}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZGM.CarAlarmDetail", "ZGM.CarAlarmDetail\ZGM.CarAlarmDetail.csproj", "{894E4ACC-F8DB-490E-A4E8-E725DCA12AE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZGM.CarOfflineAlarm", "ZGM.CarOfflineAlarm\ZGM.CarOfflineAlarm.csproj", "{15B51DFD-E392-4DC7-A7BA-E2D1CBD1F16B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZGM.SZCGInterface", "ZGM.SZCGInterface\ZGM.SZCGInterface.csproj", "{0D9FA4AB-A7D4-4E12-823B-E87007ACD1DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZGM.SZCGMedias", "ZGM.SZCGMedias\ZGM.SZCGMedias.csproj", "{7932A1DA-B6BB-49A3-8D16-C4346BBD506A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZGM.ZNBJConsole", "ZGM.ZNBJConsole\ZGM.ZNBJConsole.csproj", "{0F3E89C0-A4FA-41A8-995B-AF7293B69166}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZGM.SMSService", "ZGM.SMSService\ZGM.SMSService.csproj", "{96904D20-7752-4E35-9A1F-0CFEB92C5701}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZGM.EventService", "ZGM.EventService\ZGM.EventService.csproj", "{59926FC6-404B-455D-848F-3F029AB493DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZGM.AlarmDetail", "ZGM.AlarmDetail\ZGM.AlarmDetail.csproj", "{80996101-A2EB-4293-9BFF-802202BD4861}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 17
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://218.108.93.246:8080/tfs/year2015
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ZGM.Model\\ZGM.Model.csproj
+		SccProjectName1 = ZGM.Model
+		SccLocalPath1 = ZGM.Model
+		SccProjectUniqueName2 = Common\\ZGM.Common.csproj
+		SccProjectName2 = Common
+		SccLocalPath2 = Common
+		SccProjectUniqueName3 = ZGM.BLL\\ZGM.BLL.csproj
+		SccProjectName3 = ZGM.BLL
+		SccLocalPath3 = ZGM.BLL
+		SccProjectUniqueName4 = ZGM.EventService\\ZGM.EventService.csproj
+		SccProjectName4 = ZGM.EventService
+		SccLocalPath4 = ZGM.EventService
+		SccProjectUniqueName5 = ZGM.SZCGInterface\\ZGM.SZCGInterface.csproj
+		SccProjectName5 = ZGM.SZCGInterface
+		SccLocalPath5 = ZGM.SZCGInterface
+		SccProjectUniqueName6 = ZGM.ZNBJConsole\\ZGM.ZNBJConsole.csproj
+		SccProjectName6 = ZGM.ZNBJConsole
+		SccLocalPath6 = ZGM.ZNBJConsole
+		SccProjectUniqueName7 = ZGM.CarAlarmDetail\\ZGM.CarAlarmDetail.csproj
+		SccProjectName7 = ZGM.CarAlarmDetail
+		SccLocalPath7 = ZGM.CarAlarmDetail
+		SccProjectUniqueName8 = ZGM.SMSService\\ZGM.SMSService.csproj
+		SccProjectName8 = ZGM.SMSService
+		SccLocalPath8 = ZGM.SMSService
+		SccProjectUniqueName9 = ZGM.Web\\ZGM.Web.csproj
+		SccProjectName9 = ZGM.Web
+		SccLocalPath9 = ZGM.Web
+		SccProjectUniqueName10 = ZGM.PhoneAPI\\ZGM.PhoneAPI.csproj
+		SccProjectName10 = ZGM.PhoneAPI
+		SccLocalPath10 = ZGM.PhoneAPI
+		SccProjectUniqueName11 = ZGM.PhoneAPITest\\ZGM.PhoneAPITest.csproj
+		SccProjectName11 = ZGM.PhoneAPITest
+		SccLocalPath11 = ZGM.PhoneAPITest
+		SccProjectUniqueName12 = ZGM.CarGPSAddress\\ZGM.CarGPSAddress.csproj
+		SccProjectName12 = ZGM.CarGPSAddress
+		SccLocalPath12 = ZGM.CarGPSAddress
+		SccProjectUniqueName13 = ZGM.OfflineAlarm\\ZGM.OfflineAlarm.csproj
+		SccProjectName13 = ZGM.OfflineAlarm
+		SccLocalPath13 = ZGM.OfflineAlarm
+		SccProjectUniqueName14 = ZGM.CarOfflineAlarm\\ZGM.CarOfflineAlarm.csproj
+		SccProjectName14 = ZGM.CarOfflineAlarm
+		SccLocalPath14 = ZGM.CarOfflineAlarm
+		SccProjectUniqueName15 = ZGM.SZCGMedias\\ZGM.SZCGMedias.csproj
+		SccProjectName15 = ZGM.SZCGMedias
+		SccLocalPath15 = ZGM.SZCGMedias
+		SccProjectUniqueName16 = ZGM.AlarmDetail\\ZGM.AlarmDetail.csproj
+		SccProjectName16 = ZGM.AlarmDetail
+		SccLocalPath16 = ZGM.AlarmDetail
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C0BF3E33-DB23-4AE7-BC29-DBB065AD5EEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0BF3E33-DB23-4AE7-BC29-DBB065AD5EEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0BF3E33-DB23-4AE7-BC29-DBB065AD5EEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0BF3E33-DB23-4AE7-BC29-DBB065AD5EEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A978732A-122C-4074-89AE-E69466059146}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A978732A-122C-4074-89AE-E69466059146}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A978732A-122C-4074-89AE-E69466059146}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A978732A-122C-4074-89AE-E69466059146}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8365073-68F6-43D9-A896-DF08CCA2B452}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8365073-68F6-43D9-A896-DF08CCA2B452}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8365073-68F6-43D9-A896-DF08CCA2B452}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8365073-68F6-43D9-A896-DF08CCA2B452}.Release|Any CPU.Build.0 = Release|Any CPU
+		{003AD35C-98B1-46B4-8D45-9B1CC038821D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{003AD35C-98B1-46B4-8D45-9B1CC038821D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{003AD35C-98B1-46B4-8D45-9B1CC038821D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{003AD35C-98B1-46B4-8D45-9B1CC038821D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07140D6B-BDE2-4D46-B49D-E35CF540E4A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07140D6B-BDE2-4D46-B49D-E35CF540E4A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07140D6B-BDE2-4D46-B49D-E35CF540E4A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07140D6B-BDE2-4D46-B49D-E35CF540E4A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17C8CCF1-26FF-4674-B47A-5DD6A600752C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17C8CCF1-26FF-4674-B47A-5DD6A600752C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17C8CCF1-26FF-4674-B47A-5DD6A600752C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17C8CCF1-26FF-4674-B47A-5DD6A600752C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A03CF21-0DBA-4E6A-A5ED-4B6FB220F4C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A03CF21-0DBA-4E6A-A5ED-4B6FB220F4C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A03CF21-0DBA-4E6A-A5ED-4B6FB220F4C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A03CF21-0DBA-4E6A-A5ED-4B6FB220F4C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5923F5D2-1F8D-40BC-99BF-05C5770C8A92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5923F5D2-1F8D-40BC-99BF-05C5770C8A92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5923F5D2-1F8D-40BC-99BF-05C5770C8A92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5923F5D2-1F8D-40BC-99BF-05C5770C8A92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{894E4ACC-F8DB-490E-A4E8-E725DCA12AE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{894E4ACC-F8DB-490E-A4E8-E725DCA12AE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{894E4ACC-F8DB-490E-A4E8-E725DCA12AE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{894E4ACC-F8DB-490E-A4E8-E725DCA12AE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15B51DFD-E392-4DC7-A7BA-E2D1CBD1F16B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15B51DFD-E392-4DC7-A7BA-E2D1CBD1F16B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15B51DFD-E392-4DC7-A7BA-E2D1CBD1F16B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15B51DFD-E392-4DC7-A7BA-E2D1CBD1F16B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D9FA4AB-A7D4-4E12-823B-E87007ACD1DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D9FA4AB-A7D4-4E12-823B-E87007ACD1DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D9FA4AB-A7D4-4E12-823B-E87007ACD1DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D9FA4AB-A7D4-4E12-823B-E87007ACD1DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7932A1DA-B6BB-49A3-8D16-C4346BBD506A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7932A1DA-B6BB-49A3-8D16-C4346BBD506A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7932A1DA-B6BB-49A3-8D16-C4346BBD506A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7932A1DA-B6BB-49A3-8D16-C4346BBD506A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F3E89C0-A4FA-41A8-995B-AF7293B69166}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F3E89C0-A4FA-41A8-995B-AF7293B69166}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F3E89C0-A4FA-41A8-995B-AF7293B69166}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F3E89C0-A4FA-41A8-995B-AF7293B69166}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96904D20-7752-4E35-9A1F-0CFEB92C5701}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96904D20-7752-4E35-9A1F-0CFEB92C5701}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96904D20-7752-4E35-9A1F-0CFEB92C5701}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96904D20-7752-4E35-9A1F-0CFEB92C5701}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59926FC6-404B-455D-848F-3F029AB493DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59926FC6-404B-455D-848F-3F029AB493DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59926FC6-404B-455D-848F-3F029AB493DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59926FC6-404B-455D-848F-3F029AB493DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80996101-A2EB-4293-9BFF-802202BD4861}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80996101-A2EB-4293-9BFF-802202BD4861}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80996101-A2EB-4293-9BFF-802202BD4861}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80996101-A2EB-4293-9BFF-802202BD4861}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 15
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://218.108.93.246:8080/tfs/year2015
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ZGM.BLL\\ZGM.BLL.csproj
+		SccProjectName1 = ZGM.BLL
+		SccLocalPath1 = ZGM.BLL
+		SccProjectUniqueName2 = ZGM.Model\\ZGM.Model.csproj
+		SccProjectName2 = ZGM.Model
+		SccLocalPath2 = ZGM.Model
+		SccProjectUniqueName3 = ZGM.Web\\ZGM.Web.csproj
+		SccProjectName3 = ZGM.Web
+		SccLocalPath3 = ZGM.Web
+		SccProjectUniqueName4 = Common\\ZGM.Common.csproj
+		SccProjectName4 = Common
+		SccLocalPath4 = Common
+		SccProjectUniqueName5 = ZGM.PhoneAPI\\ZGM.PhoneAPI.csproj
+		SccProjectName5 = ZGM.PhoneAPI
+		SccLocalPath5 = ZGM.PhoneAPI
+		SccProjectUniqueName6 = ZGM.PhoneAPITest\\ZGM.PhoneAPITest.csproj
+		SccProjectName6 = ZGM.PhoneAPITest
+		SccLocalPath6 = ZGM.PhoneAPITest
+		SccProjectUniqueName7 = ZGM.CarGPSAddress\\ZGM.CarGPSAddress.csproj
+		SccProjectName7 = ZGM.CarGPSAddress
+		SccLocalPath7 = ZGM.CarGPSAddress
+		SccProjectUniqueName8 = ZGM.OfflineAlarm\\ZGM.OfflineAlarm.csproj
+		SccProjectName8 = ZGM.OfflineAlarm
+		SccLocalPath8 = ZGM.OfflineAlarm
+		SccProjectUniqueName9 = ZGM.CarAlarmDetail\\ZGM.CarAlarmDetail.csproj
+		SccProjectName9 = ZGM.CarAlarmDetail
+		SccLocalPath9 = ZGM.CarAlarmDetail
+		SccProjectUniqueName10 = ZGM.CarOfflineAlarm\\ZGM.CarOfflineAlarm.csproj
+		SccProjectName10 = ZGM.CarOfflineAlarm
+		SccLocalPath10 = ZGM.CarOfflineAlarm
+		SccProjectUniqueName11 = ZGM.SZCGInterface\\ZGM.SZCGInterface.csproj
+		SccProjectName11 = ZGM.SZCGInterface
+		SccLocalPath11 = ZGM.SZCGInterface
+		SccProjectUniqueName12 = ZGM.SZCGMedias\\ZGM.SZCGMedias.csproj
+		SccProjectName12 = ZGM.SZCGMedias
+		SccLocalPath12 = ZGM.SZCGMedias
+		SccProjectUniqueName13 = ZGM.ZNBJConsole\\ZGM.ZNBJConsole.csproj
+		SccProjectName13 = ZGM.ZNBJConsole
+		SccLocalPath13 = ZGM.ZNBJConsole
+	EndGlobalSection
+EndGlobal

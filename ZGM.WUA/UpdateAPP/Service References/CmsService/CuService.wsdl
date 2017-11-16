@@ -1,0 +1,734 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:ns="http://ws.vms.ivms6.hikvision.com" xmlns:ns1="http://org.apache.axis2/xsd" targetNamespace="http://ws.vms.ivms6.hikvision.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation>CuService</wsdl:documentation>
+  <wsdl:types>
+    <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://ws.vms.ivms6.hikvision.com">
+      <xs:element name="searchVideoTags">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="cameraIndexCode" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="startTime" type="xs:long" />
+            <xs:element minOccurs="0" name="stopTime" type="xs:long" />
+            <xs:element minOccurs="0" name="storePlace" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="remark" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="searchVideoTagsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="savePresetInfo">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="token" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="cameraIndexCode" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="type" type="xs:int" />
+            <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="num" type="xs:int" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="savePresetInfoResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="modifyVideoTag">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="videoTagId" type="xs:int" />
+            <xs:element minOccurs="0" name="remark" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="modifyVideoTagResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="invoke">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="commandName" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="argType" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="args" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="invokeResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getVrmServiceByCameraIndexCodes">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="token" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="cameraIndexCodes" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="netZoneId" type="xs:long" />
+            <xs:element minOccurs="0" name="recordType" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="playWndIndex" type="xs:int" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getVrmServiceByCameraIndexCodesResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getStreamServiceByCameraIndexCodes">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="token" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="type" type="xs:int" />
+            <xs:element minOccurs="0" name="cameraIndexCodes" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="netZoneId" type="xs:long" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getStreamServiceByCameraIndexCodesResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getResourceList">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="resourceTypeCode" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="resourceIndexCode" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="netZoneId" type="xs:long" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getResourceListResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getPtzInfos">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="token" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="cameraIndexCode" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="type" type="xs:int" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getPtzInfosResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getNetZoneId">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="token" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="vasIp" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getNetZoneIdResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="xs:long" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getAlarmHistory">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="sourceIndexCodes" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="beginTime" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="endTime" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="pageNo" type="xs:int" />
+            <xs:element minOccurs="0" name="pageSize" type="xs:int" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getAlarmHistoryResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getAlarmEventByRegion">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="regionIndexCode" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getAlarmEventByRegionResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getAlarmEventById">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="alarmEventId" type="xs:int" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getAlarmEventByIdResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="deleteVideoTag">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="videoTagId" type="xs:int" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="deleteVideoTagResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="deletePtzInfo">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="token" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="cameraIndexCode" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="type" type="xs:int" />
+            <xs:element minOccurs="0" name="num" type="xs:int" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="deletePtzInfoResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="changePtzInfo">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="token" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="cameraIndexCode" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="type" type="xs:int" />
+            <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="num" type="xs:int" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="changePtzInfoResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="addVideoTag">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="cameraIndexCode" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="startTime" type="xs:long" />
+            <xs:element minOccurs="0" name="stopTime" type="xs:long" />
+            <xs:element minOccurs="0" name="storePlace" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="remark" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="addVideoTagResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getResourceListRequest">
+    <wsdl:part name="parameters" element="ns:getResourceList" />
+  </wsdl:message>
+  <wsdl:message name="getResourceListResponse">
+    <wsdl:part name="parameters" element="ns:getResourceListResponse" />
+  </wsdl:message>
+  <wsdl:message name="searchVideoTagsRequest">
+    <wsdl:part name="parameters" element="ns:searchVideoTags" />
+  </wsdl:message>
+  <wsdl:message name="searchVideoTagsResponse">
+    <wsdl:part name="parameters" element="ns:searchVideoTagsResponse" />
+  </wsdl:message>
+  <wsdl:message name="addVideoTagRequest">
+    <wsdl:part name="parameters" element="ns:addVideoTag" />
+  </wsdl:message>
+  <wsdl:message name="addVideoTagResponse">
+    <wsdl:part name="parameters" element="ns:addVideoTagResponse" />
+  </wsdl:message>
+  <wsdl:message name="getStreamServiceByCameraIndexCodesRequest">
+    <wsdl:part name="parameters" element="ns:getStreamServiceByCameraIndexCodes" />
+  </wsdl:message>
+  <wsdl:message name="getStreamServiceByCameraIndexCodesResponse">
+    <wsdl:part name="parameters" element="ns:getStreamServiceByCameraIndexCodesResponse" />
+  </wsdl:message>
+  <wsdl:message name="getVrmServiceByCameraIndexCodesRequest">
+    <wsdl:part name="parameters" element="ns:getVrmServiceByCameraIndexCodes" />
+  </wsdl:message>
+  <wsdl:message name="getVrmServiceByCameraIndexCodesResponse">
+    <wsdl:part name="parameters" element="ns:getVrmServiceByCameraIndexCodesResponse" />
+  </wsdl:message>
+  <wsdl:message name="changePtzInfoRequest">
+    <wsdl:part name="parameters" element="ns:changePtzInfo" />
+  </wsdl:message>
+  <wsdl:message name="changePtzInfoResponse">
+    <wsdl:part name="parameters" element="ns:changePtzInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="getAlarmHistoryRequest">
+    <wsdl:part name="parameters" element="ns:getAlarmHistory" />
+  </wsdl:message>
+  <wsdl:message name="getAlarmHistoryResponse">
+    <wsdl:part name="parameters" element="ns:getAlarmHistoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="deleteVideoTagRequest">
+    <wsdl:part name="parameters" element="ns:deleteVideoTag" />
+  </wsdl:message>
+  <wsdl:message name="deleteVideoTagResponse">
+    <wsdl:part name="parameters" element="ns:deleteVideoTagResponse" />
+  </wsdl:message>
+  <wsdl:message name="invokeRequest">
+    <wsdl:part name="parameters" element="ns:invoke" />
+  </wsdl:message>
+  <wsdl:message name="invokeResponse">
+    <wsdl:part name="parameters" element="ns:invokeResponse" />
+  </wsdl:message>
+  <wsdl:message name="getNetZoneIdRequest">
+    <wsdl:part name="parameters" element="ns:getNetZoneId" />
+  </wsdl:message>
+  <wsdl:message name="getNetZoneIdResponse">
+    <wsdl:part name="parameters" element="ns:getNetZoneIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="getPtzInfosRequest">
+    <wsdl:part name="parameters" element="ns:getPtzInfos" />
+  </wsdl:message>
+  <wsdl:message name="getPtzInfosResponse">
+    <wsdl:part name="parameters" element="ns:getPtzInfosResponse" />
+  </wsdl:message>
+  <wsdl:message name="deletePtzInfoRequest">
+    <wsdl:part name="parameters" element="ns:deletePtzInfo" />
+  </wsdl:message>
+  <wsdl:message name="deletePtzInfoResponse">
+    <wsdl:part name="parameters" element="ns:deletePtzInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="savePresetInfoRequest">
+    <wsdl:part name="parameters" element="ns:savePresetInfo" />
+  </wsdl:message>
+  <wsdl:message name="savePresetInfoResponse">
+    <wsdl:part name="parameters" element="ns:savePresetInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="getAlarmEventByIdRequest">
+    <wsdl:part name="parameters" element="ns:getAlarmEventById" />
+  </wsdl:message>
+  <wsdl:message name="getAlarmEventByIdResponse">
+    <wsdl:part name="parameters" element="ns:getAlarmEventByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="getAlarmEventByRegionRequest">
+    <wsdl:part name="parameters" element="ns:getAlarmEventByRegion" />
+  </wsdl:message>
+  <wsdl:message name="getAlarmEventByRegionResponse">
+    <wsdl:part name="parameters" element="ns:getAlarmEventByRegionResponse" />
+  </wsdl:message>
+  <wsdl:message name="modifyVideoTagRequest">
+    <wsdl:part name="parameters" element="ns:modifyVideoTag" />
+  </wsdl:message>
+  <wsdl:message name="modifyVideoTagResponse">
+    <wsdl:part name="parameters" element="ns:modifyVideoTagResponse" />
+  </wsdl:message>
+  <wsdl:portType name="CuServicePortType">
+    <wsdl:operation name="getResourceList">
+      <wsdl:input wsaw:Action="urn:getResourceList" message="ns:getResourceListRequest" />
+      <wsdl:output wsaw:Action="urn:getResourceListResponse" message="ns:getResourceListResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="searchVideoTags">
+      <wsdl:input wsaw:Action="urn:searchVideoTags" message="ns:searchVideoTagsRequest" />
+      <wsdl:output wsaw:Action="urn:searchVideoTagsResponse" message="ns:searchVideoTagsResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="addVideoTag">
+      <wsdl:input wsaw:Action="urn:addVideoTag" message="ns:addVideoTagRequest" />
+      <wsdl:output wsaw:Action="urn:addVideoTagResponse" message="ns:addVideoTagResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getStreamServiceByCameraIndexCodes">
+      <wsdl:input wsaw:Action="urn:getStreamServiceByCameraIndexCodes" message="ns:getStreamServiceByCameraIndexCodesRequest" />
+      <wsdl:output wsaw:Action="urn:getStreamServiceByCameraIndexCodesResponse" message="ns:getStreamServiceByCameraIndexCodesResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getVrmServiceByCameraIndexCodes">
+      <wsdl:input wsaw:Action="urn:getVrmServiceByCameraIndexCodes" message="ns:getVrmServiceByCameraIndexCodesRequest" />
+      <wsdl:output wsaw:Action="urn:getVrmServiceByCameraIndexCodesResponse" message="ns:getVrmServiceByCameraIndexCodesResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="changePtzInfo">
+      <wsdl:input wsaw:Action="urn:changePtzInfo" message="ns:changePtzInfoRequest" />
+      <wsdl:output wsaw:Action="urn:changePtzInfoResponse" message="ns:changePtzInfoResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getAlarmHistory">
+      <wsdl:input wsaw:Action="urn:getAlarmHistory" message="ns:getAlarmHistoryRequest" />
+      <wsdl:output wsaw:Action="urn:getAlarmHistoryResponse" message="ns:getAlarmHistoryResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteVideoTag">
+      <wsdl:input wsaw:Action="urn:deleteVideoTag" message="ns:deleteVideoTagRequest" />
+      <wsdl:output wsaw:Action="urn:deleteVideoTagResponse" message="ns:deleteVideoTagResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="invoke">
+      <wsdl:input wsaw:Action="urn:invoke" message="ns:invokeRequest" />
+      <wsdl:output wsaw:Action="urn:invokeResponse" message="ns:invokeResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getNetZoneId">
+      <wsdl:input wsaw:Action="urn:getNetZoneId" message="ns:getNetZoneIdRequest" />
+      <wsdl:output wsaw:Action="urn:getNetZoneIdResponse" message="ns:getNetZoneIdResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getPtzInfos">
+      <wsdl:input wsaw:Action="urn:getPtzInfos" message="ns:getPtzInfosRequest" />
+      <wsdl:output wsaw:Action="urn:getPtzInfosResponse" message="ns:getPtzInfosResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="deletePtzInfo">
+      <wsdl:input wsaw:Action="urn:deletePtzInfo" message="ns:deletePtzInfoRequest" />
+      <wsdl:output wsaw:Action="urn:deletePtzInfoResponse" message="ns:deletePtzInfoResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="savePresetInfo">
+      <wsdl:input wsaw:Action="urn:savePresetInfo" message="ns:savePresetInfoRequest" />
+      <wsdl:output wsaw:Action="urn:savePresetInfoResponse" message="ns:savePresetInfoResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getAlarmEventById">
+      <wsdl:input wsaw:Action="urn:getAlarmEventById" message="ns:getAlarmEventByIdRequest" />
+      <wsdl:output wsaw:Action="urn:getAlarmEventByIdResponse" message="ns:getAlarmEventByIdResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getAlarmEventByRegion">
+      <wsdl:input wsaw:Action="urn:getAlarmEventByRegion" message="ns:getAlarmEventByRegionRequest" />
+      <wsdl:output wsaw:Action="urn:getAlarmEventByRegionResponse" message="ns:getAlarmEventByRegionResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="modifyVideoTag">
+      <wsdl:input wsaw:Action="urn:modifyVideoTag" message="ns:modifyVideoTagRequest" />
+      <wsdl:output wsaw:Action="urn:modifyVideoTagResponse" message="ns:modifyVideoTagResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CuServiceSoap11Binding" type="ns:CuServicePortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="searchVideoTags">
+      <soap:operation soapAction="urn:searchVideoTags" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getResourceList">
+      <soap:operation soapAction="urn:getResourceList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addVideoTag">
+      <soap:operation soapAction="urn:addVideoTag" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getVrmServiceByCameraIndexCodes">
+      <soap:operation soapAction="urn:getVrmServiceByCameraIndexCodes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getStreamServiceByCameraIndexCodes">
+      <soap:operation soapAction="urn:getStreamServiceByCameraIndexCodes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="changePtzInfo">
+      <soap:operation soapAction="urn:changePtzInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAlarmHistory">
+      <soap:operation soapAction="urn:getAlarmHistory" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="invoke">
+      <soap:operation soapAction="urn:invoke" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteVideoTag">
+      <soap:operation soapAction="urn:deleteVideoTag" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getNetZoneId">
+      <soap:operation soapAction="urn:getNetZoneId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPtzInfos">
+      <soap:operation soapAction="urn:getPtzInfos" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deletePtzInfo">
+      <soap:operation soapAction="urn:deletePtzInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="savePresetInfo">
+      <soap:operation soapAction="urn:savePresetInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAlarmEventById">
+      <soap:operation soapAction="urn:getAlarmEventById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAlarmEventByRegion">
+      <soap:operation soapAction="urn:getAlarmEventByRegion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="modifyVideoTag">
+      <soap:operation soapAction="urn:modifyVideoTag" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="CuServiceSoap12Binding" type="ns:CuServicePortType">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="searchVideoTags">
+      <soap12:operation soapAction="urn:searchVideoTags" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getResourceList">
+      <soap12:operation soapAction="urn:getResourceList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addVideoTag">
+      <soap12:operation soapAction="urn:addVideoTag" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getVrmServiceByCameraIndexCodes">
+      <soap12:operation soapAction="urn:getVrmServiceByCameraIndexCodes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getStreamServiceByCameraIndexCodes">
+      <soap12:operation soapAction="urn:getStreamServiceByCameraIndexCodes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="changePtzInfo">
+      <soap12:operation soapAction="urn:changePtzInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAlarmHistory">
+      <soap12:operation soapAction="urn:getAlarmHistory" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="invoke">
+      <soap12:operation soapAction="urn:invoke" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteVideoTag">
+      <soap12:operation soapAction="urn:deleteVideoTag" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getNetZoneId">
+      <soap12:operation soapAction="urn:getNetZoneId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPtzInfos">
+      <soap12:operation soapAction="urn:getPtzInfos" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deletePtzInfo">
+      <soap12:operation soapAction="urn:deletePtzInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="savePresetInfo">
+      <soap12:operation soapAction="urn:savePresetInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAlarmEventById">
+      <soap12:operation soapAction="urn:getAlarmEventById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAlarmEventByRegion">
+      <soap12:operation soapAction="urn:getAlarmEventByRegion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="modifyVideoTag">
+      <soap12:operation soapAction="urn:modifyVideoTag" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CuService">
+    <wsdl:port name="CuServiceHttpSoap11Endpoint" binding="ns:CuServiceSoap11Binding">
+      <soap:address location="http://172.172.100.10:80/vms/services/CuService.CuServiceHttpSoap11Endpoint/" />
+    </wsdl:port>
+    <wsdl:port name="CuServiceHttpSoap12Endpoint" binding="ns:CuServiceSoap12Binding">
+      <soap12:address location="http://172.172.100.10:80/vms/services/CuService.CuServiceHttpSoap12Endpoint/" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

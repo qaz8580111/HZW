@@ -1,0 +1,369 @@
+﻿@model Taizhou.PLE.Model.ParkingCaseModels.ParkingCase
+
+@{
+    ViewBag.Title = "ShowParkingCase";
+    Layout = "~/Views/IntegratedService/CaseManagement/_LayoutCaseManagement.cshtml";
+    Taizhou.PLE.Model.ParkingCaseModels.Picture picture =
+        ViewBag.picture as Taizhou.PLE.Model.ParkingCaseModels.Picture;
+}
+
+<style>
+    table th {
+        text-align: center!important;
+        width: 10%;
+    }
+
+    table td {
+        width: 40%;
+    }
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var strPicture = null;
+
+        if ("@picture.CLTP1" != null) {
+            strPicture = "data:image/jpeg;base64,"
+                + "@Convert.ToBase64String(picture.CLTP1)";
+
+            $("#pic1").html("<img src='" + strPicture + "'  style='max-height:300px;max-width:355px;cursor: pointer;' />");
+            $("#pic1").attr("onclick", "ShowBigPic('" + strPicture + "')");
+        }
+
+        if ("@picture.CLTP2" != null) {
+            strPicture = "data:image/jpeg;base64,"
+                + "@Convert.ToBase64String(picture.CLTP2)";
+
+            $("#pic2").html("<img src='" + strPicture + "'  style='max-height:300px;max-width:355px;cursor: pointer;' />");
+            $("#pic2").attr("onclick", "ShowBigPic('" + strPicture + "')");
+        }
+
+        if ("@picture.CLTP3" != null) {
+            strPicture = "data:image/jpeg;base64,"
+                + "@Convert.ToBase64String(picture.CLTP3)";
+
+            $("#pic3").html("<img src='" + strPicture + "'  style='max-height:300px;max-width:355px;cursor: pointer;' />");
+            $("#pic3").attr("onclick", "ShowBigPic('" + strPicture + "')");
+        }
+    });
+
+    function ShowBigPic(picPath) {
+        var str = "<img src='" + picPath + "' />";
+        $("#showBigPicImg").html(str)
+        $("#ShowBigPic").modal('show');
+    }
+
+    function NoneBigPic() {
+        $("#ShowBigPic").modal('hide');
+    }
+
+</script>
+
+@section BreadcrumbSection{
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li><a href="javascript:void(0)"><i class="icon-home"></i>综合业务</a></li>
+            <li>></li>
+            <li><a href="javascript:void(0)">案件管理</a></li>
+            <li>></li>
+            <li><a href="javascript:void(0)">违停案件</a></li>
+            <li>></li>
+            <li class="active">查看案件</li>
+        </ul>
+    </div>
+}
+<div class="row-fluid">
+    <div class="span12" id="tabledata">
+        <div class="box box-black" style="margin-top: 0px;">
+            <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+                <i class="icon-reorder" style="margin-right: 5px;"></i>查看案件                
+            </div>
+            <div class="box-content">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#detail" data-toggle="tab">案件详细</a>
+                    </li>
+                    <li class="">
+                        <a href="#picture" data-toggle="tab">案件图片</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="detail">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>车牌号</th>
+                                <td>
+                                    <div class="form-group" style="margin-bottom: 5px;">
+                                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 10px;">
+                                            @Model.carNo
+                                        </div>
+                                    </div>
+                                </td>
+                                <th>车辆类型</th>
+                                <td>
+                                    <div class="form-group" style="margin-bottom: 5px;">
+                                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 10px;">
+                                            @Model.carType
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>违法时间</th>
+                                <td>
+                                    <div class="form-group" style="margin-bottom: 5px;">
+                                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 10px;">
+                                            @Model.caseTime
+                                        </div>
+                                    </div>
+                                </td>
+                                <th>处理状态</th>
+                                <td>
+                                    <div class="form-group" style="margin-bottom: 5px;">
+                                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 10px;">
+                                            @Model.CLZT
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>违法地点</th>
+                                <td colspan="3">
+                                    <div class="form-group" style="margin-bottom: 5px;">
+                                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 10px;">
+                                            @Model.caseAddress
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>违法行为</th>
+                                <td colspan="3">
+                                    <div class="form-group" style="margin-bottom: 5px;">
+                                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 10px;">
+                                            @Model.WFXWName
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>采集单位</th>
+                                <td>
+                                    <div class="form-group" style="margin-bottom: 5px;">
+                                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 10px;">
+                                            @Model.CJDW
+                                        </div>
+                                    </div>
+                                </td>
+                                <th>采集人</th>
+                                <td>
+                                    <div class="form-group" style="margin-bottom: 5px;">
+                                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 10px;">
+                                            @Model.CJR
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>当事人</th>
+                                <td>
+                                    <div class="form-group" style="margin-bottom: 5px;">
+                                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 10px;">
+                                            @Model.DSR
+                                        </div>
+                                    </div>
+                                </td>
+                                <th>当事人电话</th>
+                                <td>
+                                    <div class="form-group" style="margin-bottom: 5px;">
+                                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 10px;">
+                                            @Model.DSRDH
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>当事人地址</th>
+                                <td colspan="3">
+                                    <div class="form-group" style="margin-bottom: 5px;">
+                                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 10px;">
+                                            @Model.DSRDZ
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>校对人</th>
+                                <td>
+                                    <div class="form-group" style="margin-bottom: 5px;">
+                                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 10px;">
+                                            @Model.JDR
+                                        </div>
+                                    </div>
+                                </td>
+                                <th>校对时间</th>
+                                <td>
+                                    <div class="form-group" style="margin-bottom: 5px;">
+                                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 10px;">
+                                            @Model.JDRQ
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>审核人</th>
+                                <td>
+                                    <div class="form-group" style="margin-bottom: 5px;">
+                                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 10px;">
+                                            @Model.FZSHR
+                                        </div>
+                                    </div>
+                                </td>
+                                <th>审核时间</th>
+                                <td>
+                                    <div class="form-group" style="margin-bottom: 5px;">
+                                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 10px;">
+                                            @Model.FZSHSJ
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>作废原因</th>
+                                <td>
+                                    <div class="form-group" style="margin-bottom: 5px;">
+                                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 10px;">
+                                            @Model.FZSHYJ
+                                        </div>
+                                    </div>
+                                </td>
+                                <th>数据状态</th>
+                                <td>
+                                    <div class="form-group" style="margin-bottom: 5px;">
+                                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 10px;">
+                                            @Model.CSBJ
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>处理单位</th>
+                                <td>
+                                    <div class="form-group" style="margin-bottom: 5px;">
+                                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 10px;">
+                                            @Model.CLDW
+                                        </div>
+                                    </div>
+                                </td>
+                                <th>罚款金额</th>
+                                <td>
+                                    <div class="form-group" style="margin-bottom: 5px;">
+                                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 10px;">
+                                            @Model.FKJE 元
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>发票号码</th>
+                                <td>
+                                    <div class="form-group" style="margin-bottom: 5px;">
+                                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 10px;">
+                                            @Model.FPHM
+                                        </div>
+                                    </div>
+                                </td>
+                                <th>交警编号</th>
+                                <td>
+                                    <div class="form-group" style="margin-bottom: 5px;">
+                                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 10px;">
+                                            @Model.WFXH
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>处理人</th>
+                                <td>
+                                    <div class="form-group" style="margin-bottom: 5px;">
+                                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 10px;">
+                                            @Model.CLR
+                                        </div>
+                                    </div>
+                                </td>
+                                <th>处理时间</th>
+                                <td>
+                                    <div class="form-group" style="margin-bottom: 5px;">
+                                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 10px;">
+                                            @Model.CLSJ
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>解锁人</th>
+                                <td>
+                                    <div class="form-group" style="margin-bottom: 5px;">
+                                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 10px;">
+                                            @Model.JSR
+                                        </div>
+                                    </div>
+                                </td>
+                                <th>解锁时间</th>
+                                <td>
+                                    <div class="form-group" style="margin-bottom: 5px;">
+                                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 10px;">
+                                            @Model.JSSJ
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="form-group" style="margin-bottom: 5px; margin-left: 130px;">
+                            <div class="col-sm-9 col-lg-10 controls">
+                                <a style="margin-left: 5px;" href="/ParkingCase" class="btn goBack">返　回</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="picture">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td style="width: 410px; vertical-align: bottom;">
+                                    <div style="text-align: center;" id="pic1">
+                                    </div>
+                                </td>
+                                <td style="width: 410px; vertical-align: bottom;">
+                                    <div style="text-align: center;" id="pic2">
+                                    </div>
+                                </td>
+                                <td style="width: 410px; vertical-align: bottom;">
+                                    <div style="text-align: center;" id="pic3">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="ShowBigPic" class="modal hide fade">
+    <div class="box box-black" style="margin-top: 0px;">
+        <div class="box-title" style="color: white; height: 28px; line-height: 28px; padding-bottom: 0px; padding-top: 0px;">
+            <table style="width: 100%">
+                <tr>
+                    <td style="text-align: left">&nbsp;</td>
+                    <td style="text-align: right; cursor: pointer" onclick="NoneBigPic()">关闭</td>
+                </tr>
+            </table>
+        </div>
+        <div class="box-content" style="padding-top: 0px; padding-left: 0px; padding-right: 0px; padding-bottom: 0px;">
+            <div id="showBigPicImg" style="overflow: hidden; width: 100%; height: 100%;">
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,220 @@
+﻿@{
+    ViewBag.FunctionName = "用户管理";
+    Layout = "~/Views/SysManagement/BasicManagement/_LayoutBasicManagement.cshtml";
+}
+
+@section HeadStyles{
+    <style type="text/css">
+        .center {
+            text-align: center !important;
+        }
+
+        #userTreeDiv {
+            padding-right: 5px;
+            overflow: auto;
+            height: 500px;
+        }
+    </style>
+}
+
+@section FootScripts{
+    <script type="text/javascript">
+        var oTable = null;
+        $(document).ready(function () {
+            $("#sysUserManagement").addClass("active");
+            var url = "/UserManagement/GetUsers?UnitID=";
+            var setting = {
+                callback: {//该事件在节点被单击后触发
+                    onClick: function (event, treeId, treeNode) {
+                        var UnitID = treeNode.value;
+                        $("#UnitID")[0].value = UnitID;
+                        $("#aaa").text("").html("用户管理").addClass("active");
+                        $("#UintInfo").text("");
+                        //隐藏添加列表
+                        $("#span91").hide();
+                        //隐藏编辑表单
+                        $("#span92").hide();
+                        //显示列表表单
+                        $("#span90").show();
+                        //显示子节点列表数据
+                        BindDataTable(url + treeNode.value + "&random=" + Math.random());
+                    }
+                }
+            };
+
+            //加载用户结构树
+            $.ajax({
+                type: 'GET',
+                dataType: 'json',
+                url: '/UserManagement/GetUserManageTree?random=' + Math.random(),
+                success: function (data) {
+                    if (data != null && data != "") {
+                        unitIDValue = "@ViewData["UnitID"]";
+                        var zNodes = data;
+                        $.fn.zTree.init($("#tree"), setting, zNodes);
+                        var treeObj = $.fn.zTree.getZTreeObj("tree");
+                        //第一个参数属性名称,第二个参数属性值,
+                        //第三个参数指定在某个父节点下的子节点中进行搜索
+                        var node = treeObj.getNodeByParam("value", unitIDValue, null);
+                        //选中该节点
+                        treeObj.selectNode(node);
+                        //展开该节点
+                        treeObj.expandNode(node, true);
+                        BindDataTable(url + unitIDValue + "&random=" + Math.random());
+                    }
+                }
+            });
+            $("#addUser").click(function () {
+                var unitID = $("#UnitID").val();
+                AddUser(unitID);
+            });
+        });
+
+        function BindDataTable(url) {
+            if (oTable != null) {
+                oTable.fnSettings().sAjaxSource = url;
+                oTable.fnDraw(true);
+            } else {
+                oTable = $('#UserTable').dataTable({
+                    sAjaxSource: url,
+                    aoColumns: [
+                        { "mDataProp": "UserName" },
+                        { "mDataProp": "UserAccount" },
+                        { "mDataProp": "UnitName" },
+                        { "mDataProp": "PositionName" },
+                        { "mDataProp": "SeqNo" },
+                        {
+                            "mDataProp": function (data) {
+                                var unitID = $("#UnitID").val();
+                                var edit = "<a class='btn btn-primary btn-small' href='#' onclick=\"EditUser(" + data.UserID + ")\"><i class='icon-edit padding-null'></i> 编辑 </a>";
+                                var del = "<a class='btn btn-danger btn-small' href='/UserManagement/DeleteUser?UnitID=" + unitID + "&UserID=" + data.UserID + "' onclick=\"return DeleteUser(" + data.UserID + ",'" + data.UserName + "');\"><i class='icon-trash padding-null'></i> 删除 </a>";
+                                return edit + "  " + del;
+                            }, "sClass": "center"
+                        }
+                    ],
+                    fnDrawCallback: function (oSettings) {
+                        var pagerIndex = oSettings._iDisplayStart / oSettings._iDisplayLength + 1;
+                        var $currentPager = $(".dataTables_paginate span a:contains('" + pagerIndex + "')");
+                        $currentPager.attr("style", "font-weight :bold;!important");
+                        setHeightFunction();
+                    }
+                });
+            }
+        }
+
+        function setHeightFunction() {
+            var height1 = $("#addButtonDiv")[0].clientHeight;
+            var height2 = $("#userListDiv")[0].clientHeight;
+            $("#userTreeDiv").height(height1 + height2 - 20);
+        }
+
+        function AddUser(UnitID) {
+            $("#aaa").text("").html("<a href='#'>用户管理</a>").removeClass("active");
+            $("#UintInfo").addClass("active").text(">新增用户");
+            $.ajax(
+                {
+                    type: 'GET',
+                    url: '/UserManagement/AddUser?random=' + Math.random(),
+                    dataType: 'html',
+                    data: { unitID: UnitID },
+                    success: function (data) {
+                        //隐藏列表
+                        $("#span90").hide();
+                        //隐藏编辑表单
+                        $("#span92").hide();
+                        //显示添加表单
+                        $("#span91").show();
+                        $("#span91").html(data);
+                    }
+                });
+        }
+
+        function EditUser(userID) {
+            $("#aaa").text("").html("<a href='#'>用户管理</a>").removeClass("active");
+            $("#UintInfo").addClass("active").text(">编辑用户");
+            $.ajax(
+                {
+                    type: 'GET',
+                    url: '/UserManagement/EditUser?random=' + Math.random(),
+                    dataType: 'html',
+                    data: { UserID: userID },
+                    success: function (data) {
+                        //隐藏列表
+                        $("#span90").hide();
+                        //隐藏添加表单
+                        $("#span91").hide();
+                        //显示编辑表单
+                        $("#span92").show();
+                        $("#span92").html(data);
+                    }
+                });
+        }
+
+        function DeleteUser(userID, userName) {
+
+            if (!window.confirm("是否确认删除" + userName)) {
+                return false;
+            }
+            return true;
+        }
+    </script>
+}
+
+@section BreadcrumbSection{
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+
+            <li><a href="#"><i class="icon-home"></i>系统管理</a></li>
+            <li>></li>
+            <li><a href="#">基础管理</a></li>
+            <li>></li>
+            <li class="active" id="aaa">用户管理</li>
+            <li id="UintInfo"></li>
+
+        </ul>
+    </div>
+}
+
+<div class="row-fluid">
+    <div class="span3">
+        <div class="box box-black" style="margin-top: 0px;">
+            <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+                <i class="icon-reorder" style="margin-right: 5px;"></i>用户结构树
+            </div>
+            <div class="box-content" id="userTreeDiv">
+                <ul id="tree" class="ztree"></ul>
+            </div>
+        </div>
+    </div>
+    <div class="span9" id="span90">
+        <div class="box box-black" style="margin-top: 0px;">
+            <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+                <i class="icon-reorder" style="margin-right: 5px;"></i>用户列表
+            </div>
+            <div class="box-content" id="addButtonDiv">
+                <button class="btn btn-primary" id="addUser">添 加</button>
+            </div>
+            <div class="box-content" id="userListDiv">
+                <table class="table table-bordered table-striped table-hover fill-head" id="UserTable">
+                    <thead>
+                        <tr>
+                            <th>用户名称</th>
+                            <th>用户帐号</th>
+                            <th>所属单位</th>
+                            <th>职务</th>
+                            <th>用户排序号</th>
+                            <th style="text-align: center; width: 135px;">操作</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div style="clear: both"></div>
+            </div>
+        </div>
+        @Html.Hidden("UnitID")
+    </div>
+    <div class="span9" style="display: none;" id="span91">
+    </div>
+    <div class="span9" style="display: none;" id="span92">
+    </div>
+</div>
+

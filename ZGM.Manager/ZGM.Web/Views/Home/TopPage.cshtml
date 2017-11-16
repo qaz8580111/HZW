@@ -1,0 +1,125 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>智慧钟公庙管理平台</title>
+    <link href="~/Content/css/style.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/js/jquery.js"></script>
+    <script src="~/Scripts/js/PageNotBack.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //顶部导航切换
+            $(".nav li a").click(function () {
+                $(".nav li a.selected").removeClass("selected")
+                $(this).addClass("selected");
+            });
+            $("#loginout").mouseenter(function () {
+                $(this).find("img").attr("src", "/Images/images/LogOut1.png")
+            });
+            $("#loginout").mouseleave(function () {
+                $(this).find("img").attr("src", "/Images/images/LogOut.png")
+            });
+        });
+    </script>
+
+</head>
+
+<body style="background: url(/Images/images/topbg.gif) repeat-x;">
+    <div class="topleft">
+        <img style="margin-top: 32px; margin-left: 15px" src="~/Images/images/logo_03.png" />
+    </div>
+
+    <ul class="nav">
+       @* <li>
+            <a href="http://172.172.100.20:8082/Index.aspx" target="_parent">
+                <img src="~/Images/backfuncitionimage/右.png" title="管控平台" />管控平台</a>*@
+            @*<a   href="http://10.80.2.124:2283/Index.aspx" target="_parent" >
+            <img src="~/Images/backfuncitionimage/右.png" title="管控平台"/>管控平台</a>
+        </li>*@
+
+        @{
+            var i = 0;
+            foreach (var item in ViewBag.ListFunction)
+            {
+                if (i == 0 && item.NAME == "管控平台")
+                {
+            <li>
+                <a href="@item.URL" target="_parent">
+                    <img src="~/Images/backfuncitionimage/右.png" title="管控平台" />管控平台</a></li>
+                    i = 0;
+                    continue;
+                }
+                if (i == 0)
+                {
+            <li><a id="click_first" name="click_@item.FUNCTIONID" href="/Home/MainPage/?id=@item.FUNCTIONID" target="mainFrame" class="selected">
+                <img src="/Images/backfuncitionimage/@item.ICONPATH" title="@item.NAME" />@item.NAME</a></li>
+                }
+                else
+                {
+            <li><a name="click_@item.FUNCTIONID" href="/Home/MainPage/?id=@item.FUNCTIONID" target="mainFrame">
+                <img src="/Images/backfuncitionimage/@item.ICONPATH" title="@item.NAME" />@item.NAME</a></li>
+                }
+
+                i++;
+            }
+        }
+    </ul>
+
+    <div class="topright">
+        <div class="imageDiv">
+            @if (@ZGM.Web.SessionManager.User.UserPhoto == "" || @ZGM.Web.SessionManager.User.UserPhoto == null)
+            {
+                <img src="~/Images/城管执法1.jpg" class="userImage" />
+            }
+            else
+            {
+                <img src="/GetPictureFile.ashx?PicPath=@ZGM.Web.SessionManager.User.UserPhoto" class="userImage" />}
+        </div>
+        <div style="float: left">
+            <table style="width: 100%; height: 100%">
+                <tr>
+                    <td style="text-align: center; height: 36px;"><span style="margin-left: 10px; color: white; font-size: 16px">@ZGM.Web.SessionManager.User.UnitName</span></td>
+                    <td style="text-align: center; height: 36px;"><span style="margin-left: 10px; color: white; font-size: 16px">@ZGM.Web.SessionManager.User.UserName</span></td>
+                    <td style="text-align: center; height: 36px;"><a id="loginout" href="/Login/LogOut" target="_parent" style="margin-left: 10px" title="注销">
+                        <img src="~/Images/images/LogOut.png" style="height: 20px; width: 20px; margin-bottom: -5px" /></a></td>
+                </tr>
+            </table>
+
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+        function getCookie(name) {
+            var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+            if (arr = document.cookie.match(reg))
+                return unescape(arr[2]);
+            else
+                return null;
+        }
+        function delCookie(name) {
+            var exp = new Date();
+            exp.setTime(exp.getDate() - 1);
+            var cval = getCookie(name);
+            if (cval != null)
+                document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
+        }
+        $(document).ready(function () {
+            var functionID = getCookie("FUNCTIONID");
+            if (functionID == "" || functionID == undefined || functionID == null) {
+                document.getElementById("click_first").click();
+            }
+            else {
+                document.getElementsByName("click_" + functionID)[0].click();
+                delCookie('FUNCTIONID');
+            }
+        });
+    </script>
+
+</body>
+</html>

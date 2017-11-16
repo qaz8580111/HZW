@@ -1,0 +1,63 @@
+﻿@model Taizhou.PLE.Model.CaseDocModels.SMJWS
+
+<script type="text/javascript">
+    function ValidateDocForm() {
+        var flag = true;
+        $(".formErrorMsg").hide();
+        $(".formErrorMsg").html("");
+        var name = $.trim($("#Name").val());
+        if (name == "") {
+            flag = false;
+            $("#error_Name").show();
+            $("#error_Name").html("文书名称不能为空");
+        }
+        return flag;
+    }
+</script>
+<form class="docForm" method="post" action="/DocSMJWS/CommitDocumentSMJWS" style="margin-bottom: 30px;" enctype="multipart/form-data">
+    <table class="workflow" border="0" cellspacing="0" cellpadding="0" style="width: 700px; border-collapse: collapse; margin: 0 auto; margin-top: 20px;">
+        <tr>
+            <th colspan="2">文书名称</th>
+            <td colspan="9">@Html.TextBoxFor(model => model.Name)
+                <label class="formErrorMsg" id="error_Name"></label>
+            </td>
+        </tr>
+        <tr id="uploadFile">
+            <th colspan="2">上传文书
+            </th>
+            <td colspan="9" class="uploadFileTD">
+                <ul style="list-style: none; margin-left: 0px;">
+                    <li style="margin-top: 5px;">第1张：<input type="file" name="file1" style="width: 400px;" class="file" /></li>
+                    <li style="margin-top: 5px;">第2张：<input type="file" name="file2" style="width: 400px;" class="file" /></li>
+                    <li style="margin-top: 5px;">第3张：<input type="file" name="file3" style="width: 400px;" class="file" /></li>
+                    <li style="margin-top: 5px;">第4张：<input type="file" name="file4" style="width: 400px;" class="file" /></li>
+                    <li style="margin-top: 5px;">第5张：<input type="file" name="file5" style="width: 400px;" class="file" /></li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="border: none;">&nbsp;</td>
+        </tr>
+        <tr class="notHideTD">
+            <td style="width: 42px; border: none;"></td>
+            <td colspan="8" style="border: none; padding-top: 10px;">
+                <input id="btnDocFormSubmit" type="button" class="btn btn-success" value="保   存" />
+            </td>
+        </tr>
+    </table>
+    @Html.Hidden("WIID")
+    @Html.Hidden("DDID")
+    @Html.Hidden("AIID")
+    @Html.Hidden("ADID")
+    @Html.Hidden("WICode")
+</form>

@@ -1,0 +1,33 @@
+﻿@model List<Taizhou.PLE.Model.RECIPE>
+@{
+    Layout = null;
+}
+<ul class="feeds">
+    @foreach (var item in Model)
+    {
+        <li>
+            <div class="col1">
+                <div class="cont">
+                    <div class="cont-col1">
+                        <div class="label label-success">
+                            <i class="icon-bell"></i>
+                        </div>
+                    </div>
+                    <div class="cont-col2" style="width: auto;">
+                        <div class="desc" style=" height: 20px; overflow: hidden;">
+                            <a style="text-decoration: none" href="/RecipeManagement/EditRecipe?recipeID=@item.RECIPEID">早餐：@item.BREAKFAST&nbsp;午餐：@item.LUNCH&nbsp;晚餐：@item.DINNER&nbsp;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col2">
+                <div class="date">
+                    @item.CREATEDTIME.Value.ToString("yyyy-MM-dd HH:mm")
+                </div>
+            </div>
+
+        </li>
+    }
+</ul>
+
+

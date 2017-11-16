@@ -1,0 +1,699 @@
+﻿@{
+    Layout = null;
+}
+@model ZGM.Model.XTGL_ZFSJS
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>执法事件上报</title>
+    <link href="~/Content/css/OA.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/Scripts/assets/bootstrap/bootstrap.min.css" />
+    <script src="~/Scripts/jquery-1.7.1.js"></script>
+    <script type="text/javascript" src="~/Scripts/js/select-ui.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/js/jquery.idTabs.min.js"></script>
+    <script src="~/Scripts/assets/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-zh-CN.js"></script>
+    <script src="~/Scripts/js/PageNotBack.js"></script>
+
+
+    <link href="~/Scripts/layer/skin/layer.css" rel="stylesheet" />
+    <link href="~/Scripts/layer/skin/seaning/style.css" rel="stylesheet" />
+    <script src="~/Scripts/layer/layer.js"></script>
+    <script type="text/javascript">
+        layer.config({
+            skin: 'layer-ext-seaning',
+            offset: ['100px', '33%'],
+            title: '提示',
+            moveOut: true,
+            closeBtn: false,
+            extend: '/skin/seaning/style.css'
+        });
+
+    </script>
+    <style type="text/css">
+        table tr input.large {
+            width: 98%;
+            height: 30px;
+        }
+
+        table tr input.small {
+            width: 94%;
+            height: 30px;
+        }
+
+        .fontStyle * {
+            font-family: 宋体 !important;
+        }
+
+        .docBtn {
+            /*font-weight: bold;*/
+            font-size: 13px;
+            width: 150px;
+            margin: 5px 0px;
+            text-align: left;
+        }
+
+        .inf_link {
+            margin-left: -16px;
+            margin-top: -4px;
+        }
+
+        .ui-xbox {
+            position: absolute;
+            z-index: 998;
+            width: 220px;
+            height: 100px;
+            visibility: visible;
+            text-align: center;
+        }
+
+        .leftbar-search {
+            width: 250px;
+            float: left;
+            border: 1px solid gray;
+        }
+
+        .content-search {
+            border: 1px solid gray;
+        }
+
+        .imgDiv {
+            display: inline-block;
+            position: relative;
+        }
+
+            .imgDiv .delete {
+                position: absolute;
+                top: 0px;
+                right: 0px;
+                width: 20px;
+                height: 20px;
+                display: none;
+            }
+
+        .a_href:hover {
+            display: block;
+            background: #f00;
+            color: #fff;
+        }
+
+        .table th 
+        {
+            width:13%;
+        }
+    </style>
+
+    <script type="text/javascript">
+        $(document).ready(init);
+        function init() {
+            $(".imgDiv").mouseenter(function () {
+                $(this).find(".delete").show();
+            });
+
+            $(".imgDiv").mouseleave(function () {
+                $(this).find(".delete").hide();
+            });
+
+            $(".a_href").mouseenter(function () {
+                $(this).find(".delete").attr("src", "/Images/images/close1.png")
+            });
+            $(".a_href").mouseleave(function () {
+                $(this).find(".delete").attr("src", "/Images/images/close.png")
+            });
+
+
+
+            $("#LookVido").click(function () {
+                LookVido();
+            })
+
+        }
+
+
+        function ClearFile(fileid, imgid) {
+
+            document.getElementById(fileid).outerHTML += '';//清空IE的
+            document.getElementById(fileid).value = "";//可以清空火狐的
+
+            $("#" + imgid).attr("src", "/Images/20076110836311.png");
+        }
+    </script>
+    <script type="text/javascript">
+
+
+
+        function fileUpload(fileid, imgid) {
+
+            var $file = $(fileid);
+            var fileObj = $file[0];
+            var windowURL = window.URL || window.webkitURL;
+            var dataURL;
+            var $img = $(imgid);
+
+            if (fileObj && fileObj.files && fileObj.files[0]) {
+                dataURL = windowURL.createObjectURL(fileObj.files[0]);
+                $img.attr('src', dataURL);
+            } else {
+                dataURL = $file.val();
+                var imgObj = $(imgid);
+                // 两个坑:
+                // 1、在设置filter属性时，元素必须已经存在在DOM树中，动态创建的Node，也需要在设置属性前加入到DOM中，先设置属性在加入，无效；
+                // 2、src属性需要像下面的方式添加，上面的两种方式添加，无效；
+                imgObj.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+                imgObj.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = dataURL;
+
+            }
+
+        }
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null)
+                return unescape(r[2]);
+            return null;
+        }
+
+        function getUrlVars() {
+            var vars = [], hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for (var i = 0; i < hashes.length; i++) {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+            return vars;
+        }
+        function display(optionID) {
+            var all_options = document.getElementById("SOURCEID").options;
+            for (i = 0; i < all_options.length; i++) {
+                if (all_options[i].value == optionID)  // 根据option标签的ID来进行判断  测试的代码这里是两个等号
+                {
+                    all_options[i].selected = true;
+                }
+            }
+        };
+        var InputSource = getQueryString("InputSource");
+        var STime = getQueryString("STime");
+        var ETime = getQueryString("ETime");
+        var SourceId = getQueryString("SourceId");
+        
+        $(document).ready(function () {
+
+            var flag = getQueryString("flag");
+            if (flag == 1) {
+                layer.alert("添加成功!", {
+                    icon: 1,
+                    skin: 'layer-ext-seaning'
+                });
+            }
+         
+            
+            if (InputSource != "" && STime != "" && ETime!="") {
+                var ZH = InputSource + "," + STime + "," + ETime;
+                $("#Hidden-ZNBGZH").val(ZH);
+                //alert(InputSource + "," + STime + "," + ETime);
+            }
+            
+            var EventName = decodeURI(getUrlVars()["EventName"]);
+            var ZNBJId = decodeURI(window.location.href).split('&&')[0].split('ZNBJId=')[1];
+            if (EventName != "" && EventName != null &&EventName!= "undefined") {
+                $(parent.frames["leftFrame"].document).find(".leftmenu dd:eq(0) li").prop("class", "active");
+                $(parent.frames["leftFrame"].document).find(".leftmenu dd:eq(5) li").prop("class", "");
+                $("#EVENTCONTENT").val(EventName);
+            }
+            if (ZNBJId != "" && ZNBJId != null) {
+                $("#Hidden-ZNBJId").val(ZNBJId);
+                $("#LookVido").css("visibility", "visible");
+                //$("option [value='3']").checked = checked;
+                display(3);
+
+            }
+
+            $("#FOUNDTIME").datetimepicker({ changeMonth: true, changeYear: true, showMonthAfterYear: true, showButtonPanel: true });
+
+            $("#BCLASSID").change(function () {
+
+                var BCLASSID = $(this).val();
+
+                $.get("/XTGL/GetQuestionXL", { BCLASSID: BCLASSID },
+                    function (data) {
+                        $("#SCLASSID").empty();
+                        $("#SCLASSID").append("<option value=''>请选择小类</option>");
+                        $.each(data, function (i, item) {
+                            $("#SCLASSID").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                        });
+                    });
+            });
+            $("#SSZDID").change(function () {
+                var unitid = $(this).val();
+                if (unitid == "") {
+                    $("#PhoneAboutUserName").html("");
+                    $("#PhoneNum").html("");
+                }
+                if (unitid != "") {
+                    $.ajax({
+                        type: "POST",
+                        url: "/XTGL/GetUserPhoneNum",
+                        data: { UnitID: unitid },
+                        cache: false,
+                        success: function (data) {
+                            var user = data.split(",");
+                            $("#span1").html("(");
+                            $("#PhoneNum").html(user[1]);
+                            $("#span2").html(")");
+                            $("#PhoneAboutUserName").html(user[0]);
+                            $("#smsusernum").val(user[1]);
+                            $("#username").val(user[0]);
+                            $("#userid").val(user[2]);
+                        },
+                        error: function () {
+                            alert("网络异常，请重试！");
+                        }
+                    });
+                }
+            })
+
+            $("#veto").click(function () {
+                $("#bc").val("1");
+                $("#EventReport")[0].submit();
+            });
+        });
+        function validate_form(thisform) {
+            document.getElementById("XSDT").value = "显示地图";
+            document.getElementById("XSDT").setAttribute("onclick", "GetShowOrHide(this,'show')");
+            document.getElementById("ShowOrHide").style.display = 'none';
+            var PHONE = $("#CONTACTPHONE").val();
+            if (PHONE != "") {
+                if (!(/^[1][358][0-9]{9}$/.test(PHONE))) {
+                    layer.alert('手机号码格式不正确', {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    });
+                    //alert("手机号码格式不正确!");
+                    return false;
+                }
+            }
+            with (thisform) {
+                if (validate_required(EVENTTITLE, "事件标题不能为空!") == false)
+                { EVENTTITLE.focus(); return false }
+                if (validate_required(SOURCEID, "事件来源不能为空!") == false)
+                { SOURCEID.focus(); return false }
+                if (validate_required(ZONEID, "事件片区不能为空!") == false)
+                { ZONEID.focus(); return false }
+                //if (validate_required(CONTACT, "相关联系人不能为空!") == false)
+                //{ CONTACT.focus(); return false }
+                if (validate_required(EventAddress, "事件地址不能为空!") == false)
+                { EventAddress.focus(); return false }
+                if (validate_required(EVENTCONTENT, "事件内容不能为空!") == false)
+                { EVENTCONTENT.focus(); return false }
+                if (validate_select(BCLASSID, "请选择问题大类!") == false)
+                { BCLASSID.focus(); return false }
+                if (validate_select(SCLASSID, "请选择问题小类!") == false)
+                { SCLASSID.focus(); return false }
+                else { return true }
+
+
+            }
+        }
+
+        function validate_required(field, alerttxt) {
+            with (field) {
+                if (value == null || value == "") {
+                    layer.alert(alerttxt, {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    });
+                    return false
+                }
+                else { return true }
+            }
+        }
+        function validate_select(fieId, alerttxt) {
+            with (fieId) {
+                if (value == IndexStr(value)) {
+                    layer.alert(alerttxt, {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    }); return false
+                }
+                else { return true }
+            }
+        }
+        function IndexStr(str2) {
+            var str1 = "请选择";
+            var s = str1.indexOf(str2);
+            return (s);
+        }
+        function goback() {
+            window.location.href = "/XTGL/Add/";
+        }
+
+        //地图描点
+        var geometry = "";
+        function mapInited() {
+            setTimeout(function () {
+                var DTMD = $("input[name=GEOMETRY]")[0].value;
+                if (DTMD != "") {
+                    var mapCtrl = document.getElementById("mapCtrl").content.MapCtrl;
+                    mapCtrl.AddMarker(DTMD);
+                }
+            }, 1000)
+        }
+
+        //地图坐标点
+        function mapDraw(s) {
+            geometry = s;
+            document.getElementById("GEOMETRY").value = geometry;
+        }
+        $("#confirm").click(function () {
+            //document.getElementById("DTWZShow").value = geometry;
+            document.getElementById("GEOMETRY").value = geometry;
+            $("#mapDepicting").modal('hide');
+        });
+
+        //事件来源改变事件
+        function changeEventSourceID() {
+            var EventSourceID = $("#EventSourceID").val();
+            if (EventSourceID == 4) {
+                $("#EventSource").css("display", "none");
+            } else {
+                $("#EventSource").css("display", "");
+            }
+        }
+
+        //显示隐藏地图
+        function GetShowOrHide(o, otype) {
+            if (otype == "show") {
+                o.value = "隐藏地图";
+                o.setAttribute("onclick", "GetShowOrHide(this,'hide')");
+                document.getElementById("ShowOrHide").style.display = 'block';
+
+            } else if (otype == 'hide') {
+                o.value = "显示地图";
+                o.setAttribute("onclick", "GetShowOrHide(this,'show')");
+                document.getElementById("ShowOrHide").style.display = 'none';
+            }
+        }
+
+
+        //视频播放
+        function LookVido() {
+            var left = ($(window).width() - 720) / 2;
+            var dataURL = "http://172.172.100.22:8083/Views/Camera/CameraPlayBack.aspx";
+            var CameraId = InputSource;
+            var IndexCode = SourceId;
+            var StartTime = STime;
+            var EndTime = ETime;
+            dataURL += "?CameraId=" + CameraId + "&IndexCode=" + IndexCode + "&StartTime=" + StartTime + "&EndTime=" + EndTime;
+            window.showModalDialog(dataURL, window, "dialogHeight:480px;dialogWidth:720px;dialogLeft:" + left + ";dialogTop:150px;menubar=no,titlebar=no,toolbar=no, status=no,location=no;center=yes");
+        }
+
+    </script>
+</head>
+
+<body>
+    <div class="place" style="background-image: url(/Images/images/righttop.gif)">
+        <span>位置：</span>
+        <ul class="placeul">
+            <li>事件上报</li>
+        </ul>
+    </div>
+    <div class="formbody">
+
+        <form method="post" enctype="multipart/form-data" action="/XTGL/Commit" onsubmit="return validate_form(this)" id="EventReport">
+            <div style="margin-bottom: 10px">
+                <h6 style="font-size: 32px; text-align: center; margin-bottom: 20px; margin-top: 10px;">事件上报</h6>
+            </div>
+            <div>
+                <table class="table table-bordered" style="font-size: 13px">
+
+
+                    <tr>
+                        <th style="text-align: center; line-height: 30px;">事件标题 </th>
+                        <td style="width: 40%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <input type="text" name="EVENTTITLE" id="EventTitle" class="large" />
+                                </div>
+                            </div>
+                        </td>
+                        <th style="text-align: center; line-height: 30px;">事件来源
+                        </th>
+                        <td style="line-height: 30px; width: 40%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    @Html.DropDownList("SOURCEID", ViewBag.EventSource as IEnumerable<SelectListItem>, "请选择来源", new { onchange = "changeEventSourceID()", @style = "width:98%;" })
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <th style="text-align: center; line-height: 30px">相关联系人
+                        </th>
+                        <td style="line-height: 30px; width: 40%">
+                            <div class="form-group" style="margin-bottom: 5px;">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <input type="text" name="CONTACT" id="CONTACT" class="large" />
+                                </div>
+                            </div>
+                        </td>
+                        <th style="text-align: center; line-height: 30px">相关联系人电话
+                        </th>
+                        <td style="line-height: 30px; width: 40%">
+                            <div class="form-group" style="margin-bottom: 5px;">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <input type="text" name="CONTACTPHONE" id="CONTACTPHONE" class="large" />
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+
+
+                    <tr>
+                        <th style="text-align: center; line-height: 30px;">事件地址
+                        </th>
+                        <td>
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <input type="text" id="EventAddress" name="EventAddress" class="large" />
+                                </div>
+                            </div>
+                        </td>
+                        <th style="text-align: center; line-height: 30px;">事件片区
+                        </th>
+                        <td style="line-height: 30px; width: 40%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    @Html.DropDownList("ZONEID", ViewBag.ZONE as IEnumerable<SelectListItem>, "请选择片区", new { onchange = "changeEventSourceID()", @style = "width:98%;" })
+                                </div>
+                            </div>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <th style="text-align: center; line-height: 30px">地图位置
+                        </th>
+                        <td colspan="3">
+                            <input type="button" id="XSDT" value="显示地图" onclick="GetShowOrHide(this, 'show')" />
+                            <div class="form-group" id="ShowOrHide" style="margin-bottom: 5px; display: none">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                </div>
+                                @Html.HiddenFor(model => model.GEOMETRY)
+                                <div id="silverlightControlHost" style="width: 100%; height: 350px;">
+                                     <object id="mapCtrl" data="data:application/x-silverlight-2," type="application/x-silverlight-2" height="350px" width="100%">
+                                        <param name="source" value="/ClientBin/MapCtrl.xap" />
+                                        <param name="background" value="white" />
+                                        <param name="minRuntimeVersion" value="5.0.61118.0" />
+                                        <param name="autoUpgrade" value="true" />
+                                        @*<param id="initParams" name="initParams" value="IsGoogleMap=false,MapUrl=http://172.172.100.22:8399/arcgis/rest/services/zhcg/MapServer,X1=357873.703449922,Y1=3302867.09780586,X2=359561.311655731,Y2=3302153.26512503,Mode=2,PinUrl=./Images/pin.png,OffsetX=24,OffsetY=48,fileUrl=" />*@
+                                         <param id="initParams" name="initParams" value="IsGoogleMap=false,MapUrl=@ZGM.Web.ConfigManager.MapUrl,X1=@ZGM.Web.ConfigManager.MapLonX1,Y1=@ZGM.Web.ConfigManager.MapLatY1,X2=@ZGM.Web.ConfigManager.MapLonX2,Y2=@ZGM.Web.ConfigManager.MapLatY2,Mode=2,PinUrl=./Images/pin.png,OffsetX=24,OffsetY=48,fileUrl=" />
+                                        <a href="http://go.microsoft.com/fwlink/?LinkID=149156&v=5.0.61118.0" style="text-decoration: none">
+                                            <img src="http://go.microsoft.com/fwlink/?LinkId=161376" alt="Get Microsoft Silverlight" style="border-style: none" />
+                                        </a>
+                                    </object>
+
+                                    <iframe id="_sl_historyFrame" style="visibility: hidden; height: 0px; width: 0px; border: 0px"></iframe>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="text-align: center; line-height: 30px;">事件内容
+                        </th>
+                        <td colspan="3">
+
+                            <textarea style="resize: none; width: 99%; height: 95px" id="EVENTCONTENT" name="EVENTCONTENT"></textarea>
+
+                        </td>
+                    </tr>
+
+
+
+
+                    <tr>
+                        <th style="text-align: center; line-height: 30px;">问题大类
+                        </th>
+                        <td style="line-height: 30px; width: 40%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    @Html.DropDownList("BCLASSID", ViewBag.QuestionDL as IEnumerable<SelectListItem>, "请选择大类", new { @id = "BCLASSID", @style = "width:98%;" })
+                                </div>
+                            </div>
+                        </td>
+                        <th style="text-align: center; line-height: 30px;">问题小类
+                        </th>
+                        <td style="line-height: 30px; width: 40%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <select id="SCLASSID" name="SCLASSID" style="width: 98%;">
+                                        <option value="">请选择小类</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+
+
+
+                    <tr>
+                        <th style="text-align: center; line-height: 30px;">发现时间
+                        </th>
+                        <td style="line-height: 30px; width: 40%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <input type="text"  id="FOUNDTIME" readonly="readonly" name="FOUNDTIME" value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm")" class="large" />
+                                </div>
+                            </div>
+                        </td>
+                        <th style="text-align: center; line-height: 30px;">紧急级别 </th>
+                        <td colspan="3">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <select class="select2" id="LEVELNUM" name="LEVELNUM" style="width: 98%;">
+                                        <option value="1">一般</option>
+                                        <option value="2">紧急</option>
+                                        <option value="3">特急</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+
+
+
+                    
+
+
+
+
+
+                    <tr>
+                        <th style="text-align: center; line-height: 30px;">附件上传</th>
+                        <td style="line-height: 30px" colspan="3">
+                            <div style="clear: both">
+                                <table style="clear: both; table-layout: fixed;">
+                                    <tr>
+                                        <td style="text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><a href="javascript:void(0)" class="file">选择图片1
+                                                    <input type="file" name="material1" id="material1" onchange="fileUpload('#material1','#img1')" />
+                                        </a></td>
+                                        <td style="text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><a href="javascript:void(0)" class="file">选择图片2
+                                                    <input type="file" name="material2" id="material2" onchange="fileUpload('#material2','#img2')" />
+                                        </a></td>
+                                        <td style="text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><a href="javascript:void(0)" class="file">选择图片3
+                                                    <input type="file" name="material3" id="material3" onchange="fileUpload('#material3','#img3')" />
+                                        </a></td>
+                                       @* <td style="text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><a href="javascript:void(0)" class="file">选择图片4
+                                                    <input type="file" name="material4" id="material4" onchange="fileUpload('#material4','#img4')" />
+                                        </a></td>
+                                        <td style="text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><a href="javascript:void(0)" class="file">选择图片5
+                                                    <input type="file" name="material5" id="material5" onchange="fileUpload('#material5','#img5')" />
+                                        </a></td>
+                                        <td style="text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><a href="javascript:void(0)" class="file">选择图片6
+                                                    <input type="file" name="material6" id="material6" onchange="fileUpload('#material6','#img6')" />
+                                        </a></td>*@
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="imgDiv">
+                                                <img style="width: 100px; height: 120px" id="img1" src="~/Images/20076110836311.png" />
+                                                <a class="a_href" href="javascript:void(0)" onclick="ClearFile('material1','img1')">
+                                                    <img src="~/Images/images/close.png" class="delete" />
+                                                </a>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="imgDiv">
+                                                <img style="width: 100px; height: 120px" id="img2" src="~/Images/20076110836311.png" />
+                                                <a class="a_href" href="javascript:void(0)" onclick="ClearFile('material2','img2')">
+                                                    <img src="~/Images/images/close.png" class="delete" />
+                                                </a>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="imgDiv">
+                                                <img style="width: 100px; height: 120px" id="img3" src="~/Images/20076110836311.png" />
+                                                <a class="a_href" href="javascript:void(0)" onclick="ClearFile('material3','img3')">
+                                                    <img src="~/Images/images/close.png" class="delete" />
+                                                </a>
+                                            </div>
+
+                                        </td>
+                                       @* <td>
+                                            <div class="imgDiv">
+                                                <img style="width: 100px; height: 120px" id="img4" src="~/Images/20076110836311.png" />
+                                                <a class="a_href" href="javascript:void(0)" onclick="ClearFile('material4','img4')">
+                                                    <img src="~/Images/images/close.png" class="delete" />
+                                                </a>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="imgDiv">
+                                                <img style="width: 100px; height: 120px" id="img5" src="~/Images/20076110836311.png" />
+                                                <a class="a_href" href="javascript:void(0)" onclick="ClearFile('material5','img5')">
+                                                    <img src="~/Images/images/close.png" class="delete" />
+                                                </a>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="imgDiv">
+                                                <img style="width: 100px; height: 120px" id="img6" src="~/Images/20076110836311.png" />
+                                                <a class="a_href" href="javascript:void(0)" onclick="ClearFile('material6','img6')">
+                                                    <img src="~/Images/images/close.png" class="delete" />
+                                                </a>
+                                            </div>
+                                        </td>*@
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </div>
+
+
+
+                        </td>
+                    </tr>
+                </table>
+                <div class="form-group" style="margin-bottom: 5px; ">
+                    <div  style="text-align:center;">
+                         <input type="button" class="sure" style="visibility: hidden; width:70px;height:30px;margin-top: 2px;" id="LookVido"   value="播放视频" />
+                        <input type="submit" class="btn btn-success" value="提　交" onsubmit="return FormSubmit();">
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" id="Hidden-ZNBJId" name="Hidden-ZNBJId" value="" />
+             <input type="hidden" id="Hidden-ZNBGZH" name="Hidden-ZNBGZH" value="" />
+        </form>
+    </div>
+</body>
+</html>
+
+
+

@@ -1,0 +1,532 @@
+﻿@model Taizhou.PLE.Model.SimpleCaseModels.SimpleCase
+
+@{
+    ViewBag.Title = "ShowSimpleCase";
+    Layout = "~/Views/IntegratedService/CaseManagement/_LayoutCaseManagement.cshtml";
+    List<Taizhou.PLE.Model.SIMPLECASEPICTURE> simpleCasePictures = ViewBag.simpleCasePictures as List<Taizhou.PLE.Model.SIMPLECASEPICTURE>;
+}
+<style type="text/css">
+    .produce {
+        text-align: center;
+    }
+</style>
+
+@section FootScripts_CaseManage{
+    <script type="text/javascript">
+        $(function () {
+            $("#back").click(function () {
+                window.history.go(-1);
+            })
+        })
+
+
+        function onSilverlightError(sender, args) {
+            var appSource = "";
+            if (sender != null && sender != 0) {
+                appSource = sender.getHost().Source;
+            }
+
+            var errorType = args.ErrorType;
+            var iErrorCode = args.ErrorCode;
+
+            if (errorType == "ImageError" || errorType == "MediaError") {
+                return;
+            }
+
+            var errMsg = "Unhandled Error in Silverlight Application " + appSource + "\n";
+
+            errMsg += "Code: " + iErrorCode + "    \n";
+            errMsg += "Category: " + errorType + "       \n";
+            errMsg += "Message: " + args.ErrorMessage + "     \n";
+
+            if (errorType == "ParserError") {
+                errMsg += "File: " + args.xamlFile + "     \n";
+                errMsg += "Line: " + args.lineNumber + "     \n";
+                errMsg += "Position: " + args.charPosition + "     \n";
+            }
+            else if (errorType == "RuntimeError") {
+                if (args.lineNumber != 0) {
+                    errMsg += "Line: " + args.lineNumber + "     \n";
+                    errMsg += "Position: " + args.charPosition + "     \n";
+                }
+                errMsg += "MethodName: " + args.methodName + "     \n";
+            }
+
+            throw new Error(errMsg);
+        }
+
+        function MapConInited() {
+            var content = document.getElementById("mapCom").content;
+            var mapCom = content.MapCom;
+            var Lon = "@Model.Lon";
+            var Lat = "@Model.Lat";
+
+            if (Lon != "" && Lat != "") {
+                mapCom.AddSimpleCase(Lon + "," + Lat);
+            }
+        }
+    </script>
+}
+
+@section BreadcrumbSection{
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li><a href="javascript:void(0)"><i class="icon-home"></i>综合业务</a></li>
+            <li>></li>
+            <li><a href="javascript:void(0)">案件管理</a></li>
+            <li>></li>
+            <li><a href="javascript:void(0)">简易案件</a></li>
+            <li>></li>
+            <li class="active">查看案件</li>
+        </ul>
+    </div>
+}
+<div class="row-fluid">
+    <div class="span12" id="tabledata">
+        <div class="box box-black" style="margin-top: 0px;">
+            <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+                <i class="icon-reorder" style="margin-right: 5px;"></i>查看案件                
+            </div>
+            <div class="box-content">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#detail" data-toggle="tab">案件详细</a>
+                    </li>
+                    <li class="">
+                        <a href="#picture" data-toggle="tab">案件图片</a>
+                    </li>
+                    <li class="">
+                        <a href="#location" data-toggle="tab">地理位置</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="detail">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th style="text-align: center; line-height: 30px">决定书编号
+                                </th>
+                                <td style="width: 40%;">
+                                    <div class="form-group">
+                                        @Model.JDSBH
+                                    </div>
+                                </td>
+                                <th style="text-align: center; line-height: 30px;">案件违法时间
+                                </th>
+                                <td style="width: 40%;">
+                                    <div class="form-group">
+                                        @string.Format("{0:yyyy-MM-dd HH:mm}", Model.CaseTime)
+                                    </div>
+                                </td>
+                            </tr>
+                            @{
+                                if (Model.DSRLX == "gr")
+                                {
+                                <tr class="gr">
+                                    <th style="text-align: center; line-height: 30px">当事人姓名
+                                    </th>
+                                    <td style="width: 40%;">
+                                        <div class="form-group">
+                                            @Model.DSRName
+                                        </div>
+                                    </td>
+                                    <th style="text-align: center; line-height: 30px">当事人性别</th>
+                                    <td style="width: 40%;">
+                                        <div class="form-group">
+                                            @Model.DSRGender
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="gr">
+                                    <th style="text-align: center; line-height: 30px">当事人身份证号</th>
+                                    <td style="width: 40%;" colspan="3">
+                                        <div class="form-group">
+                                            @Model.DSRIDNumber
+                                        </div>
+                                    </td>
+                                </tr>
+                                }
+                                else
+                                {
+                                <tr class="dw">
+                                    <th style="text-align: center; line-height: 30px">负责人姓名</th>
+                                    <td style="width: 40%;">
+                                        <div class="form-group">
+                                            @Model.FZRName
+                                        </div>
+                                    </td>
+                                    <th style="text-align: center; line-height: 30px">负责人职务</th>
+                                    <td style="width: 40%;">
+                                        <div class="form-group">
+                                            @Model.FZRPosition
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="dw">
+                                    <th style="text-align: center; line-height: 30px">负责人所在地址</th>
+                                    <td style="width: 40%;" colspan="3">
+                                        <div class="form-group">
+                                            @Model.FZRAddress
+                                        </div>
+                                    </td>
+                                </tr>
+                                }
+                            }
+                            <tr>
+                                <th style="text-align: center; line-height: 30px">代码</th>
+                                <td style="width: 40%;">
+                                    <div class="form-group">
+                                        @Model.IllegalCode
+                                    </div>
+                                </td>
+                                <th style="text-align: center; line-height: 30px">罚款金额</th>
+                                <td style="width: 40%;">
+                                    <div class="form-group">
+                                        @Model.FKJE
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <th style="text-align: center; line-height: 30px">案件违法地点</th>
+                                <td style="width: 40%;" colspan="3">
+                                    <div class="form-group">
+                                        @Model.CaseAddress
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; line-height: 30px">违则</th>
+                                <td style="width: 40%;">
+                                    <div class="form-group">
+                                        @Model.WEIZE
+                                    </div>
+                                </td>
+                                <th style="text-align: center; line-height: 30px">罚则 </th>
+                                <td style="width: 40%;">
+                                    <div class="form-group">
+                                        @Model.FAZE
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <th style="text-align: center; line-height: 30px">违法行为名称</th>
+                                <td style="width: 40%;" colspan="3">
+                                    <div class="form-group">
+                                        @Model.WFXWName
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; line-height: 30px">交款银行</th>
+                                <td style="width: 40%;">
+                                    <div class="form-group">
+                                        @Model.JKYH
+                                    </div>
+                                </td>
+                                <th style="text-align: center; line-height: 30px">银行账号</th>
+                                <td style="width: 40%;">
+                                    <div class="form-group">
+                                        @Model.BankAccount
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <th style="text-align: center; line-height: 30px">银行户名</th>
+                                <td style="width: 40%;">
+                                    <div class="form-group">
+                                        @Model.BankAccountName
+                                    </div>
+                                </td>
+                                <th style="text-align: center; line-height: 30px">执法人姓名</th>
+                                <td style="width: 40%;">
+                                    <div class="form-group">
+                                        @Model.ZFRName
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <th style="text-align: center; line-height: 30px">执法证号</th>
+                                <td style="width: 40%;">
+                                    <div class="form-group">
+                                        @Model.ZFZH
+                                    </div>
+                                </td>
+                                <th style="text-align: center; line-height: 30px">执法时间</th>
+                                <td style="width: 40%;">
+                                    <div class="form-group">
+                                        @Model.ZFSJ
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+                    <div class="tab-pane" id="picture">
+                        <table class="table table-bordered">
+                            @if (simpleCasePictures.Count() == 0)
+                            {
+                                <tr>
+                                    <td style="width: 410px; vertical-align: bottom;">
+                                        <div class="produce">无图片</div>
+                                    </td>
+                                    <td style="width: 410px; vertical-align: bottom;">
+                                        <div class="produce">无图片</div>
+                                    </td>
+                                </tr> 
+                                <tr>
+                                    <td style="width: 410px; vertical-align: bottom;">
+                                        <div class="produce">无图片</div>
+                                    </td>
+                                    <td style="width: 410px; vertical-align: bottom;">
+                                        <div class="produce">无图片</div>
+                                    </td>
+                                </tr>
+                            }
+                            else if (simpleCasePictures.Count() == 1)
+                            {
+                                <tr>
+                                    <td style="width: 410px; vertical-align: bottom;">
+                                        <div style="text-align: center;">
+                                            <img src="/SimpleCase/GetPictureByPictureID?pictureID=@simpleCasePictures[0].SIMPLECASEPICTUREID" style="max-height:300px;max-width:395px;"/>
+                                        </div>
+                                        @if (simpleCasePictures[0].PICTURETYPE == 0)
+                                        {
+                                            <div class="produce">处理前</div>
+                                        }
+                                        else if (simpleCasePictures[0].PICTURETYPE == 1)
+                                        {
+                                            <div class="produce">处理后</div>
+                                        }
+                                        else
+                                        {
+                                            <div class="produce">其他</div> 
+                                        }
+                                    </td>
+                                    <td style="width: 410px; vertical-align: bottom;">
+                                        <div class="produce">无图片</div>
+                                    </td>
+                                </tr> 
+                                <tr>
+                                    <td style="width: 410px; vertical-align: bottom;">
+                                        <div class="produce">无图片</div>
+                                    </td>
+                                    <td style="width: 410px; vertical-align: bottom;">
+                                        <div class="produce">无图片</div>
+                                    </td>
+                                </tr> 
+                            }
+                            else if (simpleCasePictures.Count() == 2)
+                            {
+                                <tr>
+                                    <td style="width: 410px; vertical-align: bottom;">
+                                        <div style="text-align: center;">
+                                            <img src="/SimpleCase/GetPictureByPictureID?pictureID=@simpleCasePictures[0].SIMPLECASEPICTUREID" style="max-height:300px;max-width:395px;"/>
+                                        </div>
+                                        @if (simpleCasePictures[0].PICTURETYPE == 0)
+                                        {
+                                            <div class="produce">处理前</div>
+                                        }
+                                        else if (simpleCasePictures[0].PICTURETYPE == 1)
+                                        {
+                                            <div class="produce">处理后</div>
+                                        }
+                                        else
+                                        {
+                                            <div class="produce">其他</div> 
+                                        }
+                                    </td>
+                                    <td style="width: 410px; vertical-align: bottom;">
+                                        <div style="text-align: center;">
+                                            <img src="/SimpleCase/GetPictureByPictureID?pictureID=@simpleCasePictures[1].SIMPLECASEPICTUREID" style="max-height:300px;max-width:395px;"/>
+                                        </div>
+                                        @if (simpleCasePictures[1].PICTURETYPE == 0)
+                                        {
+                                            <div class="produce">处理前</div>
+                                        }
+                                        else if (simpleCasePictures[1].PICTURETYPE == 1)
+                                        {
+                                            <div class="produce">处理后</div>
+                                        }
+                                        else
+                                        {
+                                            <div class="produce">其他</div> 
+                                        }
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 410px; vertical-align: bottom;">
+                                        <div class="produce">无图片</div>
+                                    </td>
+                                    <td style="width: 410px; vertical-align: bottom;">
+                                        <div class="produce">无图片</div>
+                                    </td>
+                                </tr>
+                            }
+                            else if (simpleCasePictures.Count() == 3)
+                            {
+                                <tr>
+                                    <td style="width: 410px; vertical-align: bottom;">
+                                        <div style="text-align: center;">
+                                            <img src="/SimpleCase/GetPictureByPictureID?pictureID=@simpleCasePictures[0].SIMPLECASEPICTUREID" style="max-height:300px;max-width:395px;"/>
+                                        </div>
+                                        @if (simpleCasePictures[0].PICTURETYPE == 0)
+                                        {
+                                            <div class="produce">处理前</div>
+                                        }
+                                        else if (simpleCasePictures[0].PICTURETYPE == 1)
+                                        {
+                                            <div class="produce">处理后</div>
+                                        }
+                                        else
+                                        {
+                                            <div class="produce">其他</div> 
+                                        }
+                                    </td>
+                                    <td style="width: 410px; vertical-align: bottom;">
+                                        <div style="text-align: center;">
+                                            <img src="/SimpleCase/GetPictureByPictureID?pictureID=@simpleCasePictures[1].SIMPLECASEPICTUREID" style="max-height:300px;max-width:395px;"/>
+                                        </div>
+                                        @if (simpleCasePictures[1].PICTURETYPE == 0)
+                                        {
+                                            <div class="produce">处理前</div>
+                                        }
+                                        else if (simpleCasePictures[1].PICTURETYPE == 1)
+                                        {
+                                            <div class="produce">处理后</div>
+                                        }
+                                        else
+                                        {
+                                            <div class="produce">其他</div> 
+                                        }
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 410px; vertical-align: bottom;">
+                                        <div style="text-align: center;">
+                                            <img src="/SimpleCase/GetPictureByPictureID?pictureID=@simpleCasePictures[2].SIMPLECASEPICTUREID" style="max-height:300px;max-width:395px;"/>
+                                        </div>
+                                        @if (simpleCasePictures[2].PICTURETYPE == 0)
+                                        {
+                                            <div class="produce">处理前</div>
+                                        }
+                                        else if (simpleCasePictures[2].PICTURETYPE == 1)
+                                        {
+                                            <div class="produce">处理后</div>
+                                        }
+                                        else
+                                        {
+                                            <div class="produce">其他</div> 
+                                        }
+                                    </td>
+                                    <td style="width: 410px; vertical-align: bottom;">
+                                        <div class="produce">无图片</div>
+                                    </td>
+                                </tr>
+                            }
+                            else if (simpleCasePictures.Count() == 4)
+                            {
+                                <tr>
+                                    <td style="width: 410px; vertical-align: bottom;">
+                                        <div style="text-align: center;">
+                                            <img src="/SimpleCase/GetPictureByPictureID?pictureID=@simpleCasePictures[0].SIMPLECASEPICTUREID" style="max-height:300px;max-width:395px;"/>
+                                        </div>
+                                        @if (simpleCasePictures[0].PICTURETYPE == 0)
+                                        {
+                                            <div class="produce">处理前</div>
+                                        }
+                                        else if (simpleCasePictures[0].PICTURETYPE == 1)
+                                        {
+                                            <div class="produce">处理后</div>
+                                        }
+                                        else
+                                        {
+                                            <div class="produce">其他</div> 
+                                        }
+                                    </td>
+                                    <td style="width: 410px; vertical-align: bottom;">
+                                        <div style="text-align: center;">
+                                            <img src="/SimpleCase/GetPictureByPictureID?pictureID=@simpleCasePictures[1].SIMPLECASEPICTUREID" style="max-height:300px;max-width:395px;"/>
+                                        </div>
+                                        @if (simpleCasePictures[1].PICTURETYPE == 0)
+                                        {
+                                            <div class="produce">处理前</div>
+                                        }
+                                        else if (simpleCasePictures[1].PICTURETYPE == 1)
+                                        {
+                                            <div class="produce">处理后</div>
+                                        }
+                                        else
+                                        {
+                                            <div class="produce">其他</div> 
+                                        }
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 410px; vertical-align: bottom;">
+                                        <div style="text-align: center;">
+                                            <img src="/SimpleCase/GetPictureByPictureID?pictureID=@simpleCasePictures[2].SIMPLECASEPICTUREID" style="max-height:300px;max-width:395px;"/>
+                                        </div>
+                                        @if (simpleCasePictures[2].PICTURETYPE == 0)
+                                        {
+                                            <div class="produce">处理前</div>
+                                        }
+                                        else if (simpleCasePictures[2].PICTURETYPE == 1)
+                                        {
+                                            <div class="produce">处理后</div>
+                                        }
+                                        else
+                                        {
+                                            <div class="produce">其他</div> 
+                                        }
+                                    </td>
+                                    <td style="width: 410px; vertical-align: bottom;">
+                                        <div style="text-align: center;">
+                                            <img src="/SimpleCase/GetPictureByPictureID?pictureID=@simpleCasePictures[3].SIMPLECASEPICTUREID" style="max-height:300px;max-width:395px;"/>
+                                        </div>
+                                        @if (simpleCasePictures[3].PICTURETYPE == 0)
+                                        {
+                                            <div class="produce">处理前</div>
+                                        }
+                                        else if (simpleCasePictures[3].PICTURETYPE == 1)
+                                        {
+                                            <div class="produce">处理后</div>
+                                        }
+                                        else
+                                        {
+                                            <div class="produce">其他</div> 
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                    <div class="tab-pane" id="location" style="height: 100%; padding: 0px; border: 1px solid #fff">
+                        <object id="mapCom" data="data:application/x-silverlight-2," type="application/x-silverlight-2" style="width: 100%; height: 300px; margin-bottom: -3px;">
+                            <param name="source" value="/ClientBin/MapCom.xap" />
+                            <param name="onError" value="onSilverlightError" />
+                            <param name="background" value="white" />
+                            <param name="minRuntimeVersion" value="5.0.61118.0" />
+                            <param name="autoUpgrade" value="true" />
+                            <param name="initParams" value="Mode=-1" />
+                            <a href="http://go.microsoft.com/fwlink/?LinkID=149156&v=5.0.61118.0" style="text-decoration: none">
+                                <img src="http://go.microsoft.com/fwlink/?LinkId=161376" alt="Get Microsoft Silverlight" style="border-style: none" />
+                            </a>
+                        </object>
+                    </div>
+                    <table class="table table-bordered">
+                        <tr>
+                            <td>
+                                <div class="form-group">
+                                    <input type="button" id="back" value="返回" class="btn goback" onclick="javascript: window.histoty.go(-1);" style="margin-right: 5px;">
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

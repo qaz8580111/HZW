@@ -1,0 +1,60 @@
+﻿@model Web.ViewModels.VMFuntion
+
+<div class="box box-black" style="margin-top: 0px;">
+    <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+        <i class="icon-reorder" style="margin-right: 5px;"></i>修改功能项
+    </div>
+    <div class="box-content">
+        <form id="EditUnitForm" name="EditFunctionForm" class="form-horizontal form-bordered form-row-stripped" method="post" action="/FunItemManagement/CommitEditFunction">
+            <div class="control-group">
+                <label for="UnitName" class="control-label">功能项名称</label>
+                <div class="controls">
+                    <input type="text" name="name" id="name" placeholder="Text input" class="input-xlarge" value="@Model.Name" style="@ViewBag.a">
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="UnitTypeID" class="control-label">代码</label>
+                <div class="controls">
+                    <input name="CODE" type="text" value="@Model.Code" placeholder="请输入..." class="input-xlarge"/>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label for="SeqNO" class="control-label">单位排序号</label>
+                <div class="controls">
+                    <input type="text" name="SEQNO" id="SeqNO" placeholder="请输入..." class="input-xlarge" value="@Model.SeqNO">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label for="URL" class="control-label">功能项URL:</label>
+                <div class="controls">
+                    <input type="text" name="URL" id="URL" placeholder="请输入..." class="input-xlarge" value="@Model.URL">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label for="URL" class="control-label">状态:</label>
+                <div class="controls">
+                    @Html.DropDownListFor(model => model.StatusID, ViewBag.FunctionStatusList as IEnumerable<SelectListItem>, new { @class = "input-xlarge", style = "width:284px;" })
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label for="URL" class="control-label">功能项图标(路径):</label>
+                <div class="controls">
+                    <input type="text" name="ICONPATH" id="ICONPATH" placeholder="请输入..." class="input-xlarge" value="@Model.IconPath">
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary"><i class="icon-ok"></i>修改</button>
+                <a class="btn" href="/FunItemManagement/Index?ParentFunctionID=@Model.ParentID">返 回</a>
+            </div>
+            @Html.Hidden("ParentID", Model.ParentID)
+            @Html.Hidden("FunctionID", Model.FunctionID)
+        </form>
+    </div>
+</div>
+
+

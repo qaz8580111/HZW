@@ -1,0 +1,780 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{99294BED-FA03-4680-952A-7868CC107BA1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Taizhou.PLE.Model</RootNamespace>
+    <AssemblyName>Taizhou.PLE.Model</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ACITIVITYDEFINITION.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ACTIVITYDEFINITIONDOCPHAS.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ACTIVITYINSTANCE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ACTIVITYPERMISSION.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ACTIVITYPERMISSIONTYPE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ACTIVITYPEROPERTy.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ACTIVITYSTATUS.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="APP.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="APPVERSION.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ARTICLE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CAMERA.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CAMERARELATION.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CAMERATYPE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CAR.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CARALARM.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CARALARMTYPE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CARCARD.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CARCOMPANy.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CARDDEVICE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CARDLOG.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CARDRECORD.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CARDTYPE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CARHISTORYPOSITION.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CARHISTORYTEMPPOSITION.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CARLATESTPOSITION.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CARLOCATION.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CARLOCATIONTYPE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CARSYNCPOSITION.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CARTYPE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CaseDocModels\AJCLSPB.cs" />
+    <Compile Include="CaseDocModels\AJJTTLBL.cs" />
+    <Compile Include="CaseDocModels\AJJTTLJL.cs" />
+    <Compile Include="CaseDocModels\CFKYJDS.cs" />
+    <Compile Include="CaseDocModels\CFKYTZS.cs" />
+    <Compile Include="CaseDocModels\ComplexDocInstance.cs" />
+    <Compile Include="CaseDocModels\CYQZTZS.cs" />
+    <Compile Include="CaseDocModels\CYQZWPCLTZS.cs" />
+    <Compile Include="CaseDocModels\DCXWBL.cs" />
+    <Compile Include="CaseDocModels\DCXWTZS.cs" />
+    <Compile Include="CaseDocModels\DCXWTZSGH.cs" />
+    <Compile Include="CaseDocModels\FMWPCLJL.cs" />
+    <Compile Include="CaseDocModels\JCCFKYTZS.cs" />
+    <Compile Include="CaseDocModels\LASPB.cs" />
+    <Compile Include="CaseDocModels\QTSXNBSPB.cs" />
+    <Compile Include="CaseDocModels\SDGG.cs" />
+    <Compile Include="CaseDocModels\SMJWS.cs" />
+    <Compile Include="CaseDocModels\SQWTS.cs" />
+    <Compile Include="CaseDocModels\WSSDHZ.cs" />
+    <Compile Include="CaseDocModels\XCJCKYBL.cs" />
+    <Compile Include="CaseDocModels\XCZPTPZJ.cs" />
+    <Compile Include="CaseDocModels\XXDJBCZJTZS.cs" />
+    <Compile Include="CaseDocModels\XXDJBCZJWPCLTZS.cs" />
+    <Compile Include="CaseDocModels\XZCFAJJABG.cs" />
+    <Compile Include="CaseDocModels\XZCFJDS.cs" />
+    <Compile Include="CaseDocModels\XZCFSXGZS.cs" />
+    <Compile Include="CaseDocModels\XZCFSXGZSHZ.cs" />
+    <Compile Include="CaseDocModels\YSAJSAWPQD.cs" />
+    <Compile Include="CaseDocModels\ZLTZWFZXWTZS.cs" />
+    <Compile Include="CaseDocModels\ZLXQGZTZS.cs" />
+    <Compile Include="CASEPHONESMS.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CASESOURCE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CaseWorkflowModels\Form127.cs" />
+    <Compile Include="CaseWorkflowModels\Form128.cs" />
+    <Compile Include="CaseWorkflowModels\Form129.cs" />
+    <Compile Include="CaseWorkflowModels\Form130.cs" />
+    <Compile Include="CaseWorkflowModels\Form131.cs" />
+    <Compile Include="CaseWorkflowModels\Form132.cs" />
+    <Compile Include="CaseWorkflowModels\Form133.cs" />
+    <Compile Include="CommonModel\ArticleListModel.cs" />
+    <Compile Include="CommonModel\EventModel.cs" />
+    <Compile Include="CommonModel\FunctionTreeModel.cs" />
+    <Compile Include="CommonModel\GGFWReport.cs" />
+    <Compile Include="CommonModel\LeaderWeekWorkPlanModel.cs" />
+    <Compile Include="CommonModel\MenuBean.cs" />
+    <Compile Include="CommonModel\PendingTask.cs" />
+    <Compile Include="CommonModel\SelectModel.cs" />
+    <Compile Include="CommonModel\TreeModel.cs" />
+    <Compile Include="CommonModel\UserRole.cs" />
+    <Compile Include="CommonModel\UserTreeModel.cs" />
+    <Compile Include="CommonModel\WorkCount.cs" />
+    <Compile Include="CONSTRSITE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CONTACT.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CONTACTSGROUP.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CustomModels\CustomRelevantItem.cs" />
+    <Compile Include="CustomModels\SystemMsg.cs" />
+    <Compile Include="DOCDEFINITION.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DOCDEFINITIONRELATION.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DOCINSTANCE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DOCPHAS.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DUMPINGSITE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FUNCTION.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GGFWCASENAME.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GGFWDOC\XFJBD.cs" />
+    <Compile Include="GGFWDOC\XFPQD.cs" />
+    <Compile Include="GGFWEVENT.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GGFWMONTHLYREPORT.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GGFWSOURCE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GGFWSTATUE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GGFWTOZFDD.cs" />
+    <Compile Include="GGFWTOZFZD.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GGFWXFDOC.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GROUP.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GSGGModels\GSGGModels.cs" />
+    <Compile Include="GSGGModels\GWDetail.cs" />
+    <Compile Include="GSGGModels\GWFeedBack.cs" />
+    <Compile Include="ILLEGALCLASS.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ILLEGALITEM.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LAYERTYPE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LEADERWEEKWORKPLAN.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MAPINFO.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MENU.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MESSAGE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MESSAGETOUSER.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ONDUTy.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PHONEERROR.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PLEEntities.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PLEEntities.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PLEEntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PLEEntities.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PLEEntities.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="PORTALCATEGORy.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="QUESTIONID.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="QUESTIONLIST.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RCDCEVENT.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RCDCModels\RCDCModel.cs" />
+    <Compile Include="RCDCTOZFZD.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RECIPE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RelevantItemWorkflowModels\BaseForm.cs" />
+    <Compile Include="RelevantItemWorkflowModels\RelevantItemForm1.cs" />
+    <Compile Include="RelevantItemWorkflowModels\RelevantItemForm2.cs" />
+    <Compile Include="RelevantItemWorkflowModels\RelevantItemForm3.cs" />
+    <Compile Include="RelevantItemWorkflowModels\RelevantItemForm.cs" />
+    <Compile Include="CaseWorkflowModels\Attachment.cs" />
+    <Compile Include="CaseWorkflowModels\BaseForm.cs" />
+    <Compile Include="CaseWorkflowModels\CaseForm.cs" />
+    <Compile Include="CaseWorkflowModels\Form101.cs" />
+    <Compile Include="CaseWorkflowModels\Form102.cs" />
+    <Compile Include="CaseWorkflowModels\Form103.cs" />
+    <Compile Include="CaseWorkflowModels\Form104.cs" />
+    <Compile Include="CaseWorkflowModels\Form106.cs" />
+    <Compile Include="CaseWorkflowModels\Form105.cs" />
+    <Compile Include="CaseWorkflowModels\Form107.cs" />
+    <Compile Include="CaseWorkflowModels\Form108.cs" />
+    <Compile Include="CaseWorkflowModels\Form109.cs" />
+    <Compile Include="CaseWorkflowModels\Form110.cs" />
+    <Compile Include="CaseWorkflowModels\Form111.cs" />
+    <Compile Include="CaseWorkflowModels\Form112.cs" />
+    <Compile Include="CaseWorkflowModels\Form113.cs" />
+    <Compile Include="CaseWorkflowModels\Form114.cs" />
+    <Compile Include="CaseWorkflowModels\Form115.cs" />
+    <Compile Include="CaseWorkflowModels\Form116.cs" />
+    <Compile Include="CaseWorkflowModels\Form117.cs" />
+    <Compile Include="CaseWorkflowModels\Form118.cs" />
+    <Compile Include="CaseWorkflowModels\Form119.cs" />
+    <Compile Include="CaseWorkflowModels\Form120.cs" />
+    <Compile Include="CaseWorkflowModels\Form121.cs" />
+    <Compile Include="CaseWorkflowModels\Form122.cs" />
+    <Compile Include="CaseWorkflowModels\Form123.cs" />
+    <Compile Include="CaseWorkflowModels\Form124.cs" />
+    <Compile Include="CaseWorkflowModels\Form125.cs" />
+    <Compile Include="CaseWorkflowModels\Form126.cs" />
+    <Compile Include="CaseWorkflowModels\IllegalForm.cs" />
+    <Compile Include="CaseWorkflowModels\OrgForm.cs" />
+    <Compile Include="CaseWorkflowModels\PersonForm.cs" />
+    <Compile Include="CaseWorkflowModels\TotalForm.cs" />
+    <Compile Include="CaseWorkflowModels\Unit.cs" />
+    <Compile Include="CaseWorkflowModels\User.cs" />
+    <Compile Include="CustomModels\AllTask.cs" />
+    <Compile Include="CustomModels\DocButtonInfo.cs" />
+    <Compile Include="CustomModels\IllegalClassSelectItem.cs" />
+    <Compile Include="CustomModels\ProcessedTask.cs" />
+    <Compile Include="CustomModels\UserFunction.cs" />
+    <Compile Include="CustomModels\UserInfo.cs" />
+    <Compile Include="HT_CD_ENUM.cs">
+      <DependentUpon>TZ_ZFJEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HT_CD_GOV.cs">
+      <DependentUpon>TZ_ZFJEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HT_CD_VIOCODE.cs">
+      <DependentUpon>TZ_ZFJEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HT_USER_NEW.cs">
+      <DependentUpon>TZ_ZFJEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HT_VEH_VIOREC.cs">
+      <DependentUpon>TZ_ZFJEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ParkingCaseModels\ParkingCase.cs" />
+    <Compile Include="ParkingCaseModels\Picture.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RelevantItemWorkflowModels\SPSXForm.cs" />
+    <Compile Include="CommonModel\CaseCount.cs" />
+    <Compile Include="ROLE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ROLEFUNCTION.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ROLEMENU.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SCHEDULE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SCHEDULETYPE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SIGNRESUL.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SIMPLECAS.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SimpleCaseModels\SimpleCase.cs" />
+    <Compile Include="SIMPLECASEPICTURE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SINGNIN.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SMSModel\StatusReportPush.cs" />
+    <Compile Include="SMSModel\UpSMSPush.cs" />
+    <Compile Include="SPECIALACTIVITICE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SPECIALACTIVITYDEFINITON.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SPECIALTOZFSJ.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SPECIALWORKFLOWINSTANCE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="STREESTORE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="STREESTORETYPE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="STREET.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="STREETASSESSMENTTYPE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="STREETBAS.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="STREETEXAMINE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="STREETPROBLEM.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="STREETTYPE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="STREETUSER.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TJGHZF.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRANSLICENS.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRANSLICENSECAR.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRANSLICENSECARCOMPANy.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRANSLICENSEROAD.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRANSRECORD.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRANSROAD.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TZ_ZFJEntities.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TZ_ZFJEntities.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TZ_ZFJEntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TZ_ZFJEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TZ_ZFJEntities.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TZ_ZFJEntities.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="UNIT.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UNITTYPE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="USER.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="USERARCHIVE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="USERCATEGORy.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="USERGROUP.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="USERONDUTy.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="USERPHONESIGNIN.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="USERPOSITION.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="USERROLE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WebServiceModels\AppVersion.cs" />
+    <Compile Include="WebServiceModels\EnforceLawEvent.cs" />
+    <Compile Include="WebServiceModels\IPCase.cs" />
+    <Compile Include="WebServiceModels\MainClass.cs" />
+    <Compile Include="WebServiceModels\PhoneDoc.cs" />
+    <Compile Include="WebServiceModels\PhoneViewModel1.cs" />
+    <Compile Include="WebServiceModels\Picture.cs" />
+    <Compile Include="WebServiceModels\ProcessEvent.cs" />
+    <Compile Include="WebServiceModels\QuestionClass.cs" />
+    <Compile Include="WebServiceModels\SignInError.cs" />
+    <Compile Include="WebServiceModels\SimpleCase.cs" />
+    <Compile Include="WebServiceModels\SunClass.cs" />
+    <Compile Include="WebServiceModels\PendingEvent.cs" />
+    <Compile Include="WebServiceModels\Unit.cs" />
+    <Compile Include="WebServiceModels\User.cs" />
+    <Compile Include="WebServiceModels\UserPosition.cs" />
+    <Compile Include="WebServiceModels\WebSMJ.cs" />
+    <Compile Include="WebServiceModels\WebXCZPTPZJ.cs" />
+    <Compile Include="WebServiceModels\XCZPTPZJDoc\WebXCZPTPZJ.cs" />
+    <Compile Include="WebServiceModels\XZSPThere.cs" />
+    <Compile Include="WORKFLOWDEFINITION.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WORKFLOWINSTANCE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WORKFLOWPEROPERTy.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WORKFLOWSTATUS.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WTUSERRELATION.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="XCJGAREA.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="XCJGCARTASK.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="XCJGREST.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="XCJGRESTALARM.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="XCJGROUTE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="XCJGSIGNIN.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="XCJGUSERTASK.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="XZSPACTDEF.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="XZSPACTIST.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="XZSPACTIVITYDEFINITION.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="XZSPAPPROVALPROJECT.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="XZSPKZHC.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="XZSPModels\AttachmentModel.cs" />
+    <Compile Include="XZSPModels\WebServiceModel.cs" />
+    <Compile Include="XZSPModels\XZSPArchivedTask.cs" />
+    <Compile Include="XZSPModels\XZSPNEWDBTAB.cs" />
+    <Compile Include="XZSPModels\XZSPNewPenddingTask.cs" />
+    <Compile Include="XZSPModels\XZSPPendingTask.cs" />
+    <Compile Include="XZSPModels\RegisterModel.cs" />
+    <Compile Include="XZSPModels\XZSPProcessedTask.cs" />
+    <Compile Include="XZSPNEWACTIVITYDEFINITION.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="XZSPNewModels\BaseXZSPWorkflows.cs" />
+    <Compile Include="XZSPNewModels\TotalWorkflows.cs" />
+    <Compile Include="XZSPNewModels\Workflow1.cs" />
+    <Compile Include="XZSPNewModels\Workflow2.cs" />
+    <Compile Include="XZSPNewModels\Workflow3.cs" />
+    <Compile Include="XZSPNewModels\Workflow4.cs" />
+    <Compile Include="XZSPNewModels\Workflow5.cs" />
+    <Compile Include="XZSPNEWTAB.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="XZSPNEWWORKFLOWINSTANCE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="XZSPPROJECTNAME.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="XZSPSTU.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="XZSPWFDEF.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="XZSPWFIST.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="XZSPWFISTS_DELETE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="XZSPWorkflowModels\Base\Attachment.cs" />
+    <Compile Include="XZSPWorkflowModels\Base\BaseForm.cs" />
+    <Compile Include="XZSPWorkflowModels\ExpandInfoForm101\KZXX.cs" />
+    <Compile Include="XZSPWorkflowModels\LocateCheckForm103\LocateCheck.cs" />
+    <Compile Include="XZSPWorkflowModels\XZSPWorkflow\FeedBackForm.cs" />
+    <Compile Include="XZSPWorkflowModels\XZSPWorkflow\Form101.cs" />
+    <Compile Include="XZSPWorkflowModels\XZSPWorkflow\Form102.cs" />
+    <Compile Include="XZSPWorkflowModels\XZSPWorkflow\Form103.cs" />
+    <Compile Include="XZSPWorkflowModels\XZSPWorkflow\Form104.cs" />
+    <Compile Include="XZSPWorkflowModels\XZSPWorkflow\Form105.cs" />
+    <Compile Include="XZSPWorkflowModels\XZSPWorkflow\Form106.cs" />
+    <Compile Include="XZSPWorkflowModels\XZSPWorkflow\Form107.cs" />
+    <Compile Include="XZSPWorkflowModels\XZSPWorkflow\Form108.cs" />
+    <Compile Include="XZSPWorkflowModels\XZSPWorkflow\TotalForm.cs" />
+    <Compile Include="XZSPWorkflowModels\XZSPWorkflow\XZSPForm.cs" />
+    <Compile Include="XZZFLISTSH.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="XZZFQUESTIONCLASS.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="XZZFTABLIST.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ZBRZLIST.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ZFGKCAR.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ZFGKCARHISTORYPOSITION.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ZFGKCARLATESTPOSITION.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ZFGKUSERHISTORYPOSITION.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ZFGKUSERLATESTPOSITION.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ZFSJACTIVITYDEFINITION.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ZFSJACTIVITYINSTANCE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ZFSJCHARTBYQL.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ZFSJCHECKWAY.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ZFSJModels\EventReport.cs" />
+    <Compile Include="ZFSJModels\ZFSJPendingTask.cs" />
+    <Compile Include="ZFSJModels\ZFSJProcessTask.cs" />
+    <Compile Include="ZFSJModels\ZFSJTIMELIMIT.cs" />
+    <Compile Include="ZFSJPROCESSWAY.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ZFSJQUESTIONCLASS.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ZFSJSOURCE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ZFSJSTATU.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ZFSJSUMMARYINFORMATION.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ZFSJTIMELIMIT.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ZFSJWORKFLOWINSTANCE.cs">
+      <DependentUpon>PLEEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ZFSJWorkflowModel\Base\Attachment.cs" />
+    <Compile Include="ZFSJWorkflowModel\Base\BaseForm.cs" />
+    <Compile Include="ZFSJWorkflowModel\ZFSJWorkflow\FeedBackForm.cs" />
+    <Compile Include="ZFSJWorkflowModel\ZFSJWorkflow\Form101.cs" />
+    <Compile Include="ZFSJWorkflowModel\ZFSJWorkflow\Form102.cs" />
+    <Compile Include="ZFSJWorkflowModel\ZFSJWorkflow\Form103.cs" />
+    <Compile Include="ZFSJWorkflowModel\ZFSJWorkflow\Form104.cs" />
+    <Compile Include="ZFSJWorkflowModel\ZFSJWorkflow\Form105.cs" />
+    <Compile Include="ZFSJWorkflowModel\ZFSJWorkflow\Form106.cs" />
+    <Compile Include="ZFSJWorkflowModel\ZFSJWorkflow\Form107.cs" />
+    <Compile Include="ZFSJWorkflowModel\ZFSJWorkflow\Form108.cs" />
+    <Compile Include="ZFSJWorkflowModel\ZFSJWorkflow\TotalForm.cs" />
+    <Compile Include="ZFSJWorkflowModel\ZFSJWorkflow\ZFSJForm.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
+    <EntityDeploy Include="TZ_ZFJEntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>TZ_ZFJEntities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="packages.config" />
+    <EntityDeploy Include="PLEEntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>PLEEntities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="PLEEntities.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>PLEEntities.edmx</DependentUpon>
+      <LastGenOutput>PLEEntities.Context.cs</LastGenOutput>
+    </None>
+    <None Include="PLEEntities.edmx.diagram">
+      <DependentUpon>PLEEntities.edmx</DependentUpon>
+    </None>
+    <None Include="PLEEntities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>PLEEntities.edmx</DependentUpon>
+      <LastGenOutput>PLEEntities.cs</LastGenOutput>
+    </None>
+    <None Include="TZ_ZFJEntities.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>TZ_ZFJEntities.edmx</DependentUpon>
+      <LastGenOutput>TZ_ZFJEntities.Context.cs</LastGenOutput>
+    </None>
+    <None Include="TZ_ZFJEntities.edmx.diagram">
+      <DependentUpon>TZ_ZFJEntities.edmx</DependentUpon>
+    </None>
+    <None Include="TZ_ZFJEntities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>TZ_ZFJEntities.edmx</DependentUpon>
+      <LastGenOutput>TZ_ZFJEntities.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DocForms\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,70 @@
+﻿@model List<Taizhou.PLE.Model.CommonModel.CaseCount>
+@{
+    ViewBag.Title = "CaseCount";
+    Layout = "~/Views/AidDecisionMaking/_LayoutStatisticeManagement.cshtml";
+}
+
+@section BreadcrumbSection{
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li><a href="javascript:void(0)"><i class="icon-home"></i>辅助决策</a></li>
+            <li>></li>
+            <li><a href="javascript:void(0)">报表统计</a></li>
+            <li>></li>
+            <li class="active">执法事件统计</li>
+        </ul>
+    </div>
+}
+<script src="~/Scripts/Highcharts-4.0.3/js/highcharts.src.js"></script>
+<div class="box box-black" style="margin: 5px;">
+    <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+        <i class="icon-reorder" style="margin-right: 5px;"></i>@DateTime.Now.Year.ToString()年执法事件统计
+    </div>
+    <div class="box-content" style="min-height: 400px;">
+        <div style="height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+            <a class="btn btn-success" href="/Statistics/ZFSJCount">执法事件统计列表<i style="margin-left: 10px;" class="m-icon-swapright m-icon-white"></i></a>
+        </div>
+        <div id="container" style="min-width: 700px; height: 400px"></div>
+        <input type="hidden" id="ZFSJChartList" value="@ViewBag.ZFSJChartList"/>
+        <div style="clear: both"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        var ZFSJChartList = document.getElementById("ZFSJChartList").value;
+        var data = eval('(' + ZFSJChartList + ')');
+        $('#container').highcharts({
+            chart: {
+                type: 'line'
+            },
+            title: {
+                text: '执法事件条形统计图'
+            },
+
+            xAxis: {
+                categories: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
+            },
+            yAxis: {
+                title: {
+                    text: ''
+                }
+            },
+            tooltip: {
+                enabled: false,
+                formatter: function () {
+                    return '<b>' + this.series.name + '</b><br>' + this.x + ': ' + this.y + '°C';
+                }
+            },
+            plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: true
+                    },
+                    enableMouseTracking: false
+                }
+            },
+            series:data
+        });
+    });
+</script>

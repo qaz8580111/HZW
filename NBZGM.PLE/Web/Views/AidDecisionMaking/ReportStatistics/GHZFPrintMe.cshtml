@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.Title = "GHZFrintMe";
+}
+
+<script type="text/javascript">
+    $(function () {
+        var ContentMes = $("#ContentMesHidden").val();
+        $("#ContentMesHtml").html(ContentMes);
+        printme();
+    });
+
+    //打印
+    function printme() {
+        document.body.innerHTML = document.getElementById("PrintmeTable").innerHTML;
+        window.print();
+    }
+
+</script>
+
+
+<input type="hidden" id="ContentMesHidden" value="@ViewBag.CXGHGLZFTJ" />
+<div id="PrintmeTable">
+    <table style="width: 1200px;">
+        <tr>
+            <td colspan="4" style="text-align: center; font-size: 18px;">城乡规划管理执法情况统计表（@ViewBag.TJTIME）</td>
+        </tr>
+    </table>
+    <div style="margin-top: 10px;"></div>
+    <table border="1" style="width:1200px;">
+        <thead>
+            <tr style="text-align: center">
+                <td rowspan="3" style="width: 100px">单位内容</td>
+                <td colspan="2">案源</td>
+                <td rowspan="3">立案数</td>
+                <td rowspan="3">办结数</td>
+                <td rowspan="3">罚款（元）</td>
+                <td rowspan="3">违法面积（平方米）</td>
+                <td rowspan="3">没收实物（平方米）</td>
+                <td rowspan="3">没收违法收入（元）</td>
+                <td colspan="9">其他</td>
+            </tr>
+            <tr style="text-align: center">
+                <td rowspan="2" style="width: 50px;">巡查发现数</td>
+                <td rowspan="2" style="width: 50px;">其他</td>
+                <td rowspan="2">责令停止建设（件）</td>
+                <td rowspan="2">订单放样（件）</td>
+                <td rowspan="2">验收（件）</td>
+                <td rowspan="2">组织听证（件）</td>
+                <td colspan="2">申请法院执行</td>
+                <td colspan="2">报请市政府责成</td>
+                <td rowspan="2">行政复议或诉讼（件）</td>
+            </tr>
+            <tr style="text-align: center">
+                <td>申请（件）</td>
+                <td>执结（件）</td>
+                <td>总数（件）</td>
+                <td>执结（件）</td>
+            </tr>
+        </thead>
+        <tbody id="ContentMesHtml">
+        </tbody>
+    </table>
+</div>

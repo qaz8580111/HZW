@@ -1,0 +1,95 @@
+﻿@{
+    Layout = "~/Views/CoordinationCentre/ContentManagement/_LayoutContentManagement.cshtml";
+}
+<script src="~/Scripts/assets/jquery/jquery.min.js"></script>
+<script type="text/ecmascript">
+    function Handle(approvalResult) {
+        var HandleResult = approvalResult == 1 ? "确定要 \"通过\" 该文章吗?" : "确定要 \"退回\" 该文章吗?";
+        if (confirm(HandleResult)) {
+            $.ajax({
+                url: "/ArticleManagement/ApprovalArticleResult/",
+                type: "POST",
+                data: { articleID: $("#articleID").val(), approvalResult: approvalResult },
+                success: function (data) {
+                    if (data == "True") {
+                        location.href = "/ArticleManagement/Approval?iDisplayStart=" + $("#iDisplayStart").val()
+                            + "&iDisplayLength=" + $("#iDisplayLength").val()
+                    }
+                },
+                erorr: function (result) {
+                    alert("发生未知错误,如果重复出现请联系管理员!");
+                }
+            });
+        }
+    }
+    $(document).ready(function () {
+        $("#ArticleList").css("display", "block");
+        $("#articleContent").append($("#content").val());
+    });
+</script>
+
+@section BreadcrumbSection{
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li><a href="#"><i class="icon-home"></i>协同中心</a></li>
+            <li>></li>
+            <li><a href="/ArticleManagement/">发布管理</a></li>
+            <li>></li>
+            <li><a href="/ArticleManagement/Approval/">待审文章</a></li>
+            <li>></li>
+            <li class="active">审批文章</li>
+            <li id="UintInfo"></li>
+        </ul>
+    </div>
+}
+<div class="row-fluid">
+    <div class="box box-black span12" style="margin-top: 0px;">
+        <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+            <i class="icon-reorder" style="margin-right: 5px;"></i>审批文章
+        </div>
+        <div class="box-content">
+            <form class="form-horizontal form-bordered form-row-stripped">
+                <div class="control-group">
+                    <label class="control-label">文章标题</label>
+                    <div class="controls">
+                        <input type="text" name="Name" placeholder="Text input" class="input-xlarge" value="@ViewBag.title" readonly="ture">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="unitTypeID" class="control-label">文章作者</label>
+                    <div class="controls">
+                        <input type="text" name="Code" placeholder="text input" class="input-xlarge" value="@ViewBag.author" readonly="ture">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="SeqNO" class="control-label">所属栏目</label>
+                    <div class="controls">
+                        <input type="text" name="URL" placeholder="Text input" class="input-xlarge" value="@ViewBag.categoryID" readonly="ture">
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="SeqNO" class="control-label">创建时间</label>
+                    <div class="controls">
+                        <input type="text" name="URL" placeholder="Text input" class="input-xlarge" value="@ViewBag.createTime" readonly="ture">
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="SeqNO" class="control-label">文章内容</label>
+                    <div class="controls" id="articleContent" style="width: 760px">
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" onclick="Handle(1)" class="btn btn-primary"><i class="icon-ok"></i>通 过</button>
+                    <button type="button" onclick="Handle(2)" class="btn btn-danger" id="btnBack"><i class="icon-remove"></i>退 回</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@Html.Hidden("content")
+@Html.Hidden("articleID")
+@Html.Hidden("iDisplayStart")
+@Html.Hidden("iDisplayLength")

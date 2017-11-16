@@ -1,0 +1,980 @@
+﻿@{
+    Layout = null;
+}
+@model ZGM.Model.WJGL_NONBUILDINGS
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>新建违法建筑</title>
+    <link href="~/Content/css/OA.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/Scripts/assets/bootstrap/bootstrap.min.css" />
+    <script src="~/Scripts/jquery-1.7.1.js"></script>
+    <script type="text/javascript" src="~/Scripts/js/select-ui.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/js/jquery.idTabs.min.js"></script>
+    <script src="~/Scripts/assets/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-zh-CN.js"></script>
+
+    <script src="~/Scripts/js/PageNotBack.js"></script>
+    <link href="~/Scripts/layer/skin/layer.css" rel="stylesheet" />
+    <link href="~/Scripts/layer/skin/seaning/style.css" rel="stylesheet" />
+    <script src="~/Scripts/layer/layer.js"></script>
+
+    <script type="text/javascript">
+        layer.config({
+            skin: 'layer-ext-seaning',
+            offset: ['100px', '33%'],
+            title: '提示',
+            moveOut: true,
+            closeBtn: false,
+            extend: 'skin/seaning/style.css'
+        });
+    </script>
+
+    <style type="text/css">
+        table tr input.large {
+            width: 96%;
+        }
+
+        table tr input.small {
+            width: 94%;
+            height: 30px;
+        }
+
+        .fontStyle * {
+            font-family: 宋体 !important;
+        }
+
+        .docBtn {
+            /*font-weight: bold;*/
+            font-size: 13px;
+            width: 150px;
+            margin: 5px 0px;
+            text-align: left;
+        }
+
+        .inf_link {
+            margin-left: -16px;
+            margin-top: -4px;
+        }
+
+        .ui-xbox {
+            position: absolute;
+            z-index: 998;
+            width: 220px;
+            height: 100px;
+            visibility: visible;
+            text-align: center;
+        }
+
+        .leftbar-search {
+            width: 250px;
+            float: left;
+            border: 1px solid gray;
+        }
+
+        .content-search {
+            border: 1px solid gray;
+        }
+
+        .imgDiv {
+            display: inline-block;
+            position: relative;
+        }
+
+            .imgDiv .delete {
+                position: absolute;
+                top: 0px;
+                right: 0px;
+                width: 20px;
+                height: 20px;
+                display: none;
+            }
+        .a_href:hover {
+            display:block;background:#f00;color:#fff;
+        }
+        a, a:focus {
+            text-decoration: none;
+            color: #000;
+        }
+    </style>
+
+    <script type="text/javascript">
+        $(document).ready(init);
+        function init() {
+            $(".imgDiv").mouseenter(function () {
+                $(this).find(".delete").show();
+            });
+
+            $(".imgDiv").mouseleave(function () {
+                $(this).find(".delete").hide();
+            });
+
+            $(".a_href").mouseenter(function () {
+                $(this).find(".delete").attr("src", "/Images/images/close1.png")
+            });
+            $(".a_href").mouseleave(function () {
+                $(this).find(".delete").attr("src", "/Images/images/close.png")
+            });
+        }
+
+        //后台回调js函数
+        function AddCallBack(flag) {
+            $("#silverlightControlHost").css("visibility", "hidden");
+            $(parent.frames["leftFrame"].document).find(".leftmenu dd:eq(0) li").prop("class", "");
+            $(parent.frames["leftFrame"].document).find(".leftmenu dd:eq(1) li").prop("class", "active");
+            if (flag == 1) {
+                layer.alert("操作成功!", {
+                    icon: 1,
+                    skin: 'layer-ext-seaning'
+                }, function (index) {
+                    layer.close(index);
+                    location.href = "/WJGL/List";
+                });
+            }
+            if (flag == 2) {
+                layer.alert("操作失败!", {
+                    icon: 0,
+                    skin: 'layer-ext-seaning'
+                }, function (index) {
+                    layer.close(index);
+                    location.href = "/WJGL/List";
+                });
+            }
+        }
+
+        function ClearFile(fileid, imgid) {
+            if ($("#" + imgid).attr("src") != "/Images/20076110836311.png" && $("#hidden-save").css("display") == "block") {
+                layer.confirm('是否确认删除?', {
+                    btn: ['是', '否'],
+                    icon: 4,
+                    //按钮
+                }, function () {
+                    document.getElementById(fileid).outerHTML += '';//清空IE的
+                    document.getElementById(fileid).value = "";//可以清空火狐的
+                    var strpath = $("#" + imgid).attr("src").replace("/GetPictureFile.ashx?PicPath=C:\\ZGMImage\\WFJZFilesPath\\sourse\\", "");
+                    $.ajax({
+                        type: "GET",
+                        url: "/WJGL/ClearFileImage?ClearFilePath=" + strpath,
+                        success: function (data) {
+                            $("#" + imgid).attr("src", "/Images/20076110836311.png");
+                            layer.alert("删除成功");
+                        }
+                    })
+                }, function () {
+                    layer.close();
+                });
+            }
+        }
+
+        function ClearFile2(fileid, imgid) {
+            document.getElementById(fileid).outerHTML += '';//清空IE的
+            document.getElementById(fileid).value = "";//可以清空火狐的
+            $("#" + imgid).attr("src", "/Images/20076110836311.png");
+        }
+
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var WJID = getQueryString("WJID");
+            $("input[name='hidden-wjid']").val(WJID);
+            if (WJID != null) {
+                $(".placeul li:eq(0)").text("违法建筑详情");
+                $(".placeul li:eq(0)").before("<li><a href='/WJGL/List'>违法建筑列表</a></li>");
+                $("#hidden-edit,#hidden-remark,#hidden-afterpic,#backbtn").show();
+                $("table input,select,textarea").attr("disabled", "disabled");
+                $("table input,select,textarea").css("cursor", "not-allowed");
+                $("#showmap").removeAttr("disabled").css("background", "white").css("cursor", "pointer");
+                $("#hidden-beforepic .delete").prop("class", "delete1");
+                $("#hidden-beforepic .delete1,#beforepicupload").hide();
+                $.ajax({
+                    type: "GET",
+                    url: "/WJGL/GetWJGLByWJID?random=" + Math.random(),
+                    data: {
+                        WJID: WJID
+                    },
+                    success: function (data) {
+
+                        $("input[name='WJUNIT']").val(data.list.WJUNIT);
+                        $("#ZONEID").val(data.list.ZONEID).prop("selected", true);
+                        $("input[name='WJADDRESS']").val(data.list.WJADDRESS);
+                        $("#STATE").val(data.list.STATE).prop("selected", true);
+                        $("#IDENTITYID").val(data.list.IDENTITYID).prop("selected", true);
+                        $("input[name='TEL']").val(data.list.TEL);
+                        $("#MAPLOACTION").val(data.list.MAPLOACTION);
+                        $("input[name='WJTIME']").val(data.list.WJTIMEStr);
+                        $("#WJTYPE").val(data.list.WJTYPE).prop("selected", true);
+                        $("#WJFRAME").val(data.list.WJFRAME).prop("selected", true);
+                        $("input[name='WJFLOOR']").val(data.list.WJFLOOR);
+                        $("#LANDTYPE").val(data.list.LANDTYPE).prop("selected", true);
+                        $("#WJUSE").val(data.list.WJUSE).prop("selected", true);
+                        $("input[name='LANDAREA']").val(data.list.LANDAREA);
+                        $("input[name='BUILDINGAREA']").val(data.list.BUILDINGAREA);
+                        $("input[name='REMOVETIME']").val(data.list.REMOVETIMEStr);
+                        $("input[name='REMOVEAREA']").val(data.list.REMOVEAREA);
+                        $("input[name='CONSTRUCTIONPROJECT']").val(data.list.CONSTRUCTIONPROJECT);
+                        $("#SIXCASE").val(data.list.SIXCASE).prop("selected", true);
+                        $("#RECTIFICATIONCASE").val(data.list.RECTIFICATIONCASE).prop("selected", true);
+                        $("input[name='RECTIFICATIONTIME']").val(data.list.RECTIFICATIONTIMEStr);
+                        $("textarea[name='REMARK1']").val(data.list.REMARK1);
+                        $("#beforepicshow td").css("border", "none");
+
+                        if (data.list.BeforePic != null) {
+                            var bpicarr = data.list.BeforePic.split("|");
+                            for (var i = 0; i < bpicarr.length; i++) {
+                                $("#img" + (i + 1)).attr("src", bpicarr[i]);
+                            }
+                            for (var i = 0; i <= $("img[id^='img']").length; i++) {
+                                if ($("#img" + i).attr("src") == "/Images/20076110836311.png")
+                                    $("#hidden-beforepic #img" + i).parent().parent().hide();
+                            }
+                        } else {
+                            $("#beforepicshow").text("未上传改造前的图片");
+                            $("#beforepicshow").css("color", "#999").css("font-size", "14px");
+                        }
+
+                        if (data.list.AfterPic != null) {
+                            var apicarr = data.list.AfterPic.split("|");
+                            for (var i = 0; i < apicarr.length; i++) {
+                                $("#img" + (i + 7)).attr("src", apicarr[i]);
+                            }
+                        }
+
+                    }
+                })
+
+            } else
+                $("#addbtn").show();
+
+            $("input[name='WJTIME']").datepicker({ changeMonth: true, changeYear: true, showMonthAfterYear: true, showButtonPanel: true });
+            $("input[name='REMOVETIME']").datepicker({ changeMonth: true, changeYear: true, showMonthAfterYear: true, showButtonPanel: true });
+            $("input[name='RECTIFICATIONTIME']").datepicker({ changeMonth: true, changeYear: true, showMonthAfterYear: true, showButtonPanel: true });
+
+            //违法建筑编辑
+            $("#hidden-edit").click(function () {
+                $("#hidden-edit").hide();
+                $("#hidden-save").show();
+                $("#STATE,input[name='REMOVETIME'],input[name='REMOVEAREA'],input[name='CONSTRUCTIONPROJECT'],#RECTIFICATIONCASE," +
+                "input[name='RECTIFICATIONTIME'],#hidden-afterpic input,textarea[name='REMARK1']").removeAttr("disabled").css("cursor", "unset");
+            })
+        });
+        function validate_form(thisform) {
+            var PHONE = $("input[name='TEL']").val();
+            var allcount = $("#hidden-afterpic img").length;
+            var count = 0;
+            for (var i = 0; i < allcount; i++) {
+                if ($("#hidden-afterpic img:eq(" + i + ")").attr("src") == "/Images/20076110836311.png")
+                    count++;
+            }
+            $("input[name='hidden-aftercount']").val(6 - count);
+            if ($("#hidden-save").css("display") == "block")
+                $("input[name='hidden-isedit']").val(1);
+            if (PHONE == null || PHONE == "") {
+                $("#silverlightControlHost").css("visibility", "hidden");
+                layer.alert("联系电话不能为空!", {
+                    icon: 0,
+                    skin: 'layer-ext-seaning'
+                }, function (index) {
+                    layer.close(index);
+                    $("#silverlightControlHost").css("visibility", "visible");
+                });
+                return false;
+            }
+            if (PHONE != null && PHONE != "" && !(/^[1][358][0-9]{9}$/.test(PHONE)) && !(/^0\d{2,3}-?\d{7,8}$/.test(PHONE))) {
+                $("#silverlightControlHost").css("visibility", "hidden");
+                layer.alert("联系电话格式不正确!", {
+                    icon: 0,
+                    skin: 'layer-ext-seaning'
+                }, function (index) {
+                    layer.close(index);
+                    $("#silverlightControlHost").css("visibility", "visible");
+                });
+                MAPLOACTION.focus();
+                return false;
+            }
+
+            with (thisform) {
+                if (validate_required(WJUNIT, "违建单位不能为空!") == false)
+                { WJUNIT.focus(); return false }
+                if (validate_required(ZONEID, "所在片区不能为空!") == false)
+                { ZONEID.focus(); return false }
+                if (validate_required(WJADDRESS, "违建地点不能为空!") == false)
+                { WJADDRESS.focus(); return false }
+                if (validate_required(STATE, "当前状态不能为空!") == false)
+                { STATE.focus(); return false }
+                if (validate_required(IDENTITYID, "个人或法人代表身份不能为空!") == false)
+                { IDENTITYID.focus(); return false }
+                if (validate_required(MAPLOACTION, "地图位置不能为空!") == false)
+                { MAPLOACTION.focus(); return false }
+                if (validate_required(WJTYPE, "违建类别不能为空!") == false)
+                { WJTYPE.focus(); return false }
+                if (validate_required(WJFRAME, "违建结构不能为空!") == false)
+                { WJFRAME.focus(); return false }
+                if (validate_required_float(WJFLOOR, "违建楼层不能为空!", "违建楼层格式不正确!") == false)
+                { WJFLOOR.focus(); return false }
+                if (validate_required(LANDTYPE, "土地类别不能为空!") == false)
+                { LANDTYPE.focus(); return false }
+                if (validate_required(WJUSE, "违建用途不能为空!") == false)
+                { WJUSE.focus(); return false }
+                if (validate_required_float(LANDAREA, "占地面积不能为空!", "占地面积格式不正确!") == false)
+                { LANDAREA.focus(); return false }
+                if (validate_required_float(BUILDINGAREA, "建筑面积不能为空!", "建筑面积格式不正确!") == false)
+                { BUILDINGAREA.focus(); return false }
+                if (validate_required_float_null(REMOVEAREA, "拆除面积不能为空!", "拆除面积格式不正确!") == false)
+                { REMOVEAREA.focus(); return false }
+                if (validate_required(SIXCASE, "六类先拆情况不能为空!") == false)
+                { SIXCASE.focus(); return false }
+                if (validate_required(RECTIFICATIONCASE, "整改通知发放情况不能为空!") == false)
+                { RECTIFICATIONCASE.focus(); return false }
+                else { $("table input,select,textarea").removeAttr("disabled"); return true }
+            }
+        }
+
+        function validate_required(field, alerttxt) {
+            with (field) {
+                if (value == null || value == "") {
+                    $("#silverlightControlHost").css("visibility", "hidden");
+                    layer.alert(alerttxt, {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    }, function (index) {
+                        layer.close(index);
+                        $("#silverlightControlHost").css("visibility", "visible");
+                    });
+                    return false
+                }
+                else { return true }
+            }
+        }
+
+        //为空或者为数字
+        function validate_required_float_null(field, alertnulltxt, alerterrortxt) {
+            var intregex = /^[0-9]+(.[0-9]{1,5})?$/;
+            with (field) {
+                if (value != null && value != "" && !intregex.test(value)) {
+                    $("#silverlightControlHost").css("visibility", "hidden");
+                    layer.alert(alerterrortxt, {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    }, function (index) {
+                        layer.close(index);
+                        $("#silverlightControlHost").css("visibility", "visible");
+                    });
+                    return false
+                }
+                return true;
+            }
+        }
+
+        //验证是否为空并且为数字
+        function validate_required_float(field, alertnulltxt, alerterrortxt) {
+            var intregex = /^[0-9]+(.[0-9]{1,5})?$/;
+            with (field) {
+                if (value == null || value == "") {
+                    $("#silverlightControlHost").css("visibility", "hidden");
+                    layer.alert(alertnulltxt, {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    }, function (index) {
+                        layer.close(index);
+                        $("#silverlightControlHost").css("visibility", "visible");
+                    });
+                    return false
+                }
+                if (value != null && value != "" && !intregex.test(value)) {
+                    $("#silverlightControlHost").css("visibility", "hidden");
+                    layer.alert(alerterrortxt, {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    }, function (index) {
+                        layer.close(index);
+                        $("#silverlightControlHost").css("visibility", "visible");
+                    });
+                    return false
+                }
+                if (value != null && value != "" && intregex.test(value))
+                { return true }
+            }
+        }
+
+        function IndexStr(str2) {
+            var str1 = "请选择";
+            var s = str1.indexOf(str2);
+            return (s);
+        }
+
+        //地图描点
+        var geometry = "";
+        function mapInited() {
+            setTimeout(function () {
+                var DTMD = $("input[name=MAPLOACTION]")[0].value;
+                if (DTMD != "") {
+                    var mapCtrl = document.getElementById("mapCtrl").content.MapCtrl;
+                    mapCtrl.AddMarker(DTMD);
+                }
+            }, 1000)
+        }
+
+        //地图坐标点
+        function mapDraw(s) {
+            geometry = s;
+            document.getElementById("MAPLOACTION").value = geometry;
+        }
+        $("#confirm").click(function () {
+            document.getElementById("MAPLOACTION").value = geometry;
+            $("#mapDepicting").modal('hide');
+        });
+
+        //显示隐藏地图
+        function GetShowOrHide(o, otype) {
+            if (otype == "show") {
+                o.value = "隐藏地图";
+                o.setAttribute("onclick", "GetShowOrHide(this,'hide')");
+                document.getElementById("ShowOrHide").style.display = 'block';
+
+            } else if (otype == 'hide') {
+                o.value = "显示地图";
+                o.setAttribute("onclick", "GetShowOrHide(this,'show')");
+                document.getElementById("ShowOrHide").style.display = 'none';
+            }
+        }
+
+        //图片上传
+        function fileUpload(fileid, imgid) {
+            var img_count = parseInt(fileid.length == 10 ? fileid.substr(-1, 1) : fileid.substr(-2, 2));
+            if (img_count > 6 && $(imgid).attr("src") != "/Images/20076110836311.png") {
+                if ($("input[name='hidden-image']").val() == 0)
+                    $("input[name='hidden-image']").val(img_count - 6);
+                else
+                    $("input[name='hidden-image']").val($("input[name='hidden-image']").val() + "," + (img_count - 6));
+            }
+
+            var $file = $(fileid);
+            var fileObj = $file[0];
+            var windowURL = window.URL || window.webkitURL;
+            var dataURL;
+            var $img = $(imgid);
+
+            if (fileObj && fileObj.files && fileObj.files[0]) {
+                dataURL = windowURL.createObjectURL(fileObj.files[0]);
+                $img.attr('src', dataURL);
+            } else {
+                dataURL = $file.val();
+                var imgObj = $(imgid);
+                // 两个坑:
+                // 1、在设置filter属性时，元素必须已经存在在DOM树中，动态创建的Node，也需要在设置属性前加入到DOM中，先设置属性在加入，无效；
+                // 2、src属性需要像下面的方式添加，上面的两种方式添加，无效；
+                imgObj.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+                imgObj.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = dataURL;
+            }
+        }
+
+        //获取url参数
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null)
+                return unescape(r[2]);
+            return null;
+        }
+    </script>
+</head>
+
+<body>
+    <div class="place" style="background-image: url(/Images/images/righttop.gif)">
+        <span>位置：</span>
+        <ul class="placeul">
+            <li>新建违法建筑</li>
+        </ul>
+    </div>
+    <div class="formbody">
+
+        <form method="post" enctype="multipart/form-data" action="/WJGL/Commit" target="hidden_frame" onsubmit="return validate_form(this)" id="EventReport">
+            <div>
+                <div>
+                    <h6 style="font-size: 32px; text-align: center;margin-top:10px;margin-bottom:20px;">违法建筑基本信息</h6>
+                    <input id="hidden-edit" style="float: right;width: 94px;display:none;" type="button" class="enter" value="编辑" />
+                    <input id="hidden-save" type="submit" style="float: right;width: 94px;display:none;" class="enter" value="保存" onsubmit="return FormSubmit();" />
+                </div>
+                <table class="table table-bordered" style="font-size: 13px;margin-top:20px;">
+                    <tr>
+                        <th style="text-align: center; line-height: 30px;width:18%;">违建单位（个人）</th>
+                        <td>
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <input type="text" name="WJUNIT" class="large" />
+                                </div>
+                            </div>
+                        </td>
+                        <th style="text-align: center; line-height: 30px;width: 10%;">所在片区 
+                        </th>
+                        <td style="line-height: 30px; width: 40%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    @Html.DropDownList("ZONEID", ViewBag.zones as IEnumerable<SelectListItem>, "请选择", new {@style = "width:98%;" })
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <th style="text-align: center; line-height: 30px">违建地点
+                        </th>
+                        <td style="line-height: 30px; width: 40%">
+                            <div class="form-group" style="margin-bottom: 5px;">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <input type="text" name="WJADDRESS" class="large" />
+                                </div>
+                            </div>
+                        </td>
+                        <th style="text-align: center; line-height: 30px">当前状态
+                        </th>
+                        <td style="line-height: 30px; width: 40%">
+                            <div class="form-group" style="margin-bottom: 5px;">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <select class="select2" id="STATE" name="STATE" style="width: 98%;">
+                                        <option value="">请选择</option>
+                                        <option value="1">已拆</option>
+                                        <option value="2">未拆</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+
+
+                    <tr>
+                        <th style="text-align: center; line-height: 30px;">个人或法人代表身份
+                        </th>
+                        <td>
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <select class="select2" id="IDENTITYID" name="IDENTITYID" style="width: 98%;">
+                                        <option value="">请选择</option>
+                                        <option value="1">机关</option>
+                                        <option value="2">事业</option>
+                                        <option value="3">国企工作人员</option>
+                                        <option value="4">中共党员</option>
+                                        <option value="5">各级人大代表</option>
+                                        <option value="6">政协委员</option>
+                                        <option value="7">村两委干部</option>
+                                        <option value="8">其它</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </td>
+                        <th style="text-align: center; line-height: 30px;">联系电话
+                        </th>
+                        <td style="line-height: 30px; width: 40%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <input type="text" name="TEL" class="large" />
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th style="text-align: center; line-height: 30px">地图位置
+                        </th>
+                        <td colspan="3">
+                            <input id="showmap" type="button" value="显示地图" onclick="GetShowOrHide(this, 'show')" />
+                            <div class="form-group" id="ShowOrHide" style="margin-bottom: 5px; display: none">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                </div>
+                                @Html.HiddenFor(model => model.MAPLOACTION, new { @name = "MAPLOACTION", @id = "MAPLOACTION" })
+                                <div id="silverlightControlHost" style="width: 100%; height: 350px;">
+                                    <object id="mapCtrl" data="data:application/x-silverlight-2," type="application/x-silverlight-2" height="350px" width="100%">
+                                        <param name="source" value="/ClientBin/MapCtrl.xap" />
+                                        <param name="background" value="white" />
+                                        <param name="minRuntimeVersion" value="5.0.61118.0" />
+                                        <param name="autoUpgrade" value="true" />
+                                        <param id="initParams" name="initParams" value="IsGoogleMap=false,MapUrl=@ZGM.Web.ConfigManager.MapUrl,X1=@ZGM.Web.ConfigManager.MapLonX1,Y1=@ZGM.Web.ConfigManager.MapLatY1,X2=@ZGM.Web.ConfigManager.MapLonX2,Y2=@ZGM.Web.ConfigManager.MapLatY2,Mode=2,PinUrl=./Images/pin.png,OffsetX=24,OffsetY=48,fileUrl=" />
+                                        <a href="http://go.microsoft.com/fwlink/?LinkID=149156&v=5.0.61118.0" style="text-decoration: none">
+                                            <img src="http://go.microsoft.com/fwlink/?LinkId=161376" alt="Get Microsoft Silverlight" style="border-style: none" />
+                                        </a>
+                                    </object>
+                                    <iframe id="_sl_historyFrame" style="visibility: hidden; height: 0px; width: 0px; border: 0px"></iframe>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <th style="text-align: center; line-height: 30px;">违建时间
+                        </th>
+                        <td style="line-height: 30px; width: 40%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <input type="text" name="WJTIME" readonly="readonly"  style="cursor: pointer;" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="large" />
+                                </div>
+                            </div>
+                        </td>
+                        <th style="text-align: center; line-height: 30px;">违建类别
+                        </th>
+                        <td style="line-height: 30px; width: 40%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <select class="select2" id="WJTYPE" name="WJTYPE" style="width: 98%;">
+                                        <option value="">请选择</option>
+                                        <option value="新建">新建</option>
+                                        <option value="扩建">扩建</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <th style="text-align: center; line-height: 30px;">违建结构
+                        </th>
+                        <td style="line-height: 30px; width: 40%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <select class="select2" id="WJFRAME" name="WJFRAME" style="width: 98%;">
+                                        <option value="">请选择</option>
+                                        <option value="框架">框架</option>
+                                        <option value="简易">简易</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </td>
+                        <th style="text-align: center; line-height: 30px;">违建楼层
+                        </th>
+                        <td style="line-height: 30px; width: 40%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <input type="text" name="WJFLOOR" class="large" />
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th style="text-align: center; line-height: 30px;">土地类别
+                        </th>
+                        <td style="line-height: 30px; width: 40%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <select class="select2" id="LANDTYPE" name="LANDTYPE" style="width: 98%;">
+                                        <option value="">请选择</option>
+                                        <option value="建设用地">建设用地</option>
+                                        <option value="耕地">耕地</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </td>
+                        <th style="text-align: center; line-height: 30px;">违建用途
+                        </th>
+                        <td style="line-height: 30px; width: 40%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <select class="select2" id="WJUSE" name="WJUSE" style="width: 98%;">
+                                        <option value="">请选择</option>
+                                        <option value="住宅">住宅</option>
+                                        <option value="商用">商用</option>
+                                        <option value="厂房">厂房</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th style="text-align: center; line-height: 30px;">占地面积
+                        </th>
+                        <td style="line-height: 30px; width: 40%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <input type="text" name="LANDAREA" class="large" />
+                                </div>
+                            </div>
+                        </td>
+                        <th style="text-align: center; line-height: 30px;">建筑面积
+                        </th>
+                        <td style="line-height: 30px; width: 40%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <input type="text" name="BUILDINGAREA" class="large" />
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th style="text-align: center; line-height: 30px;">拆除时间</th>
+                        <td style="line-height: 30px; width: 40%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <input type="text" name="REMOVETIME" readonly="readonly" style="cursor: pointer;" value="" class="large" />
+                                </div>
+                            </div>
+                        </td>
+                        <th style="text-align: center; line-height: 30px;">拆除面积
+                        </th>
+                        <td style="line-height: 30px; width: 40%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <input type="text" name="REMOVEAREA" class="large" />
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <th style="text-align: center; line-height: 30px;">拆后清理复垦绿化建设项目
+                        </th>
+                        <td style="line-height: 30px; width: 40%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <input type="text" name="CONSTRUCTIONPROJECT" class="large" />
+                                </div>
+                            </div>
+                        </td>
+                        <th style="text-align: center; line-height: 30px;">六类先拆情况
+                        </th>
+                        <td style="line-height: 30px; width: 40%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <select class="select2" id="SIXCASE" name="SIXCASE" style="width: 98%;">
+                                        <option value="">请选择</option>
+                                        <option value="顶风的">顶风的</option>
+                                        <option value="'四边'违法的">"四边"违法的</option>
+                                        <option value="妨碍重点工程的">妨碍重点工程的</option>
+                                        <option value="存在安全隐患的">存在安全隐患的</option>
+                                        <option value="严重影响城乡规划实施的">严重影响城乡规划实施的</option>
+                                        <option value="侵占耕地及卫片发现的">侵占耕地及卫片发现的</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th style="text-align: center; line-height: 30px;">整改通知发放情况</th>
+                        <td style="line-height: 30px; width: 40%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <select class="select2" id="RECTIFICATIONCASE" name="RECTIFICATIONCASE">
+                                        <option value="">请选择</option>
+                                        <option value="1">是</option>
+                                        <option value="2">否</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </td>
+                        <th style="text-align: center; line-height: 30px;width:12%;">整改通知发放时间
+                        </th>
+                        <td style="line-height: 30px; width: 40%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <input type="text" name="RECTIFICATIONTIME" readonly="readonly" style="cursor: pointer;" value="" class="large" />
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+
+                    <tr id="hidden-beforepic">
+                        <th style="text-align: center; line-height: 30px;">改造前图片</th>
+                        <td style="line-height: 30px" colspan="3">
+                            <div style="clear: both">
+                                <table style="clear: both; table-layout: fixed;">
+                                    <tr id="beforepicupload">
+                                        <td style="text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><a href="javascript:void(0)" class="file">选择图片1
+                                                    <input type="file" name="material1" id="material1" onchange="fileUpload('#material1','#img1')" />
+                                        </a></td>
+                                        <td style="text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><a href="javascript:void(0)" class="file">选择图片2
+                                                    <input type="file" name="material2" id="material2" onchange="fileUpload('#material2','#img2')" />
+                                        </a></td>
+                                        <td style="text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><a href="javascript:void(0)" class="file">选择图片3
+                                                    <input type="file" name="material3" id="material3" onchange="fileUpload('#material3','#img3')" />
+                                        </a></td>
+                                        <td style="text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><a href="javascript:void(0)" class="file">选择图片4
+                                                    <input type="file" name="material4" id="material4" onchange="fileUpload('#material4','#img4')" />
+                                        </a></td>
+                                        <td style="text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><a href="javascript:void(0)" class="file">选择图片5
+                                                    <input type="file" name="material5" id="material5" onchange="fileUpload('#material5','#img5')" />
+                                        </a></td>
+                                        <td style="text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><a href="javascript:void(0)" class="file">选择图片6
+                                                    <input type="file" name="material6" id="material6" onchange="fileUpload('#material6','#img6')" />
+                                        </a></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr id="beforepicshow">
+                                        <td>
+                                            <div class="imgDiv">
+                                                <img style="width: 100px; height: 120px" id="img1" src="~/Images/20076110836311.png" />
+                                                <a class="a_href" href="javascript:void(0)" onclick="ClearFile2('material1','img1')">
+                                                    <img src="~/Images/images/close.png" class="delete" />
+                                                </a>
+                                            </div>
+                                        </td>
+                                        <td>
+                                             <div class="imgDiv">
+                                                <img style="width: 100px; height: 120px" id="img2" src="~/Images/20076110836311.png" />
+                                                <a class="a_href" href="javascript:void(0)" onclick="ClearFile2('material2','img2')">
+                                                    <img src="~/Images/images/close.png" class="delete" />
+                                                </a>
+                                            </div>
+                                        </td>
+                                        <td>
+                                             <div class="imgDiv">
+                                                <img style="width: 100px; height: 120px" id="img3" src="~/Images/20076110836311.png" />
+                                                <a class="a_href" href="javascript:void(0)" onclick="ClearFile2('material3','img3')">
+                                                    <img src="~/Images/images/close.png" class="delete" />
+                                                </a>
+                                            </div>
+                                          
+                                        </td>
+                                        <td>
+                                           <div class="imgDiv">
+                                                <img style="width: 100px; height: 120px" id="img4" src="~/Images/20076110836311.png" />
+                                                <a class="a_href" href="javascript:void(0)" onclick="ClearFile2('material4','img4')">
+                                                    <img src="~/Images/images/close.png" class="delete" />
+                                                </a>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="imgDiv">
+                                                <img style="width: 100px; height: 120px" id="img5" src="~/Images/20076110836311.png" />
+                                                <a class="a_href" href="javascript:void(0)" onclick="ClearFile2('material5','img5')">
+                                                    <img src="~/Images/images/close.png" class="delete" />
+                                                </a>
+                                            </div>
+                                        </td>
+                                        <td style="border-right: 1px solid #ddd;">
+                                            <div class="imgDiv">
+                                                <img style="width: 100px; height: 120px" id="img6" src="~/Images/20076110836311.png" />
+                                                <a class="a_href" href="javascript:void(0)" onclick="ClearFile2('material6','img6')">
+                                                    <img src="~/Images/images/close.png" class="delete" />
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr id="hidden-remark" style="display:none;">
+                        <th style="text-align: center; line-height: 30px">备注
+                        </th>
+                        <td colspan="3" style="line-height: 50px;">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <textarea name="REMARK1" class="large" style="width: 95%;height: 100px;"></textarea>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr  id="hidden-afterpic" style="display:none;">
+                        <th style="text-align: center; line-height: 30px;">改造后图片</th>
+                        <td style="line-height: 30px" colspan="3">
+                            <div style="clear: both">
+                                <table style="clear: both; table-layout: fixed;">
+                                    <tr id="afterpicupload">
+                                        <td style="text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><a href="javascript:void(0)" class="file">选择图片1
+                                                    <input type="file" name="material7" id="material7" onchange="fileUpload('#material7','#img7')" />
+                                        </a></td>
+                                        <td style="text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><a href="javascript:void(0)" class="file">选择图片2
+                                                    <input type="file" name="material8" id="material8" onchange="fileUpload('#material8','#img8')" />
+                                        </a></td>
+                                        <td style="text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><a href="javascript:void(0)" class="file">选择图片3
+                                                    <input type="file" name="material9" id="material9" onchange="fileUpload('#material9','#img9')" />
+                                        </a></td>
+                                        <td style="text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><a href="javascript:void(0)" class="file">选择图片4
+                                                    <input type="file" name="material10" id="material10" onchange="fileUpload('#material10','#img10')" />
+                                        </a></td>
+                                        <td style="text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><a href="javascript:void(0)" class="file">选择图片5
+                                                    <input type="file" name="material11" id="material11" onchange="fileUpload('#material11','#img11')" />
+                                        </a></td>
+                                        <td style="text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><a href="javascript:void(0)" class="file">选择图片6
+                                                    <input type="file" name="material12" id="material12" onchange="fileUpload('#material12','#img12')" />
+                                        </a></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="imgDiv">
+                                                <img style="width: 100px; height: 120px" id="img7" src="~/Images/20076110836311.png" />
+                                                <a class="a_href" href="javascript:void(0)" onclick="ClearFile('material7','img7')">
+                                                    <img src="~/Images/images/close.png" class="delete" />
+                                                </a>
+                                            </div>
+                                        </td>
+                                        <td>
+                                             <div class="imgDiv">
+                                                <img style="width: 100px; height: 120px" id="img8" src="~/Images/20076110836311.png" />
+                                                <a class="a_href" href="javascript:void(0)" onclick="ClearFile('material8','img8')">
+                                                    <img src="~/Images/images/close.png" class="delete" />
+                                                </a>
+                                            </div>
+                                        </td>
+                                        <td>
+                                             <div class="imgDiv">
+                                                <img style="width: 100px; height: 120px" id="img9" src="~/Images/20076110836311.png" />
+                                                <a class="a_href" href="javascript:void(0)" onclick="ClearFile('material9','img9')">
+                                                    <img src="~/Images/images/close.png" class="delete" />
+                                                </a>
+                                            </div>
+                                          
+                                        </td>
+                                        <td>
+                                           <div class="imgDiv">
+                                                <img style="width: 100px; height: 120px" id="img10" src="~/Images/20076110836311.png" />
+                                                <a class="a_href" href="javascript:void(0)" onclick="ClearFile('material10','img10')">
+                                                    <img src="~/Images/images/close.png" class="delete" />
+                                                </a>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="imgDiv">
+                                                <img style="width: 100px; height: 120px" id="img11" src="~/Images/20076110836311.png" />
+                                                <a class="a_href" href="javascript:void(0)" onclick="ClearFile('material11','img11')">
+                                                    <img src="~/Images/images/close.png" class="delete" />
+                                                </a>
+                                            </div>
+                                        </td>
+                                        <td style="border-right: 1px solid #ddd;">
+                                            <div class="imgDiv">
+                                                <img style="width: 100px; height: 120px" id="img12" src="~/Images/20076110836311.png" />
+                                                <a class="a_href" href="javascript:void(0)" onclick="ClearFile('material12','img12')">
+                                                    <img src="~/Images/images/close.png" class="delete" />
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+
+                </table>
+
+                <div class="form-group" style="margin-bottom: 5px; margin-left: 130px;">
+                    <div class="col-sm-9 col-lg-10 controls">
+                        <input id="addbtn" type="submit" class="sure" value="提　交" onsubmit="return FormSubmit();" style="display:none;width:70px;">
+                        <input id="backbtn" type="button" class="sure" value="返  回" onclick="location.href = '/WJGL/List'" style="display:none;width:70px;">
+                        
+                        <input type="hidden" name="hidden-wjid" value="0"/>
+                        <input type="hidden" name="hidden-aftercount" value="0"/>
+                        <input type="hidden" name="hidden-isedit" value="0"/>
+                        <input type="hidden" name="hidden-image" value="0"/>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <iframe name='hidden_frame' id="hidden_frame" style="display:none"></iframe> 
+</body>
+</html>

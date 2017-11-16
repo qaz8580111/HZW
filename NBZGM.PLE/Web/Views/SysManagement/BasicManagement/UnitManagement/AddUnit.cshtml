@@ -1,0 +1,114 @@
+﻿@model Web.ViewModels.VMUnit
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".goback").click(function () {
+            var parentUnitID = $("#ParentUnitID").val();
+            location.href = '/UnitManagement/Index?UnitID=' + parentUnitID;
+        });
+
+        //$("#UnitTypeID").attr("data-rule-required", "true");
+
+        $("#UnitTypeID").change(function () {
+            if ($("#UnitTypeID").val() != "") {
+                $("#unitTypeIDDiv").removeClass("error").addClass("success");
+                $("#unitTypeID").text("");
+            }
+        });
+
+        $("form").submit(function () {
+            var flag = true;
+            var unitTypeID = $("#UnitTypeID").val();
+
+            if (unitTypeID == null || unitTypeID == "") {
+                flag = false;
+                $("#unitTypeIDDiv").removeClass("success").addClass("error");
+                $("#unitTypeID").text("必选字段");
+            }
+            return flag;
+        });
+
+
+        var a = function (e) { $(e).closest(".control-group").removeClass("success") };
+        $(".validation-form").validate({
+            errorElement: "span", errorClass: "help-inline",
+            focusInvalid: false, ignore: "",
+            invalidHandler: function (e, t) { },
+            highlight: function (e) {
+                $(e).closest(".control-group").removeClass("success").addClass("error")
+            },
+            unhighlight: function (e) {
+                $(e).closest(".control-group").removeClass("error"); setTimeout(function () { a(e) }, 3e3)
+            }, success: function (e) {
+                e.closest(".control-group").removeClass("error").addClass("success")
+            }
+        })
+    });
+</script>
+<div class="box box-black" style="margin-top: 0px;">
+    <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+        <i class="icon-reorder" style="margin-right: 5px;"></i>新增组织
+    </div>
+    <div class="box-content">
+        <form id="AddUnitForm" name="AddUnitForm" class="validation-form form-horizontal form-bordered form-row-stripped" method="post" action="/UnitManagement/CommitAddUnit">
+            <div class="control-group">
+                <label for="ParentUnitID" class="control-label">所属单位名称</label>
+                <div class="controls">
+                    @Html.DropDownList("ParentUnitID", ViewBag.unitNameList as IEnumerable<SelectListItem>, new { @class = "input-xlarge", style = "width:284px;", disabled = "disabled" })
+                    <span class="help-inline" for="ParentUnitID"></span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="UnitName" class="control-label">单位名称</label>
+                <div class="controls">
+                    <input type="text" name="UnitName" id="UnitName" placeholder="Text input" class="input-xlarge" data-rule-required="true">
+                    <span class="help-inline" for="UnitName"></span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="UnitJC" class="control-label">简称</label>
+                <div class="controls">
+                    <input type="text" name="UnitJC" id="UnitJC" placeholder="Text input" class="input-xlarge" data-rule-required="true">
+                    <span class="help-inline" for="UnitJC"></span>
+                </div>
+            </div>
+            <div class="control-group" id="unitTypeIDDiv">
+                <label for="unitTypeID" class="control-label">单位类型名称</label>
+                <div class="controls">
+                    @Html.DropDownList("UnitTypeID", ViewBag.unitTypeNameList as IEnumerable<SelectListItem>, new { @class = "input-xlarge", style = "width:284px;" })
+                    <label class="help-inline" id="unitTypeID" for="UnitTypeID"></label>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label for="SeqNO" class="control-label">单位排序号</label>
+                <div class="controls">
+                    <input type="text" name="SeqNo" id="SeqNo" placeholder="Text input" class="input-xlarge" data-rule-required="false" data-rule-number="true">
+                    <span class="help-inline" for="SeqNo"></span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="Description" class="control-label">单位职责</label>
+                <div class="controls">
+                    <input type="text" name="DWZC" id="DWZC" placeholder="Text input" class="input-xlarge">
+                </div>
+            </div>
+            @* <div class="control-group">
+                <label for="Description" class="control-label">单位说明</label>
+                <div class="controls">
+                    <input type="text" name="Description" id="Description" placeholder="Text input" class="input-xlarge">
+                </div>
+            </div>*@
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary"><i class="icon-ok"></i>确定</button>
+                <button type="button" class="btn goback">返回</button>
+            </div>
+            @Html.Hidden("ParentUnitID")
+        </form>
+    </div>
+</div>
+
+
+
+
+
+

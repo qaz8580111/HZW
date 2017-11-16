@@ -1,0 +1,797 @@
+﻿@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>文件管理</title>
+    <link href="/Scripts/assets/data-tables/demo_table.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/data-tables/DT_bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/css/OA.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-1.7.1.js"></script>
+    <script type="text/javascript" src="~/Scripts/js/select-ui.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/js/jquery.idTabs.min.js"></script>
+    <script src="~/Scripts/assets/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/assets/data-tables/jquery.datatables.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/assets/data-tables/DT_bootstrap.js"></script>
+    <script type="text/javascript" src="~/Scripts/assets/data-tables/PLE_DT_bootstrap.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-zh-CN.js"></script>
+    <link href="~/Scripts/assets/zTree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+    <script src="~/Scripts/assets/zTree/js/jquery.ztree.core.js"></script>
+    <script src="~/Scripts/assets/zTree/js/jquery.ztree.excheck.js"></script>
+    <script src="~/Scripts/assets/zTree/js/jquery.ztree.exedit.js"></script>
+
+    <script src="~/Scripts/js/PageNotBack.js"></script>
+    <link href="~/Scripts/layer/skin/layer.css" rel="stylesheet" />
+    <link href="~/Scripts/layer/skin/seaning/style.css" rel="stylesheet" />
+    <script src="~/Scripts/layer/layer.js"></script>
+    <style>
+        .addfilebtn {
+            width: 40px;
+            height: 22px;
+            line-height: 22px;
+            display: inline-block;
+            margin-top: 6px;
+            color: rgb(255, 255, 255);
+            background: transparent url("/Images/images/btnbg1.png") repeat-x scroll 0% 0%;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 3px;
+            cursor: pointer;
+            text-align: center;
+        }
+        .forminfo li label {
+        margin-top:5px;
+        }
+    </style>
+
+    <script type="text/javascript">
+        var setting = {
+            check: {
+                enable: true
+            },
+            view: {
+                dblClickExpand: false
+            },
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            },
+            callback: {//该事件在节点被单击后触发
+                onCheck: function (e, treeId, zNodes2) {
+                    var zTree = $.fn.zTree.getZTreeObj("chkboxTree");
+                    nodes = zTree.getCheckedNodes(true);
+                    //定义用户组变量
+                    var childrenobj = "";
+                    var phone = "";
+                    for (var i = 0, l = nodes.length; i < l; i++) {
+                        if (nodes[i].type != "组织") {
+                            childrenobj += nodes[i].value + ",";
+                            phone += nodes[i].smsNumber + ",";
+                        }
+                    }
+                    if (childrenobj.length > 0)
+                        childrenobj = childrenobj.substring(0, childrenobj.length - 1);
+                    $("#SelectUserIds").val(childrenobj);
+                    $("#phones").val(phone);
+
+                    //定义用户号码变量
+                    var userNames = "";
+                    for (var i = 0, l = nodes.length; i < l; i++) {
+                        if (nodes[i].type != "组织") {
+                            userNames += nodes[i].name + ",";
+                        }
+                    }
+
+                    if (userNames.length > 0)
+                        userNames = userNames.substring(0, userNames.length - 1);
+
+                    $("#SelectUserNames").val(userNames);
+                },
+                beforeClick: function (treeId, zNodes2) {
+                    var zTree = $.fn.zTree.getZTreeObj("chkboxTree");
+                    zTree.checkNode(zNodes2, !zNodes2.checked, null, true);
+                    return false;
+                }
+            },
+        };
+
+
+        function showMenu() {
+            var cityObj = $("#SelectUserNames");
+            var cityOffset = $("#SelectUserNames").offset();
+            var divWidth = $("#SelectUserNames").width();
+
+            //加载用户结构树
+            $.ajax({
+                type: 'GET',
+                dataType: 'json',
+                url: '/Contacts/GetCameraTrees?random=' + Math.random(),
+                success: function (data) {
+                    if (data != null && data != "") {
+                        var zNodes = data;
+                        $.fn.zTree.init($("#chkboxTree"), setting, zNodes);
+                        var treeObj = $.fn.zTree.getZTreeObj("tree");
+                        treeObj.expandAll(false);
+                    }
+                }
+            });
+
+            $("#menuContent").css({ left: cityOffset.left + "px", top: cityOffset.top + cityObj.outerHeight() + "px", width: 290 }).slideDown("fast");
+            $("body").bind("mousedown", onBodyDown);
+        }
+       
+
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            layer.config({
+                skin: 'layer-ext-seaning',
+                offset: ['100px', '33%'],
+                title: '提示',
+                moveOut: true,
+                closeBtn: false,
+                extend: 'skin/seaning/style.css'
+            });
+
+            $("#usual1 ul").idTabs();
+            $('.tablelist tbody tr:odd').addClass('odd');
+            $("#STime").datepicker({ closeText: '清除' });
+            $("#ETime").datepicker({ closeText: '清除' });
+
+
+            var Isdefault = GetQueryString("Isdefault");
+            if (Isdefault != null && Isdefault != "" && Isdefault != undefined) {
+                $("#hid_default").val(Isdefault);
+            }
+            var pagenum = GetQueryString("PageNum");
+            if (pagenum != null && pagenum != "" && pagenum != undefined) {
+                $(".itab a:eq(" + pagenum + ")").click();
+            }
+
+            var fileid = GetQueryString("TransFileId");
+            if (fileid != null && fileid != "" && fileid != undefined) {
+                Transmit(fileid);
+            }
+            function GetQueryString(name) {
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+                var r = window.location.search.substr(1).match(reg);
+                if (r != null) return unescape(r[2]);
+                return null;
+            }
+
+            if ($("input[name='addLink']").val() == "2") {
+                $("#addLink1,#addLink2").hide();
+                $(".itab a:eq(1)").click();
+            }
+
+           
+
+            GetDataTable();
+        });
+
+        //后台回调js函数
+        function AddCallBack(flag) {
+            if (flag == 1) {
+                layer.alert("操作成功!", {
+                    icon: 1,
+                    skin: 'layer-ext-seaning'
+                }, function (index) {
+                    layer.close(index);
+                    location.href = "/File/Index?PageNum=1";
+                });
+            }
+            if (flag == 2) {
+                layer.alert("操作失败!", {
+                    icon: 0,
+                    skin: 'layer-ext-seaning'
+                }, function (index) {
+                    layer.close(index);
+                });
+            }
+        }
+
+        var oTable;
+        //填充文件列表
+        function GetDataTable() {
+            oTable = $('#FileTable').dataTable({
+                sAjaxSource: "/File/File_Grid",
+                fnServerParams: function (aoData) {
+                    aoData.push(
+                        { "name": "FileTitle", "value": $("#FileTitle").val() },
+                        { "name": "STime", "value": $("#STime").val() },
+                        { "name": "ETime", "value": $("#ETime").val() },
+                        { "name": "FileNumber", "value": $("#FileNumber").val() });
+                },
+                aoColumns: [
+                    { mDataProp: "FileTitle" },
+                    { mDataProp: "FileNumber" },
+                    { mDataProp: "FileTime" },
+                    {
+                        mDataProp: function (data) {
+                            return data.IsFinish == 1 ? "已办结" : "未办结";
+                        }
+                    },
+                    {
+                        mDataProp: function (data) {
+                            var del = "<a class='btn_ico_a_delete' href='#' onclick=\"DeleteShow(" + data.FileID + ")\"><img src='/Images/btnimage/edit.png' class='btn_ico_image' />删除</a>";
+                            var edit = "<a class='btn_ico_a_edit' href='#' onclick=\"EditShow(" + data.FileID + ")\"><img src='/Images/btnimage/edit.png' class='btn_ico_image' />编辑</a>";
+                            var replay = "<a class='btn_ico_a_dispose' href='#' onclick=\"Replay(" + data.FileID + ")\"><img src='/Images/btnimage/pq.png' class='btn_ico_image' />反馈</a>";
+                            var look = "<a class='btn_ico_a_look' href='#' onclick=\"Look('" + data.FileID + "','" + data.CreateUserId + "','" + data.UserId + "')\"><img src='/Images/btnimage/pq.png' class='btn_ico_image' />查看</a>";
+                            var complete = data.IsFinish == 1 ? "<a class='btn_ico_a_delete' href='#' style='background:grey;' ><img src='/Images/btnimage/edit.png' class='btn_ico_image' />办结</a>" : "<a class='btn_ico_a_delete' href='#' onclick=\"Complete(" + data.FileID + ")\"><img src='/Images/btnimage/edit.png' class='btn_ico_image' />办结</a>";
+                            var str = "";
+                            if (data.CreateUserId == data.UserId)
+                                str = edit + "   " + del;
+                            if (data.IsResponse == "0" && data.CreateUserId != data.UserId)
+                                str += "  " + replay;
+                            if (data.CreateUserId != data.UserId)
+                                str += "  " + complete;
+                            str += "  " + look
+                            return str;
+                        }, "sClass": "center"
+                    }
+                ],
+                aoColumnDefs: [{ sDefaultContent: '', aTargets: ['_all'] }],
+                fnDrawCallback: function (oSettings) {
+                    var pagerIndex = oSettings._iDisplayStart / oSettings._iDisplayLength + 1;
+                    var $currentPager = $(".dataTables_paginate span a:contains('" + pagerIndex + "')");
+                    $currentPager.attr("style", "font-weight :bold;!important");
+                }
+            });
+        }
+
+        function validate_form(thisform) {
+            if ($("#SelectUserIds").val() == null || $("#SelectUserIds").val() == "") {
+                layer.alert("文件接收人不能为空!", {
+                    icon: 0,
+                    skin: 'layer-ext-seaning'
+                });
+                return false;
+            }
+            with (thisform) {
+                if (validate_required(FILETITLE, "文件名称不能为空!") == false)
+                { FILETITLE.focus(); return false }
+                //if (validate_required(FILENUMBER, "文件文号不能为空!") == false)
+                //{ FILENUMBER.focus(); return false }
+                if ($("input[name='hidden-isedit']").val() == "0") {
+                    var ispass = true;
+                    $.ajax({
+                        type: "POST",
+                        url: "/File/CheckFileNumber",
+                        data: {
+                            FileNumber: $("input[name='FILENUMBER']").val()
+                        },
+                        async: false,
+                        success: function (data) {
+                            if (data == "存在") {
+                                ispass = false;
+                                layer.alert('文号已存在!', {
+                                    icon: 0,
+                                    skin: 'layer-ext-seaning'
+                                }, function (index) {
+                                    $("#ShowOrHide").show();
+                                    layer.close(index);
+                                });
+                            }
+                        }
+                    })
+                    if (!ispass) {
+                        return false;
+                    }
+                }
+                if ($("#radiovalue").val() == "manual" && $("#manualcontent").val() == "") {
+                    layer.alert("发送内容不能为空!", {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    });
+                    return false;
+                }
+            }
+        }
+
+        function validate_required(field, alerttxt) {
+            with (field) {
+                if (value == null || value == "") {
+                    layer.alert(alerttxt, {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    });
+                    return false
+                }
+                else { return true }
+            }
+        }
+
+
+        //删除
+        function DeleteShow(id) {
+            layer.confirm('是否确认删除?', {
+                btn: ['是', '否'],
+                icon: 4,
+                //按钮
+            }, function () {
+                $.ajax({
+                    type: 'GET',
+                    url: '/File/DeleteOAFile?random=' + Math.random(),
+                    data: { AttrachId: id },
+                    success: function (data) {
+                        if (data == "删除成功") {
+                            layer.alert(data, {
+                                icon: 1,
+                                skin: 'layer-ext-seaning'
+                            }, function (layer) {
+                                location.href = "/File/Index?PageNum=1";
+                            });
+                        } else {
+                            layer.alert(data, {
+                                icon: 0,
+                                skin: 'layer-ext-seaning'
+                            });
+                        }
+                    }
+                })
+            }, function () {
+                layer.close();
+            });
+
+        }
+
+        //查询
+        function Search() {
+            oTable.fnPageChange('first', true);
+            oTable.fnClearTable(false);
+        }
+
+        //获取url参数
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null)
+                return unescape(r[2]);
+            return null;
+        }
+
+        //查看文件
+        function Look(id, createuser, userid) {
+            console.log(createuser != userid);
+            if (createuser != userid)
+                location.href = "/File/Look?FileId=" + id;
+            else
+                location.href = "/File/Look?NoComplete=1&&FileId=" + id;
+        }
+
+        //转发文件
+        function Transmit(id) {
+            $.ajax({
+                type: 'GET',
+                url: '/File/EditShow?random=' + Math.random(),
+                data: { FileId: id },
+                success: function (data) {
+                    $(".itab a:eq(0)").click();
+                    $("#addLink1,#addLink2").show();
+                    $(".itab a:eq(0)").text("转发文件");
+                    $("#filechange").text("文件附件");
+                    $("input[name='hidden-fileid']").val(id);
+                    $("input[name='hidden-isedit']").val("2");
+                    $("input[name='FILETITLE']").val(data.list.FILETITLE);
+                    $("input[name='FILENUMBER']").val(data.list.FILENUMBER);
+                    $("textarea[name='FILECONTENT']").val(data.list.FILECONTENT);
+                    $("#ReplayBtn,#ReplaySuggest,#SaveBtn").hide();
+                    $("#TransmitBtn").show();
+                    var usernamestr = new Array();
+                    usernamestr = data.list.ReciveUserName.split(',');
+                    for (var i = 0; i < usernamestr.length; i++) {
+                        $("#chkboxTree_" + usernamestr[i] + "_check").prop("class", "button chk checkbox_true_full");
+                    }
+                    $("span[id^='chkboxTree_1_check']")
+                    if (data.list.FILENAME != null && data.list.FILENAME != "") {
+                        var fileid = new Array();
+                        fileid = data.list.AttrachsStr.split('|');
+                        var filestring = new Array();
+                        filestring = data.list.FILENAME.split('|');
+                        var filepath = new Array();
+                        filepath = data.list.FILEPATH.split('|');
+                        var strhtml = "<div id='AddAfterFile' class='addfilebtn' onclick='AddAfterFile();'>添加</div>";
+                        var hidefilepath = $("#hidden-filepath").val();
+                        for (var i = 0; i < filestring.length; i++) {
+                            strhtml += "<div style='margin-left:15px;'><a href='/DownFile/DownLoadOAWorkFlow?path=" + hidefilepath + filepath[i] + "&&fileName=" + filestring[i] + "'>" + filestring[i] + "</a><span id=" + i +
+                                " onclick='DeleteTransmitFile(this);' style='margin-left:50px;cursor:pointer;' >删除</span></div>";
+                        }
+                        $("#showfile").html(strhtml);
+                    } else
+                        $("#showfile").html("<div id='AddAfterFile' class='addfilebtn' onclick='AddAfterFile();'>添加</div>");
+                }
+            });
+        }
+
+        //文件反馈展示
+        function Replay(id) {
+            $.ajax({
+                type: 'GET',
+                url: '/File/EditShow?random=' + Math.random(),
+                data: { FileId: id },
+                success: function (data) {
+                    $(".itab a:eq(0)").click();
+                    $("#addLink1,#addLink2").show();
+                    $(".itab a:eq(0)").text("阅读反馈");
+                    $("#filechange").text("文件附件");
+                    $(".forminfo b").remove();
+                    $("#AddAfterFile,#SelectUserNames,input[name='FILETITLE'],input[name='FILENUMBER'],textarea[name='FILECONTENT']").hide();
+                    $("#ReplayUserName").after("<label style='width:auto;'>" + data.list.ReciveUserName + "</label>");
+                    $("input[name='hidden-fileid']").val(id);
+                    $("input[name='hidden-isedit']").val("1");
+                    $("#ReplayFileTitle").after("<label style='width:auto;'>" + data.list.FILETITLE + "</label>");
+                    $("#ReplayFileNumber").after("<label style='width:auto;'>" + data.list.FILENUMBER + "</label>");
+                    $("#ReplayFileContent").after("<label style='width:auto;'>" + data.list.FILECONTENT + "</label>");
+                    $("#ReplaySuggest,#ReplayBtn").show();
+                    $("#MessageNotice,#SaveBtn").hide();
+                    $("li input,select,textarea").attr("disabled", "disabled");
+                    $("#ReplayContent,#ReplayBtn,#PageBack").removeAttr("disabled");
+                    if (data.list.IsResponse == "1") {
+                        $("#ReplayContent").val(data.list.ResponseContent);
+                        $("li textarea").attr("disabled", "disabled");
+                        $("#ReplayBtn").hide();
+                    }
+
+                    var filestring = new Array();
+                    filestring = data.list.FILENAME.split('|');
+                    var strhtml = "";
+                    if (data.list.FILENAME != null && data.list.FILENAME != "") {
+                        var filestring = new Array();
+                        filestring = data.list.FILENAME.split('|');
+                        var filepath = new Array();
+                        filepath = data.list.FILEPATH.split('|');
+                        var strhtml = "";
+                        for (var i = 0; i < filestring.length; i++) {
+                            strhtml += "<label><a href='/DownFile/DownLoadOAWorkFlow?path=C://ZGMFile/XTGLFile/"
+                                + filepath[i] + "&&fileName=" + filestring[i] + "'>" + filestring[i] + "</a></label>";
+                        }
+                        $("#showfile").html(strhtml);
+                    }
+                    $("#showfile").html(strhtml);
+                }
+            });
+        }
+
+        //文件编辑显示
+        function EditShow(id) {
+            $.ajax({
+                type: 'GET',
+                url: '/File/EditShow?random=' + Math.random(),
+                data: { FileId: id },
+                success: function (data) {
+                    $("li input,select,textarea").removeAttr("disabled");
+                    $(".itab a:eq(0)").click();
+                    $("#addLink1,#addLink2").show();
+                    $(".itab a:eq(0)").text("编辑文件");
+                    $("#filechange").text("文件附件");
+                    $("#SelectUserNames").val(data.list.ReciveUserName);
+                    $("#SelectUserIds").val(data.list.ReciveUserIdStr);
+                    $("input[name='hidden-fileid']").val(id);
+                    $("input[name='hidden-isedit']").val("1");
+                    $("input[name='FILETITLE']").val(data.list.FILETITLE);
+                    $("input[name='FILENUMBER']").val(data.list.FILENUMBER);
+                    $("textarea[name='FILECONTENT']").val(data.list.FILECONTENT);
+                    $("#ReplayBtn,#ReplaySuggest").hide();
+                    $("#SaveBtn").show();
+                    var usernamestr = new Array();
+                    usernamestr = data.list.ReciveUserName.split(',');
+                    for (var i = 0; i < usernamestr.length; i++) {
+                        $("#chkboxTree_" + usernamestr[i] + "_check").prop("class", "button chk checkbox_true_full");
+                    }
+                    $("span[id^='chkboxTree_1_check']")
+                    if (data.list.FILENAME != null && data.list.FILENAME != "") {
+                        var fileid = new Array();
+                        fileid = data.list.AttrachsStr.split('|');
+                        var filestring = new Array();
+                        filestring = data.list.FILENAME.split('|');
+                        var filepath = new Array();
+                        filepath = data.list.FILEPATH.split('|');
+                        var strhtml = "";
+                        var hidefilepath = $("#hidden-filepath").val();
+                        for (var i = 0; i < filestring.length; i++) {
+                            strhtml += "<div style='margin-left:15px;'><a href='/DownFile/DownLoadOAWorkFlow?path=" + hidefilepath
+                                + filepath[i] + "&&fileName=" + filestring[i] + "'>" + filestring[i] + "</a><span id=" + fileid[i] +
+                                " onclick='DeleteDBFile(this);' style='margin-left:50px;cursor:pointer;' >删除</span></div>";
+                        }
+                        $("#showfile").html(strhtml);
+                    } else
+                        $("#showfile").html("<div id='AddAfterFile' class='addfilebtn' onclick='AddAfterFile();'>添加</div>");
+                }
+            });
+        }
+
+        //提交反馈
+        function SaveReplay() {
+            if ($("#ReplayContent").val() == "" || $("#ReplayContent").val() == null) {
+                layer.alert("反馈意见不能为空!", {
+                    icon: 0,
+                    skin: 'layer-ext-seaning'
+                });
+                return false;
+            }
+            $.ajax({
+                type: 'GET',
+                url: '/File/Replay?random=' + Math.random(),
+                data: { FileId: $("input[name='hidden-fileid']").val(), ReplayContent: $("#ReplayContent").val() },
+                success: function (data) {
+                    if (data == "反馈成功") {
+                        layer.alert(data, {
+                            icon: 1,
+                            skin: 'layer-ext-seaning'
+                        }, function (layer) {
+                            location.href = "/File/Index?PageNum=1";
+                        });
+                    } else {
+                        layer.alert(data, {
+                            icon: 0,
+                            skin: 'layer-ext-seaning'
+                        });
+                    }
+                }
+            });
+        }
+
+        //提交办结
+        function Complete(id) {
+            $.ajax({
+                type: 'GET',
+                url: '/File/Complete?random=' + Math.random(),
+                data: { FileId: id },
+                success: function (data) {
+                    if (data == "办结成功") {
+                        layer.alert(data, {
+                            icon: 1,
+                            skin: 'layer-ext-seaning'
+                        }, function (layer) {
+                            location.href = "/File/Index?PageNum=1";
+                        });
+
+                    } else {
+                        layer.alert(data, {
+                            icon: 0,
+                            skin: 'layer-ext-seaning'
+                        });
+                    }
+                }
+            });
+        }
+
+       
+
+        function onBodyDown(event) {
+            if (!(event.target.id == "menuBtn" || event.target.id == "SelectUserNames" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length > 0)) {
+                hideMenu();
+            }
+        }
+
+        function hideMenu() {
+            $("#menuContent").fadeOut("fast");
+            $("#menuCheck").fadeOut("fast");
+            $("body").unbind("mousedown", onBodyDown);
+        }
+
+        //添加文件附件
+        function AddAfterFile() {
+            $("#AddAfterFile").after("<div style='margin: 20px 0px;'><input name='AddFile" + Math.random(10000, 99999) + "' type='file'  value='' /><b style='cursor:pointer;color:black;' onclick='DeleteFile(this);'>删除</b></div>");
+        }
+
+        //删除文件附件
+        function DeleteFile(obj) {
+            $(obj).parent().remove();
+        }
+
+        //删除转发附件
+        function DeleteTransmitFile(obj) {
+            $(obj).parent().remove();
+            var hd = $("input[name='hidden-deltrans']");
+            hd.val(hd.val() + "," + obj.id);
+        }
+
+        //删除数据库附件
+        function DeleteDBFile(obj) {
+            layer.confirm('是否确认删除?', {
+                btn: ['是', '否'],
+                icon: 4,
+                //按钮
+            }, function () {
+                $.ajax({
+                    type: 'GET',
+                    url: '/File/DeleteDBFile?random=' + Math.random(),
+                    data: { AttrachId: obj.id },
+                    success: function (data) {
+                        if (data == "删除成功") {
+                            var oobj = $(obj).parent().parent();
+                            $(obj).parent().remove();
+                            if (oobj.html() == "")
+                                $("#showfile").html("<div id='AddAfterFile' class='addfilebtn' onclick='AddAfterFile();'>添加</div>");
+                            layer.alert(data, {
+                                icon: 1,
+                                skin: 'layer-ext-seaning'
+                            });
+                        } else {
+                            layer.alert(data, {
+                                icon: 0,
+                                skin: 'layer-ext-seaning'
+                            });
+                        }
+                    }
+                })
+            }, function () {
+                layer.close();
+            });
+        }
+
+        function redio_onclick(id) {
+            if (id == "default") {
+                $("#manualcontent").val("");
+                document.getElementById("manualcontent").style.display = "none";
+                document.getElementById("defaulttemplate").style.display = "";
+            } else if (id == "manual") {
+                document.getElementById("manualcontent").style.display = "";
+                document.getElementById("defaulttemplate").style.display = "none";
+            }
+            $("#radiovalue").val(id);
+        }
+
+        function goback() {
+            var hid = $("#hid_default").val();
+            if (hid != null && hid != "" && hid != undefined) {
+                location.href = '/OA_Default/Index';
+            }
+            else {
+                location.href = '/File/Index?PageNum=1';
+            }
+        }
+    </script>
+
+</head>
+
+<body>
+    <div class="place">
+        <span>位置：</span>
+        <ul class="placeul">
+            <li>文件管理</li>
+        </ul>
+    </div>
+    <div class="formbody">
+        <div id="usual1" class="usual">
+
+            <div class="itab">
+                <ul>
+                    @if (ViewBag.CanAction == true){                        
+                        <input name="addLink" style="display:none;" value="1" />
+                    }else
+                    {
+                        <input name="addLink" style="display:none;" value="2" />
+                    }
+                    <li id="addLink1"><a href="#tab2" class="selected">添加文件</a></li>
+                    <li><a href="#tab1">文件列表</a></li>
+
+                </ul>
+            </div>
+
+            <div id="tab1" class="tabson">
+                <table>
+                    <tr>
+                        <td>文件名称：</td>
+                        <td>
+                            <input id="FileTitle" type="text" class="dfinputs" style="width: 150px; height: 32px" /></td>
+                        <td>文号：</td>
+                        <td>
+                            <input id="FileNumber" type="text" class="dfinputs" style="width: 150px; height: 32px" /></td>
+                        <td>文件发布时间：</td>
+                       <td>
+                        <input id="STime" type="text" class="dfinputs" readonly="readonly" data-date-format="yyyy-mm-dd" value="@string.Format("{0:yyyy-MM-dd}", new DateTime(DateTime.Now.Year, 1, 1))"  style="width:180px;height:32px"/></td>
+                    <td>至：</td>
+                    <td>
+                        <input id="ETime" type="text" class="dfinputs" readonly="readonly" data-date-format="yyyy-mm-dd" value="@string.Format("{0:yyyy-MM-dd}", new DateTime(DateTime.Now.Year, 1, 1).AddYears(1).AddDays(-1))"  style="width:180px;height:32px"/></td>
+                        <td>
+                            <input type="button" class="sure" value="查询" onclick="Search()" style="margin-top: 0px;" /></td>
+                    </tr>
+                </table>
+
+                <div style="clear: both; margin-top: 10px;" class="tableListDiv">
+                    <table class="tablelist" id="FileTable" style="text-align: center">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center">文件名称</th>
+                                <th style="text-align: center">文号</th>
+                                <th style="text-align: center;">时间</th>
+                                <th style="text-align: center; width: 80px">状态</th>
+                                <th style="text-align: center;">操作</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+
+            <form id="addLink2" method="post" enctype="multipart/form-data" action="/File/Commit" target="hidden_frame" onsubmit="return validate_form(this)">
+                <div id="tab2" class="tabson">
+                    <ul class="forminfo">
+                        <li>
+                            <label id="ReplayUserName">文件接收人<b>*</b></label>
+                            <div class="col-sm-9 col-lg-10 controls">
+                                 <textarea name="SelectUserNames" id="SelectUserNames" style="height: 64px; width: 700px;" rows="10" cols="10" type="text" class="dfinputs" placeholder="请选择人员" onclick="showMenu();" onfocus="this.blur();"></textarea>
+                                @* <input name="SelectUserNames" id="SelectUserNames" type="text" class="dfinputs" placeholder="请选择参会人员" onclick="showMenu();" onfocus="this.blur();" />*@
+                              @*  <textarea name="SelectUserNames" id="SelectUserNames" style="width: 700px;" placeholder="请选择接收人员" class="dfinputs" onclick="showMenu();" onfocus="this.blur();"></textarea> *@@*<label  style="text-align:center">手工输入号码</label>*@<input name="manualphones" id="manualphones" type="hidden" class="dfinputs" value="" placeholder="每个手机号码之间用“,”逗号隔开" />
+                                <br />
+                                <span class="error_FromUserName"></span>
+                            </div>
+                            <input type="hidden" id="SelectUserIds" name="SelectUserIds" value="" />
+                            <input type="hidden" id="phones" name="phones" value="" />
+                        </li>
+                        <li>
+                            <label id="ReplayFileTitle">文件名称<b>*</b></label>
+                            <input name="FILETITLE" type="text" class="dfinputs" placeholder="请输入文件名称" />
+                        </li>
+                        <li>
+                            <label id="ReplayFileNumber">文件文号</label>
+                            <input name="FILENUMBER" type="text" class="dfinputs" placeholder="请输入文件文号" />
+                        </li>
+                        <li>
+                            <label id="ReplayFileContent">文件内容</label>
+                            <textarea name="FILECONTENT" class="dfinputs" placeholder="请输入文件内容" style="width: 700px; height: 130px"></textarea>
+                        </li>
+
+                        <li>
+                            <label id="filechange">上传附件</label>
+                            <div id="showfile" style="margin-left: 90px;">
+                                <div id="AddAfterFile" class="addfilebtn" onclick="AddAfterFile();">添加</div>
+                            </div>
+                        </li>
+                        <li id="MessageNotice">
+                            <label>短信提示</label>
+                            <label style="width: 80px">
+                                <input id="default" name="radio" type="radio" class="dcheckbox" style="margin-top: 10px;" value="default" checked onclick="redio_onclick('default')" /><span>默认模板</span></label>
+                            <label style="width: 80px">
+                                <input id="manual" name="radio" type="radio" class="dcheckbox" style="margin-top: 10px;" value="manual" onclick="redio_onclick('manual')" /><span>手工输入</span></label>@* <input id="manualcontent" name="manualcontent" type="text" class="dfinputs" style="display: none" placeholder="请输入发送内容" />*@
+                           
+
+                        </li>
+                        <li id="template_li" >
+                            <label>&nbsp;</label>
+                             <textarea id="manualcontent" name="manualcontent" class="dfinputs" placeholder="请输入模板内容" style="display:none;width: 700px; height: 80px"></textarea>
+                            <textarea id="defaulttemplate" name="defaulttemplate"  class="dfinputs" readonly="readonly" style="width: 700px; height: 80px;color: #8e8e8e;">您有一个文件【XXXX】【XXXX】已发送至您的OA系统，请注意查收  【发送人：XXX】</textarea>
+                             <input type="hidden" name="radiovalue" id="radiovalue" value="default"/>
+                        </li>
+                        <li id="ReplaySuggest" style="display: none;">
+                            <label>反馈意见<b>*</b></label>
+                            <textarea id="ReplayContent" class="dfinputs" placeholder="请输入您的反馈意见" style="width: 700px; height: 250px"></textarea>
+                        </li>
+
+                        <li>
+                            <label>&nbsp;</label>
+                            <input id="SaveBtn" type="submit" class="sure" value="保  存" />
+                            <input id="ReplayBtn" type="button" class="sure" value="反  馈" onclick="SaveReplay();" style="display: none;" />
+                            <input id="TransmitBtn" type="submit" class="sure" value="转  发" style="display: none;" />
+                            <input id="PageBack" type="button" class="sure" value="返  回" onclick="goback()" />
+                            <input type="hidden" name="hidden-fileid" value="0" />
+                            <input type="hidden" name="hidden-isedit" value="0" />
+                            <input type="hidden" id="hid_default" />
+                            <input type="hidden" id="hidden-filepath"  value="@System.Configuration.ConfigurationManager.AppSettings["XTGLFileFile"].Replace("\\", "/")"/>
+                            <input type="hidden" name="hidden-deltrans" value="" />
+                        </li>
+                    </ul>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <div id="menuContent" class="menuContent" style="display: none; position: absolute; z-index: 99999999;">
+        <ul id="chkboxTree" class="ztree" style="margin-top: 0; width: 300px; height: 300px; border: 1px solid #cdcdcd; background-color: rgb(255, 255, 255); color: #393939; overflow-y: scroll;"></ul>
+    </div>
+    <iframe name='hidden_frame' id="hidden_frame" style="display: none"></iframe>
+
+</body>
+</html>

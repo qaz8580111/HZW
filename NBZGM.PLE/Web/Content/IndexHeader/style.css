@@ -1,0 +1,293 @@
+﻿html, body, button, input, select, textarea {
+    font-family: 微软雅黑, 宋体 !important;
+}
+
+.head-color {
+    /*background-image:url("/Images/base/top_bg.png")!important;*/
+    background-color: #0089d1;
+    height: 100px;
+}
+/*常用属性*/
+.height-18px {
+    height: 18px;
+}
+
+.height80 {
+    height: 80px;
+}
+
+.clear {
+    clear: both;
+}
+
+.float-left {
+    float: left;
+}
+
+.margin-top-0px {
+    margin-top: 0px;
+}
+
+.margin-top-8px {
+    margin-top: 8px;
+}
+
+.margin-top-10px {
+    margin-top: 10px;
+}
+
+.margin-right-5px {
+    margin-right: 5px;
+}
+
+.border-right-1px-dashed-c9c9c9 {
+    border-right: 1px dashed #c9c9c9;
+}
+
+.font-size-13px {
+    font-size: 13px;
+}
+
+.display-inline-block {
+    display: inline-block;
+}
+
+.menu-first {
+    position: static;
+}
+
+    .menu-first > li {
+        position: static;
+    }
+
+        .menu-first > li:hover {
+            background: url('/Images/base/menu-first-active.png') repeat-x;
+        }
+
+        .menu-first > li > a {
+            margin-top: 3px;
+            padding-top: 5px;
+            line-height: 22px;
+            height: 25px;
+            font-weight: bold;
+        }
+
+.menu-second {
+    background-clip: padding-box;
+    background-color: rgb(78,141,224);
+    /*border-radius: 1px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-top-color: rgb(14,99,144);*/
+    box-shadow: 0px 5px 10px rgba(0,0,0,0.2);
+    color: #333333;
+    display: none;
+    float: left;
+    font-size: 14px;
+    left: 0px;
+    line-height: 20px;
+    list-style: none;
+    margin: 1px 0px 0px 0px;
+    max-width: none;
+    min-width: 600px;
+    padding: 0px 0px;
+    position: absolute;
+    top: 100%;
+    z-index: 1000;
+    -webkit-border-radius: 1px;
+    -moz-border-radius: 1px;
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding;
+}
+
+    .menu-second .social-sm-content {
+        padding: 0px 10px;
+        list-style: none;
+        line-height: 20px;
+        font-size: 14px;
+        display: block;
+        color: #333333;
+    }
+
+        .menu-second .social-sm-content .row-fluid a {
+            margin: 5px 5px;
+            padding: 5px 5px;
+        }
+
+        .menu-second .social-sm-content:hover {
+            background-color: rgb(78,141,224) !important;
+        }
+
+        .menu-second .social-sm-content .row-fluid a:hover {
+            background-color: rgb(45,75,142);
+        }
+
+.menu-first .open {
+    background-color: rgb(78,141,224) !important;
+}
+
+    .menu-first .open a, .menu-first open i {
+        color: #fff !important;
+    }
+
+.second-title {
+    padding-top: 2px;
+    font-size: 12px;
+    font-family: 微软雅黑, 宋体;
+}
+
+.box .box-title h4 {
+    color: #fff;
+    line-height: 20px;
+    margin: 0px;
+    display: inline-block;
+}
+
+    .box .box-title h4 > i {
+        margin-right: 10px;
+    }
+
+.box .box-title h5 {
+    color: #fff;
+    line-height: 18px;
+    margin: 0px;
+    display: inline-block;
+}
+
+    .box .box-title h5 > i {
+        margin-right: 10px;
+    }
+
+.has-switch span.switch-left {
+    background-color: rgb(40,141,242) !important;
+}
+/*.fc-event {
+  background-color: rgb(40,141,242) !important;
+}*/
+
+/*整体样式调整紧凑，线条分明*/
+
+#main-container {
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    background-color: #fff;
+    box-shadow: 0px 5px 20px #ccc;
+}
+
+#main-content {
+    background-color: #fff;
+    padding: 0px;
+}
+
+    #main-content #breadcrumbs .breadcrumb {
+        margin-bottom: 5px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    #main-content .row-fluid {
+        width: auto;
+        margin: 10px;
+    }
+
+    #main-content .box {
+        border: 1px solid #ddd;
+        margin-top: 0px;
+    }
+
+    #main-content > footer {
+        border-top: 1px solid #ddd;
+        margin-top: 0px;
+    }
+
+.box .box-title {
+    background-color: rgb(90, 180, 218);
+}
+
+/* GRID */
+.grid {
+    background: #fff;
+    margin-top: 5px;
+    border: 1px solid #cacaca;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.grid-transparent {
+    margin-top: 5px;
+}
+
+.grid-title {
+    height: 36px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-bottom: 1px solid #cacaca;
+    overflow: hidden;
+}
+
+.grid-title-text {
+    padding-top: 5px;
+    float: left;
+    margin-right: 10px;
+}
+
+.grid-title-text-2 a, .grid-title-text-2 a:hover {
+    color: #333333;
+    display: block;
+    margin-top: 7px;
+    text-decoration: none;
+}
+
+.grid-title-label {
+    padding-top: 5px;
+}
+
+.grid-title-load {
+    margin-top: 3px;
+}
+
+.grid-title .pull-left {
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+    .grid-title .pull-left span {
+        color: #535457;
+        font-weight: normal;
+    }
+
+.grid-title .pull-right button {
+    margin-left: 2px;
+}
+
+.grid-content {
+    padding: 10px;
+}
+
+.overflow {
+    overflow: hidden;
+}
+
+.inf_link {
+    background: #fada13; /* Old browsers */
+    background: -moz-linear-gradient(top, #fada13 0%, #f2a509 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fada13), color-stop(100%,#f2a509)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #fada13 0%,#f2a509 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #fada13 0%,#f2a509 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #fada13 0%,#f2a509 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #fada13 0%,#f2a509 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fada13', endColorstr='#f2a509',GradientType=0 ); /* IE6-9 */
+    padding: 0px 6px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    border-radius: 0px\9; /* ie fix*/
+    border: 1px solid #ec9d0e;
+    color: #3c311f;
+    font-size: 12px;
+    margin-left: -10px;
+    margin-top: -8px;
+    position: absolute;
+}

@@ -1,0 +1,227 @@
+﻿@{
+    ViewBag.FunctionName = "用户组管理";
+    Layout = "~/Views/SysManagement/BasicManagement/_LayoutBasicManagement.cshtml";
+}
+
+@section HeadStyles{
+    <style type="text/css">
+        .center
+        {
+            text-align: center !important;
+        }
+    </style>
+}
+
+@section FootScripts{
+    <script type="text/javascript">
+        var oTable = null;
+        $(document).ready(function () {
+
+            $("#sysGroupManagement").addClass("active");
+
+            var url = "/GroupManagement/GetGroups?GroupParentID=";
+            var setting = {
+                callback: {
+                    onClick: function (event, treeId, treeNode) {
+                        var parentGroupID = treeNode.value;
+                        $("#GroupParentID").val(parentGroupID);
+                        //改变导航条
+                        $("#aaa").text("").html("组织管理").addClass("active");
+                        $("#UintInfo").text("").removeClass("active");
+                        //隐藏添加列表
+                        $("#span91").hide();
+                        //隐藏编辑表单
+                        $("#span92").hide();
+                        //显示列表表单
+                        $("#span90").show();
+                        //显示子节点列表数据
+                        BindDataTable(url + treeNode.value + "&random=" + Math.random());
+                    },
+                }
+            };
+
+            $.ajax({
+                type: 'GET',
+                dataType: 'json',
+                url: '/GroupManagement/GetGroupManageTree?random=' + Math.random(),
+                success: function (data) {
+                    if (data != null && data != "") {
+                        groupIDValue = '@ViewData["GroupParentID"]';
+                        var zNodes = data;
+                        $.fn.zTree.init($("#tree"), setting, zNodes);
+                        var treeObj = $.fn.zTree.getZTreeObj("tree");
+                        var node = treeObj.getNodeByParam("value", groupIDValue, null);
+                        treeObj.selectNode(node);
+                        treeObj.expandNode(node, true);
+                        BindDataTable(url + groupIDValue + "&random=" + Math.random());
+
+                    }
+                }
+
+            });
+
+            $("#addGroup").click(function () {
+
+                var groupParentID = $("#GroupParentID").val();
+
+                AddGroup(groupParentID);
+            });
+        });
+
+        function BindDataTable(url) {
+            if (oTable != null) {
+                oTable.fnSettings().sAjaxSource = url;
+                oTable.fnDraw(true);
+            } else {
+                oTable = $('#GroupTable').dataTable({
+                    sAjaxSource: url,
+
+                    aoColumns: [
+                        { "mDataProp": "GroupName" },
+                        { "mDataProp": "CreateTime" },
+                        { "mDataProp": function (data) {
+                            var groupParentID = $("#GroupParentID").val();
+                            var edit = "<a class='btn btn-primary btn-small' href='#' onclick=\"EditGroup(" + data.GroupID + ")\"><i class='icon-edit padding-null'></i> 编辑 </a>";
+                            var del = "<a class='btn btn-danger btn-small' href='/GroupManagement/DeleteGroup?GroupID=" + data.GroupID + "&GroupParentID=" + GroupParentID + "' onclick=\" return DeleteGroup(" + data.GroupID + ",'" + data.GroupName + "')\"><i class='icon-trash padding-null'></i> 删除 </a>";
+                                return edit + "  " + del;
+                            }, "sClass": "center"
+                        }
+                    ],
+                    fnDrawCallback: function (oSettings) {
+                        var pagerIndex = oSettings._iDisplayStart / oSettings._iDisplayLength + 1;
+                        var $currentPager = $(".dataTables_paginate span a:contains('" + pagerIndex + "')");
+                        $currentPager.attr("style", "font-weight :bold;!important");
+                        setHeightFunction();
+                    }
+                });
+            }
+        }
+
+        function setHeightFunction()
+        {
+            var height1 = $("#addButton")[0].clientHeight;
+            var height2 = $("#unitListDiv")[0].clientHeight;
+            $("#unitTreeDiv").height(height1+height2-20);
+        }
+
+        function AddGroup(groupParentID) {
+            $("#aaa").text("").html("<a href='#'>用户组管理</a>").removeClass("active");
+            $("#UintInfo").addClass("active").text(">新增用户组");
+            $.ajax(
+                {
+                    type: 'GET',
+                    url: '/GroupManagement/AddGroup?random=' + Math.random(),
+                    dataType: 'html',
+                    data: { GroupParentID: groupParentID },
+                    success: function (data) {
+                        //隐藏列表
+                        $("#span90").hide();
+                        //隐藏编辑表单
+                        $("#span92").hide();
+                        //显示添加表单
+                        $("#span91").show();
+                        $("#span91").html(data);
+                    }
+                });
+        }
+
+        function EditGroup(groupID) {
+            $("#aaa").text("").html("<a href='#'>组织管理</a>").removeClass("active");
+            $("#UintInfo").addClass("active").text(">编辑组织");
+            $.ajax(
+                {
+                    type: 'GET',
+                    url: '/GroupManagement/EditGroup?random=' + Math.random(),
+                    dataType: 'html',
+                    data: { GroupID: groupID },
+                    success: function (data) {
+                        //隐藏列表
+                        $("#span90").hide();
+                        //隐藏添加表单
+                        $("#span91").hide();
+                        //显示编辑表单
+                        $("#span92").show();
+                        $("#span92").html(data);
+                    }
+                });
+        }
+
+        function DeleteGroup(groupID, groupName) {
+            var flag = false;
+            $.ajax({
+                type: 'GET',
+                url: '/GroupManagement/ValidateGroupDelete?random=' + Math.random(),
+                async: false,
+                data: { GroupID: groupID },
+                success: function (data) {
+                    if (data == "0") {
+                        flag = true;
+                        if (!window.confirm("是否确认删除" + groupName)) {
+                            flag = false;
+                        }
+                    }
+                    else {
+                        alert("该用户组已存在子用户组，请先删除子用户组!");
+                    }
+                }
+            });
+            return flag;
+        }
+
+    </script>
+}
+
+@section BreadcrumbSection{
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+
+            <li><a href="#"><i class="icon-home"></i>系统管理</a></li>
+            <li>></li>
+            <li><a href="#">基础管理</a></li>
+            <li>></li>
+            <li class="active" id="aaa">用户组管理</li>
+            <li id="UintInfo"></li>
+        </ul>
+    </div>
+}
+
+<div class="row-fluid">
+    <div class="span3">
+        <div class="box box-black" style="margin-top: 0px;">
+            <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+                <i class="icon-reorder" style="margin-right: 5px;"></i>用户组结构树
+            </div>
+            <div class="box-content" id="unitTreeDiv">
+                <ul id="tree" class="ztree"></ul>
+            </div>
+        </div>
+    </div>
+    <div class="span9" id="span90">
+        <div class="box box-black" style="margin-top: 0px;">
+            <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+                <i class="icon-table" style="margin-right: 5px;"></i>用户组机构列表
+            </div>
+            <div class="box-content" id="addButton">
+                <button class="btn btn-primary" id="addGroup">添 加</button>
+            </div>
+            <div class="box-content" id="unitListDiv">
+                <table class="table table-bordered table-striped table-hover fill-head" id="GroupTable">
+                    <thead>
+                        <tr>
+                            <th>用户组名称</th>
+                            <th>创建时间</th>
+                            <th style="text-align: center; width: 135px;">操作</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div style="clear: both"></div>
+            </div>
+        </div>
+        @*单击树时保存父类标识*@
+        @Html.Hidden("GroupParentID")
+    </div>
+    <div class="span9" style="display: none;" id="span91">
+    </div>
+    <div class="span9" style="display: none;" id="span92">
+    </div>
+</div>

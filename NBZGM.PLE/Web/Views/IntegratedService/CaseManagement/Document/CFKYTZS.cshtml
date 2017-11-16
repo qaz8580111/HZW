@@ -1,0 +1,298 @@
+﻿@model Taizhou.PLE.Model.CaseDocModels.CFKYTZS
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#CFKYTZS_CFKYTZSJ").datepicker();
+
+        $("input[name=bulidDocType]").click(function () {
+            var buildDocType = $(this).val();
+            if (buildDocType == "1") {
+                $("table tr#uploadFile").hide();
+                $("table tr").not($("table tr#uploadFile")).show();
+            }
+            else {
+                $("table tr").not($(".notHideTD")).hide();
+                $("table tr#uploadFile").show();
+            }
+        });
+
+        //表单验证
+        var validateFormCYQZTZS = function () {
+            var flag = true;
+            //文书编号
+            var docBH = $("#CFKYTZS_BH").val();
+            if ($.trim(docBH) == "") {
+                $("#error_BH").show();
+                $("#error_BH").text("文书编号不能为空");
+                flag = false;
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/Document/ValidateWSBH",
+                    data: "DDID=" + $("#DDID").val() + "&WSBH=" + docBH + "",
+                    cache: false,
+                    async: false,
+                    success: function (data) {
+                        if (data != "True") {
+                            $("#error_BH").show();
+                            $("#error_BH").html("文书编号已存在");
+                            flag = false;
+                        }
+                    }
+                });
+            }
+            return flag;
+        };
+        $("#hidValidateDocFormFunc").val(validateFormCYQZTZS.toString());
+
+        //设置要提交到后台的表单数据
+        var packingDataFunction = function () {
+            var CYQZBDQD = "[";
+            $("#CFKYTZStable_id tbody tr").each(function (i) {
+                var XH = $(this).find("td textarea[name=XH]").val();
+
+                if (XH == null || XH == "") {
+                    XH = "";
+                }
+
+                var WPMC = $(this).find("td textarea[name=WPMC]").val();
+
+                if (WPMC == "" || WPMC == null) {
+                    WPMC = "";
+                }
+
+                var GG = $(this).find("td textarea[name=GG]").val();
+
+                if (GG == "" || GG == null) {
+                    GG = "";
+                }
+
+                var Count = $(this).find("td textarea[name=Count]").val();
+
+                if (Count == null || Count == "") {
+                    Count = "";
+                }
+
+
+                var SCRQ = $(this).find("td textarea[name=SCRQ]").val();
+
+                if (SCRQ == "" || SCRQ == null) {
+                    SCRQ = "";
+                }
+
+                var SCDW = $(this).find("td textarea[name=SCDW]").val();
+
+                if (SCDW == "" || SCDW == null) {
+                    SCDW = "";
+                }
+
+                CYQZBDQD += '{\"XH\":\"' + XH + '\",\"WPMC\":\"' + WPMC + '\",\"GG\":\"' + GG + '\",\"Count\":\"' + Count + '\",\"SCRQ\":\"' + SCRQ + '\",\"SCDW\":\"' + SCDW + '\"},';
+            });
+            CYQZBDQD = CYQZBDQD.substring(0, CYQZBDQD.length - 1) + "]";
+            $("#CFKYTZSJson").val(CYQZBDQD);
+        };
+        $("#hidPackingDataFunc").val(packingDataFunction.toString());
+    });
+
+    function add() {
+        var oTable = document.all["CFKYTZStable_id"];
+        var newTr = oTable.insertRow();
+        //添加7列
+        var newTd0 = newTr.insertCell();
+        var newTd1 = newTr.insertCell();
+        var newTd2 = newTr.insertCell();
+        var newTd3 = newTr.insertCell();
+        var newTd4 = newTr.insertCell();
+        var newTd5 = newTr.insertCell();
+        var newTd6 = newTr.insertCell();
+        newTd0.innerHTML = '<textarea  name="XH" style="height:40px;"></textarea>';
+        newTd1.innerHTML = '<textarea name="WPMC" style="height:40px;"></textarea>';
+        newTd2.innerHTML = '<textarea name="GG" style="height:40px;"></textarea>';
+        newTd3.innerHTML = '<textarea name="Count" style="height:40px;"></textarea>';
+        newTd4.innerHTML = '<textarea name="SCRQ" style="height:40px;"></textarea>';
+        newTd5.innerHTML = '<textarea name="SCDW" style="height:40px;"></textarea>';
+        newTd6.innerHTML = '<a href="javascript:void(0)" onclick="add();">添加</a>&nbsp;&nbsp<a href="javascript:void(0)"  onclick="deleteCurrentRow(this);">删除</a>';
+    };
+
+    function deleteCurrentRow(obj) {
+        var tr = obj.parentNode.parentNode;
+        var tbody = tr.parentNode;
+        tbody.removeChild(tr);
+    };
+</script>
+
+<div class="title">
+    查封（扣押）通知书
+</div>
+<input type="hidden" id="hidValidateDocFormFunc" value="" />
+<input type="hidden" id="hidPackingDataFunc" value="" />
+@Html.Hidden("CFKYTZSJson")
+<input type="hidden" id="hidValidate" />
+<table class="workflow" border="0" cellspacing="0" cellpadding="0" style="width: 700px; border-collapse: collapse; margin: 0 auto; margin-top: 20px;">
+    <tr class="notHideTD">
+        <th colspan="2">新增方式</th>
+        <td colspan="9">
+            <label for="bdlr" style="display: inline-block; cursor: pointer;">
+                <input type="radio" name="bulidDocType" id="bdlr" value="1" checked="checked" />表单录入</label>
+            <label for="scsmj" style="display: inline-block; cursor: pointer;">
+                <input type="radio" id="scsmj" name="bulidDocType" value="2" />上传扫描件
+            </label>
+        </td>
+    </tr>
+    <tr id="uploadFile" style="display: none;">
+        <th colspan="2">上传文书
+        </th>
+        <td colspan="9" class="uploadFileTD">
+            <ul style="list-style: none; margin-left: 0px;">
+                <li style="margin-top: 5px;">第1张：<input type="file" name="file1" style="width: 400px;" class="file" /></li>
+                <li style="margin-top: 5px;">第2张：<input type="file" name="file2" style="width: 400px;" class="file" /></li>
+                <li style="margin-top: 5px;">第3张：<input type="file" name="file3" style="width: 400px;" class="file" /></li>
+                <li style="margin-top: 5px;">第4张：<input type="file" name="file4" style="width: 400px;" class="file" /></li>
+                <li style="margin-top: 5px;">第5张：<input type="file" name="file5" style="width: 400px;" class="file" /></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th colspan="2">文书编号</th>
+        <td colspan="9">@Html.TextBox("CFKYTZS.BH", Model.BH)
+            <label class="formErrorMsg" id="error_BH"></label>
+        </td>
+    </tr>
+    <tr>
+        <th colspan="2">当事人</th>
+        <td colspan="9">
+            @Html.TextBox("CFKYTZS.DSR", Model.DSR)</td>
+    </tr>
+    <tr>
+        <th colspan="2">违法行为</th>
+        <td colspan="9">
+            @Html.TextArea("CFKYTZS.WFXW", Model.WFXW)</td>
+    </tr>
+    <tr>
+        <th colspan="2">违法的规定</th>
+        <td colspan="9">
+            @Html.TextArea("CFKYTZS.FVFG", Model.FVFG)</td>
+    </tr>
+    <tr>
+        <th colspan="2">物品存放地点</th>
+        <td colspan="9">
+            @Html.TextBox("CFKYTZS.DD", Model.DD)</td>
+    </tr>
+    <tr>
+        <th colspan="2">落款日期</th>
+        <td colspan="9">
+            @Html.TextBox("CFKYTZS.CFKYTZSJ", DateTime.Now.ToString("yyyy-MM-dd"))</td>
+    </tr>
+    <tr>
+        <th colspan="2">执法人员1</th>
+        <td colspan="4">
+            @Html.DropDownList("CFKYTZS.ZFRY1", ViewBag.ZFRY1 as IEnumerable<SelectListItem>, "请选择")</td>
+        <th colspan="1">执法人员2</th>
+        <td colspan="4">
+            @Html.DropDownList("CFKYTZS.ZFRY2", ViewBag.ZFRY2 as IEnumerable<SelectListItem>, "请选择")</td>
+    </tr>
+    <tr>
+        <th colspan="2">查封扣<br />
+            押物品<br />
+            清单：</th>
+        <td colspan="9">
+            <table id="CFKYTZStable_id">
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>物品名称</th>
+                        <th>规格</th>
+                        <th>数量</th>
+                        <th>生产日期</th>
+                        <th>生产单位</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <textarea name="XH" style="height: 40px;"></textarea>
+                        </td>
+                        <td>
+                            <textarea name="WPMC" style="height: 40px;"></textarea>
+                        </td>
+                        <td>
+                            <textarea name="GG" style="height: 40px;"></textarea>
+                        </td>
+                        <td>
+                            <textarea name="Count" style="height: 40px;"></textarea>
+                        </td>
+                        <td>
+                            <textarea name="SCRQ" style="height: 40px;"></textarea>
+                        </td>
+                        <td>
+                            <textarea name="SCDW" style="height: 40px;"></textarea>
+                        </td>
+                        <td style="width: 60px;"><a href="javascript:void(0)" onclick="add();">添加</a></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <textarea name="XH" style="height: 40px;"></textarea>
+                        </td>
+                        <td>
+                            <textarea name="WPMC" style="height: 40px;"></textarea>
+                        </td>
+                        <td>
+                            <textarea name="GG" style="height: 40px;"></textarea>
+                        </td>
+                        <td>
+                            <textarea name="Count" style="height: 40px;"></textarea>
+                        </td>
+                        <td>
+                            <textarea name="SCRQ" style="height: 40px;"></textarea>
+                        </td>
+                        <td>
+                            <textarea name="SCDW" style="height: 40px;"></textarea>
+                        </td>
+                        <td><a href="javascript:void(0)" onclick="add();">添加</a>&nbsp;&nbsp<a href="javascript:void(0)" onclick="deleteCurrentRow(this);">删除</a></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <textarea name="XH" style="height: 40px;"></textarea>
+                        </td>
+                        <td>
+                            <textarea name="WPMC" style="height: 40px;"></textarea>
+                        </td>
+                        <td>
+                            <textarea name="GG" style="height: 40px;"></textarea>
+                        </td>
+                        <td>
+                            <textarea name="Count" style="height: 40px;"></textarea>
+                        </td>
+                        <td>
+                            <textarea name="SCRQ" style="height: 40px;"></textarea>
+                        </td>
+                        <td>
+                            <textarea name="SCDW" style="height: 40px;"></textarea>
+                        </td>
+                        <td><a href="javascript:void(0)" onclick="add();">添加</a>&nbsp;&nbsp<a href="javascript:void(0)" onclick="deleteCurrentRow(this);">删除</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 52px; border: none;"></td>
+        <td style="width: 52px; border: none;"></td>
+        <td style="width: 52px; border: none;"></td>
+        <td style="width: 52px; border: none;"></td>
+        <td style="width: 52px; border: none;"></td>
+        <td style="width: 52px; border: none;"></td>
+        <td style="width: 52px; border: none;"></td>
+        <td style="width: 52px; border: none;"></td>
+        <td style="width: 52px; border: none;"></td>
+        <td style="width: 52px; border: none;"></td>
+        <td style="border: none;">&nbsp;</td>
+    </tr>
+</table>
+
+
+
+
+
+

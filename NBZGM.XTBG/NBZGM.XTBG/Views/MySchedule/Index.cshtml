@@ -1,0 +1,59 @@
+﻿@{
+    ViewBag.Title = "我的日程";
+}
+
+<div class="well-lg">
+    <div id='calendar'></div>
+</div>
+
+@section css{
+    <link href="~/Scripts/fullcalendar-3.3.1/fullcalendar.css" rel="stylesheet" />
+    <link href="~/Scripts/fullcalendar-3.3.1/fullcalendar.print.css" rel="stylesheet" media='print' />
+    <style type="text/css">
+        #calendar {
+            max-width: 900px;
+            max-height: 500px;
+            margin: 0 auto;
+        }
+    </style>
+}
+
+@section scripts{
+    <script src="~/Scripts/fullcalendar-3.3.1/fullcalendar.js"></script>
+    <script src="~/Scripts/fullcalendar-3.3.1/locale/zh-cn.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,basicWeek,basicDay'
+                },
+                lang: 'zh-cn',
+                navLinks: true, // can click day/week names to navigate views
+                editable: true,
+                eventLimit: true, // allow "more" link when too many events
+                events: function (start, end, timezone, callback) {
+                    $.post('/MySchedule/GetScheduleList', { start: moment(start._d).format('L'), end: moment(end._d).format('L'), })
+                    .success(function (data) {
+                        callback(data);
+                    })
+                    .error(errorMsg)
+                },
+                //当用户点击日程表上面某一天的时候触发 
+                dayClick: function (date, jsEvent, view) {
+                    window.parent.showModel('/MySchedule/ScheduleAdd?date=' + moment(date._d).format('L'));
+                },
+                //当用户点击某个日程（或者叫事件）的时候触发 eventClick 回调： 
+                eventClick: function (event, jsEvent, view) {
+                    console.log(event);
+                    console.log(jsEvent);
+                    console.log(view);
+                    window.parent.showModel('/MySchedule/ScheduleUpdate?id=' + event._id + '&typeid=' + event.typeid);
+                }
+            });
+            //重新加载日历数据
+            //$('#calendar').fullCalendar('refetchEvents');
+        });
+    </script>
+}

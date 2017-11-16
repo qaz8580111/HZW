@@ -1,0 +1,62 @@
+﻿@{
+    Taizhou.PLE.Model.CaseWorkflowModels.TotalForm wmCaseForm = ViewBag.TotalForm;
+    Taizhou.PLE.Model.CaseWorkflowModels.Form116 wmForm16 = wmCaseForm.Form116;
+    Taizhou.PLE.Model.CaseWorkflowModels.Form117 wmForm17 = wmCaseForm.Form117;
+    Taizhou.PLE.Model.CaseWorkflowModels.Form118 wmForm18 = wmCaseForm.Form118;
+    Taizhou.PLE.Model.CaseWorkflowModels.Form119 wmForm19 = wmCaseForm.Form119;
+    Taizhou.PLE.Model.CaseWorkflowModels.Form120 wmForm20 = wmCaseForm.Form120;
+    Taizhou.PLE.Model.CaseWorkflowModels.Form133 wmForm33 = wmCaseForm.Form133;
+}
+
+<div class="form">
+    <div class="title">
+        制作处罚决定书 
+    </div>
+    <table class="workflow" border="0" cellspacing="0" cellpadding="0" style="width: 700px; border-collapse: collapse; margin: 0 auto; margin-top: 20px;">
+        <tr>
+            <th colspan="2">主办队员意见</th>
+            <td colspan="9">@Html.TextArea("ZBDYYJ", wmForm16.ZBDYYJ, new { style = "height:60px", disabled = "disabled" })</td>
+        </tr>
+        <tr>
+            <th colspan="2">协办队员意见</th>
+            <td colspan="9">@Html.TextArea("XBDYYJ", wmForm17.XBDYYJ, new { style = "height:60px", disabled = "disabled" })</td>
+        </tr>
+        <tr>
+            <th colspan="2">办案单位意见</th>
+            <td colspan="9">@Html.TextArea("BADWYJ", wmForm18.BADWYJ, new { style = "height:60px", disabled = "disabled" })</td>
+        </tr>
+        <tr>
+            <th colspan="2">法制部门意见</th>
+            <td colspan="9">@Html.TextArea("FZBMYJ", wmForm19.FZBMYJ, new { style = "height:60px", disabled = "disabled" })</td>
+        </tr>
+        <tr>
+            <th colspan="2">分管领导意见</th>
+            <td colspan="9">@Html.TextArea("FGLDYJ", wmForm20.FGLDYJ, new { style = "height:60px", disabled = "disabled" })</td>
+        </tr>
+        <tr>
+            <th colspan="2">文书意见</th>
+            <td colspan="9">@Html.TextArea("FGLDYJ", wmForm33.BZSM, new { style = "height:60px", disabled = "disabled" })</td>
+        </tr>
+        <tr>
+             <th colspan="2">处理人</th>
+            <td colspan="3">@Html.TextBox("clr", wmForm33.ProcessUser.UserName, new { disabled = "disabled" })</td>
+            <th colspan="2">处理时间</th>
+            <td colspan="4">@Html.TextBox("clsj", wmForm33.ProcessTime != null ? wmForm20.ProcessTime.Value.ToString("yyyy-MM-dd HH:mm:ss") : "", new { disabled = "disabled" })</td>
+        </tr>
+        <tr style="height: 0px; line-height: 0px;">
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="width: 92px; border: none; padding: 0px;"></td>
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="width: 72px; border: none; padding: 0px;"></td>
+            <td style="width: 52px; border: none; padding: 0px;"></td>
+            <td style="width: 52px; border: none; padding: 0px;"></td>
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="border: none; padding: 0px;">&nbsp;</td>
+        </tr>
+    </table>
+    <div class="clear"></div>
+</div>
+

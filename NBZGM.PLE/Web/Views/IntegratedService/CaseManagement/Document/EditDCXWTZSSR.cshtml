@@ -1,0 +1,176 @@
+﻿@model Taizhou.PLE.Model.CaseDocModels.DCXWTZS
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("input[name=DCXWSJ]").datetimepicker();
+        $("input[name=FCRQ]").datepicker();
+        $("input[name=FASJ]").datetimepicker();
+    });
+
+    //表单验证
+    function ValidateDocForm() {
+        var flag = true;
+        $(".formErrorMsg").hide();
+        $(".formErrorMsg").text("");
+
+        //验证文书编号
+        var wsbh = $("#BH").val();
+        if ($.trim(wsbh) == "") {
+            flag = false;
+            $("#error_BH").show();
+            $("#error_BH").text("请输入文书编号.");
+        }
+            //验证文书编号是否唯一
+        else {
+            var ddid = $("#DOCDDID").val();
+            var ddid1 = $("#DDID1").val();
+            var docId = $("#thisDIID").val();
+            $.ajax({
+                type: "post",
+                url: "/Document/ValidateEditWSBHDDID",
+                data: "DDID=" + ddid + "&DDID1=" + ddid1 + "&WSBH=" + wsbh + "&DocId=" + docId + "",
+                async: false,
+                cache: false,
+                success: function (data) {
+                    if (data != "True") {
+                        flag = false;
+                        $("#error_BH").show();
+                        $("#error_BH").text("文书编号已存在.");
+                    }
+                }
+            });
+        }
+        return flag;
+    }
+</script>
+<form class="docForm" method="post" action="/DocDCXWTZSSR/CommitEditDocumentDCXWTZS" style="margin-bottom: 30px;" enctype="multipart/form-data">
+    @Html.Hidden("DDID1", Taizhou.PLE.Common.DocDefinition.DCXWTZSGH)
+    @Html.Hidden("DOCDDID", Taizhou.PLE.Common.DocDefinition.DCXWTZS)
+    <div class="title">
+        调查询问通知书(市容)
+    </div>
+    <table class="workflow" border="0" cellspacing="0" cellpadding="0" style="width: 700px; border-collapse: collapse; margin: 0 auto; margin-top: 20px;">
+        <tr>
+            <th colspan="1">编号</th>
+            <td colspan="10">
+                @Html.TextBoxFor(model => model.BH)
+                <label class="formErrorMsg" id="error_BH"></label>
+            </td>
+        </tr>
+        <tr>
+            <th colspan="1">当事人</th>
+            <td colspan="10">@Html.TextBoxFor(model => model.DSR)</td>
+        </tr>
+        <tr>
+            <th colspan="1">案发<br />
+                时间</th>
+            <td colspan="3">
+                @Html.TextBoxFor(model => model.FASJ)
+            </td>
+            <th colspan="1">案发<br />
+                地点</th>
+            <td colspan="6">
+                @Html.TextBoxFor(model => model.FADD)
+            </td>
+        </tr>
+        <tr>
+            <th colspan="1">调查<br />
+                询问<br />
+                时间</th>
+            <td colspan="3">
+                @Html.TextBoxFor(model => model.DCXWSJ, "{0:yyyy-MM-dd HH:mm}")
+            </td>
+            <th colspan="1">调查<br />
+                询问<br />
+                地点</th>
+            <td colspan="6">
+                @Html.TextBoxFor(model => model.DCXWDD)
+            </td>
+        </tr>
+        <tr>
+            <th colspan="1">违法<br />
+                行为</th>
+            <td colspan="10">
+                @Html.TextAreaFor(model => model.WFXW)
+            </td>
+        </tr>
+        <tr>
+            <th rowspan="3">当事<br />
+                人需<br />
+                提交<br />
+                的材<br />
+                料
+            </th>
+            <td colspan="10">
+                @Html.CheckBoxFor(model => model.DSRSFZM)
+                当事人身份证明:<br />
+                &nbsp;&nbsp;1、单位:《营业执照》正本及当年有效的《营业执照》副本复印件、《组织机构代码证》正本及当<br />
+                &nbsp;&nbsp;年有效的
+                  《组织机构代码证》副本复印件、法定代表人（负责人）的身份证明以及身份证原件与复<br />
+                &nbsp;&nbsp;印件；<br />
+                &nbsp;&nbsp;2、个人:身份证原件及复印件；            
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="10">
+                @Html.CheckBoxFor(model => model.WTTRBLD)
+                委托他人办理的还应提交《授权委托书》，并提交受托人身份证原件及复印件；
+            </td>
+        </tr>
+        <tr>
+            <td colspan="10">
+                @Html.CheckBoxFor(model => model.JSDCR)
+                接受调查人应携带其他与本次调查有关的证明材料。
+            </td>
+        </tr>
+        <tr>
+            <th>地址</th>
+            <td colspan="10">
+                @Html.TextBoxFor(model => model.DZ)
+            </td>
+        </tr>
+        <tr>
+            <th>联系人</th>
+            <td colspan="2">
+                @Html.TextBoxFor(model => model.LXR)
+            </td>
+            <th class="auto-style3">电话</th>
+            <td colspan="2">
+                @Html.TextBoxFor(model => model.DH)
+            </td>
+            <th colspan="2">发出日期</th>
+            <td colspan="4">
+                @Html.TextBoxFor(model => model.FCRQ, "{0:yyyy-MM-dd}")
+            </td>
+        </tr>
+        <tr class="notHideTD">
+            <td style="width: 42px; border: none;"></td>
+            <td colspan="10" style="border: none; padding-top: 10px;">
+                <input type="button" id="btnDocFormSubmit" class="btn btn-success" value="保   存" />
+            </td>
+        </tr>
+        <tr class="notHideTD">
+            <td style="width: 42px; border: none;"></td>
+            <td style="width: 42px; border: none;"></td>
+            <td style="width: 42px; border: none;"></td>
+            <td style="width: 22px; border: none;"></td>
+            <td style="width: 42px; border: none;"></td>
+            <td style="width: 72px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 42px; border: none;"></td>
+            <td style="width: 42px; border: none;"></td>
+            <td style="border: none;">&nbsp;</td>
+        </tr>
+    </table>
+    @Html.Hidden("WIID")
+    @Html.Hidden("DDID")
+    @Html.Hidden("AIID")
+    @Html.Hidden("ADID")
+    @Html.Hidden("WICode")
+    <input type="hidden" id="thisDIID" name="DIID" value="@ViewBag.DIID" />
+</form>
+
+
+
+

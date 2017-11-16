@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZHCGWebAPI", "ZHCGWebAPI\ZHCGWebAPI.csproj", "{B2C42DEC-7DA0-4421-83F5-7FD4F0968FBA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{485CB82A-C058-4240-B375-36BA1134D8AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL", "BLL\BLL.csproj", "{754814C1-23DE-4DF4-832F-67C64FFEEC26}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{D6F1A071-B7FE-4A13-9308-0F45AD8BA870}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://218.108.93.246:8080/tfs/year2015
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = BLL\\BLL.csproj
+		SccProjectName1 = BLL
+		SccLocalPath1 = BLL
+		SccProjectUniqueName2 = DAL\\DAL.csproj
+		SccProjectName2 = DAL
+		SccLocalPath2 = DAL
+		SccProjectUniqueName3 = Model\\Model.csproj
+		SccProjectName3 = Model
+		SccLocalPath3 = Model
+		SccProjectUniqueName4 = ZHCGWebAPI\\ZHCGWebAPI.csproj
+		SccProjectName4 = ZHCGWebAPI
+		SccLocalPath4 = ZHCGWebAPI
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B2C42DEC-7DA0-4421-83F5-7FD4F0968FBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2C42DEC-7DA0-4421-83F5-7FD4F0968FBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2C42DEC-7DA0-4421-83F5-7FD4F0968FBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2C42DEC-7DA0-4421-83F5-7FD4F0968FBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{485CB82A-C058-4240-B375-36BA1134D8AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{485CB82A-C058-4240-B375-36BA1134D8AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{485CB82A-C058-4240-B375-36BA1134D8AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{485CB82A-C058-4240-B375-36BA1134D8AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{754814C1-23DE-4DF4-832F-67C64FFEEC26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{754814C1-23DE-4DF4-832F-67C64FFEEC26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{754814C1-23DE-4DF4-832F-67C64FFEEC26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{754814C1-23DE-4DF4-832F-67C64FFEEC26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6F1A071-B7FE-4A13-9308-0F45AD8BA870}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6F1A071-B7FE-4A13-9308-0F45AD8BA870}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6F1A071-B7FE-4A13-9308-0F45AD8BA870}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6F1A071-B7FE-4A13-9308-0F45AD8BA870}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

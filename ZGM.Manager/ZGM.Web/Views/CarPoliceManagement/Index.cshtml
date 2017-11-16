@@ -1,0 +1,361 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link href="~/Scripts/assets/data-tables/demo_table.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/data-tables/DT_bootstrap.css" rel="stylesheet" />
+
+    <link href="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.7.1.js"></script>
+
+    <script type="text/javascript" src="~/Scripts/js/jquery.idTabs.min.js"></script>
+    <script src="~/Scripts/assets/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/assets/data-tables/jquery.datatables.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/assets/data-tables/DT_bootstrap.js"></script>
+    <script type="text/javascript" src="~/Scripts/assets/data-tables/PLE_DT_bootstrap.js"></script>
+
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-zh-CN.js"></script>
+    <script type="text/javascript" src="~/Scripts/js/select-ui.min.js"></script>
+    <link href="~/Content/css/OA.css" rel="stylesheet" />
+    <script src="~/Scripts/js/PageNotBack.js"></script>
+    <link href="~/Scripts/layer/skin/layer.css" rel="stylesheet" />
+    <link href="~/Scripts/layer/skin/seaning/style.css" rel="stylesheet" />
+    <script src="~/Scripts/layer/layer.js"></script>
+
+    <script type="text/javascript">
+        layer.config({
+            skin: 'layer-ext-seaning',
+            offset: ['100px', '33%'],
+            title: '提示',
+            moveOut: true,
+            closeBtn: false,
+            extend: 'skin/seaning/style.css'
+        });
+
+    </script>
+    <style type="text/css">
+        .black_overlay {
+            display: none;
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            z-index: 1001;
+            -moz-opacity: 0.8;
+            opacity: .80;
+            filter: alpha(opacity=80);
+        }
+
+        .white_content {
+            display: none;
+            position: absolute;
+            top: 10%;
+            left: 20%;
+            width: 40%;
+            height: 45%;
+            background-color: white;
+            z-index: 1002;
+            overflow: auto;
+        }
+    </style>
+
+    <script type="text/javascript">
+        var oTable = null;
+        $(document).ready(function () {
+            var url = "/CarPoliceManagement/PoliceList";
+            $("#StartTime").datepicker({ changeMonth: true, changeYear: true, showMonthAfterYear: true, showButtonPanel: true });
+            $("#EndTime").datepicker({ changeMonth: true, changeYear: true, showMonthAfterYear: true, showButtonPanel: true });
+            GetDataTable(url);
+
+
+
+            $("table tr").live("click", function (data) {
+                var ID = $(this).find("td").eq(0).find("input").eq(0).val();
+                var UserID = $(this).find("td").eq(0).find("input").eq(1).val();
+                var StartT = $(this).find("td").eq(2).text();
+                var EndT = $(this).find("td").eq(3).text();
+                if (ID == "" || UserID == "" || StartT == "" || EndT == "") {
+                    return;
+                }
+                $.ajax({
+                    url: "/CarPoliceManagement/GetPoliceByDateUserID?ID=" + ID + "&UserID=" + UserID + "&StartT=" + StartT + "&EndT=" + EndT + "&Random=" + Math.random(),
+                    type: "get",
+                    success: function (returnData) {
+                        var mapCtrl = document.getElementById("mapCtrl").content.MapCtrl;
+                        mapCtrl.Clears();
+                        $.each(returnData.str_jh, function (i, item) {
+                            mapCtrl.AddPolygon("Green", item);
+                        })
+
+                        mapCtrl.AddPolyline('Red', returnData.str_sj);
+
+
+                        if (returnData.str_Content != "" && returnData.str_Content != undefined) {
+                            layer.tips(returnData.str_Content.replace("$$", "<br>").replace("$$", "<br>").replace("$$", "<br>").replace("$$", "<br>"), $("#silverlightControlHost"), {
+                                tips: [3, '#3595CC'],
+                                time: 8000
+                            });
+                        }
+
+                    },
+                    error: function (mes) {
+                        layer.alert('操作失败!', {
+                            icon: 0,
+                            skin: 'layer-ext-seaning'
+                        });
+                    }
+                });
+            });
+        });
+        function GetDataTable(url) {
+            if (oTable != null) {
+                oTable.fnSettings().sAjaxSource = url;
+                oTable.fnDraw(true);
+            } else {
+                oTable = $('#PoliceListTable').dataTable({
+                    sAjaxSource: url,
+                    fnServerParams: function (aoData) {
+                        aoData.push(
+                            { "name": "ZFZBH", "value": $("#ZFZBH").val() },
+                            { "name": "USERNAME", "value": $("#USERNAME").val() },
+                             { "name": "StartTime", "value": $("#StartTime").val() },
+                                { "name": "EndTime", "value": $("#EndTime").val() }
+                            );
+                    },
+
+                    aoColumns: [
+                         {
+                             "mDataProp": function (obj) {
+                                 var hidd_ID = '<input type="hidden" name="hidd_hidd_ID" value="' + obj.ID + '" />';
+                                 var hidd_Userid = '<input type="hidden" name="hidd_Userid" value="' + obj.USERID + '" />';
+
+                                 var txt_ZFZBH = '<lable>' + obj.ZFZBH + '</lable> ';
+                                 return hidd_ID + "  " + hidd_Userid + "  " + txt_ZFZBH;
+                             }
+                         },
+                        { "mDataProp": "USERNAME" },
+                        { "mDataProp": "StartTime" },
+                         { "mDataProp": "EndTime" },
+                         { "mDataProp": "PType" },
+                        { "mDataProp": "STATE" },
+                     {
+                         "mDataProp": function (obj) {
+                             if (obj.STATE == "未处理") {
+                                 var police = "<a class='btn_ico_a_edit'  onclick='ShowDiv(\"MyDiv\", \"fade\",\"" + obj.ID + "\")' ><img src='/Images/btnimage/edit.png' class='btn_ico_image' />生效</a>";
+                                 var policed = "<a class='btn_ico_a_delete' onclick='ShowDiv(\"deleteDiv\", \"fade\",\"" + obj.ID + "\")'><img src='/Images/btnimage/delete.png' class='btn_ico_image' />作废</a>";
+                                 return police + "  " + policed;
+                             }
+                             else {
+                                 var police = "<a class='btn_ico_a_look'  ><img src='/Images/btnimage/look.png' class='btn_ico_image' />查看</a>";
+                                 return police;
+                             }
+
+                         }
+                     }
+                    ],
+                    aoColumnDefs: [{ sDefaultContent: '', aTargets: ['_all'] }],
+                    fnDrawCallback: function (oSettings) {
+                        var pagerIndex = oSettings._iDisplayStart / oSettings._iDisplayLength + 1;
+                        var $currentPager = $(".dataTables_paginate span a:contains('" + pagerIndex + "')");
+                        $currentPager.attr("style", "font-weight :bold;!important");
+                    }
+                });
+            }
+        }
+
+        //查询
+        function Search() {
+            oTable.fnPageChange('first', true);
+            oTable.fnClearTable(false);
+        }
+
+        //生效
+        function TakeEffect() {
+            var hid_PolicID = $("#hid_PolicID").val();
+            var txt_Content = $("#txt_Content").val();
+            if (txt_Content == "" || txt_Content == undefined) {
+                layer.alert('处理内容不能为空!', {
+                    icon: 0,
+                    skin: 'layer-ext-seaning'
+                });
+                return;
+            }
+            if (hid_PolicID != "" && hid_PolicID != undefined) {
+                $.ajax({
+                    url: "/CarPoliceManagement/CommitTakeEffect",
+                    type: "POST",
+                    data: { PolicID: hid_PolicID, PContent: txt_Content },
+                    success: function (date) {
+                        layer.alert(date, { icon: 1, skin: 'layer-ext-seaning' }, function (index) {
+                            layer.close(index);
+                            CloseDiv('MyDiv', 'fade');
+                        });
+                        Search();
+                    },
+                    error: function (mes) {
+                        layer.alert('操作失败!', {
+                            icon: 0,
+                            skin: 'layer-ext-seaning'
+                        });
+                    }
+                });
+            }
+
+        }
+        //作废
+        function DeletePolice() {
+            var hid_PolicID = $("#hid_PolicID").val();
+            var txt_DelContent = $("#txt_DelContent").val();
+            if (txt_DelContent == "" || txt_DelContent == undefined) {
+                layer.alert('处理内容不能为空!', {
+                    icon: 0,
+                    skin: 'layer-ext-seaning'
+                });
+                return;
+            }
+            if (hid_PolicID != "" && hid_PolicID != undefined) {
+                $.ajax({
+                    url: "/CarPoliceManagement/CommitDeletePolice",
+                    type: "POST",
+                    data: { PolicID: hid_PolicID, PContent: txt_DelContent },
+                    success: function (date) {
+                        layer.alert(date, { icon: 1, skin: 'layer-ext-seaning' }, function (index) {
+                            layer.close(index);
+                            CloseDiv('deleteDiv', 'fade');
+                        });
+                        Search();
+                    },
+                    error: function (mes) {
+                        layer.alert('操作失败!', {
+                            icon: 0,
+                            skin: 'layer-ext-seaning'
+                        });
+                    }
+                });
+            }
+        }
+
+        //弹出隐藏层
+        function ShowDiv(show_div, bg_div, id) {
+            $("#silverlightControlHost").css("visibility", "hidden");
+            $("#hid_PolicID").val(id);
+            document.getElementById(show_div).style.display = 'block';
+            document.getElementById(bg_div).style.display = 'block';
+            var bgdiv = document.getElementById(bg_div);
+            bgdiv.style.width = document.body.scrollWidth;
+            // bgdiv.style.height = $(document).height();
+            $("#" + bg_div).height($("body").height());
+        };
+        //关闭弹出层
+        function CloseDiv(show_div, bg_div) {
+            $("#silverlightControlHost").css("visibility", "visible");
+            $("#hid_PolicID").val("");
+            document.getElementById(show_div).style.display = 'none';
+            document.getElementById(bg_div).style.display = 'none';
+        };
+    </script>
+</head>
+<body>
+    <div class="place">
+        <span>位置：</span>
+        <ul class="placeul">
+            <li>车辆报警</li>
+        </ul>
+    </div>
+    <div id="silverlightControlHost" style="width: 98%; height: 250px; padding: 10px 10px;">
+        <object id="mapCtrl" data="data:application/x-silverlight-2," type="application/x-silverlight-2" height="100%" width="100%">
+            <param name="source" value="/ClientBin/MapCtrl.xap" />
+            <param name="background" value="white" />
+            <param name="minRuntimeVersion" value="5.0.61118.0" />
+            <param name="autoUpgrade" value="true" />
+            <param id="initParams" name="initParams" value="IsGoogleMap=false,MapUrl=@ZGM.Web.ConfigManager.MapUrl,X1=@ZGM.Web.ConfigManager.MapLonX1,Y1=@ZGM.Web.ConfigManager.MapLatY1,X2=@ZGM.Web.ConfigManager.MapLonX2,Y2=@ZGM.Web.ConfigManager.MapLatY2,Mode=1,PinUrl=./Images/pin.png,OffsetX=24,OffsetY=48,fileUrl=" />
+            <a href="http://go.microsoft.com/fwlink/?LinkID=149156&v=5.0.61118.0" style="text-decoration: none">
+                <img src="http://go.microsoft.com/fwlink/?LinkId=161376" alt="Get Microsoft Silverlight" style="border-style: none" />
+            </a>
+        </object>
+        <iframe id="_sl_historyFrame" style="visibility: hidden; height: 0px; width: 0px; border: 0px"></iframe>
+    </div>
+    <div style="padding: 10px 10px;">
+        <ul class="seachform">
+            <li>
+
+                <label style="width: 80px">终端号码：</label>
+                <input name="ZFZBH" id="ZFZBH" type="text" class="dfinputs" style="width: 130px; height: 32px;" />
+            </li>
+            <li>
+                <label>车牌号：</label>
+                <input name="USERNAME" id="USERNAME" type="text" class="dfinputs" style="width: 130px; height: 32px;" />
+            </li>
+            <li>
+                <label>开始时间：</label>
+                <input id="StartTime" readonly="readonly" type="text" class="dfinputs" data-date-format="yyyy-mm-dd" value="@string.Format("{0:yyyy-MM-dd}", DateTime.Now.AddMonths(-1))" style="width: 130px;height:32px;" />
+            </li>
+            <li>
+                <label>结束时间：</label>
+                <input id="EndTime" readonly="readonly" type="text" class="dfinputs" data-date-format="yyyy-mm-dd" value="@string.Format("{0:yyyy-MM-dd}", DateTime.Now)"style="width: 130px;height:32px;"/>
+            </li>
+            <li>
+                <input name="" type="button" class="sure" onclick="Search()" value="查询" />
+            </li>
+        </ul>
+        <div style="clear: both; margin-top: 10px;" class="tableListDiv">
+            <table class="tablelist" id="PoliceListTable" style="text-align: center">
+                <thead>
+                    <tr>
+                        @*<th>队员ID</th>*@
+                        <th>终端号码</th>
+                        <th>车牌号</th>
+                        <th>开始时间</th>
+                        <th>结束时间</th>
+                        <th>报警类型</th>
+                        <th>处理状态</th>
+                        <th style="text-align: center; width: 135px;">操作</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+    <!--弹出层时背景层DIV-->
+    <div id="fade" class="black_overlay">
+    </div>
+    <div id="MyDiv" class="white_content">
+        <div class="tiptop"><span>报警处理</span><a onclick="CloseDiv('MyDiv','fade')"></a></div>
+
+        <div class="forminfo">
+            <div style="width: 20%; float: left; margin-top: 20px">
+                <label>处理内容<b>*</b></label>
+            </div>
+            <div style="width: 80%; float: left">
+                <textarea id="txt_Content" placeholder="请输入处理内容" class="dtablefinputs" style="height: 120px"></textarea>
+            </div>
+
+            <input name="" type="button" style="float: right; margin-right: 20px" class="sure" value="确定" onclick="TakeEffect()" />
+        </div>
+    </div>
+    <div id="deleteDiv" class="white_content">
+        <div class="tiptop"><span>报警处理</span><a onclick="CloseDiv('deleteDiv','fade')"></a></div>
+
+        <div class="forminfo">
+            <div style="width: 65px; float: left; margin-top: 20px">
+                <label>处理内容<b>*</b></label>
+            </div>
+            <div style="width: 80%; float: left">
+                <textarea id="txt_DelContent" placeholder="请输入处理内容" class="dtablefinputs" style="height: 120px"></textarea>
+            </div>
+
+            <input name="" type="button" style="float: right; margin-right: 20px" class="sure" value="确定" onclick="DeletePolice()" />
+        </div>
+    </div>
+    <input type="hidden" id="hid_PolicID" />
+</body>
+</html>

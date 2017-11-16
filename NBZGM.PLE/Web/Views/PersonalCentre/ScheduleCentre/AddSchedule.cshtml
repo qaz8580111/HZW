@@ -1,0 +1,70 @@
+﻿<div  style="width: 350px">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">添加日程</h3>
+    </div>
+    <form class="form-horizontal" action="#">
+        <div class="modal-body">
+
+            <div class="form-group" style="margin-bottom: 5px;">
+                <label class="col-xs-3 col-lg-2 control-label" style="width: 80px;">开始时间</label>
+                <div class="col-sm-9 col-lg-10 controls" style="margin-left: 100px;">
+                    <input name="password3" class="form-control" id="startTime" type="text" placeholder="输入来源" style="width: 90%;">
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 5px;">
+                <label class="col-xs-3 col-lg-2 control-label" style="width: 80px;">结束时间</label>
+                <div class="col-sm-9 col-lg-10 controls" style="margin-left: 100px;">
+                    <input name="password3" class="form-control" id="endtime" type="text" placeholder="输入来源" style="width: 90%;">
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 5px;">
+                <label class="col-xs-3 col-lg-2 control-label" style="width: 80px;">日程来源</label>
+                <div class="col-sm-9 col-lg-10 controls" style="margin-left: 100px;">
+
+                    @* <input name="password3" class="form-control" id="password3" type="text" placeholder="输入来源" style="width: 90%;">*@
+                    <select id="scheduleSource" class="form-control" style="width: 98%;">
+                        <option value="0">未知日程</option>
+                        <option value="1">已知日程</option>
+                        <option value="2">公开日程</option>
+                    </select>
+
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 5px;">
+                <label class="col-sm-3 col-lg-2 control-label" style="width: 80px;">日程类型</label>
+                <div class="col-sm-9 col-lg-10 controls" style="margin-left: 100px;">
+                    <select id="scheduleType" class="form-control" style="width: 98%;">
+                        <option value="0">系统日程</option>
+                        <option value="1">私人日程</option>
+                        <option value="2">公开日程</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 5px;">
+                <label class="col-xs-3 col-lg-2 control-label" for="textarea3" style="width: 80px;">日常内容</label>
+                <div class="col-sm-9 col-lg-10 controls" style="margin-left: 100px;">
+                    <textarea name="textarea3" class="form-control" id="textarea3" rows="5" style="width: 90%;"></textarea>
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 5px;">
+                <div style="margin-left: 25px">
+                    <table style="width: 100%">
+                        <tr>
+                            <td style="width: 50%">全天日志
+                                 <input type="checkbox" id="isAllDayEvent" checked="checked" />
+                            </td>
+                            <td style="width: 50%">是否共享
+                                 <input type="checkbox" id="isShare" checked="checked" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" data-dismiss="modal">添加</button>
+            <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+        </div>
+    </form>
+</div>

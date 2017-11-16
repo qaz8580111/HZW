@@ -1,0 +1,212 @@
+﻿@{
+    Layout = "~/Views/CoordinationCentre/ContentManagement/_LayoutContentManagement.cshtml";
+}
+@section HeadStyles_Manage{
+    <link href="~/Scripts/assets/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" />
+}
+@section FootScripts_Manage{
+    <script src="~/Scripts/assets/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/Scripts/assets/bootstrap-datepicker/js/bootstrap-datepicker-zh_CN.js"></script>
+    <script type="text/javascript">
+        function AppendTable() {
+            var startTime = $("#leaderWookstartDate").val();
+            var endTime = $("#leaderWookendDate").val();
+
+            aDate = startTime.split("-");
+            oDate1 = new Date(aDate[1] + '-' + aDate[2] + '-' + aDate[0]);  //转换为12-13-2008格式
+            aDate = endTime.split("-");
+            oDate2 = new Date(aDate[1] + '-' + aDate[2] + '-' + aDate[0]);
+
+            iDays = parseInt(Math.abs(oDate1 - oDate2) / 1000 / 60 / 60 / 24);   //把相差的毫秒数转换为天数  
+            if (oDate1 > oDate2) {
+                alert("结束时间不能早于开始时间");
+                return false;
+            }
+            oDate1.setDate(oDate1.getDate() - 1);
+
+            var userCount = $("#userCount").val();
+
+            var cit = $("#workTable");
+            if (cit.size() > 0) {
+                cit.find("tr:not(:first)").remove();
+            }
+
+            var userArray = new Array();
+            $(".userArray").each(function (index, domEle) {
+                userArray.push($(domEle).val());
+            });
+
+            for (var i = 0; i <= iDays ; i++) {
+                var temp = oDate1;
+                temp.setDate(oDate1.getDate() + 1);
+                var year = temp.getFullYear();
+                var month = temp.getMonth() + 1;
+                var date = temp.getDate();
+                var StrTime = year + "-" + month + "-" + date;
+
+                var label;
+                var weekDay = ["星期天", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+                var day = temp.getDate();
+                var week = weekDay[oDate1.getDay()];
+                if (week != "星期六" && week != "星期天") {
+                    label = "<br /><span>(" + week + ")</span>";
+                } else {
+                    label = "<br /><span title='非工作日!' style='color:red'>(" + week + ")</span>"
+                }
+
+                var TD_Date = "<tr><td rowspan='2' style='vertical-align:middle;border:1px solid gray; border-collapse: collapse;'>" + StrTime + label + "</td>";
+                TD_Date = TD_Date + "<td style='border:1px solid gray; border-collapse: collapse;'>上午</td>";
+
+                for (var j = 0; j < userCount; j++) {
+                    TD_Date = TD_Date + "<td style='border:1px solid gray;'><textarea rows='2' class='schedule'  style='width:90%;border:none;' startTime=" + StrTime + " timeStatus='am' owner=" + userArray[j] + "></textarea></td>";
+                }
+
+                TD_Date = TD_Date + "</tr>";
+                TD_Date = TD_Date + "<tr>";
+                TD_Date = TD_Date + "<td style='border:1px solid gray;'>下午</td>";
+
+                for (var j = 0; j < userCount; j++) {
+                    TD_Date = TD_Date + "<td style='border:1px solid gray';><textarea rows='2' type='text' class='schedule'  style='width:90%;border:none;' startTime=" + StrTime + " timeStatus='pm' owner=" + userArray[j] + " /></textarea></td>"
+                }
+
+                TD_Date = TD_Date + "</tr>";
+                $("#workTable").append(TD_Date);
+            }
+        }
+        $(document).ready(function () {
+            $("#ArticleList").css("display", "block");
+            AppendTable();
+            $("#leaderWookstartDate").datepicker();
+            $("#leaderWookendDate").datepicker();
+            $("#confirmDate").click(function () {
+                AppendTable();
+            });
+
+            $("#btn_submit").click(function () {
+                var LWWP = {
+                    STARTDATE: $("#leaderWookstartDate").val(),
+                    ENDDATE: $("#leaderWookendDate").val(),
+                    ONDUTYLEADER_: $("#ONDUTYLEADER").val(),
+                    ONDUTYDEPT: $("#ONDUTYDEPT").val()
+                };
+                $.ajax({
+                    url: "/LeaderScheduleMangement/CommitLeaderWeekPlan",
+                    type: "post",
+                    data: LWWP,
+                    success: function (data) {
+                        var scheduleArray = new Array();
+                        $(".schedule").each(function (index, domEle) {
+
+                            if (domEle != null && domEle != "") {
+                                var startTime;
+                                var endTime;
+                                if ($(domEle).attr("timeStatus") == "am") {
+                                    startTime = $(domEle).attr("startTime") + " 08:00";
+                                    endTime = $(domEle).attr("startTime") + " 12:00";
+                                } else {
+                                    startTime = $(domEle).attr("startTime") + " 14:00";
+                                    endTime = $(domEle).attr("startTime") + " 17:00";
+                                }
+                                var schedule = {
+                                    TITLE: domEle.value,
+                                    SCHEDULETYPEID: 1,
+                                    STARTTIME: startTime,
+                                    ENDTIME: endTime,
+                                    ISALLDAYEVENT: 0,
+                                    SHARETYPEID: 1,
+                                    OWNER: $(domEle).attr("owner"),
+                                    SCHEDULESOURCEID: data,
+                                };
+                                scheduleArray.push(schedule);
+                            }
+                        });
+                        $.ajax({
+                            url: "/LeaderScheduleMangement/CommitSchedule/",
+                            type: "post",
+                            data: { scheduleArray: scheduleArray },
+                            success: function (data) {
+                                location.href("/LeaderScheduleMangement/Index");
+                            }
+                        })
+                    },
+                    error: function (data) {
+                        if (data.status == 404) {
+                            alert("服务器找不到请求的网页");
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+<input type="hidden" value="@ViewBag.userList.Count" id="userCount"/>
+<input type="hidden" value="@ViewBag.userList" id="userList"/>
+@{
+    for (int i = 0; i < @ViewBag.userList.Count; i++)
+    {
+    <input type="hidden" value="@ViewBag.userList[i].USERID" class="userArray"/>
+    }
+}
+@section BreadcrumbSection{
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li><a href="#"><i class="icon-home"></i>协同中心</a></li>
+            <li>></li>
+            <li><a href="/ArticleManagement/">发布管理</a></li>
+            <li>></li>
+            <li><a href="/LeaderScheduleMangement/">领导日程</a></li>
+            <li>></li>
+            <li class="active">新增领导本周主要工作</li>
+            <li id="UintInfo"></li>
+        </ul>
+    </div>
+}
+<div class="box box-black" style="margin-top: 0px; margin-bottom: 0px;">
+    <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+        <i class="icon-reorder" style="margin-right: 5px;"></i>新增领导本周主要工作
+    </div>
+
+    <div class="box-content" style="padding-bottom: 40px;">
+        <div style="text-align: center">
+            <span style="font-size: 24px;">局领导本周主要工作 </span>
+
+            <input  id="leaderWookstartDate" style="width:100px;font-family:'Microsoft YaHei';font-size:16px;border-bottom:1px solid gray;border-left:none;border-top:none;border-right:none;"  value="@string.Format("{0:yyyy-MM-dd}", DateTime.Now.AddDays(-6))" />
+            至
+                <input id="leaderWookendDate"  style="width:100px;font-family:'Microsoft YaHei';font-size:16px;border-left:none;border-bottom:1px solid gray;border-top:none;border-right:none;" value="@string.Format("{0:yyyy-MM-dd}", DateTime.Now)"/>
+
+            <button id="confirmDate" type="button" class="btn btn-gray" style="vertical-align: text-top; margin-left: 5px; width: 60px">重 绘</button>
+
+        </div>
+
+        <div class="box-content" style="margin-top: 10px;">
+            <table id="workTable" style="text-align: center; border-collapse: collapse;">
+                <tr style="background-color: rgb(239,239,239); height: 30px;">
+                    <td colspan="2" style="text-align: center; border: 1px solid gray; width: 103px;">领导/日期</td>
+
+                    @for (int i = 0; i < @ViewBag.userList.Count; i++)
+                    {
+                        <td style="text-align: center; border: 1px solid gray; width: 150px;">@ViewBag.userList[i].USERNAME</td> 
+                    }
+                </tr>
+            </table>
+        </div>
+
+        <div class="box-content" style="margin-top: 10px;">
+            <label class="control-label" style="float: left">值班领导：</label>
+            <input id="ONDUTYLEADER" title="值班领导" style="float: left; width: 100px" />
+            <label style="float: left; margin-left: 40px" class="control-label">值班处室：</label>
+            <input id="ONDUTYDEPT" title="值班处室" style="float: left; width: 100px" />
+            <div style="float: right; margin-right: 20px; text-align: center">
+                台州城市管理行政执法局办公室
+                <br />
+                @string.Format("{0:yyyy年MM月dd日}", @DateTime.Now)
+            </div>
+        </div>
+
+        <div class="box-content" style="margin-top: 10px">
+            <button type="button" id="btn_submit" style="float: left" class="btn btn-primary"><i class='icon-check-sign'>提 交</i></button>
+        </div>
+    </div>
+</div>

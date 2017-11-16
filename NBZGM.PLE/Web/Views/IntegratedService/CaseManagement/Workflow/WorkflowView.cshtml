@@ -1,0 +1,95 @@
+﻿@using Taizhou.PLE.Model.CaseWorkflowModels
+
+@{
+    ViewBag.Title = "WorkflowProcess";
+    Layout = "~/Views/IntegratedService/CaseManagement/_LayoutCaseManagement.cshtml";
+    CaseForm caseForm = ViewBag.CaseForm;      
+}
+
+@section HeadStyles_CaseManage{
+    <link href="~/Scripts/assets/zTree/zTreeStyle.css" rel="stylesheet" />
+    <style type="text/css">
+        #docTreeScroll {
+            padding-right: 5px;
+            overflow: auto;
+            width: 180px;
+            height: 500px;
+        }
+    </style>
+}
+
+@section FootScripts_CaseManage{
+    <script src="~/Scripts/assets/zTree/jquery.ztree.core-3.5.js"></script>
+    <script src="~/Scripts/js/DetectAdobeReader.js"></script>
+    <script src="~/Scripts/js/IntegratedService/CaseManagement/Workflow/WorkflowView.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //设置菜单高亮样式
+            $("#menuCase").addClass("active");
+
+            //检测是否安装 PDF 插件
+            if (!hasPdfPlugin()) {
+                window.showModalDialog('/DownloadAdobeReader.html', '安装AdobeReader', 'height=200,width=600,top=0,left=' + (screen.width - 600) / 2 + ',toolbar=no,menubar=no,scrollbars=no, resizable=yes,location=no, status=no,z-look=yes');
+            }
+        });
+    </script>
+}
+
+@section BreadcrumbSection{
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li><a href="javascript:void(0)"><i class="icon-home"></i>综合业务</a></li>
+            <li>></li>
+            <li><a href="javascript:void(0)">案件管理</a></li>
+            <li>></li>
+            <li><a href="javascript:void(0)">一般案件</a></li>
+            <li>></li>
+            <li class="active">已处理列表</li>
+            <li>></li>
+            <li class="active">流程详细</li>
+        </ul>
+    </div>
+}
+
+<div style="min-height: 500px;">
+    <input id="WIID" type="hidden" value="@caseForm.WIID" />
+
+    <div style="float: left; width: 21%; margin-left: 5px;">
+        <div class="grid" style="margin-top: 0px; height: 100px;">
+            <div class="grid-title">
+                <div class="pull-left">概要信息</div>
+                <div class="pull-right"></div>
+                <div class="clear"></div>
+            </div>
+            <div class="grid-content" style="overflow: auto;">
+                案件编号：@caseForm.WICode<br />
+                案由：@caseForm.WIName
+            </div>
+        </div>
+        <div class="grid">
+            <div class="grid-title">
+                <div class="pull-left">已有文书</div>
+                <div class="pull-right"></div>
+                <div class="clear"></div>
+            </div>
+            <div id="docTreeScroll" style="width: 94.5%; height:100%" class="grid-content">
+                <ul id="docTree" class="ztree" style="margin-left: -10px;"></ul>
+            </div>
+        </div>
+    </div>
+    <div style="margin-left: 23%;">
+        <div id="viewDocPanel" class="grid">
+            <div class="grid-title">
+                <div class="pull-left">查看文书</div>
+                <div class="pull-right"></div>
+                <div class="clear"></div>
+            </div>
+            <div class="grid-content">
+                <iframe id="ifrmViewDoc" src="" width="100%" height="800px" id="ifm" marginheight="0"
+                    marginwidth="0" scrolling="0" frameborder="0"></iframe>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+

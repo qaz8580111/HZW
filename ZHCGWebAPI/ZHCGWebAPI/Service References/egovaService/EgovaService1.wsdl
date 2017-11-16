@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://service.egova.com.cn/" name="EgovaService" targetNamespace="http://service.egova.com.cn/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <import namespace="http://server.service.egova.com.cn/" location="http://10.19.72.30:8996/egovaService?wsdl=1" />
+  <types />
+  <binding xmlns:ns1="http://server.service.egova.com.cn/" name="EgovaServicePortBinding" type="ns1:EgovaServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />
+    <operation name="process">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" namespace="http://server.service.egova.com.cn/" />
+      </input>
+      <output>
+        <soap:body use="literal" namespace="http://server.service.egova.com.cn/" />
+      </output>
+    </operation>
+  </binding>
+  <service name="EgovaService">
+    <port name="EgovaServicePort" binding="tns:EgovaServicePortBinding">
+      <soap:address location="http://10.19.72.30:8996/egovaService" />
+    </port>
+  </service>
+</definitions>

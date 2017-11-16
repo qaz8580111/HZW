@@ -1,0 +1,68 @@
+﻿
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+
+.fullTb {
+    margin: 5px 10px 0px 0px;
+    height: 100%;
+}
+
+.leftalign {
+    text-align: left;
+}
+.centreAlign {
+    text-align:center;
+}
+.borderImg {
+    background: url(../../Images/Menu/border.png) no-repeat;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height: 80px;
+    width: 1px;
+    float: right;
+    /*margin-left:55px;*/
+}
+.ZFCar {
+font-size: 12px;
+  font-family: "Microsoft YaHei";
+  color: rgb( 232, 239, 241 );
+  line-height: 1.5;
+}
+.onlineCar {
+    font-size: 15px;
+  font-family: "Microsoft YaHei";
+  color: rgb( 235, 199, 53 );
+  line-height: 1.2;
+}
+.totalCar {
+    font-size: 15px;
+  font-family: "Microsoft YaHei";
+  color: #f59e41;
+  line-height: 1.2;
+}
+.carImg {
+    /*float: left;*/
+    height:12px;
+    width:25px;
+}
+.lableFont {
+      font-size: 12px;
+  font-family: "Microsoft YaHei";
+  color: rgb( 255, 255, 255 );
+  line-height: 1.917;
+  /*cursor:pointer;*/
+}
+.hoverImg:hover {
+     cursor: pointer;
+    opacity: 0.6;
+}

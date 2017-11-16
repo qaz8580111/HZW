@@ -1,0 +1,88 @@
+﻿<script type="text/javascript">
+    function ValidateDocForm() {
+        var flag = true;
+
+        //1为表单录入
+        if ($("input[name=bulidDocType]:checked").val() == "1") {
+            flag = true;
+        }
+        else {
+            //验证上传的图片
+            var files = $(".file");
+
+            var AllImgExt = ".jpg|.jpeg|.gif|.bmp|.png";
+
+            var fileIsEmpty = true;
+
+            $.each(files, function (i, n) {
+                if (n.value != null && n.value != "") {
+                    fileIsEmpty = false;
+                    var filePath = n.value;
+
+                    //截取最后一个点之后的字符串
+                    var su = filePath.substring(filePath.lastIndexOf("."));
+
+                    if (AllImgExt.indexOf(su.toLowerCase()) == -1) {
+                        flag = false;
+                        $(n).parent().append($("<label class='formErrorMsg picFormatError' style='display:inline-block;'>图片格式不正确.</label>"));
+                    }
+                }
+            });
+
+            if (fileIsEmpty) {
+                flag = false;
+                $(".uploadFileTD").append("<label class='formErrorMsg picFormatError' style='display:inline-block;'>请至少选择一张图片.</label>");
+            }
+        }
+
+        return flag;
+    }
+
+</script>
+<form method="post" action="/DocAJYSH/CommitDocumentAJYSH" style="margin-bottom: 30px;" enctype="multipart/form-data">
+    <div class="title">
+        案件移送函
+    </div>
+    <div>
+    </div>
+    <table class="workflow" border="0" cellspacing="0" cellpadding="0" style="width: 700px; border-collapse: collapse; margin: 0 auto; margin-top: 20px;">
+        <tr>
+            <th colspan="1">上传文书
+            </th>
+            <td colspan="10">
+                <ul style="list-style: none; margin-left: 0px;">
+                    <li style="margin-top: 5px;">第1张：<input type="file" name="file1" style="width: 400px;" class="file" /></li>
+                    <li style="margin-top: 5px;">第2张：<input type="file" name="file2" style="width: 400px;" class="file" /></li>
+                    <li style="margin-top: 5px;">第3张：<input type="file" name="file3" style="width: 400px;" class="file" /></li>
+                    <li style="margin-top: 5px;">第4张：<input type="file" name="file4" style="width: 400px;" class="file" /></li>
+                    <li style="margin-top: 5px;">第5张：<input type="file" name="file5" style="width: 400px;" class="file" /></li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 52px; border: none;"></td>
+            <td colspan="10" style="border: none; padding-top: 10px;">
+                <input type="submit" class="btn btn-success" value="保   存" />
+                <a style="margin-left: 5px;" href="javascript:void(0)" class="btn goBack">取　消</a>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="border: none;">&nbsp;</td>
+        </tr>
+    </table>
+    @Html.Hidden("WIID")
+    @Html.Hidden("DDID")
+    @Html.Hidden("AIID")
+    @Html.Hidden("ADID")
+    @Html.Hidden("WICode")
+</form>

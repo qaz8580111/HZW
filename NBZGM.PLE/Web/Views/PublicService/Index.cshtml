@@ -1,0 +1,717 @@
+﻿@model Taizhou.PLE.Model.GGFWEVENT
+@{
+    ViewBag.Title = "EnforceLaw";
+    Layout = "~/Views/PublicService/_LayoutPublicService.cshtml";
+}
+@section HeadStyles_EnforceLawEventManage
+    {
+    <link href="~/Scripts/assets/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.css" rel="stylesheet" />
+    <link href="~/Content/workflowCommonForm.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/zTree/zTreeStyle.css" rel="stylesheet" />
+    <style type="text/css">
+        table th {
+            width: 80px;
+        }
+
+        table tr input.large {
+            width: 98%;
+        }
+
+        table tr input.small {
+            width: 94%;
+        }
+
+        .fontStyle * {
+            font-family: 宋体 !important;
+        }
+
+        #docItems {
+            display: table;
+        }
+
+            #docItems .grid {
+                margin: 5px;
+                width: 200px;
+                float: left;
+                cursor: pointer;
+                border: 1px solid #fff;
+            }
+
+                #docItems .grid .grid-content .c_avatar {
+                    width: 48px;
+                    float: left;
+                }
+
+                    #docItems .grid .grid-content .c_avatar img {
+                        height: 48px;
+                        width: auto;
+                        border: 0px;
+                    }
+
+                #docItems .grid .grid-content .conversation-info {
+                    float: left;
+                    margin-left: 8px;
+                    width: 122px;
+                    margin-top: 0px;
+                }
+
+                    #docItems .grid .grid-content .conversation-info .conversation-title {
+                        margin-left: 0px;
+                        margin-top: 0px;
+                        font-size: 12px;
+                        width: 122px;
+                        height: 20px;
+                        line-height: 15px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+
+                        #docItems .grid .grid-content .conversation-info .conversation-title SPAN {
+                            font-weight: normal;
+                        }
+
+                    #docItems .grid .grid-content .conversation-info .conversation-date-status {
+                        height: 14px;
+                        line-height: 14px;
+                        margin-top: 2px;
+                    }
+
+        .selectItem {
+            border-color: rgb(78,169,236) !important;
+            background-color: rgb(216,234,255);
+        }
+
+        #docItems .grid:hover {
+            border-color: rgb(185,215,252);
+            background-color: rgb(246,250,255);
+        }
+
+        .docBtn {
+            /*font-weight: bold;*/
+            font-size: 13px;
+            width: 150px;
+            margin: 5px 0px;
+            text-align: left;
+        }
+
+        .inf_link {
+            margin-left: -16px;
+            margin-top: -4px;
+        }
+
+        .ui-xbox-shadow {
+            overflow: hidden;
+            position: absolute;
+            visibility: visible;
+            left: 0px;
+            top: 0px;
+            z-index: 997;
+            filter: alpha(opacity=20);
+            background-image: none;
+            background-attachment: scroll;
+            background-repeat: repeat;
+            background-position-x: 0%;
+            background-position-y: 0%;
+            background-color: rgb(0,0,0);
+        }
+
+        .ui-xbox {
+            position: absolute;
+            z-index: 998;
+            width: 220px;
+            height: 100px;
+            visibility: visible;
+            text-align: center;
+        }
+
+        .leftbar-search {
+            width: 250px;
+            float: left;
+            border: 1px solid gray;
+        }
+
+        .content-search {
+            border: 1px solid gray;
+        }
+    </style>
+}
+@section FootScripts_EnforceLawEventManage{
+    <script src="~/Scripts/assets/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-zh-CN.js"></script>
+    <script src="~/Scripts/assets/zTree/jquery.ztree.core-3.5.js"></script>
+    <script src="~/Scripts/js/IntegratedService/CaseManagement/Workflow/workflow.js"></script>
+}
+@section BreadcrumbSection{
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li><a href="javascript:void(0)"><i class="icon-home"></i>综合业务</a></li>
+            <li>></li>
+            <li><a href="javascript:void(0)">公共服务</a></li>
+            <li>></li>
+            <li class="active">信访热线登记</li>
+        </ul>
+    </div>
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        IsSpeechFileDisplay();
+        $("input[name=FXSJ]").datetimepicker();
+        $("input[name=OverTime]").datetimepicker();
+        $("input[name=YYSJ]").datepicker();
+        $("#CLASSBID").change(function () {
+            var classSBID = $(this).val();
+
+            $.get("/EventRegister/GetclassSSID", { classSBID: classSBID },
+                function (data) {
+                    $("#CLASSSID").empty();
+                    $("#CLASSSID").append("<option value=''>请选择小类</option>");
+                    $.each(data, function (i, item) {
+                        $("#CLASSSID").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                    });
+                });
+        });
+
+        $("#veto").click(function () {
+            $("#bc").val("1");
+            $("#EventReport")[0].submit();
+        });
+
+        $("#IsSpeechFile").click(function () {
+            IsSpeechFileDisplay();
+        })
+
+        $("#SpeechFile").click(function () {
+            OnFocusTime();//隐藏地图
+            $("#SpeechFileDepicting").modal("show");
+            YYTable();
+        });
+
+        $("#aSpeechFile").click(function () {
+            OpenSpeechFile($("#SpeechFileUrl").val());
+        });
+        $("#UserListZHK").change(function () {
+            var phonenum = $("#UserListZHK option:selected").attr("phonenum");
+            if ($.trim(phonenum) == "") {
+                $("#userphonenum").html("：无");
+            }
+            else {
+                $("#userphonenum").html("：" + phonenum);
+            }
+        })
+    });
+
+    function ZPLDListChange() {
+        var UserId = $("#ZPLDList option:selected").val();
+        $.ajax({
+            url: "/EventRegister/ZFLDUserPhone?randam=" + Math.random(),
+            type: "GET",
+            cache: false,
+            data: { UserId: UserId },
+            success: function (data) {
+                $("#userphonenum_ZPLD").html("：" + data);
+            },
+            error: function () { alert("网络忙,请刷新重试") }
+        });
+    }
+
+    //显示语音
+    function YYTable() {
+
+        var time = $("#YYSJ").val();
+
+        $.ajax({
+            url: "/EventRegister/GetSpeechFile?randam=" + Math.random(),
+            type: "GET",
+            cache: false,
+            data: { time: time },
+            success: function (data) {
+                $("#tableContent").html(data);
+                time = $("#YYSJ").val().split("-")[0] + $("#YYSJ").val().split("-")[1] + $("#YYSJ").val().split("-")[2];
+                var checkindex = $("#SpeechFileUrl").attr("countindex");
+                $th = $("<tr style='height:30px'><th>序列号</th><th>通道号</th><th>主叫号码</th><th>被叫号码</th><th>录音时间</th><th>录音时长</th><th>听 取</th><th>操作</th></tr>");
+                var index = $("#tableContent table tr").length;
+                if (!checkindex)
+                    checkindex = index - 1;
+                $("#tableContent table tr").each(function () {
+                    //删除多余的数据
+                    $(this).children("td").eq(6).remove();
+                    $(this).children("td").eq(6).remove();
+                    $(this).children("td").eq(6).remove();
+                    //回去文件链接url
+                    var url = "http://10.1.2.250/main/listenmessage?path=" + time + "&currenlist=" + index + "&SelNum=undefined";
+                    index = index - 1;
+                    //判断列表选择的单选按钮
+                    if ($("#SpeechFileType").val() == "0" && index == checkindex) {
+                        $td = $("<td><input type='radio' onclick='fun_SpeechFileOK()'  name='rdSpeechFile' countindex='" + index + "' value='" + url + "' checked='true'/></td>");
+                    }else {
+                        $td = $("<td><input type='radio' onclick='fun_SpeechFileOK()'  name='rdSpeechFile' countindex='" + index + "' value='" + url + "'/></td>");
+                    }
+                    $tdimg = $("<td><a  target='_blank' url='" + url + "'><img src='/Images/gf_ind_b3.gif' style='margin:0 auto'/></a></td>");
+                    //添加图片列
+                    $(this).append($tdimg);
+                    //添加单选按钮列
+                    $(this).append($td);
+                    //控制td宽度
+                    $(this).children("td").css("width", "13%");
+                    $(this).children("td").attr("width", "13%");
+                    //控制table样式
+                    $("#tableContent table").addClass("table table-bordered");
+                    $("#tableContent table").css({ "width": "98%", "margin": "0 auto" });
+
+                })
+                $("#tableContent table").prepend($th);
+                //添加底部按钮
+                //$("#SpeechFileDepicting").append($divbtn);
+                //表格每个a标签的点击事件
+                $("#tableContent table tr a").click(function () {
+                    OpenSpeechFile($(this).attr("url"));
+                });
+            }
+        });
+        //单击遮罩层的时候，显示地图
+        $(".modal-backdrop").attr("onclick", "OnBlurTime()");
+    }
+
+
+    //选择语音的方法
+    function fun_SpeechFileOK() {
+        $("#SpeechFileUrl").val($("input[name='rdSpeechFile']:checked").val());
+        $("#SpeechFileUrl").attr("countindex", $("input[name='rdSpeechFile']:checked").attr("countindex"));
+        $("#SpeechFileDepicting").modal("hide");
+        $("#aSpeechFile").show();
+        //OnBlurTime();//显示地图
+    }
+
+    //点击取消按钮
+    function fun_speechfileclose() {
+        //OnBlurTime();//显示地图
+        $("#SpeechFileDepicting").modal("hide");
+        $("#aSpeechFile").show();
+    }
+
+    function goback() {
+        window.location.href = "/EnforceTheLawManagement/TaskList";
+    }
+
+    function FormSubmit() {
+        if (confirm("您确定提交吗")) {
+            //大类
+            var Bigclass = $("#CLASSBID").val();
+            //判断大类
+            if ($.trim(Bigclass) == "") {
+                alert("请选择大类");
+                return false;
+            }
+            //小类
+            var Smallclass = $("#CLASSSID").val();
+            //判断小类
+            if ($.trim(Smallclass) == "") {
+                alert("请选择小类");
+            }
+
+            $("#btn-success").attr("disabled", "disabled");
+            return true;
+        }
+        return false;
+    }
+
+    function IsSpeechFileDisplay() {
+        if ($("#IsSpeechFile").prop("checked")) {
+            $("#SpeechFileType").val("0");
+            $("#SpeechFile").show();
+            $("#material4").hide();
+        }
+        else {
+            $("#SpeechFileType").val("1");
+            $("#material4").show();
+            $("#SpeechFile").hide();
+        }
+    }
+
+    //打开语音文件路径（参数：url路径）
+    function OpenSpeechFile(url) {
+        window.open(url, 'newwindow', 'height=100,width=460,top=0,left=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
+
+    }
+
+    //地图坐标点
+    function mapDraw(s) {
+        geometry = s;
+        document.getElementById("DTWZShow").value = geometry;
+        document.getElementById("GEOMETRY").value = geometry;
+    }
+    //初始化地图
+    function mapInited() {
+        setTimeout(function () {
+            var DTMD = $("input[name=GEOMETRY]")[0].value;
+            if (DTMD) {
+                var mapCtrl = document.getElementById("mapCtrl").content.MapCtrl;
+                mapCtrl.AddMarker(DTMD);
+            }
+        }, 1000)
+    }
+
+    function changeEventSourceID() {
+        var EventSourceID = $("#EventSourceID").val();
+        if (EventSourceID == 4) {
+            $("#EventSource").css("display", "none");
+        } else {
+            $("#EventSource").css("display", "");
+        }
+    }
+
+    function OnBlurTime() {
+        //$("#mapS").css("display", "");
+    }
+    function OnFocusTime() {
+        $("#mapS").css("display", "none");
+    }
+
+    //根据执法大队获取对应执法大队下边的综合科队员
+    function GetZFDDUserList() {
+        var ZFDDList = $("#ZFDDList").val();
+        if (ZFDDList == 0) {
+            $("#UserListZHK").html("<option value='0'>直接归档</option>")
+        } else {
+            $.ajax({
+                url: "/EventRegister/ZFDSUserMes?randam=" + Math.random(),
+                type: "GET",
+                cache: false,
+                data: { ZFDDList: ZFDDList },
+                success: function (data) {
+                    $("#UserListZHK").html(data);
+                    $("#UserListZHK").change();
+                },
+                error: function () { alert("网络忙,请刷新重试") }
+            });
+        }
+    }
+
+    function functionShowCloseMap() {
+        var mapS = $("#mapS").css("display");
+        if (mapS == "none") {
+            $("#btnShowCloseMap").attr("value", "隐藏地图");
+            $("#mapS").css("display", "");
+        } else {
+            $("#btnShowCloseMap").attr("value", "显示地图");
+            $("#mapS").css("display", "none");
+        }
+    }
+
+    function ShowOrNoneTrDDLD() {
+        var DBAJ = $("input[name=DBAJ]").prop("checked");
+        if (DBAJ) {
+            $("#tr_ZPLD_USER").css("display", "");
+            $("#tr_ZPDT_USER").css("display", "none");
+        } else {
+            $("#tr_ZPLD_USER").css("display", "none");
+            $("#tr_ZPDT_USER").css("display", "");
+        }
+
+    }
+
+    function BtnSubmit() {
+        if (!confirm("确定提交吗?"))
+            return false;
+        if ($("#CLASSBID") != null) {
+            var CLASSBID = $("#CLASSBID").val();
+            if (CLASSBID == 0) {
+                alert("请选择问题大类!");
+                return false;
+            }
+        }
+        if ($("#CLASSSID") != null) {
+            var CLASSSID = $("#CLASSSID").val();
+            if (CLASSSID == 0) {
+                alert("请选择问题小类!");
+                return false;
+            }
+        }
+        if ($("input[name=DBAJ]") != null) {
+            if ($("input[name=DBAJ]").checked) {
+                var ZPLDList = $("#ZPLDList").val();
+                if (ZPLDList == 0) {
+                    alert("请选择指派领导!");
+                    return false;
+                }
+            }
+        }
+        document.EventReport.submit();
+    }
+
+</script>
+<style type="text/css">
+    .table th {
+        padding: 3px;
+        line-height: 0px;
+        padding-top: 5px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .table td {
+        padding: 3px;
+        line-height: 0px;
+        padding-top: 5px;
+        padding-bottom: 0px;
+        text-align: center;
+        vertical-align: middle;
+    }
+</style>
+<div class="row-fluid">
+    <div class="span12" id="tabledata">
+        <div class="box box-black" style="margin-top: 0px;">
+            <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+                <i class="icon-reorder" style="margin-right: 5px;"></i>信访热线登记               
+            </div>
+            <div class="box-content">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="detail">
+                        <form method="post" enctype="multipart/form-data" action="/EventRegister/Commit" onsubmit="return FormSubmit();" id="EventReport" name="EventReport">
+                            <div class="title" style="margin-bottom: 20px;">
+                                信访热线登记
+                            </div>
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th style="text-align: center; line-height: 20px;">投诉人</th>
+                                    <td style="width: 40%">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls" style="text-align: center; vertical-align: middle">
+                                                <input type="text" id="REPORTPERSON  " name="REPORTPERSON" class="small" />
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <th style="line-height: 20px; text-align: center">联系电话</th>
+                                    <td style="width: 40%">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                <input type="text" id="PHONE  " name="PHONE" class="small" style="width: 95%" />
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center; line-height: 20px;">事件来源</th>
+                                    <td style="width: 40%">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @Html.DropDownList("EVENTSOURCE", ViewBag.EventSource as IEnumerable<SelectListItem>, new { style = "width:97%" })
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <th style="text-align: center; line-height: 20px;">发现时间</th>
+                                    <td style="width: 40%">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                <input onblur="OnBlurTime()" onfocus="OnFocusTime()" type="text" id="FXSJ" name="FXSJ" value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm")" class="small" style="width:95%"/>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center; line-height: 20px;">事件标题</th>
+                                    <td style="width: 40%" colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                <input type="text" name="EVENTTitle" id="EVENTTitle" class="small" style="width: 98%" />
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center; line-height: 20px;">事件地址</th>
+                                    <td style="width: 40%">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                <input type="text" id="EventAddress" name="EventAddress" class="small" />
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <th style="text-align: center; line-height: 20px;">应办结时间</th>
+                                    <td style="width: 40%">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                <input type="text" onblur="OnBlurTime()" onfocus="OnFocusTime()" id="OverTime" name="OverTime" class="small" style="width: 95%" />
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center; line-height: 20px;">问题大类</th>
+                                    <td style="width: 40%">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @Html.DropDownList("CLASSBID", ViewBag.ClassBID as IEnumerable<SelectListItem>, new { style = "width:97%" })
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <th style="line-height: 20px;">问题小类</th>
+                                    <td style="width: 40%">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                <select id="CLASSSID" name="CLASSSID" style="width: 98%">
+                                                    <option value="">请选择小类</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center; line-height: 20px;">事件内容</th>
+                                    <td style="width: 40%" colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                <textarea id="EventContent" name="EventContent" style="width: 98%" class="large"></textarea>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="padding-left: 20px!important; line-height: 20px;">地图位置</th>
+                                    <td style="width: 40%;text-align:left;" colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls" style="padding-left:10px;">
+                                                <input type="button" value="显示地图" id="btnShowCloseMap" onclick="functionShowCloseMap()" />
+                                                <input type="text" id="DTWZShow" name="DTWZShow" disabled="disabled" style="width: 98%; display: none" class="small" />
+                                                @Html.Hidden("GEOMETRY")
+                                            </div>
+                                        </div>
+                                        <div id="mapS" style="display:none;">
+                                            <div id="silverlightControlHost" style="width: 100%; height: 350px;">
+                                                <object id="mapCtrl" data="data:application/x-silverlight-2," type="application/x-silverlight-2" height="350px" width="100%">
+                                                    <param name="source" value="/ClientBin/MapCtrl.xap" />
+                                                    <param name="background" value="white" />
+                                                    <param name="minRuntimeVersion" value="5.0.61118.0" />
+                                                    <param name="autoUpgrade" value="true" />
+                                                    <param id="initParams" name="initParams" value="IsGoogleMap=false,MapUrl=http://tmap.tzsjs.gov.cn/services/tilecache/chinaemap,X1=121.409266152472,Y1=28.6559834674633,X2=121.423424005508,Y2=28.6614766315258,Mode=2,PinUrl=./Images/pin.png,OffsetX=24,OffsetY=48" />
+                                                    <a href="http://go.microsoft.com/fwlink/?LinkID=149156&v=5.0.61118.0" style="text-decoration: none">
+                                                        <img src="http://go.microsoft.com/fwlink/?LinkId=161376" alt="Get Microsoft Silverlight" style="border-style: none" />
+                                                    </a>
+                                                </object>
+                                                <iframe id="_sl_historyFrame" style="visibility: hidden; height: 0px; width: 0px; border: 0px"></iframe>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center; line-height: 20px;">图片上传</th>
+                                    <td style="width: 40%; text-align: left" colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                <div>
+                                                    <span>
+                                                        <input type="text" name="material1Text" style="width: 100px; margin-left: 10px;" value="事件照片一" /></span>
+                                                    <span>
+                                                        <input type="file" name="material1" id="material1" class="input-xlarge attachfile" style="width: 285px; margin-left: 10px; line-height: 20px; height: 24px;" /></span>
+                                                </div>
+                                                <div style="margin-top: 5px;">
+                                                    <span>
+                                                        <input type="text" name="material2Text" style="width: 100px; margin-left: 10px;" value="事件照片二" /></span>
+                                                    <span>
+                                                        <input type="file" name="material2" id="material2" class="input-xlarge attachfile" style="width: 285px; margin-left: 10px; line-height: 20px; height: 24px;" /></span>
+                                                </div>
+                                                <div style="margin-top: 5px;">
+                                                    <span>
+                                                        <input type="text" name="material3Text" style="width: 100px; margin-left: 10px;" value="事件照片三" /></span>
+                                                    <span>
+                                                        <input type="file" name="material3" id="material3" class="input-xlarge attachfile" style="width: 285px; margin-left: 10px; line-height: 20px; height: 24px;" /></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center; line-height: 20px;">语音上传</th>
+                                    <td colspan="3">
+                                        <div>
+                                            <span style="display: none;">
+                                                <input type="checkbox" checked="checked" id="IsSpeechFile" style="margin-left: 10px">是否选择语音文件
+                                            </span>
+                                        </div>
+                                        <div style="margin-top: 5px; padding-bottom: 3px; text-align: left;">
+                                            <span style="display: none;">
+                                                <input type="text" name="material4Text" style="width: 100px; margin-left: 10px;" value="事件录音" /></span>
+                                            <span>
+                                                <input type="file" name="material4" id="material4" class="input-xlarge attachfile" style="width: 285px; margin-left: 10px; line-height: 20px; height: 24px;" />
+                                                <input type="button" id="SpeechFile" value="选择语音文件" style="border: none; margin-left: 8px" />
+                                                <a id="aSpeechFile" style="display: none;">
+                                                    <img src="~/Images/gf_ind_b3.gif" /></a>
+                                                <input type="hidden" name="SpeechFileType" id="SpeechFileType" />
+                                                <input type="hidden" name="SpeechFileUrl" id="SpeechFileUrl" countindex="" />
+                                            </span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center; line-height: 20px; width: 10%; padding-bottom: 5px">督办案件</th>
+                                    <td colspan="3" style="text-align:left;padding-bottom:10px;padding-left:10px;">
+                                       <input type="checkbox" value="1" name="DBAJ" onclick="ShowOrNoneTrDDLD()" />&nbsp;督办案件<span id="DBAJSpan"></span>
+                                    </td>
+                                    
+                                </tr>
+                                <tr id="tr_ZPDT_USER">
+                                    <th style="text-align: center; line-height: 20px; width: 10%; padding-bottom: 5px">指派大队</th>
+                                    <td>
+                                        @Html.DropDownList("ZFDDList", ViewBag.ZFDDList as IEnumerable<SelectListItem>, new { style = "width:97%", onchange = "GetZFDDUserList()" })
+                                    </td>
+                                    <th style="text-align: center; line-height: 20px; width: 10%">短信提醒</th>
+                                    <td style="text-align: left; width: 40%; padding-bottom: 3px">
+                                        @Html.DropDownList("UserListZHK", ViewBag.UserListZHK as IEnumerable<SelectListItem>, new { style = "width:50%" })
+                                        &nbsp;&nbsp;&nbsp;<input type="checkbox" value="1" name="IsMSG" />&nbsp;短信提醒<span id="userphonenum"></span>
+                                    </td>
+                                </tr>
+                                <tr id="tr_ZPLD_USER" style="display:none;">
+                                    <th style="text-align: center; line-height: 20px; width: 10%; padding-bottom: 5px">指派领导</th>
+                                    <td>
+                                        @Html.DropDownList("ZPLDList", ViewBag.ZPLDList as IEnumerable<SelectListItem>, new { style = "width:97%", onchange="ZPLDListChange()"})
+                                    </td>
+                                    <th style="text-align: center; line-height: 20px; width: 10%">短信提醒</th>
+                                    <td style="text-align: left; width: 40%; padding-bottom: 3px">
+                                        &nbsp;&nbsp;&nbsp;<input type="checkbox" value="1" name="IsMSG_ZPLD" />&nbsp;短信提醒<span id="userphonenum_ZPLD"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center; line-height: 20px; width: 10%">指派意见</th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                <textarea id="COMMENTS" name="COMMENTS" style="width: 98%"></textarea>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                            </table>
+                            <div class="form-group" style="margin-bottom: 5px; margin-left: 120px;">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <input type="button" class="btn btn-success" onclick="BtnSubmit()" value="提　交">
+                                    <a style="margin-left: 5px;" href="javascript:void(0)" class="btn goBack" onclick="goback();">返　回</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="SpeechFileDepicting" class="modal hide fade" style="width: 60%; height: 470px; left: 40%; padding-top: 1px;">
+    <div class='box-title' style='color: white; height: 28px; line-height: 28px; padding-bottom: 0px; padding-right: 15px; padding-left: 12px; padding-top: 0px; background-color: #555; margin-bottom: 1px;'>语音文件</div>
+    <div style="margin-top: 10px;">
+        <div style="float: left; margin-left: 10px; margin-top: 5px;">请选择时间:</div>
+        <div style="float: left">&nbsp;&nbsp;<input type="text" id="YYSJ" name="YYSJ" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="small" style="width:238px;"/></div>
+        <div style="float: left; margin-left: 22px;">
+            <input class="btn btn-success" onclick="YYTable()" type="button" id="btnSearchTime" value="确定" />
+        </div>
+    </div>
+    <div style="clear: both"></div>
+    <div style='overflow-y: auto; width: 99%; height: 385px; margin-left: 1px; margin-top: 10px; border: 1px solid gray; padding: 1px;' id="tableContent">
+    </div>
+    <div class='box-title' style='color: #555; height: 38px; line-height: 38px; padding-bottom: 0px; padding-right: 15px; padding-top: 0px; background-color: #fff; margin-bottom: 1px;'>
+        <input style="float: right; margin-right: 15px; margin-top: 5px;" type="button" id="SpeechFileClose" class="btn goBack" value="取 消" onclick="fun_speechfileclose()">
+    </div>
+</div>

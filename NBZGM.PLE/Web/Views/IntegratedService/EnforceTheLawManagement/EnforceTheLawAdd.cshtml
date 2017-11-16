@@ -1,0 +1,493 @@
+﻿@model Taizhou.PLE.Model.RCDCEVENT
+@{
+    Layout = "~/Views/IntegratedService/EnforceTheLawManagement/_LayoutEnforceManagement.cshtml";
+}
+
+@section HeadStyles_EnforceManage
+    {
+    <link href="~/Scripts/assets/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.css" rel="stylesheet" />
+    <link href="~/Content/workflowCommonForm.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/zTree/zTreeStyle.css" rel="stylesheet" />
+    <style type="text/css">
+        table th {
+            width: 80px;
+        }
+
+        table tr input.large {
+            width: 98%;
+        }
+
+        table tr input.small {
+            width: 94%;
+        }
+
+        .fontStyle * {
+            font-family: 宋体 !important;
+        }
+
+        #docItems {
+            display: table;
+        }
+
+            #docItems .grid {
+                margin: 5px;
+                width: 200px;
+                float: left;
+                cursor: pointer;
+                border: 1px solid #fff;
+            }
+
+                #docItems .grid .grid-content .c_avatar {
+                    width: 48px;
+                    float: left;
+                }
+
+                    #docItems .grid .grid-content .c_avatar img {
+                        height: 48px;
+                        width: auto;
+                        border: 0px;
+                    }
+
+                #docItems .grid .grid-content .conversation-info {
+                    float: left;
+                    margin-left: 8px;
+                    width: 122px;
+                    margin-top: 0px;
+                }
+
+                    #docItems .grid .grid-content .conversation-info .conversation-title {
+                        margin-left: 0px;
+                        margin-top: 0px;
+                        font-size: 12px;
+                        width: 122px;
+                        height: 30px;
+                        line-height: 15px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+
+                        #docItems .grid .grid-content .conversation-info .conversation-title SPAN {
+                            font-weight: normal;
+                        }
+
+                    #docItems .grid .grid-content .conversation-info .conversation-date-status {
+                        height: 14px;
+                        line-height: 14px;
+                        margin-top: 2px;
+                    }
+
+        .selectItem {
+            border-color: rgb(78,169,236) !important;
+            background-color: rgb(216,234,255);
+        }
+
+        #docItems .grid:hover {
+            border-color: rgb(185,215,252);
+            background-color: rgb(246,250,255);
+        }
+
+        .docBtn {
+            /*font-weight: bold;*/
+            font-size: 13px;
+            width: 150px;
+            margin: 5px 0px;
+            text-align: left;
+        }
+
+        .inf_link {
+            margin-left: -16px;
+            margin-top: -4px;
+        }
+
+        .ui-xbox-shadow {
+            overflow: hidden;
+            position: absolute;
+            visibility: visible;
+            left: 0px;
+            top: 0px;
+            z-index: 997;
+            filter: alpha(opacity=20);
+            background-image: none;
+            background-attachment: scroll;
+            background-repeat: repeat;
+            background-position-x: 0%;
+            background-position-y: 0%;
+            background-color: rgb(0,0,0);
+        }
+
+        .ui-xbox {
+            position: absolute;
+            z-index: 998;
+            width: 220px;
+            height: 100px;
+            visibility: visible;
+            text-align: center;
+        }
+
+        .leftbar-search {
+            width: 250px;
+            float: left;
+            border: 1px solid gray;
+        }
+
+        .content-search {
+            border: 1px solid gray;
+        }
+    </style>
+    <style type="text/css">
+        .table td.left {
+            text-align: left;
+        }
+
+        .table td.center {
+            text-align: center;
+        }
+    </style>
+}
+@section FootScripts_EnforceManage
+{<script type="text/javascript">
+     $(document).ready(function () {
+         var trcount = 1;
+
+         $("#CLASSBID").change(function () {
+             var classSBID = $(this).val();
+             $.get("/EnforceTheLawManagement/GetclassSSID", { classSBID: classSBID },
+                 function (data) {
+                     $("#CLASSSID").empty();
+                     $("#CLASSSID").append("<option value='0'>请选择小类</option>");
+                     $.each(data, function (i, item) {
+                         $("#CLASSSID").append("<option value='" + item.Value + "' grade='" + item.GRADE + "'>" + item.Text + "</option>");
+                     });
+                 });
+         });
+
+         $("#CLASSSID").change(function () {
+             if ($(this).val() != "0") {
+                 $("#GRADE").val($("#CLASSSID option:selected").attr("grade"));
+                 $("#FS").val($("#CLASSSID option:selected").attr("grade"));
+             }
+         })
+
+         $("#veto").click(function () {
+             $("#bc").val("1");
+             $("#EventReport")[0].submit();
+         });
+
+         $("#IsSpeechFile").click(function () {
+             IsSpeechFileDisplay();
+         })
+
+         $("#SpeechFile").click(function () {
+             OnFocusTime();//隐藏地图
+             $("#SpeechFileDepicting").modal("show");
+             YYTable();
+         });
+
+         $("#aSpeechFile").click(function () {
+             OpenSpeechFile($("#SpeechFileUrl").val());
+         });
+         $("#userselect").change(function () {
+             var phonenum = $("#userselect option:selected").attr("phonenum");
+             if ($.trim(phonenum) == "") {
+                 $("#userphonenum").html("：无");
+             }
+             else {
+                 $("#userphonenum").html("：" + phonenum);
+             }
+         })
+         $("#AddZFDD").click(function () {
+             $div = $("<div style='margin-top:5px' id='div" + trcount + "'></div>");
+             $Unitselect = $("<select id='zfdd" + trcount + "' name='unitselect' count =" + trcount + " style = 'width:30%'></select>");
+             $Userselect = $("<span> &nbsp&nbsp 指派人员 &nbsp&nbsp</span><select id='user" + trcount + "' count =" + trcount + " name='userselect' style='width:30%'><option value='0'>直接归档</option></select> &nbsp&nbsp 电话号码<span id='userphonenum" + trcount + "' count = " + trcount + "></span>");
+             $Delete = $("<input type='button' value='删除' id='delete" + trcount + "' count=" + trcount + " class='btn btn-danger' style='float: right; margin-right: 3%' />");
+             $.ajax({
+                 type: "POST",
+                 cache: false,
+                 url: "/EnforceTheLawManagement/GetUnit",
+                 async: false,
+                 success: function (data) {
+                     $.each(data, function (index, item) {
+                         $option = $("<option value=" + item.Value + ">" + item.Text + "</option>");
+                         $Unitselect.append($option);
+                     })
+                 }
+             });
+             var userid = "";
+             $Userselect.change(function () {
+                 var id = "#" + $(this).attr("id") + " option:selected";
+                 var phonenum = $(id).attr("phonenum");
+                 var phoneid = "#userphonenum" + $(this).attr("count");
+                 if ($.trim(phonenum) == "") {
+                     $(phoneid).html("：无");
+                 }
+                 else {
+                     $(phoneid).html("：" + phonenum);
+                     if ($(this).val() == 0) {
+                         $(phoneid).html("：无");
+                     }
+                 }
+             })
+             $Unitselect.change(function () {
+                 var unitselect = $(this).val();
+                 var userid = "#user" + $(this).attr("count");
+                 if (unitselect == 0) {
+                     $(userid).html("<option value='0'>直接归档</option>");
+                     $(userid).change();
+                 } else {
+                     $.ajax({
+                         url: "/EnforceTheLawManagement/ZFDSUserMes?randam=" + Math.random(),
+                         type: "GET",
+                         cache: false,
+                         data: { unitselect: unitselect },
+                         success: function (data) {
+                             $(userid).html(data);
+                             $(userid).change();
+                         },
+                         error: function () { alert("网络忙,请刷新重试") }
+                     });
+                 }
+
+             })
+             $Delete.click(function () {
+                 var div = "#div" + $(this).attr("count");
+                 $(div).remove();
+             })
+             $div.append($Unitselect);
+             $div.append($Userselect);
+             $div.append($Delete);
+             $("#lasttd").append($div);
+             trcount++;
+         })
+         $("#unitselect").change(function () {
+             GetZFDDUserList();
+         })
+     });
+
+     function goback() {
+         window.location.href = "/EnforceTheLawManagement/TaskList/";
+     }
+
+     function FormSubmit() {
+         $("#btn-success").attr("disabled", "disabled");
+         return true;
+     }
+
+     //地图坐标点
+     function mapDraw(s) {
+         geometry = s;
+         document.getElementById("DTWZShow").value = geometry;
+         document.getElementById("GEOMETRY").value = geometry;
+     }
+     //初始化地图
+     function mapInited() {
+         setTimeout(function () {
+             var DTMD = $("input[name=GEOMETRY]")[0].value;
+             if (DTMD) {
+                 var mapCtrl = document.getElementById("mapCtrl").content.MapCtrl;
+                 mapCtrl.AddMarker(DTMD);
+             }
+         }, 1000)
+     }
+
+
+     //根据执法大队获取对应执法大队下边的综合科队员
+     function GetZFDDUserList() {
+         var unitselect = $("#unitselect").val();
+         if (unitselect == 0) {
+             $("#userselect").html("<option value='0'>直接归档</option>")
+             $("#userselect").change();
+         } else {
+             $.ajax({
+                 url: "/EnforceTheLawManagement/ZFDSUserMes?randam=" + Math.random(),
+                 type: "GET",
+                 cache: false,
+                 data: { unitselect: unitselect },
+                 success: function (data) {
+                     $("#userselect").html(data);
+                     $("#userselect").change();
+                 },
+                 error: function () { alert("网络忙,请刷新重试") }
+             });
+         }
+     }
+</script>
+
+}
+
+@section BreadcrumbSection{
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li><a href="javascript:void(0)"><i class="icon-home"></i>日常督查</a></li>
+            <li>></li>
+            <li class="active">日长督查登记</li>
+        </ul>
+    </div>
+}
+<div class="row-fluid">
+    <div class="span12" id="tabledata">
+        <div class="box box-black" style="margin-top: 0px;">
+            <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+                <i class="icon-reorder" style="margin-right: 5px;"></i>日常督查登记
+            </div>
+            <div class="box-content">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="detail">
+                        <form method="post" enctype="multipart/form-data" action="/EnforceTheLawManagement/Commit" id="EventReport">
+                            <div class="title" style="margin-bottom: 30px;">
+                                日常督查登记
+                            </div>
+                            <table id="RcdcTable" class="table table-bordered">
+                                <tr>
+                                    <th style="text-align: center; line-height: 30px;">标题
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @Html.TextBoxFor(model => model.EVENTTITLE, new { @style = "width:98%" })
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center; line-height: 30px;">问题大类
+                                    </th>
+                                    <td style="width: 40%">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @Html.DropDownList("CLASSBID", ViewBag.ClassBID as IEnumerable<SelectListItem>, new { style = "width:97%" })
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <th style="padding-left: 30px!important; line-height: 30px;">问题小类
+                                    </th>
+                                    <td style="width: 40%">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                <select id="CLASSSID" name="CLASSSID" style="width: 98%">
+                                                    <option value="">请选择小类</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center; line-height: 30px;">分数
+                                    </th>
+                                    <td style="width: 40%">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                <input type="hidden" name="FS" id="FS" />
+                                                @Html.TextBoxFor(model => model.GRADE, new { @class = "small", style = "width:95%", disabled = "disabled" })
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <th style="text-align: center; line-height: 30px;">地址
+                                    </th>
+                                    <td style="width: 40%">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                @Html.TextBoxFor(model => model.EVENTADDRESS, new { @class = "small", style = "width:95%" })
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center; line-height: 30px;">事件内容
+                                    </th>
+                                    <td style="width: 40%" colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                <textarea id="EventContent" name="EventContent" style="width: 98%" class="large"></textarea>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="padding-left: 30px!important; line-height: 30px;">地图位置</th>
+                                    <td style="width: 40%" colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                <input type="text" id="DTWZShow" name="DTWZShow" disabled="disabled" style="width: 98%; display: none" class="small" />
+                                                @Html.Hidden("GEOMETRY")
+                                            </div>
+                                        </div>
+                                        <div id="mapS">
+                                            <div id="silverlightControlHost" style="width: 100%; height: 350px;">
+                                                <object id="mapCtrl" data="data:application/x-silverlight-2," type="application/x-silverlight-2" height="350px" width="100%">
+                                                    <param name="source" value="/ClientBin/MapCtrl.xap" />
+                                                    <param name="background" value="white" />
+                                                    <param name="minRuntimeVersion" value="5.0.61118.0" />
+                                                    <param name="autoUpgrade" value="true" />
+                                                    <param id="initParams" name="initParams" value="IsGoogleMap=false,MapUrl=http://tmap.tzsjs.gov.cn/services/tilecache/chinaemap,X1=121.409266152472,Y1=28.6559834674633,X2=121.423424005508,Y2=28.6614766315258,Mode=2,PinUrl=./Images/pin.png,OffsetX=24,OffsetY=48" />
+                                                    <a href="http://go.microsoft.com/fwlink/?LinkID=149156&v=5.0.61118.0" style="text-decoration: none">
+                                                        <img src="http://go.microsoft.com/fwlink/?LinkId=161376" alt="Get Microsoft Silverlight" style="border-style: none" />
+                                                    </a>
+                                                </object>
+                                                <iframe id="_sl_historyFrame" style="visibility: hidden; height: 0px; width: 0px; border: 0px"></iframe>
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center; line-height: 30px;">图片上传</th>
+                                    <td style="width: 40%" colspan="3">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="col-sm-9 col-lg-10 controls">
+                                                <div>
+                                                    <span>
+                                                        <input type="text" name="material1Text" style="width: 100px; margin-left: 10px;" value="事件照片一" /></span>
+                                                    <span>
+                                                        <input type="file" name="material1" id="material1" class="input-xlarge attachfile" style="width: 285px; margin-left: 10px; line-height: 20px; height: 24px;" /></span>
+                                                </div>
+                                                <div style="margin-top: 5px;">
+                                                    <span>
+                                                        <input type="text" name="material2Text" style="width: 100px; margin-left: 10px;" value="事件照片二" /></span>
+                                                    <span>
+                                                        <input type="file" name="material2" id="material2" class="input-xlarge attachfile" style="width: 285px; margin-left: 10px; line-height: 20px; height: 24px;" /></span>
+                                                </div>
+                                                <div style="margin-top: 5px;">
+                                                    <span>
+                                                        <input type="text" name="material3Text" style="width: 100px; margin-left: 10px;" value="事件照片三" /></span>
+                                                    <span>
+                                                        <input type="file" name="material3" id="material3" class="input-xlarge attachfile" style="width: 285px; margin-left: 10px; line-height: 20px; height: 24px;" /></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center; line-height: 30px; width: 10%">指派大队</th>
+                                    <td colspan="3" id="lasttd">
+                                        <div>
+                                            @Html.DropDownList("unitselect", ViewBag.unitselect as IEnumerable<SelectListItem>, new { style = "width:30%" }) <span>&nbsp&nbsp
+                                   指派人员&nbsp&nbsp</span>
+
+                                            @Html.DropDownList("userselect", ViewBag.userselect as IEnumerable<SelectListItem>, new { style = "width:30%" })
+                                            &nbsp;&nbsp;&nbsp;电话号码<span id="userphonenum"></span>
+                                            <input type="button" value="添加" id="AddZFDD" class="btn btn-success" style="float: right; margin-right: 3%" />
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center; line-height: 30px; width: 10%">短信提醒</th>
+                                    <td colspan="3">
+                                        <input type="checkbox" value="1" name="IsMSG" />短信提醒
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="form-group" style="margin-bottom: 5px; margin-left: 130px;">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <input type="submit" class="btn btn-success" value="提 交">
+                                    <a style="margin-left: 5px;" href="javascript:void(0)" class="btn goBack">返 回</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

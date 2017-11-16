@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Taizhou.PLE.Model.XZSPModels.XZSPPendingTask>
+@{
+    Layout = null;
+}
+
+<ul class="feeds">
+    @foreach (var item in Model)
+    {
+        <li>
+            <div class="col1">
+                <div class="cont">
+                    <div class="cont-col1">
+                        <div class="cont-col1">
+                            <div class="label label-success">
+                                <i class="icon-bell"></i>
+                            </div>
+                        </div>
+                        <div class="cont-col2" style="width: 570px;">
+                            <div class="desc" style="height: 20px; width: 80%; overflow: hidden;">
+                                <a style="text-decoration:none" href="/XZSPWorkflow/XZSPWorkflowProcess?WIID=@item.WIID&APID=@item.APID&WDID=@item.APID">[@item.ADName]&nbsp;[@item.WDName]&nbsp;[@item.APName][@item.APID]</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col2">
+                <div class="date">
+                    @item.CreateTime.Value.ToString("yyyy-MM-dd HH:mm")
+                </div>
+            </div>
+        </li>
+    }
+</ul>

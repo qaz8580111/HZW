@@ -1,0 +1,61 @@
+﻿@model Web.ViewModels.VMPortalCategory
+<script type="text/javascript">
+    var a = function (e) { $(e).closest(".control-group").removeClass("success") };
+    $(".validation-form").validate({
+        errorElement: "span", errorClass: "help-inline",
+        focusInvalid: false, ignore: "",
+        invalidHandler: function (e, t) { },
+        highlight: function (e) {
+            $(e).closest(".control-group").removeClass("success").addClass("error")
+        },
+        unhighlight: function (e) {
+            $(e).closest(".control-group").removeClass("error"); setTimeout(function () { a(e) }, 3e3)
+        }, success: function (e) {
+            e.closest(".control-group").removeClass("error").addClass("success")
+        }
+    })
+</script>
+<div class="box box-black" style="margin-top: 0px;">
+    <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+        <i class="icon-reorder" style="margin-right: 5px;"></i>编辑文章类别
+    </div>
+    <div class="box-content">
+        <form id="AddCategoryForm" name="AddCategoryForm" class="validation-form form-horizontal form-bordered form-row-stripped" method="post" action="/PortalCategoryManagement/CommitEditArticleCategory">
+            <div class="control-group">
+                <label for="CategoryName" class="control-label">所属栏目</label>
+                <div class="controls">
+                    <input type="text" name="ParentName" id="ParentName" placeholder="Text input" class="input-xlarge" data-rule-required="true" value="@Model.ParentName" disabled="disabled">
+                    <span class="help-inline" for="ParentName"></span>
+                </div>
+            </div>
+              <div class="control-group">
+                <label for="ArtilceName" class="control-label">文章类别</label>
+                <div class="controls">
+                    <input type="text" name="Name" id="Name" placeholder="Text input" class="input-xlarge" data-rule-required="true" value="@Model.Name">
+                    <span class="help-inline" for="Name"></span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="SeqNo" class="control-label">排序号</label>
+                <div class="controls">
+                    <input type="text" name="Seqno" id="Seqno" placeholder="Text input" class="input-xlarge" value="@Model.Seqno">
+                    <label class="help-inline" for="Seqno"></label>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="CreatedTime" class="control-label">创建时间</label>
+                <div class="controls">
+                    <input type="text" name="CreatedTime" id="CreatedTime" placeholder="Text input" class="input-xlarge" value="@Model.CreatedTime.ToString().Replace('/', '-')" disabled="disabled">
+                    <label class="help-inline" for="CreatedTime"></label>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary"><i class="icon-ok"></i>确定</button>
+                <button type="button" class="btn goback" onclick="goback();">返回</button>
+            </div>
+            @Html.Hidden("categoryID", @Model.CategoryID)
+        </form>
+    </div>
+</div>
+
+

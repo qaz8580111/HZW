@@ -1,0 +1,403 @@
+﻿@model  Web.ViewModels.VMGGFW
+@using Taizhou.PLE.Model.ZFSJWorkflowModel.ZFSJWorkflow;
+@{
+    Layout = null;
+    ViewBag.Title = "PrintXFCL";
+    ZFSJForm zfsjform = (ZFSJForm)ViewBag.zfsjform;
+}
+
+<link href="/Content/dolop/all.css" rel="stylesheet" />
+<script src="/Scripts/lodop/CheckActivX.js"></script>
+<style id="style1">
+body  {
+	font-size:9pt;
+	font-family: Arial;
+	background-color: #fff;
+	margin:0;
+}
+.thetable {
+	border: 1px solid #000000;
+}
+form  {
+	margin:0 0 0 0;padding:0;height:85%;width:100%;
+}
+td {
+	font-size:9pt;
+	font-family: Arial;
+	color: #000;
+}
+.thetable fieldset{ margin:5px}
+.thetable fieldset legend{ 
+	margin:5px;
+	font-weight:bold;
+	color:#06C
+}
+.edit1 {
+	width:100%;
+	color: #333;
+	margin:0 10px 5px 10px;
+}
+.edit1 span{ width:90%;}
+.edit1 table{ margin:0}
+.edit1 td {
+	padding:1px;
+	list-style:none;
+	border-bottom:1px solid dotted #999
+}
+.linetable1 {
+    border-collapse: collapse;
+    border: 1px solid #000000;
+	margin:5px;
+}
+.linetable1 td {
+    border: 1px solid #000000;
+}
+</style>
+
+    <script type="text/javascript">
+
+        function pageSetup_Null() {
+            try {
+                var Wsh = new ActiveXObject('WScript.Shell');
+                var HKEY_Root, HKEY_Path, HKEY_Key;
+                HKEY_Root = 'HKEY_CURRENT_USER';
+                HKEY_Path = '\\Software\\Microsoft\\Internet Explorer\\PageSetup\\';
+                HKEY_Key = 'header';
+                Wsh.RegWrite(HKEY_Root + HKEY_Path + HKEY_Key, ''); HKEY_Key = 'footer';
+                Wsh.RegWrite(HKEY_Root + HKEY_Path + HKEY_Key, '');
+            } catch (e) { }
+        }
+        function PrintPage() {
+            pageSetup_Null();
+            wb.execwb(7, 1);
+        }
+
+        function printpreview() {
+            wb.execwb(7, 1);
+        }
+
+        function printit() {
+            if (confirm('确定打印吗？')) {
+                wb.execwb(6, 6);
+            }
+        }
+        function printsetup() {
+            wb.execwb(8, 1);
+        }
+        function printWindow() {
+            var strBodyStyle = "<style>" + document.getElementById("style1").innerHTML + "</style>";
+            var strFormHtml = strBodyStyle + "<body>" + document.getElementById("printdiv").innerHTML + "</body>";
+            //var strFormHtml = "<body>" + document.getElementById("printdiv").innerHTML + "</body>";
+            LODOP.PRINT_INIT("MyCMP打印");
+            LODOP.ADD_PRINT_TEXT(0, 0, 0, 0, "");
+            LODOP.SET_PRINT_TEXT_STYLE(1, "宋体", 18, 1, 0, 0, 1);
+            LODOP.ADD_PRINT_HTM(50, 60, 660, 980, strFormHtml);
+            LODOP.PREVIEW();
+        }
+
+</script>
+
+
+<object id="LODOP" classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width=0 height=0></object>
+<script language="javascript">CheckLodop();</script>
+   <center>
+<div id="kpr"> 
+<input class="btn" type=button name=button_print value="打印预览" onclick ="javascript: printWindow();"> 
+</div> 
+</center>
+<center>
+<div id="printdiv"> 
+    
+
+    <table width="90%" border="0" align="center" cellpadding="0" cellspacing="0">
+	<tbody>
+	<tr>
+	<td>
+		<p><style type="text/css">
+
+<!--
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+.tdb {
+	border: 1px solid #000000;
+}
+.td2 {
+	border-right-width: 1px;
+	border-top-style: none;
+	border-right-style: solid;
+	border-bottom-style: none;
+	border-left-style: none;
+	border-right-color: #000000;
+}
+.td123 {
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-top-color: #000000;
+	border-right-color: #000000;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #000000;
+}
+#td24 {
+	border-right-width: 1px;
+	border-left-width: 1px;
+	border-right-style: solid;
+	border-left-style: solid;
+	border-right-color: #000000;
+	border-left-color: #000000;
+}
+.td11 {
+	border-right-width: 1px;
+	border-left-width: 1px;
+	border-right-style: solid;
+	border-left-style: solid;
+	border-top-color: #000000;
+	border-right-color: #000000;
+	border-bottom-color: #000000;
+	border-left-color: #000000;
+}
+.td13 {
+	border-top-width: 1px;
+	border-bottom-width: 1px;
+	border-top-style: solid;
+	border-bottom-style: solid;
+	border-top-color: #000000;
+	border-right-color: #000000;
+	border-bottom-color: #000000;
+	border-left-color: #000000;
+}
+#td4 {
+	border-left-width: 1px;
+	border-left-style: solid;
+	border-left-color: #000000;
+}
+.td4 {
+	border-left-width: 1px;
+	border-left-style: solid;
+	border-left-color: #000000;
+}
+.td1 {
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #000000;
+}
+#td3 {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #000000;
+}
+#td2 {
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-right-color: #000000;
+}
+.td3 {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #000000;
+}
+body,td,th {
+	font-size: 14px;
+	line-height: 28px;
+	text-align: left;
+}
+.STYLE3 {
+	font-size: 16px;
+	font-weight: bold;
+}
+.STYLE4 {font-size: 16px}
+--></style></p>
+        <p class="MsoNormal" align="center">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<font face="宋体" size="5"><strong><br />台州市城市管理行政执法局<br />信访(举报投诉)交办单</strong></font></p>
+        <p class="MsoNormal" align="center">
+            <font size="3" style="text-align:center;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;交办编号：@Model.EVENTID</font><br />
+            <table class="tdb" style="width: 610px;" cellspacing="0" cellpadding="0" width="610" align="center" border="0">
+                <tbody>
+                    <tr>
+                        <td>
+                            <table cellspacing="0" cellpadding="0" width="100%" align="center"><tbody>
+                                <tr>
+                                    <td class="td13" id="td24" width="16%" height="25">
+                                        <div style="text-align:center;"><font size="3">案件来源</font></div>
+                                    </td>
+                                    <td class="td13" width="19%">
+                                        <font size="3">&#160;@ViewBag.EventSource</font>
+                                    </td>
+                                    <td class="td13" id="td24" width="14%">
+                                        <div align="center" style="text-align:center;"><font size="3">案件类型</font></div>
+                                    </td>
+                                    <td class="td13" width="18%"><font size="3">&#160;@ViewBag.ClassBID</font></td>
+                                    <td class="td13" id="td24" width="17%">
+                                        <div align="center"><font size="3">记录时间</font></div>
+                                    </td>
+                                    <td class="td123" width="16%"><font size="3">&#160;@Convert.ToDateTime(Model.CREATETIME).ToString("yyyy-MM-dd")</font></td>
+                                </tr>
+                                <tr>
+                                    <td class="td3" id="td24" height="25">
+                                        <div align="center"><font size="3">起始时间</font></div>
+                                    </td>
+                                    <td class="td3"><font size="3">@Convert.ToDateTime(Model.CREATETIME).ToString("yyyy-MM-dd")</font></td>
+                                    <td class="td3" id="td24">
+                                        <div align="center"><font size="3">应办结时间</font></div>
+                                    </td>
+                                    <td class="td3"><font size="3">&#160;@Convert.ToDateTime(Model.OVERTIME).ToString("yyyy-MM-dd")</font></td>
+                                    <td class="td3" id="td24">&#160;</td>
+                                    <td class="td2" id="td3"><font size="3">&#160;</font></td>
+                                </tr>
+                                <tr><td id="td24" height="25">
+                                    <div align="center"><font size="3">投诉/来访人</font></div>
+
+                                    </td>
+                                    <td><font size="3">@Model.REPORTPERSON</font></td>
+                                    <td id="td24" c=""><div align="center"><font size="3">联系电话</font></div></td>
+                                    <td><font size="3">&#160;@Model.PHONE</font></td>
+                                    <td id="td24"><font size="3">&#160;</font></td>
+                                    <td class="td2"><font size="3">&#160;</font></td>
+
+                                </tr>
+                                <tr>
+                                    <td class="td13" id="td4" width="16%" height="25">
+                                        <div align="center"><font size="3">地址/单位</font></div>
+                                    </td>
+                                    <td class="td13" id="td24" colspan="5"><font size="3">&#160;@Model.EVENTADDRESS</font></td>
+
+                                </tr>
+                                <tr>
+                                    <td class="td" id="td4" height="25">
+                                        <div align="center"><font size="3">投诉主题</font></div>
+
+                                    </td>
+                                    <td class="td11" colspan="5"><font size="3">&#160;@Model.EVENTTITLE</font></td>
+
+                                </tr>
+                            </tbody></table>
+                            <table cellspacing="0" cellpadding="0" width="100%" align="center"><tbody>
+                                <tr><td class="td1" id="td4" align="center" width="10%" height="150" rowspan="2"><p align="center"><span class="STYLE4"><strong><font size="3">反<br />应<br />内<br />容</font></strong></span><span class="STYLE4"><font size="3"><strong><br /></strong></font></span></p></td><td class="td13" id="td24" valign="top" colspan="2" height="135"><font size="3"><div style='width:100%;word-break:break-all;'>@Model.EVENTCONTENT</div></font></td></tr>
+                                <tr><td class="td4" align="center" width="18%"><div align="center"><font size="3">附件文件</font></div></td><td class="td11" width="72%"><font size="3">&nbsp;</font></td></tr>
+                            </tbody></table>
+                            <table cellspacing="0" cellpadding="0" width="100%"><tbody>
+                                <tr><td class="td13" id="td4" width="21%"><div height="28" align="center"><font size="3">市局领导批示</font></div></td><td class="td13" id="td24"><font size="3">&nbsp;</font></td></tr>
+                                <tr><td class="td13" id="td4" height="28"><div align="center"><font size="3">交办意见</font></div></td><td class="td13" id="td24"><font size="3"><div style='width:100%;word-break:break-all;'>@ViewBag.COMMENTS       指挥中心  @ViewBag.USERID  @ViewBag.CREATETIME <br />
+</div></font></td></tr>                                    
+                            </tbody></table>
+                            <table cellspacing="0" cellpadding="0" width="100%"><tbody>
+                                <tr><td class="td13" align="center" colspan="4" height="60"><div align="center"><font size="4">以下<strong>反馈单</strong>由经办单位填写</font></div></td></tr>
+                                <tr>
+                                    <td class="td13" id="td4" width="13%">
+                                        <div align="center"><font size="3">经办单位</font></div>
+                                    </td>
+                                    <td class="td13" id="td24" width="22%">
+                                    @if (zfsjform != null && zfsjform.FinalForm != null && zfsjform.FinalForm.Form101 != null)
+                                    {
+                                        <font size="3">&#160;@ViewBag.ZDNAME</font>
+                                    }
+                                    else
+                                    {
+                                        <font size="3">&#160;@ViewBag.SSDD</font>
+                                    }
+                                    </td>
+                                    <td class="td13" width="18%">
+                                        <div align="center"><font size="3">经办单位签批</font></div>
+                                    </td>
+                                    <td class="td13" id="td24" width="47%">
+                                    @if (zfsjform != null && zfsjform.FinalForm != null && zfsjform.FinalForm.Form105 != null)
+                                    {
+                                        <font size="3"> @zfsjform.FinalForm.Form105.ProcessUserName @Convert.ToDateTime(zfsjform.FinalForm.Form105.CLSJ).ToString("yyyy-MM-dd") </font>
+                                    }
+                                    else if (zfsjform != null && zfsjform.FinalForm != null && zfsjform.FinalForm.Form107 != null)
+                                    {
+                                        <font size="3"> @zfsjform.FinalForm.Form107.ProcessUserName @Convert.ToDateTime(zfsjform.FinalForm.Form107.CLSJ).ToString("yyyy-MM-dd") </font>
+                                    }
+                                    else
+                                    { 
+                                        <font size="3">&nbsp;</font>
+                                    }
+                                    </td>
+                                </tr>
+                            </tbody></table>
+                            <table cellspacing="0" cellpadding="0" width="100%" align="center"><tbody>
+                                <tr>
+                                    <td class="td4" id="td3" align="center" width="10%" rowspan="2">
+                                        <div align="center">
+                                            <span class="STYLE3"><font size="3">办<br />理<br />结<br />果</font></span>
+                                        </div>
+                                    </td>
+                                    <td id="td24" valign="top" align="left" colspan="2" height="142"><font size="3">
+                                        @if (zfsjform != null && zfsjform.FinalForm != null && zfsjform.FinalForm.Form103 != null)
+                                        {
+                                        <div style='width:100%;word-break:break-all;'>  @zfsjform.FinalForm.Form103.ZFDYCLYJ @zfsjform.FinalForm.Form103.ProcessUserName @Convert.ToDateTime(zfsjform.FinalForm.Form103.CLSJ).ToString("yyyy-MM-dd") </div>                                     }
+                                        else
+                                        {
+                                         <div style='width:100%;word-break:break-all;'>&nbsp;</div> 
+                                        }                                        
+                                    </font></td>
+                                </tr>
+                                <tr><td class="td13" id="td24" align="center" width="20%"><div align="center">
+                                    <font size="3">投诉反馈意见</font></div></td>
+                                    <td class="td13" id="td2" width="70%">
+                                         @if (zfsjform != null && zfsjform.FinalForm != null && zfsjform.FinalForm.Form103 != null)
+                                         {
+                                             if (zfsjform.FinalForm.Form103.FKYJ == "my")
+                                             {
+                                                <font size="3">&#160;满意</font>
+                                             }
+                                             else if (zfsjform.FinalForm.Form103.FKYJ == "bmy")
+                                             {
+                                                <font size="3">&#160;不满意</font>
+                                             }
+                                             else if (zfsjform.FinalForm.Form103.FKYJ == "wflx")
+                                             {
+                                                <font size="3">&#160;无法联系</font>
+                                             }
+                                         }
+                                         else
+                                         {
+                                         <font size="3">&#160;&nbsp;</font>
+                                         }
+                                    </td>
+                                </tr>                                                          
+                            </tbody></table>
+                            <table cellspacing="0" cellpadding="0" width="100%" align="center"><tbody>
+                                <tr>
+                                    <td class="td4" id="td3" width="16%" height="39">
+                                        <div align="center"><font size="3">领导签发</font></div>
+                                    </td>
+                                    <td class="td3" id="td24" width="84%">
+                                        @if (zfsjform != null && zfsjform.FinalForm != null && zfsjform.FinalForm.Form106 != null)
+                                        {
+                                            <font size="3">&#160;@zfsjform.FinalForm.Form106.ZFJZYJ @zfsjform.FinalForm.Form106.ProcessUserName @Convert.ToDateTime(zfsjform.FinalForm.Form106.CLSJ).ToString("yyyy-MM-dd")</font>
+                                        }
+                                        else if (zfsjform != null && zfsjform.FinalForm != null && zfsjform.FinalForm.Form108 != null)
+                                        {
+                                            <font size="3">&#160;@zfsjform.FinalForm.Form108.ZFJZYJ @zfsjform.FinalForm.Form108.ProcessUserName @Convert.ToDateTime(zfsjform.FinalForm.Form108.CLSJ).ToString("yyyy-MM-dd")</font>
+                                        }
+                                        else
+                                        {
+                                            <font size="3">&#160;&nbsp;</font>
+                                        }
+                                    </td>
+                                </tr>                                                          
+                            </tbody></table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </p>
+            <input type='hidden' name='submitType' value=1>
+	</td>
+		</tr>
+	</tbody>
+</table>
+
+
+
+</div>
+</center>
+
+

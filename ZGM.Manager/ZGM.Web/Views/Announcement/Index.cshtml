@@ -1,0 +1,424 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>公告列表</title>
+    <link href="/Scripts/assets/data-tables/demo_table.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/data-tables/DT_bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/css/OA.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-1.7.1.js"></script>
+    <script type="text/javascript" src="~/Scripts/js/select-ui.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/js/jquery.idTabs.min.js"></script>
+    <script src="~/Scripts/assets/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/assets/data-tables/jquery.datatables.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/assets/data-tables/DT_bootstrap.js"></script>
+    <script type="text/javascript" src="~/Scripts/assets/data-tables/PLE_DT_bootstrap.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-zh-CN.js"></script>
+
+    <script src="~/Scripts/js/PageNotBack.js"></script>
+    <link href="~/Scripts/layer/skin/layer.css" rel="stylesheet" />
+    <link href="~/Scripts/layer/skin/seaning/style.css" rel="stylesheet" />
+    <script src="~/Scripts/layer/layer.js"></script>
+    <style>
+        .addfilebtn{width: 40px;
+            height: 22px;
+            line-height: 22px;
+            display: inline-block;
+            margin-top: 6px;
+            color: rgb(255, 255, 255);
+            background: transparent url("/Images/images/btnbg1.png") repeat-x scroll 0% 0%;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 3px;
+            cursor: pointer;
+            text-align: center;
+        }
+    </style>
+    <script type="text/javascript">
+        layer.config({
+            skin: 'layer-ext-seaning',
+            offset: ['100px', '33%'],
+            title: '提示',
+            moveOut: true,
+            closeBtn: false,
+            extend: 'skin/seaning/style.css'
+        });
+
+        $(document).ready(function () {
+            $(".click").click(function () {
+                $(".tip").fadeIn(200);
+            });
+
+            $(".tiptop a").click(function () {
+                $(".tip").fadeOut(200);
+            });
+
+            $(".sure").click(function () {
+                $(".tip").fadeOut(100);
+            });
+
+            $(".cancel").click(function () {
+                $(".tip").fadeOut(100);
+            });
+            $("#usual1 ul").idTabs();
+            $('.tablelist tbody tr:odd').addClass('odd');
+
+            $("#STime").datepicker({ closeText: '清除' });
+            $("#ETime").datepicker({ closeText: '清除' });
+
+            var pagenum = GetQueryString("PageNum");
+            if (pagenum != null && pagenum != "" && pagenum != undefined) {
+                $(".itab a:eq(" + pagenum + ")").click();
+            }
+            var Isdefault = GetQueryString("Isdefault");
+            if (Isdefault != null && Isdefault != "" && Isdefault != undefined) {
+                $("#hid_default").val(Isdefault);
+            }
+
+            function GetQueryString(name) {
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+                var r = window.location.search.substr(1).match(reg);
+                if (r != null) return unescape(r[2]);
+                return null;
+            }
+
+            GetDataTable();
+        })
+
+        //后台回调js函数
+        function AddCallBack(flag) {
+            if (flag == 11) {
+                layer.alert("操作成功!", {
+                    icon: 1,
+                    skin: 'layer-ext-seaning'
+                }, function (index) {
+                    layer.close(index);
+                    location.href = "/Announcement/Index?PageNum=1";
+                });
+            }
+            if (flag == 22) {
+                layer.alert("操作失败!", {
+                    icon: 0,
+                    skin: 'layer-ext-seaning'
+                }, function (index) {
+                    layer.close(index);
+                });
+            }
+        }
+
+        var oTable;
+        //填充公告列表
+        function GetDataTable() {
+            oTable = $('#AnnouncementTable').dataTable({
+                sAjaxSource: "/Announcement/Announcement_Grid",
+                fnServerParams: function (aoData) {
+                    aoData.push(
+                        { "name": "NoticeTitle", "value": $("#NoticeTitle").val() },
+                        { "name": "NoticeAuthor", "value": $("#NoticeAuthor").val() },
+                        { "name": "STime", "value": $("#STime").val() },
+                        { "name": "ETime", "value": $("#ETime").val() });
+                },
+                aoColumns: [
+                    {
+                        mDataProp: function (data) {
+                            return data.IsRead == "1" ? "<img src='/Images/images/NoticeAlread.png' />" :
+                                        "<img src='/Images/images/NoticeUnread.png' />";
+                        }
+                    },
+                    { mDataProp: "NoticeTitle" },
+                    { mDataProp: "Author" },
+                    { mDataProp: "CreateTime" },
+                    {
+                        mDataProp: function (data) {
+                            var edit = "<a class='btn_ico_a_edit' href='#' onclick=\"EditShow(" + data.NoticeID + ")\"><img src='/Images/btnimage/edit.png' class='btn_ico_image' />编辑</a>";
+                            var del = "@if(ViewBag.CanAction == true){<a class='btn_ico_a_delete' href='#' onclick=\"Delete(" + data.NoticeID + ")\"><img src='/Images/btnimage/delete.png' class='btn_ico_image' />删除</a>}";
+                            var look = "<a class='btn_ico_a_look' href='#' onclick=\"Look(" + data.NoticeID + ")\"><img src='/Images/btnimage/look.png' class='btn_ico_image' />查看</a>";
+                            return del + "  " + look;//edit + "  " + 
+                        }, "sClass": "center"
+                    }
+
+                ],
+                aoColumnDefs: [{ sDefaultContent: '', aTargets: ['_all'] }],
+                fnDrawCallback: function (oSettings) {
+                    var pagerIndex = oSettings._iDisplayStart / oSettings._iDisplayLength + 1;
+                    var $currentPager = $(".dataTables_paginate span a:contains('" + pagerIndex + "')");
+                    $currentPager.attr("style", "font-weight :bold;!important");
+                }
+            });
+        }
+
+        function validate_form(thisform) {
+            with (thisform) {
+                if (validate_required(NOTICETITLE, "公告标题不能为空!") == false)
+                { NOTICETITLE.focus(); return false }
+                if (validate_required(NOTICETYPE, "公告类型不能为空!") == false)
+                { NOTICETYPE.focus(); return false }
+                if (validate_required(AUTHOR, "发布人不能为空!") == false)
+                { AUTHOR.focus(); return false }
+                if (validate_required(CONTENT, "公告内容不能为空!") == false)
+                { CONTENT.focus(); return false }
+                else { return true }
+            }
+        }
+
+        function validate_required(field, alerttxt) {
+            with (field) {
+                if (value == null || value == "")
+                {
+                    layer.alert(alerttxt, {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    });
+                    return false
+                }
+                else { return true }
+            }
+        }
+        
+        //查询
+        function Search() {
+            oTable.fnPageChange('first', true);
+            oTable.fnClearTable(false);
+        }
+
+        //获取url参数
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null)
+                return unescape(r[2]);
+            return null;
+        }
+
+        //查看公告
+        function Look(id) {
+            location.href = "/Announcement/Look?NoticeId="+id;
+        }
+
+        //删除公告
+        function Delete(id) {
+            layer.confirm('是否确认删除?', {
+                btn: ['是', '否'],
+                icon: 4,
+                //按钮
+            }, function () {
+                $.ajax({
+                    type: "GET",
+                    url: "/Announcement/Delete?NoticeId=" + id,
+                    success: function (data) {
+                        layer.alert(data, {
+                            icon: 1,
+                            skin: 'layer-ext-seaning'
+                        }, function (index) {
+                            layer.close(index);
+                            location.href = "/Announcement/Index?PageNum=1"
+                        });
+                    }
+                });
+            }, function () {
+                layer.close();
+            });
+        }
+
+        //公告编辑显示
+        function EditShow(id) {
+            $.ajax({
+                type: 'GET',
+                url: '/Announcement/EditShow?random=' + Math.random(),
+                data: { NoticeId: id },
+                success: function (data) {
+                    $(".itab a:eq(0)").click();
+                    $(".itab a:eq(0)").text("编辑公告");
+                    $("#filechange").text("公告附件");
+                    $("input[name='hidden-noticeid']").val(id);
+                    $("input[name='hidden-isedit']").val("1");
+                    $("input[name='NOTICETITLE']").val(data.list.NOTICETITLE);
+                    $("input[name='NOTICETYPE']").val(data.list.NOTICETYPE);
+                    $("input[name='AUTHOR']").val(data.list.AUTHOR);
+                    $("textarea[name='CONTENT']").val(data.list.CONTENT);
+                    if (data.list.FILENAME != null && data.list.FILENAME != "") {
+                        var fileid = new Array();
+                        fileid = data.list.AttrachsStr.split('|');
+                        var filestring = new Array();
+                        filestring = data.list.FILENAME.split('|');
+                        var filepath = new Array();
+                        filepath = data.list.FILEPATH.split('|');
+                        var strhtml = "";
+                        var hidefilepath = $("#hidden-filepath").val();
+                        for (var i = 0; i < filestring.length; i++) {
+                            strhtml += "<div style='margin: 20px 0px;'><a href='/DownFile/DownLoadOAWorkFlow?path=" + hidefilepath
+                                + filepath[i] + "&&fileName=" + filestring[i] + "'>" + filestring[i] + "</a><span id=" + fileid[i] +
+                                " onclick='DeleteDBFile(this);' style='margin-left:50px;cursor:pointer;' >删除</span></div>";
+                        }
+                        $("#showfile").html(strhtml);
+                    } else
+                        $("#showfile").html("<div id='AddAfterFile' class='addfilebtn' onclick='AddAfterFile();'>添加</div>");
+                }
+            });
+        }
+
+        //添加公告文件
+        function AddAfterFile() {
+            $("#AddAfterFile").after("<div style='margin: 20px 0px;'><input name='AddFile" + Math.random(10000, 99999) + "' type='file'  value='' /><b style='cursor:pointer;color:black;' onclick='DeleteFile(this);'>删除</b></div>");
+        }
+
+        //删除公告文件
+        function DeleteFile(obj) {
+            $(obj).parent().remove();
+        }
+
+        //删除数据库附件
+        function DeleteDBFile(obj) {
+            layer.confirm('是否确认删除?', {
+                btn: ['是', '否'],
+                icon: 4,
+                //按钮
+            }, function () {
+                $.ajax({
+                    type: 'GET',
+                    url: '/Announcement/DeleteDBFile?random=' + Math.random(),
+                    data: { AttrachId: obj.id },
+                    success: function (data) {
+                        if (data == "删除成功") {
+                            var oobj = $(obj).parent().parent();
+                            $(obj).parent().remove();
+                            if (oobj.html() == "")
+                                $("#showfile").html("<div id='AddAfterFile' class='addfilebtn' onclick='AddAfterFile();'>添加</div>");
+                            layer.alert(data, {
+                                icon: 1,
+                                skin: 'layer-ext-seaning'
+                            });
+                            $("input[name='hidden-isdelsuc']").val('1');
+                        } else {
+                            layer.alert(data, {
+                                icon: 0,
+                                skin: 'layer-ext-seaning'
+                            });
+                        }
+                    }
+                })
+            }, function () {
+                layer.close();
+            });
+        }
+        function goback() {
+            var hid = $("#hid_default").val();
+            if (hid != null && hid != "" && hid != undefined) {
+                location.href = '/OA_Default/Index';
+            }
+            else {
+                location.href = '/Announcement/Index?PageNum=1';
+            }
+        }
+    </script>
+</head>
+
+<body>
+    
+    <div class="place"> <span>位置：</span>
+      <ul class="placeul">
+        <li>公告</li>
+      </ul>
+    </div>
+    <div class="formbody">
+        <div id="usual1" class="usual">
+        <div class="itab">
+          <ul>            
+            @if (ViewBag.CanAction == true){
+                <li><a href="#tab2" class="selected">添加公告</a></li>
+            }
+            <li><a href="#tab1">公告列表</a></li>
+          </ul>
+        </div>
+
+        <div id="tab1" class="tabson">
+            <table>
+                <tr>
+                    <td>公告标题：</td>
+                    <td>
+                        <input id="NoticeTitle" type="text" class="dfinputs" style="width:150px;height:32px"/></td>
+                    <td>发布人：</td>
+                    <td>
+                        <input id="NoticeAuthor" type="text" class="dfinputs" style="width:150px;height:32px"/></td>
+                    <td>公告发布时间：</td>
+                    <td>
+                        <input id="STime" type="text" class="dfinputs" readonly="readonly" data-date-format="yyyy-mm-dd" value="@string.Format("{0:yyyy-MM-dd}", new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1))"  style="width:180px;height:32px"/></td>
+                    <td>至：</td>
+                    <td>
+                        <input id="ETime" type="text" class="dfinputs" readonly="readonly" data-date-format="yyyy-mm-dd" value="@string.Format("{0:yyyy-MM-dd}", new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(1).AddDays(-1))"  style="width:180px;height:32px"/></td>
+                    <td>
+                        <input type="button" class="sure" value="查询" onclick="Search()" style="margin-top: 0px;" /></td>
+                </tr>
+            </table>
+
+            <div style="clear: both; margin-top: 10px;" class="tableListDiv">
+                <table class="tablelist" id="AnnouncementTable" style="text-align: center">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center;width:15%;">是否阅读</th>
+                            <th style="text-align: center;width:400px;">公告标题</th>
+                            <th style="text-align: center;width: 15%;">发布人</th>
+                            <th style="text-align: center;width: 20%;">发布时间</th>
+                            <th style="text-align: center;width: 20%;">操作</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+
+        @if (ViewBag.CanAction == true){
+            <form method="post" enctype="multipart/form-data" action="/Announcement/Commit" target="hidden_frame" onsubmit="return validate_form(this)">
+             <div id="tab2" class="tabson">
+              <ul class="forminfo">
+                <li>
+                  <label>公告标题<b>*</b></label>
+                  <input name="NOTICETITLE" type="text" class="dfinputs"  placeholder="请输入公告标题" />
+                </li>
+                <li>
+                  <label>公告类型<b>*</b></label>
+                  <input name="NOTICETYPE" type="text" class="dfinputs" placeholder="请输入公告类型"  />
+                </li>
+                <li>
+                  <label> 发 布 人 <b>*</b></label>
+                  <input name="AUTHOR" type="text" class="dfinputs" placeholder="请输入发布人" value="@ViewBag.username" />
+                </li>
+                <li>
+                  <label>公告内容<b>*</b></label>
+                  <textarea name="CONTENT" class="dfinputs" style="width:700px;height:250px;" placeholder="请输入公告内容"></textarea>
+                </li>
+                <li>
+                  <label id="filechange">上传附件</label>
+                  <div id="showfile" style="margin-left: 90px;"><div id="AddAfterFile" class="addfilebtn" onclick="AddAfterFile();">添加</div></div>
+                </li>
+                 @*<li>
+                  <label>是否短信提示</label>
+                  <input name="AddMessage" type="checkbox"  class="dcheckbox" title="是" style="margin-top: 10px;" />是
+                </li>*@
+                <li>
+                  <label>&nbsp;</label>
+                  <input type="submit" class="sure"  value="保  存" />
+                  <input type="button" class="sure"  value="返  回" onclick="goback()" />
+                  <input type="hidden" name="hidden-noticeid" value="0" />
+                  <input type="hidden" name="hidden-isedit" value="0" />
+                    <input type="hidden" id="hid_default" />
+                  <input type="hidden" name="hidden-isdelsuc" value="0" />
+                  <input type="hidden" id="hidden-filepath"  value="@System.Configuration.ConfigurationManager.AppSettings["XTGLAnnouncementFile"].Replace("\\","/")"/>
+                </li>
+              </ul>
+            </div>
+            </form>
+        }
+      </div>
+    </div>
+    <iframe name='hidden_frame' id="hidden_frame" style="display:none"></iframe>
+
+</body>
+</html>

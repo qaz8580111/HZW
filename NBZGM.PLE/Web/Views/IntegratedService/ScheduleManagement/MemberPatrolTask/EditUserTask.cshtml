@@ -1,0 +1,419 @@
+﻿@{
+    Layout = "~/Views/IntegratedService/ScheduleManagement/_LayoutScheduleManagement.cshtml";
+}
+@model Taizhou.PLE.Model.XCJGUSERTASK
+@section FootScripts_ScheduleManage{
+     <script src="~/Scripts/assets/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-zh-CN.js"></script>
+    <script src="~/Scripts/assets/zTree/jquery.ztree.core-3.5.js"></script>
+    <script src="~/Scripts/js/IntegratedService/CaseManagement/Workflow/workflow.js"></script>
+    <script src="~/Scripts/js/ApprovalManagement/XZSPWorkflow.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            var url = window.location.href;
+            var type = url.substring(url.length - 4, url.length)
+            $("input[name=StartDate]").datepicker();
+            $("input[name=EndDate]").datepicker();
+
+            $("input[readOnly]").keydown(function (e) {
+                e.preventDefault();
+            });
+            $("textarea[readOnly]").keydown(function (e) {
+                e.preventDefault();
+            });
+            $("form").submit(function () {
+                var JobContent = $("#JOBCONTENT").val();
+                
+                if (JobContent == null || JobContent == "") {
+
+                    $("#JOBCONTENT").text("必填字段");
+                    return false;
+                }
+                var startDate = $("#StartDate").val();
+
+                var arr = startDate.split("-");
+                var starttime = new Date(arr[0], arr[1], arr[2]);
+                var start = starttime.getTime();
+
+                var endDate = $("#EndDate").val();
+                var arre = endDate.split("-");
+                var endtime = new Date(arre[0], arre[1], arre[2]);
+                var end = endtime.getTime();
+
+                if (start > end) {
+                    $("#dateMsg").text("结束时间必须大于开始时间");
+                    return false;
+                }
+
+            });
+
+
+            var id = $("#id").val();
+            var date = $("#date").val();
+            $.ajax({
+                url: "/MemberPatrolTask/GetHour?num=" + Math.random(),
+                type: "get",
+                data: { id: id, date: date },
+                success: function (data) {
+                    $("#StartHour").html(data);
+                },
+                error: function (mes) {
+                    alert("操作失败");
+                }
+            });
+            $.ajax({
+                url: "/MemberPatrolTask/GetMinute?num=" + Math.random(),
+                type: "get",
+                data: { id: id, date: date },
+                success: function (data) {
+                    $("#StartMinute").html(data);
+                },
+                error: function (mes) {
+                    alert("操作失败");
+                }
+            });
+            $.ajax({
+                url: "/MemberPatrolTask/GetEndHour?num=" + Math.random(),
+                type: "get",
+                data: { id: id, date: date },
+                success: function (data) {
+                    $("#EndHour").html(data);
+                },
+                error: function (mes) {
+                    alert("操作失败");
+                }
+            });
+            $.ajax({
+                url: "/MemberPatrolTask/GetEndMinute?num=" + Math.random(),
+                type: "get",
+                data: { id: id, date: date },
+                success: function (data) {
+                    $("#EndMinute").html(data);
+                },
+                error: function (mes) {
+                    alert("操作失败");
+                }
+            });
+            $.ajax({
+                url: "/MemberPatrolTask/getZDMember",
+                type: "post",
+                data: { id: id, date: date },
+                success: function (data) {
+                    $("#getZDMember").html(data);
+                },
+                error: function (mes) {
+                    alert("操作失败");
+                }
+            });
+            $.ajax({
+                url:"/MemberPatrolTask/getWeek",
+                type: "post",
+                data: { id: id, date: date },
+                success: function (data) {
+                    $("#WEEK").html(data);
+                },
+                error: function (mes) {
+                    alert("操作失败");
+                }
+            });
+        });
+        function changeAreaMap() {
+            var AREAID = $("#AREAID").val();
+            if (AREAID == 0) {
+                $("#iframe1").attr("src", "/GetGeometryByAreaID.html?map=");
+            } else {
+                $.ajax({
+                    url: "/MemberPatrolTask/getMap?AREAID=" + AREAID + "&newtime=" + Math.random(),
+                    type: "get",
+                    success: function (returnData) {
+                        $("#iframe1").attr("src", "/GetGeometryByAreaID.html?map=" + returnData);
+                    },
+                    error: function (mes) {
+                        alert("操作失败");
+                    }
+                });
+            }
+        }
+        function changeRouteMap() {
+
+            var ROUTEID = $("#ROUTEID").val();
+            if (ROUTEID == 0) {
+                $("#iframe2").attr("src", "/GetGeometryByRouteID.html?map=");
+            } else {
+                $.ajax({
+                    url: "/MemberPatrolTask/getRouteMap?ROUTEID=" + ROUTEID + "&newtime=" + Math.random(),
+                    type: "get",
+                    success: function (returnData) {
+                        $("#iframe2").attr("src", "/GetGeometryByRouteID.html?map=" + returnData);
+                    },
+                    error: function (mes) {
+                        alert("操作失败");
+                    }
+                });
+            }
+        }
+        function DeleteUserTask(id, date) {
+            if (!confirm("确认要删除?")) {
+                return;
+            }
+            $.ajax({
+                url: "/MemberPatrolTask/DeleteUserTask?id=" + id + "&date=" + date,
+                type: "get",
+                success: function (data) {
+                    location.href = "/MemberPatrolTask/Index";
+                },
+                error: function (mes) {
+                    alert("操作失败");
+                }
+            });
+        }
+    </script>
+
+}
+@section BreadcrumbSection{
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li><a href="javascript:void(0)"><i class="icon-home"></i>综合业务</a></li>
+            <li>></li>
+            <li><a href="javascript:void(0)">巡查监管</a></li>
+            <li>></li>
+            <li class="active">队员巡查任务管理</li>
+        </ul>
+    </div>
+}
+
+<div class="box box-black" style="margin-top: 0px;">
+    <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+        <i class="icon-reorder" style="margin-right: 5px;"></i>修改路线
+    </div>
+    <div class="box-content">
+        <form id="AddRouteForm" name="AddRouteForm" class="validation-form form-horizontal form-bordered form-row-stripped" method="post" action="/MemberPatrolTask/ConmmitAddUserTask" enctype="multipart/form-data">
+            <input type="hidden" id="id" name="id" value="@Request["id"]" />
+            <input type="hidden" id="date" name="date" value="@Request["date"]" />
+            <table class="table table-bordered">
+                <tr>
+                    <th style="text-align: center; width:10%;">所属大队
+                    </th>
+                    <td style="width:40%;">
+                        <div class="form-group" style="margin-bottom: 5px;">
+                            <div>
+                                @ViewBag.unitList
+                            </div>
+                        </div>
+                    </td>
+                    <th style="padding-left: 30px!important; width:10%;">所属中队
+                    </th>
+                    <td style="width:40%;">
+                        <div class="form-group" style="margin-bottom: 5px;">
+                            <div>
+                                @ViewBag.unitName
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                   <tr>
+                    <th style="text-align: center; padding-top:15px;">开始日期
+                    </th>
+                    <td>
+                        <div class="form-group" style="margin-bottom: 5px;">
+                            <div>
+                                 <input type="text" id="StartDate" name="StartDate" class="small" value=" @Model.TASKDATE.ToString("yyyy-MM-dd")" />
+                            
+                            </div>
+                        </div>
+                    </td>
+                    <th style="padding-left: 30px; padding-top:15px;">结束日期
+                    </th>
+                    <td colspan="3">
+                        <div>
+                            <div>
+                              <input type="text" id="EndDate" name="EndDate" class="small" value=" @Model.TASKDATE.ToString("yyyy-MM-dd")" />
+                                 <label class="help-inline" for="date" id="dateMsg" style="color:red"></label>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                 <tr>
+                    <th style="text-align: center;">选择星期
+                    </th>
+                    <td colspan="3">
+                        <div class="form-group" style="margin-bottom: 5px;">
+                            <div id="WEEK">
+                               
+
+
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th style="text-align: center; width:10%; padding-top:15px;">开始时间
+                    </th>
+                    <td style="width:40%;">
+                        <div class="form-group" style="margin-bottom: 5px;">
+                            <div>
+                                <select id="StartHour" name="STARTHOUR" class="selClassMainID" style="width: 60px;"></select>
+                                <select id="StartMinute" name="STARTMINUTE" class="selClassMainID" style="width: 60px;"></select>
+                            </div>
+                        </div>
+                    </td>
+                    <th style="padding-left: 30px!important; width:10%; padding-top:15px;">结束时间
+                    </th>
+                    <td style="width:40%;">
+                        <div class="form-group" style="margin-bottom: 5px;">
+                            <div>
+                                <select id="EndHour" name="ENDHOUR" class="selClassMainID" style="width: 60px;"></select>
+                                <select id="EndMinute" name="ENDMINUTE" class="selClassMainID" style="width: 60px;"></select>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                 <tr>
+                    <th style="text-align: center;">队员选择
+                    </th>
+                    <td colspan="3">
+                        <div class="form-group" style="margin-bottom: 5px;">
+                            <div id="getZDMember">
+                            
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th style="text-align: center;">巡查区域
+                    </th>
+                    <td colspan="3">
+                        <div class="form-group" style="margin-bottom: 5px;">
+                            <div>
+                                @Html.DropDownListFor(model => model.AREAID, ViewBag.areaList as IEnumerable<SelectListItem>, new { @class = "input-xlarge", style = "width:284px;", onchange = "changeAreaMap()" })
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th style="text-align: center;">区域位置
+                    </th>
+                    <td colspan="3">
+                        <div class="form-group" style="margin-bottom: 5px;">
+                            <div>
+                                <iframe id="iframe1" src="/GetGeometryByAreaID.html?map=@ViewBag.areaMap" marginheight="0" marginwidth="0" width="100%" height="332px;" frameborder="0" scrolling="no"></iframe>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th style="text-align: center; padding-top:15px;">巡查路线
+                    </th>
+                    <td colspan="3">
+                        <div class="form-group" style="margin-bottom: 5px;">
+                            <div>
+                                @Html.DropDownListFor(model => model.ROUTEID, ViewBag.routeList as IEnumerable<SelectListItem>, new { @class = "input-xlarge", style = "width:284px;", onchange = "changeRouteMap()" })
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th style="text-align: center;">路线位置
+                    </th>
+                    <td colspan="3" style="height:332px;">
+                        <div class="form-group" style="margin-bottom: 5px;" >
+                            <div >
+                                <iframe id="iframe2"src="/GetGeometryByRouteID.html?map=@ViewBag.routeMap" marginheight="0" marginwidth="0" width="100%" height="332px;" frameborder="0" name="iframe2" scrolling="no"></iframe>
+                           
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr style="line-height:80px;">
+                    <th style="text-align: center;">工作内容
+                    </th>
+                    <td colspan="3" style="height:80px;">
+                        <div class="form-group" style="margin-bottom: 5px;">
+                            <div>
+                             <textarea class="input-xlarge" style="height: 80px; width:99%" name="JOBCONTENT" id="JOBCONTENT">@Model.JOBCONTENT</textarea>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                  <tr>
+                    <td colspan="4" style="height:80px;">
+                        <div class="form-group" style="margin-bottom: 5px;">
+                            <div style="margin-left:10%;">
+                            <button type="submit" class="btn btn-primary">确定</button>
+                <button type="button" class="btn btn-primary" onclick="DeleteUserTask('@Model.USERID','@Model.TASKDATE')" style="background-color:red;">删除</button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+            </table>
+
+            @*            <div class="control-group">
+                <label class="control-label">所属大队</label>
+                <div class="controls">*@
+            @*          @Html.DropDownListFor(model => model.SSQJID, ViewBag.DAIDList as IEnumerable<SelectListItem>, new { @class = "input-xlarge", style = "width:284px;", disabled = "disabled" })*@
+            @* <label style="margin-top: 4px;">@ViewBag.unitList</label>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">所属中队</label>
+                <div class="controls">*@
+            @*     @Html.DropDownListFor(model => model.SSZDID, ViewBag.unitList as IEnumerable<SelectListItem>, new { @class = "input-xlarge", style = "width:284px;", disabled = "disabled" })*@
+            @* <label style="margin-top: 4px;">@ViewBag.unitName</label>
+                </div>
+            </div>
+            <div class="control-group" id="routeNameDiv">
+                <label for="RouteName" class="control-label">开始时间</label>
+                <div class="controls">
+                    <select id="StartHour" name="STARTHOUR" class="selClassMainID" style="width: 60px;"></select>
+                    <select id="StartMinute" name="STARTMINUTE" class="selClassMainID" style="width: 60px;"></select>
+                </div>*@
+
+            @*            </div>
+            <div class="control-group">
+                <label class="control-label">结束时间</label>
+                <div class="controls">
+                    <select id="EndHour" name="ENDHOUR" class="selClassMainID" style="width: 60px;"></select>
+                    <select id="EndMinute" name="ENDMINUTE" class="selClassMainID" style="width: 60px;"></select>
+                </div>
+                *@
+            @*</div>
+            <div class="control-group">
+                <label class="control-label">巡查区域</label>
+                <div class="controls">
+                    @Html.DropDownListFor(model => model.AREAID, ViewBag.areaList as IEnumerable<SelectListItem>, new { @class = "input-xlarge", style = "width:284px;", onchange = "changeAreaMap()" })
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">区域位置</label>
+                <div class="controls">
+                    <iframe id="iframe1"src="/GetGeometryByAreaID.html?map=@ViewBag.areaMap" marginheight="0" marginwidth="0" width="100%" height="405px;" frameborder="0"></iframe>
+                </div>
+            </div>*@
+            @*<div class="control-group">
+                <label class="control-label">巡查路线</label>
+                <div class="controls">
+                    @Html.DropDownListFor(model => model.ROUTEID, ViewBag.routeList as IEnumerable<SelectListItem>, new { @class = "input-xlarge", style = "width:284px;", onchange = "changeRouteMap()" })
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">路线位置</label>
+                <div class="controls">
+                    <iframe id="iframe2"src="/GetGeometryByRouteID.html?map=@ViewBag.routeMap" marginheight="0" marginwidth="0" width="100%" height="405px;" frameborder="0"></iframe>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">工作内容</label>
+                <div class="controls">
+                    <textarea class="input-xlarge" style="height: 80px;" name="JOBCONTENT" id="JOBCONTENT">@Model.JOBCONTENT</textarea>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">确定</button>
+                <button type="button" class="btn btn-primary" onclick="DeleteUserTask('@Model.USERID','@Model.TASKDATE')"><i class="icon-ok"></i>删除</button>
+            </div>*@
+        </form>
+    </div>
+</div>

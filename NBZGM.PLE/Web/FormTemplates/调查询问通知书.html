@@ -1,0 +1,174 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="../Scripts/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <style type="text/css">
+        .title
+        {
+            font-size: 28px;
+            font-weight: bold;
+            text-align: center;
+            padding-top: 8px;
+        }
+
+        .code
+        {
+            font-size: 12px;
+            text-align: center;
+            padding-top: 4px;
+            padding-bottom: 4px;
+        }
+
+        th, td
+        {
+            font-size: 12px;
+            font-weight: normal;
+            border: 1px solid #999999;
+            padding: 4px;
+            text-align: center;
+        }
+
+        td
+        {
+            text-align: left;
+            padding-right: 12px;
+        }
+
+        input[type=text], select
+        {
+            border: 1px solid #999999;
+            font-size: 12px;
+            width: 100%;
+            height: 20px;
+        }
+
+        select
+        {
+            height: 24px;
+        }
+
+        input[type=file]
+        {
+            height: 24px;
+        }
+
+        #wfxw div
+        {
+            margin-bottom: 4px;
+        }
+
+        #wfxw input
+        {
+            width: 162px;
+        }
+
+        #wfxw select
+        {
+            width: 250px;
+        }
+
+        textarea
+        {
+            border: 1px solid #999999;
+            font-size: 12px;
+            width: 100%;
+            height: 80px;
+        }
+
+        #ws div
+        {
+            margin-bottom: 4px;
+        }
+
+        #sccl div
+        {
+            margin-bottom: 2px;
+        }
+
+        #sccl select
+        {
+            width: auto;
+        }
+        .auto-style3
+        {
+            width: 29px;
+        }
+    </style>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("input[name=DCXWSJ]").datetimepicker();
+        });
+    </script>
+
+</head>
+<body>
+    <div class="form">
+        <div class="title">
+            调查询问通知书
+        </div>
+        <div></div>
+        <table border="0" cellspacing="0" cellpadding="0" style="width: 700px; border-collapse: collapse; margin: 0 auto;">
+            <tr>
+                <th colspan="2">调查询问时间</th>
+                <td colspan="3">
+                    <input name="DCXWSJ" type="text" id="DCXWSJ" /></td>
+                <th colspan="2">调查询问地点</th>
+                <td colspan="4">
+                    <input name="DCXWDD" type="text" id="DCXWDD" /></td>
+            </tr>
+            <tr>
+                <th rowspan="3">当事<br />
+                    人需<br />
+                    提交<br />
+                    的材<br/>
+                    料
+                </th>      
+                <td   colspan="10">
+                   <input type="checkbox" name="DSRSFZM"  id="dsrsfzm"/>
+                   当事人身份证明:<br/>     
+                   &nbsp;&nbsp;1、单位:《营业执照》正本及当年有效的《营业执照》副本复印件、《组织机构代码证》正本及当<br/>&nbsp;&nbsp;年有效的
+                  《组织机构代码证》副本复印件、法定代表人（负责人）的身份证明以及身份证原件与复<br/>&nbsp;&nbsp;印件；<br/>
+                   &nbsp;&nbsp;2、个人:身份证原件及复印件；            
+               </td>              
+            </tr>
+     
+          <tr>
+               <td colspan="10"><input type="checkbox" name="WTTRBLD"  id="wttrbl"/>
+                  委托他人办理的还应提交《授权委托书》，并提交受托人身份证原件及复印件；
+               </td>               
+          </tr> 
+          <tr>
+              <td colspan="10"><input type="checkbox" name="JSDCR"  id="JSDCR"/>
+                  接受调查人应携带其他与本次调查有关的证明材料。
+              </td>
+          </tr>
+            <tr>               
+                <th>地址</th><td colspan="10"><input type="text" name="DZ" id="DZ"/></td>
+            </tr>
+
+            <tr>
+                 <th>联系人</th><td colspan="2"><input type="text" name="LXR" id="LXR"/></td>
+                 <th class="auto-style3">电话</th><td colspan="2"><input type="text" name="DH" id="DH"/></td>
+                <th colspan="2">发出日期</th>
+                <td colspan="4"><input type="text" id="FCRQ" name="FCRQ"/></td>
+            </tr>
+           <tr>
+                <td style="width: 42px; border: none;"></td>
+                <td style="width: 42px; border: none;"></td>
+                <td style="width: 42px; border: none;"></td>
+                <td style="width: 22px; border: none;"></td>
+                <td style="width: 42px; border: none;"></td>
+                <td style="width: 72px; border: none;"></td>
+                <td style="width: 52px; border: none;"></td>
+                <td style="width: 52px; border: none;"></td>
+                <td style="width: 42px; border: none;"></td>
+                <td style="width: 42px; border: none;"></td>
+                <td style="border: none;">&nbsp;</td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
+

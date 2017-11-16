@@ -1,0 +1,163 @@
+﻿@{
+    ViewBag.FunctionName = "发布管理";
+    ViewBag.Title = "ArticleCategory";
+    Layout = "~/Views/CoordinationCentre/ContentManagement/_LayoutContentManagement.cshtml";
+}
+
+@section HeadStyles_Manage{
+    <style type="text/css">
+        .center {
+            text-align: center !important;
+        }
+    </style>
+}
+
+@section FootScripts_Manage{
+    <script type="text/javascript">
+        var oTable = null;
+
+        var url = "/PortalCategoryManagement/GetArticleCategorites";
+
+        $(document).ready(function () {
+            $("#PortalCategoryList").css("display", "block");
+            BindDataTable(url);
+        });
+
+        //文章类别
+        function BindDataTable(url) {
+            if (oTable != null) {
+                oTable.fnSettings().sAjaxSource = url;
+                oTable.fnDraw(true);
+            } else {
+                oTable = $('#ArticleCategoryTable').dataTable({
+                    sAjaxSource: url,
+
+                    aoColumns: [
+                        { "mDataProp": "ParentName" },
+                        { "mDataProp": "Name" },
+                        { "mDataProp": "CreatedTime" },
+                        { "mDataProp": "SeqNo" },
+                        {
+                            "mDataProp": function (data) {
+
+                                var edit = "<a class='btn btn-primary btn-small' href='#' onclick=\"EditArticleCategory('" + data.CategoryID + "')\" <i class='icon-edit padding-null'></i> 编辑 </a>";
+                                var del = "<a class='btn btn-danger btn-small' href='#' onclick=\"DeleteArticleCategory('" + data.Name + "','" + data.CategoryID + "')\"><i class='icon-trash padding-null'></i> 删除 </a>";
+                                return edit + "  " + del;
+                            }, "sClass": "center"
+                        }
+                    ],
+                });
+            }
+        }
+
+        //修改文章类别
+        function EditArticleCategory(categoryID) {
+            $("#aaa").text("").html("<a href='#'>栏目管理</a>").removeClass("active");
+            $("#categoryInfo").addClass("active").text(">编辑文章类别");
+            $.ajax({
+                type: 'POST',
+                url: '/PortalCategoryManagement/EditArticleCategory?Random=' + Math.random(),
+                data: { categoryID: categoryID },
+                dataType: 'html',
+                success: function (data) {
+                    //隐藏栏目列表
+                    $("#span90").hide();
+                    //显示修改
+                    $("#span92").show();
+                    $("#span92").html(data);
+                },
+                error:function(data)
+                {
+                    alert(JSON.stringify(data));
+            }
+            });
+        }
+
+        //判断是否要删除该指定的栏目
+        function DeleteArticleCategory(name, categoryID) {
+
+            $.post("/PortalCategoryManagement/ArticleISExist",
+                { categoryID: categoryID },
+                function (data) {
+                    if (data == "False") {
+                        if (window.confirm("是否确认删除该文章类别：" + name))
+                            DelArticleCategory(categoryID);
+                    }    
+                    else if (data=="True")
+                    {
+                        alert("该文章类别下有文章，请先删除该类别下的所有文章");
+                    }
+                    
+                });
+        }
+
+        //删除文章类别
+        function DelArticleCategory(categoryID) {
+            $.ajax({
+                type: 'GET',
+                url: '/PortalCategoryManagement/DelArticleCategory',
+                data: { categoryID: categoryID },
+                success: function () {
+                    BindDataTable(url);
+                }
+            });
+        }
+
+        //回退
+        function goback() {
+            $("#categoryInfo").text("");
+            $("#aaa").text("").html("<a href='#'>栏目管理</a>").removeClass("active");
+            //显示栏目列表
+            $("#span90").show();
+            //隐藏修改页面
+            $("#span92").hide();
+            BindDataTable(url);
+        }
+
+    </script>
+}
+
+@section BreadcrumbSection{
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+
+            <li><a href="#"><i class="icon-home"></i>协同中心</a></li>
+            <li>></li>
+            <li><a href="#">发布管理</a></li>
+            <li>></li>
+            <li class="active" id="aaa">栏目管理</li>
+            <li id="categoryInfo"></li>
+            
+        </ul>
+    </div>
+}
+<div class="row-fluid">
+    <div class="span12" id="span90">
+        <div class="box box-black" style="margin-top: 0px;">
+            <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+                <i class="icon-reorder" style="margin-right: 5px;"></i>文章类别
+            </div>
+            <div class="box-content">
+                <a href="/PortalCategoryManagement/AddArticleCategory" class="btn btn-primary">添 加</a>
+                <table class="table table-bordered table-striped table-hover fill-head" id="ArticleCategoryTable">
+                    <thead>
+                        <tr>
+                            <th>所属栏目</th>
+                            <th>文章类别</th>
+                            <th>创建时间</th>
+                            <th>排序号</th>
+                            <th style="text-align: center; width: 135px;">操作</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div style="clear: both"></div>
+            </div>
+        </div>
+    </div>
+    <div class="span12" id="span92" style="display:none;margin-left:0px;">
+    </div>
+</div>
+
+
+
+

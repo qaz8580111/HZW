@@ -1,0 +1,622 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>短信息</title>
+    <link href="~/Content/css/OA.css" rel="stylesheet" />
+    <link href="/Scripts/assets/data-tables/demo_table.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/data-tables/DT_bootstrap.css" rel="stylesheet" />
+    @*<link href="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.css" rel="stylesheet" />*@
+    <link href="~/Scripts/assets/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="~/Scripts/jquery-1.7.1.js"></script>
+    <script type="text/javascript" src="~/Scripts/assets/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.js"></script>
+    <script type="text/javascript" src="~/Scripts/assets/timepicker/jquery-ui-timepicker-zh-CN.js"></script>
+
+    <script type="text/javascript" src="~/Scripts/js/jquery.idTabs.min.js"></script>
+
+    <script type="text/javascript" src="~/Scripts/assets/data-tables/jquery.datatables.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/assets/data-tables/DT_bootstrap.js"></script>
+    <script type="text/javascript" src="~/Scripts/assets/data-tables/PLE_DT_bootstrap.js"></script>
+    <script type="text/javascript" src="~/Scripts/js/PageNotBack.js"></script>
+
+    <link href="~/Scripts/assets/zTree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+    <script src="~/Scripts/assets/zTree/js/jquery.ztree.core.js"></script>
+    <script src="~/Scripts/assets/zTree/js/jquery.ztree.excheck.js"></script>
+    <script src="~/Scripts/assets/zTree/js/jquery.ztree.exedit.js"></script>
+
+    <script type="text/javascript" src="~/Scripts/js/select-ui.min.js"></script>
+
+    <link href="~/Scripts/layer/skin/layer.css" rel="stylesheet" />
+    <link href="/Scripts/layer/skin/seaning/style.css" rel="stylesheet" />
+    <script src="~/Scripts/layer/layer.js"></script>
+    <script type="text/javascript">
+        layer.config({
+            skin: 'layer-ext-seaning',
+            offset: ['100px', '33%'],
+            title: '提示',
+            moveOut: true,
+            closeBtn: false,
+            extend: '~/Scripts/layer/skin/seaning/style.css'
+        });
+
+    </script>
+
+    <style type="text/css">
+        .forminfo li label {
+            margin-top: 5px;
+        }
+    </style>
+    <script type="text/javascript">
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null)
+                return unescape(r[2]);
+            return null;
+        }
+        //后台回调js函数
+        function AddCallBack(flag, username) {
+            if (flag == "smssend") {
+                layer.alert("操作成功!", {
+                    icon: 1,
+                    skin: 'layer-ext-seaning'
+                }, function (index) {
+                    layer.close(index);
+                    location.href = "/SMSMessage/Index?PageNum=1";
+                });
+            } else if (flag == "smsaudit") {
+                layer.alert("短信发送请求已提交待党工委秘书确认!", {
+                    icon: 1,
+                    skin: 'layer-ext-seaning'
+                }, function (index) {
+                    layer.close(index);
+                    location.href = "/SMSMessage/Index?PageNum=2";
+                });
+            }
+        }
+
+        function getCookie(name) {
+            var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+            if (arr = document.cookie.match(reg))
+                return unescape(arr[2]);
+            else
+                return null;
+        }
+
+        $(document).ready(function () {
+            var pagenum = getQueryString("PageNum");
+            if (pagenum != null && pagenum != "" && pagenum != undefined) {
+                $(".itab a:eq(" + pagenum + ")").click();
+            }
+
+            var RoleName = getCookie("RoleName");
+            if (RoleName.indexOf("秘书") == -1) {
+                document.getElementById("YSHLI").style.display = "none"
+            }
+            if (RoleName.indexOf("秘书") == -1) {
+                document.getElementById("DSHLB").style.display = "none"
+            }
+            document.getElementById('grcheckbox').checked = true;
+            document.getElementById('kscheckbox').checked = true;
+            $("#StartTime").datepicker({ closeText: '清除' });
+            $("#EndTime").datepicker({ closeText: '清除' });
+            $("#DSHStartTime").datepicker({ closeText: '清除' });
+            $("#DSHEndTime").datepicker({ closeText: '清除' });
+            $("#YSHStartTime").datepicker({ closeText: '清除' });
+            $("#YSHEndTime").datepicker({ closeText: '清除' });
+            GetDataTable();
+            DSHGetDataTable();
+            YSHGetDataTable();
+
+            var setting = {
+                check: {
+                    enable: true
+                },
+                view: {
+                    dblClickExpand: false
+                },
+                data: {
+                    simpleData: {
+                        enable: true
+                    }
+                },
+                callback: {//该事件在节点被单击后触发
+                    onCheck: function (e, treeId, zNodes2) {
+                        var zTree = $.fn.zTree.getZTreeObj("chkboxTree");
+                        nodes = zTree.getCheckedNodes(true);
+                        //定义用户组变量
+                        var childrenobj = "";
+                        var phone = "";
+                        for (var i = 0, l = nodes.length; i < l; i++) {
+                            if (nodes[i].type != "组织") {
+                                childrenobj += nodes[i].value + ",";
+                                phone += nodes[i].smsNumber + ",";
+                            }
+                        }
+                        if (childrenobj.length > 0)
+                            childrenobj = childrenobj.substring(0, childrenobj.length - 1);
+                        $("#SelectUserIds").val(childrenobj);
+                        $("#phones").val(phone);
+
+                        //定义用户号码变量
+                        var userNames = "";
+                        for (var i = 0, l = nodes.length; i < l; i++) {
+                            if (nodes[i].type != "组织") {
+                                userNames += nodes[i].name + ",";
+                            }
+                        }
+
+                        if (userNames.length > 0)
+                            userNames = userNames.substring(0, userNames.length - 1);
+
+                        $("#SelectUserNames").val(userNames);
+                    },
+                    beforeClick: function (treeId, zNodes2) {
+                        var zTree = $.fn.zTree.getZTreeObj("chkboxTree");
+                        zTree.checkNode(zNodes2, !zNodes2.checked, null, true);
+                        return false;
+                    }
+                },
+            };
+
+            //加载用户结构树
+            $.ajax({
+                type: 'GET',
+                dataType: 'json',
+                url: '/Contacts/GetCameraTrees?random=' + Math.random(),
+                success: function (data) {
+                    if (data != null && data != "") {
+                        var zNodes = data;
+                        $.fn.zTree.init($("#chkboxTree"), setting, zNodes);
+                        var treeObj = $.fn.zTree.getZTreeObj("tree");
+                    }
+                }
+            });
+
+        });
+
+        function showMenu() {
+            var cityObj = $("#SelectUserNames");
+            var cityOffset = $("#SelectUserNames").offset();
+            var divWidth = $("#SelectUserNames").width();
+
+            $("#menuContent").css({ left: cityOffset.left + "px", top: cityOffset.top + cityObj.outerHeight() + "px", width: divWidth * 1.03 }).slideDown("fast");
+            $("body").bind("mousedown", onBodyDown);
+        }
+        function onBodyDown(event) {
+            if (!(event.target.id == "menuBtn" || event.target.id == "SelectUserNames" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length > 0)) {
+                hideMenu();
+            }
+        }
+        function hideMenu() {
+            $("#menuContent").fadeOut("fast");
+
+            $("body").unbind("mousedown", onBodyDown);
+        }
+
+        var oTable;
+        function GetDataTable() {
+            if (oTable != null) {
+                oTable.fnSettings().sAjaxSource = "/SMSMessage/AllEventsTableList";
+                oTable.fnDraw(true);
+            } else {
+                oTable = $('#AllEventsTable').dataTable({
+                    sAjaxSource: "/SMSMessage/AllEventsTableList",
+                    fnServerParams: function (aoData) {
+                        aoData.push(
+                              { "name": "RECEIVEUSERSNAME", "value": $("#RECEIVEUSERSNAME").val() },
+                              { "name": "StartTime", "value": $("#StartTime").val() },
+                              { "name": "EndTime", "value": $("#EndTime").val() }
+
+                           );
+                    },
+                    aoColumns: [
+                       { mDataProp: "UserName" },
+                       //{ mDataProp: "RECEIVEUSERSNAME" },
+                       {
+                           mDataProp: function (data) {
+                               var value = "<span title='" + data.RECEIVEUSERSNAME + "'> " + data.RECEIVEUSERSNAME + "</span>";
+                               return value
+                           }
+                       },
+                         {
+                             mDataProp: function (data) {
+                                 var value = "<span title='" + data.CONTENT + "'> " + data.CONTENT + "</span>";
+                                 return value
+                             }
+                         },
+                        {
+                            mDataProp: function (data) {
+                                var value = "";
+                                if (data.SOURCE == null) {
+                                    value = "<span title='短信'> 短信</span>";
+                                } else {
+                                    value = "<span title='" + data.SOURCE + "'> " + data.SOURCE + "</span>";
+                                }
+                               
+                                return value
+                            }
+                        },
+                          { mDataProp: "SENDTIME" },
+
+                        {
+                            mDataProp: function (data) {
+                                //var send = '<a class="btn_ico_a_delete" href="/SMSMessage/SendSMS?SMSID=' + data.SMSID + '"><img src="/Images/btnimage/sh.png" class="btn_ico_image" />审核</a>';
+                                var look = '<a class="btn_ico_a_look" href="/SMSMessage/Detail?SMSID=' + data.SMSID + '&Isdefault=1"><img src="/Images/btnimage/look.png" class="btn_ico_image" />查看</a>';
+                                //if (data.ISAUDIT == 1) {
+                                return look;
+                                //} else {
+                                //    return send + " " + look;
+                                //}
+
+                            }, "sClass": "center"
+                        }
+
+                    ],
+                    aoColumnDefs: [{ sDefaultContent: '', aTargets: ['_all'] }],
+                    fnDrawCallback: function (oSettings) {
+                        var pagerIndex = oSettings._iDisplayStart / oSettings._iDisplayLength + 1;
+                        var $currentPager = $(".dataTables_paginate span a:contains('" + pagerIndex + "')");
+                        $currentPager.attr("style", "font-weight :bold;!important");
+                    }
+                });
+            }
+        }
+
+        var DSHoTable;
+        function DSHGetDataTable() {
+            if (DSHoTable != null) {
+                DSHoTable.fnSettings().sAjaxSource = "/SMSMessage/DSHAllEventsTableList";
+                DSHoTable.fnDraw(true);
+            } else {
+                DSHoTable = $('#DSHAllEventsTable').dataTable({
+                    sAjaxSource: "/SMSMessage/DSHAllEventsTableList",
+                    fnServerParams: function (aoData) {
+                        aoData.push(
+                              { "name": "DSHRECEIVEUSERSNAME", "value": $("#DSHRECEIVEUSERSNAME").val() },
+                              { "name": "DSHStartTime", "value": $("#DSHStartTime").val() },
+                              { "name": "DSHEndTime", "value": $("#DSHEndTime").val() }
+
+                           );
+                    },
+                    aoColumns: [
+                       { mDataProp: "UserName" },
+                       //{ mDataProp: "RECEIVEUSERSNAME" },
+                       {
+                           mDataProp: function (data) {
+                               var value = "<span title='" + data.RECEIVEUSERSNAME + "'> " + data.RECEIVEUSERSNAME + "</span>";
+                               return value
+                           }
+                       },
+                         {
+                             mDataProp: function (data) {
+                                 var value = "<span title='" + data.CONTENT + "'> " + data.CONTENT + "</span>";
+                                 return value
+                             }
+                         },
+                         {
+                             mDataProp: function (data) {
+                                 //alert(data.SOURCE);
+                                 if (data.SOURCE=="") {
+                                     data.SOURCE=="短信"
+                                 }
+                                 var value = "<span title='" + data.SOURCE + "'> " + data.SOURCE + "</span>";
+                                 return value
+                             } },
+                          { mDataProp: "SENDTIME" },
+
+                        {
+                            mDataProp: function (data) {
+                                var send = '<a class="btn_ico_a_delete" href="/SMSMessage/SendSMS?SMSID=' + data.SMSID + '"><img src="/Images/btnimage/sh.png" class="btn_ico_image" />审核</a>';
+                                var look = '<a class="btn_ico_a_look" href="/SMSMessage/Detail?SMSID=' + data.SMSID + '&Isdefault=2"><img src="/Images/btnimage/look.png" class="btn_ico_image" />查看</a>';
+                                if (getCookie("RoleName").indexOf("秘书") == -1)
+                                    return look;
+                                else
+                                    return send + " " + look;
+
+                            }, "sClass": "center"
+                        }
+
+                    ],
+                    aoColumnDefs: [{ sDefaultContent: '', aTargets: ['_all'] }],
+                    fnDrawCallback: function (oSettings) {
+                        var pagerIndex = oSettings._iDisplayStart / oSettings._iDisplayLength + 1;
+                        var $currentPager = $(".dataTables_paginate span a:contains('" + pagerIndex + "')");
+                        $currentPager.attr("style", "font-weight :bold;!important");
+                    }
+                });
+            }
+        }
+
+        var YSHoTable;
+        function YSHGetDataTable() {
+            if (YSHoTable != null) {
+                YSHoTable.fnSettings().sAjaxSource = "/SMSMessage/YSHAllEventsTableList";
+                YSHoTable.fnDraw(true);
+            } else {
+                YSHoTable = $('#YSHAllEventsTable').dataTable({
+                    sAjaxSource: "/SMSMessage/YSHAllEventsTableList",
+                    fnServerParams: function (aoData) {
+                        aoData.push(
+                              { "name": "YSHRECEIVEUSERSNAME", "value": $("#YSHRECEIVEUSERSNAME").val() },
+                              { "name": "YSHStartTime", "value": $("#YSHStartTime").val() },
+                              { "name": "YSHEndTime", "value": $("#YSHEndTime").val() }
+
+                           );
+                    },
+                    aoColumns: [
+                       { mDataProp: "UserName" },
+                       //{ mDataProp: "RECEIVEUSERSNAME" },
+                       {
+                           mDataProp: function (data) {
+                               var value = "<span title='" + data.RECEIVEUSERSNAME + "'> " + data.RECEIVEUSERSNAME + "</span>";
+                               return value
+                           }
+                       },
+                         {
+                             mDataProp: function (data) {
+                                 var value = "<span title='" + data.CONTENT + "'> " + data.CONTENT + "</span>";
+                                 return value
+                             }
+                         },
+                          { mDataProp: "SENDTIME" },
+
+                        {
+                            mDataProp: function (data) {
+                                var look = '<a class="btn_ico_a_look" href="/SMSMessage/Detail?SMSID=' + data.SMSID + '&Isdefault=3"><img src="/Images/btnimage/look.png" class="btn_ico_image" />查看</a>';
+                                return look;
+
+                            }, "sClass": "center"
+                        }
+
+                    ],
+                    aoColumnDefs: [{ sDefaultContent: '', aTargets: ['_all'] }],
+                    fnDrawCallback: function (oSettings) {
+                        var pagerIndex = oSettings._iDisplayStart / oSettings._iDisplayLength + 1;
+                        var $currentPager = $(".dataTables_paginate span a:contains('" + pagerIndex + "')");
+                        $currentPager.attr("style", "font-weight :bold;!important");
+                    }
+                });
+            }
+        }
+
+        //查询
+        function Search() {
+            var StartTime = $("#StartTime").val();
+            var EndTime = $("#EndTime").val();
+            if (StartTime > EndTime) {
+                layer.alert('开始时间不能大于结束时间！', {
+                    icon: 0,
+                    skin: 'layer-ext-seaning'
+                });
+                return;
+            }
+            oTable.fnPageChange('first', true);
+            oTable.fnClearTable(false);
+        }
+        function validate_form(thisform) {
+            with (thisform) {
+                if (validate_required(SelectUserIds, "接收人员不能为空!") == false)
+                { SelectUserIds.focus(); return false }
+                if (validate_required(SMS_CONTENT, "消息内容不能为空!") == false)
+                { SMS_CONTENT.focus(); return false }
+                else { return true }
+            }
+        }
+        function validate_required(field, alerttxt) {
+            with (field) {
+                if (value == null || value == "") {
+                    layer.alert(alerttxt, {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    });
+                    return false
+                }
+                else { return true }
+            }
+        }
+        function grcheck() {
+            var grcheckbox = document.getElementById('grcheckbox');
+            var kscheckbox = document.getElementById('kscheckbox');
+            if (grcheckbox.checked || kscheckbox.checked) {
+                document.getElementById('bsccheckbox').checked = false;
+                document.getElementById('dgwcheckbox').checked = false;
+            }
+
+        }
+        function ldcheck() {
+            var bsccheckbox = document.getElementById('bsccheckbox');
+            var dgwheckbox = document.getElementById('dgwcheckbox');
+            if (bsccheckbox.checked || dgwheckbox.checked) {
+                document.getElementById('grcheckbox').checked = false;
+                document.getElementById('kscheckbox').checked = false;
+            }
+
+        }
+
+
+    </script>
+</head>
+<body>
+    <div class="place" style="background-image: url(/Images/images/righttop.gif)">
+        <span>位置：</span>
+        <ul class="placeul">
+            <li>短信息</li>
+        </ul>
+    </div>
+    <div class="formbody">
+        <div id="usual1" class="usual">
+            <div class="itab">
+                <ul>
+                    <li><a href="#tab2" class="selected">发送短信</a></li>
+                    <li><a href="#tab1">短信列表</a></li>
+                    <li id ="DSHLB"><a href="#tab3">待审核列表</a></li>
+                    <li id="YSHLI"><a href="#tab4">已审核列表</a></li>
+                </ul>
+            </div>
+
+
+            <div id="tab1" class="tabson">
+                <div class="tools">
+                    <ul class="seachform">
+                        <li>
+                            <label style="width: 65px;">接收人：</label>
+                            <input name="RECEIVEUSERSNAME" id="RECEIVEUSERSNAME" type="text" class="dtablefinputs" style="width: 130px; height: 32px;" />
+                        </li>
+                        <li>
+                            <label style="width: 75px;">发送时间：</label>
+                            <input id="StartTime" readonly="readonly" type="text" class="dtablefinputs" data-date-format="yyyy-mm-dd"value="@string.Format("{0:yyyy-MM-dd}", new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1))" style="width: 130px; height: 32px;" />
+                            <label style="width: 10px;">至</label><input id="EndTime" type="text" readonly="readonly" class="dfinputs" data-date-format="yyyy-mm-dd" value="@string.Format("{0:yyyy-MM-dd}", new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(1).AddDays(-1))" style="width: 130px; height: 32px;" />
+                        </li>
+                        <li>
+                            <input name="" type="button" class="sure" onclick="Search()" value="查询" />
+                        </li>
+                    </ul>
+                    <div style="clear: both; margin-top: 10px;" class="tableListDiv">
+                        <table class="tablelist" id="AllEventsTable" style="text-align: center">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10%;">发送人</th>
+                                    <th style="width: 20%">接收人</th>
+                                    <th>内容</th>
+                                     <th style="width: 10%;">来源</th>
+                                    <th style="width: 15%;">发送时间</th>
+
+                                    <th style="width: 12%">操作</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="tab2" class="tabson">
+                <form method="post" enctype="multipart/form-data" action="/Contacts/SendMessage" onsubmit="return validate_form(this)" target="hidden_frame" id="EventReport">
+                    <ul class="forminfo">
+                        <li>
+                            <label>请选择人员<b>*</b></label>
+                            <div class="col-sm-9 col-lg-10 controls" style="margin-left: 100px;">
+                                <textarea name="SelectUserNames" id="SelectUserNames" style="height: 64px; width: 700px;" rows="10" cols="10" type="text" class="dfinputs" placeholder="请选择人员" onclick="showMenu();" onfocus="this.blur();"></textarea>
+                                @*<input name="selectusernames" id="selectusernames" type="text" class="dfinputs" placeholder="请选择人员" onclick="showmenu();" onfocus="this.blur();" />*@
+                                <br />
+                                <span class="error_FromUserName"></span>
+                            </div>
+                            <input type="hidden" id="SelectUserIds" name="SelectUserIds" value="" />
+                            <input type="hidden" id="phones" name="phones" value="" />
+                        </li>
+                        <li>
+                            <label>手工输入号码</label><input name="manualphones" id="manualphones" type="text" style="width:700px;" class="dfinputs" value="" placeholder="每个手机号码之间用“,”逗号隔开" />
+                        </li>
+                        <li>
+                            <label>消息内容<b>*</b></label>
+                            <textarea id="SMS_CONTENT" name="SMS_CONTENT" class="dfinputs" style="width: 700px; height: 130px;" placeholder="请输入短信内容"></textarea>
+                        </li>
+                        <li>
+                            <label>发送人身份</label>
+                            <label style="width: 50px">
+                                <input id="grcheckbox" name="grcheckbox" type="checkbox" class="dcheckbox" style="margin-top: 10px;" value="gr" onclick="grcheck()" /><span>个人</span></label>
+                            <label style="width: 80px">
+                                <input id="kscheckbox" name="kscheckbox" type="checkbox" class="dcheckbox" style="margin-top: 10px;" value="ks" onclick="grcheck()" /><span>部门科室</span></label>
+                            <label style="width: 95px">
+                                <input id="bsccheckbox" name="bsccheckbox" type="checkbox" class="dcheckbox" style="margin-top: 10px;" value="bsc" onclick="ldcheck()" /><span>街道办事处</span></label>
+                            <label style="width: 95px">
+                                <input id="dgwcheckbox" name="dgwcheckbox" type="checkbox" class="dcheckbox" style="margin-top: 10px;" value="dgw" onclick="ldcheck()" /><span>街道党工委</span></label>
+                        </li>
+                        <li>
+                            <label>&nbsp;</label>
+                            <input name="" type="submit" class="sure" value="发  送" />
+                        </li>
+
+                    </ul>
+                </form>
+
+            </div>
+
+            <div id="tab3" class="tabson">
+                <div class="tools">
+                    <ul class="seachform">
+                        <li>
+                            <label style="width: 65px;">接收人：</label>
+                            <input name="DSHRECEIVEUSERSNAME" id="DSHRECEIVEUSERSNAME" type="text" class="dtablefinputs" style="width: 130px; height: 32px;" />
+                        </li>
+                        <li>
+                            <label style="width: 75px;">发送时间：</label>
+                            <input id="DSHStartTime" readonly="readonly" type="text" class="dtablefinputs" data-date-format="yyyy-mm-dd"value="@string.Format("{0:yyyy-MM-dd}", new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1))" style="width: 130px; height: 32px;" />
+                            <label style="width: 10px;">至</label><input id="DSHEndTime" type="text" readonly="readonly" class="dfinputs" data-date-format="yyyy-mm-dd" value="@string.Format("{0:yyyy-MM-dd}", new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(1).AddDays(-1))" style="width: 130px; height: 32px;" />
+                        </li>
+                        <li>
+                            <input name="" type="button" class="sure" onclick="DSHSearch()" value="查询" />
+                        </li>
+                    </ul>
+                    <div style="clear: both; margin-top: 10px;" class="tableListDiv">
+                        <table class="tablelist" id="DSHAllEventsTable" style="text-align: center">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10%;">发送人</th>
+                                    <th style="width: 20%">接收人</th>
+                                    <th>内容</th>
+                                     <th style="width: 10%;">来源</th>
+                                    <th style="width: 15%;">发送时间</th>
+
+                                    <th style="width: 12%">操作</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+            <div id="tab4" class="tabson">
+                <div class="tools">
+                    <ul class="seachform">
+                        <li>
+                            <label style="width: 65px;">接收人：</label>
+                            <input name="YSHRECEIVEUSERSNAME" id="YSHRECEIVEUSERSNAME" type="text" class="dtablefinputs" style="width: 130px; height: 32px;" />
+                        </li>
+                        <li>
+                            <label style="width: 75px;">发送时间：</label>
+                            <input id="YSHStartTime" readonly="readonly" type="text" class="dtablefinputs" data-date-format="yyyy-mm-dd"value="@string.Format("{0:yyyy-MM-dd}", new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1))" style="width: 130px; height: 32px;" />
+                            <label style="width: 10px;">至</label><input id="YSHEndTime" type="text" readonly="readonly" class="dfinputs" data-date-format="yyyy-mm-dd" value="@string.Format("{0:yyyy-MM-dd}", new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(1).AddDays(-1))" style="width: 130px; height: 32px;" />
+                        </li>
+                        <li>
+                            <input name="" type="button" class="sure" onclick="YSHSearch()" value="查询" />
+                        </li>
+                    </ul>
+                    <div style="clear: both; margin-top: 10px;" class="tableListDiv">
+                        <table class="tablelist" id="YSHAllEventsTable" style="text-align: center">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10%;">发送人</th>
+                                    <th style="width: 20%">接收人</th>
+                                    <th>内容</th>
+                                    <th style="width: 15%;">发送时间</th>
+
+                                    <th style="width: 12%">操作</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="menuContent" class="menuContent" style="display: none; position: absolute; z-index: 99999999;">
+        <ul id="chkboxTree" class="ztree" style="margin-top: 0; width: 273px; height: 350px; border: 1px solid #cdcdcd; background-color: rgb(255, 255, 255); color: #393939; overflow-y: scroll;"></ul>
+    </div>
+    <script type="text/javascript">
+        $("#usual1 ul").idTabs();
+    </script>
+    <script type="text/javascript">
+        $('.tablelist tbody tr:odd').addClass('odd');
+    </script>
+    <iframe name='hidden_frame' id="hidden_frame" style="display: none"></iframe>
+</body>
+</html>

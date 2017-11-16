@@ -1,0 +1,248 @@
+﻿@model Taizhou.PLE.Model.CaseDocModels.CYQZTZS
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("input[name=TZSJ]").datepicker();
+
+        //隐藏物品列表第一行的删除按钮
+        $("tbody a[class=delete]").first().hide();
+    });
+
+    //表单验证
+    function ValidateDocForm() {
+        //将物品列表添加到CYQZBDQDJson hidden隐藏控件
+        var CYQZBDQD = "[";
+        $("#CYQZTZStable_id tr").each(function (i) {
+            if (i > 0) {
+                var Name = $(this).find("td textarea[name=Name]").val();
+
+                if (Name == null || Name == "") {
+                    Name = "";
+                }
+
+                var Count = $(this).find("td textarea[name=Count]").val();
+
+                if (Count == "" || Count == null) {
+                    Count = "";
+                }
+
+                var PJ = $(this).find("td textarea[name=PJ]").val();
+
+                if (PJ == "" || PJ == null) {
+                    PJ = "";
+                }
+
+                var GG = $(this).find("td textarea[name=GG]").val();
+
+                if (GG == "" || GG == null) {
+                    GG = "";
+                }
+
+                var XH = $(this).find("td textarea[name=XH]").val();
+
+                if (XH == "" || XH == null) {
+                    XH = "";
+                }
+
+                var XT = $(this).find("td textarea[name=XT]").val();
+
+                if (XT == "" || XT == null) {
+                    XT = "";
+                }
+
+                var BZ = $(this).find("td textarea[name=BZ]").val();
+
+                if (BZ == "" || BZ == null) {
+                    BZ = "";
+                }
+
+                CYQZBDQD += '{\"Name\":\"' + Name + '\",\"Count\":\"' + Count + '\",\"PJ\":\"' + PJ + '\",\"GG\":\"' + GG + '\",\"XH\":\"' + XH + '\",\"XT\":\"' + XT + '\",\"BZ\":\"' + BZ + '\"},';
+            }
+        });
+        CYQZBDQD = CYQZBDQD.substring(0, CYQZBDQD.length - 1) + "]";
+        $("#CYQZBDQDJson").val(CYQZBDQD);
+
+        var flag = true;
+        $(".formErrorMsg").hide();
+        $(".formErrorMsg").text("");
+
+        //验证文书编号
+        var wsbh = $("#CYQZBH").val();
+        if ($.trim(wsbh) == "") {
+            flag = false;
+            $("#error_BH").show();
+            $("#error_BH").text("请输入文书编号.");
+        }
+            //验证文书编号是否唯一
+        else {
+            var ddid = $("#DOCDDID").val();
+            var docId = $("#thisDIID").val();
+            $.ajax({
+                type: "post",
+                url: "/Document/ValidateEditWSBH",
+                data: "DDID=" + ddid + "&WSBH=" + wsbh + "&DocId=" + docId + "",
+                async: false,
+                cache: false,
+                success: function (data) {
+                    if (data != "True") {
+                        flag = false;
+                        $("#error_BH").show();
+                        $("#error_BH").text("该文书编号已存在.");
+                    }
+                }
+            });
+        }
+
+        return flag;
+    };
+
+    //添加一行物品列表
+    function add() {
+        var oTable = document.all["EditCYQZTZStable_id"];
+        var newTr = oTable.insertRow();
+        //添加7列        
+        var newTd0 = newTr.insertCell();
+        var newTd1 = newTr.insertCell();
+        var newTd2 = newTr.insertCell();
+        var newTd3 = newTr.insertCell();
+        var newTd4 = newTr.insertCell();
+        var newTd5 = newTr.insertCell();
+        var newTd6 = newTr.insertCell();
+        var newTd7 = newTr.insertCell();
+        newTd0.innerHTML = '<textarea name="Name" style="height:40px;"></textarea>';
+        newTd1.innerHTML = '<textarea name="Count" style="height:40px;"></textarea>';
+        newTd2.innerHTML = '<textarea name="PJ" style="height:40px;"></textarea>';
+        newTd3.innerHTML = '<textarea name="GG" style="height:40px;"></textarea>';
+        newTd4.innerHTML = '<textarea name="XH" style="height:40px;"></textarea>';
+        newTd5.innerHTML = '<textarea name="XT" style="height:40px;"></textarea>';
+        newTd6.innerHTML = '<textarea name="BZ" style="height:40px;"></textarea>';
+        newTd7.innerHTML = '<a href="javascript:void(0)" onclick="add();">添加</a>&nbsp;&nbsp<a href="javascript:void(0)"  onclick="deleteCurrentRow(this);">删除</a>';
+    };
+
+    //删除一行物品列表
+    function deleteCurrentRow(obj) {
+        var tr = obj.parentNode.parentNode;
+        var tbody = tr.parentNode;
+        tbody.removeChild(tr);
+    };
+
+</script>
+<form class="docForm" method="post" action="/DocCYQZTZS/CommitEditDocumentCYQZTZS" style="margin-bottom: 30px;" enctype="multipart/form-data">
+    @Html.Hidden("DOCDDID", Taizhou.PLE.Common.DocDefinition.CYQZTZS)
+    <div class="title">
+        抽样取证通知书
+    </div>
+    <div>
+    </div>
+    <table class="workflow" border="0" cellspacing="0" cellpadding="0" style="width: 700px; border-collapse: collapse; margin: 0 auto; margin-top: 20px;">
+        <tr>
+            <th colspan="1">文号</th>
+            <td colspan="10">
+                @Html.TextBoxFor(model => model.CYQZBH)
+                <label class="formErrorMsg" id="error_BH"></label>
+            </td>
+        </tr>
+        <tr>
+            <th colspan="1">当事人</th>
+            <td colspan="5">
+                @Html.TextBoxFor(model => model.DSR)</td>
+            <th colspan="1">通知时间</th>
+            <td colspan="4">
+            @Html.TextBoxFor(model => model.TZSJ)
+        </tr>
+        <tr>
+            <th colspan="1">违法行为</th>
+            <td colspan="10">
+                @Html.TextAreaFor(model => model.WFXW)</td>
+        </tr>
+        <tr>
+            <th colspan="1">违反的<br />
+                规定</th>
+            <td colspan="10">
+                @Html.TextAreaFor(model => model.WFDGD)</td>
+        </tr>
+        <tr>
+            <th colspan="1">抽样物<br />
+                品地址</th>
+            <td colspan="10">
+                @Html.TextBoxFor(model => model.CYWPDZ)</td>
+        </tr>
+        <tr>
+            <th colspan="1">抽样取证<br />
+                物品清单</th>
+            <td colspan="10">
+                <table id="CYQZTZStable_id">
+                    <thead>
+                        <tr>
+                            <th>名称</th>
+                            <th>数量</th>
+                            <th>品级</th>
+                            <th>规格</th>
+                            <th>型号</th>
+                            <th>形态</th>
+                            <th>备注</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.CYQZWPQDList)
+                        {
+                            <tr>
+                                <td>
+                                    <textarea name="Name" style="height: 40px;">@item.Name</textarea>
+                                </td>
+                                <td>
+                                    <textarea name="Count" style="height: 40px;">@item.Count</textarea>
+                                </td>
+                                <td>
+                                    <textarea name="PJ" style="height: 40px;">@item.PJ</textarea>
+                                </td>
+                                <td>
+                                    <textarea name="GG" style="height: 40px;">@item.GG</textarea>
+                                </td>
+                                <td>
+                                    <textarea name="XH" style="height: 40px;">@item.XH</textarea>
+                                </td>
+                                <td>
+                                    <textarea name="XT" style="height: 40px;">@item.XT</textarea>
+                                </td>
+                                <td>
+                                    <textarea name="BZ" style="height: 40px;">@item.BZ</textarea>
+                                </td>
+                                <td style="width: 60px;"><a href="javascript:void(0)" onclick="add();">添加</a>&nbsp;&nbsp<a href="javascript:void(0)" onclick="deleteCurrentRow(this);" class="delete">删除</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <tr class="notHideTD">
+            <td style="width: 52px; border: none;"></td>
+            <td colspan="9" style="border: none; padding-top: 10px;">
+                <input id="btnDocFormSubmit" type="button" class="btn btn-success" value="保   存" />
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="border: none;">&nbsp;</td>
+        </tr>
+    </table>
+    @Html.Hidden("WIID")
+    @Html.Hidden("DDID")
+    @Html.Hidden("AIID")
+    @Html.Hidden("ADID")
+    @Html.Hidden("WICode")
+    <input type="hidden" name="DIID" id="thisDIID" value="@ViewBag.DIID" />
+    @Html.Hidden("CYQZBDQDJson")
+</form>
+
+
+

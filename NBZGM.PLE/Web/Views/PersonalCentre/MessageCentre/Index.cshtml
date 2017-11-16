@@ -1,0 +1,1440 @@
+﻿@section HeadStyles{
+    <link href="~/Scripts/assets/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/data-tables/demo_table.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/data-tables/DT_bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/XXZX.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/zTree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+}
+@section FootScripts{
+    <link href="~/Scripts/assets/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <script src="~/Scripts/assets/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/Scripts/assets/jquery-ui/jquery-ui-timepicker-zh-CN.js"></script>
+    <link href="~/Scripts/assets/bootstrap-switch/static/stylesheets/bootstrap-switch.css"
+        rel="stylesheet" />
+    <script src="~/Scripts/assets/bootstrap-switch/static/js/bootstrap-switch.js"></script>
+    <script src="~/Scripts/assets/zTree/js/jquery.ztree.core-3.5.min.js"></script>
+    <script src="~/Scripts/assets/zTree/js/jquery.ztree.excheck-3.5.min.js"></script>
+    <script src="~/Scripts/assets/data-tables/jquery.dataTables.js"></script>
+    <script src="~/Scripts/assets/data-tables/jquery.datatables.min.js"></script>
+    <script src="~/Scripts/assets/data-tables/DT_bootstrap.js"></script>
+    <script src="~/Scripts/assets/data-tables/PLE_DT_bootstrap.js"></script>
+    <script src="~/Scripts/js/GRGZT.js"></script>
+    <script type="text/javascript">
+        
+        var oTableInbox = null;
+        var Transmitted = null;
+        //树
+        var chkboxSetting = {
+            check: {
+                //是否显示checkbox/radio
+                enable: true
+            },
+            view: {
+                //双击节点时，是否自动展开父节点的标识 默认true
+                dblClickExpand: false
+            },
+            data: {
+                //是否采用简单数据模式
+                simpleData: {
+                    enable: true
+                }
+            },
+            callback: {
+                beforeClick: beforeClick,
+                onCheck: onCheck
+            }
+        };
+
+        //树（添加个人通讯录树）
+        var oTable = null;
+        var AddPerAddressBookSetting = {
+            check: {
+                enable: false
+            },
+            callback: {
+
+                onClick: function (even, treeId, treeNode) {
+                    //判断点击节点是否是组
+                    if (treeNode.type == "root") {
+                        var ContactGroupId = treeNode.value;
+                        $("#CONTACTGROUPID")[0].value = ContactGroupId;
+                        var url = "/MessageCentre/GetContacts?ContactGroupId="
+                        BindDataTable(url + treeNode.value + "&random=" + Math.random());
+
+                        //点击组节点时显示修改组按钮
+                        $("#editGroup").show();
+                        $("#EDITCONTACTGROUPID").val(ContactGroupId);
+                    }
+                    else {
+                        $("#editGroup").hide();
+                    }
+                }
+            }
+
+        };
+
+        //个人通讯录联系人列表数据显示
+        function BindDataTable(url) {
+            if (oTable != null) {
+                oTable.fnSettings().sAjaxSource = url;
+                oTable.fnDraw(true);
+            } else {
+                oTable = $('#AddressBookTable').dataTable({
+                    sAjaxSource: url,
+
+                    aoColumns: [
+                        { "mDataProp": "ContactName" },
+                        { "mDataProp": "PhoneNumber" },
+                        { "mDataProp": "Address" },
+                        { "mDataProp": "Remark" },
+                        {
+                            "mDataProp": function (data) {
+
+                                var edit = "<a class='btn btn-primary btn-small' href='#modal-5' onclick=\"loadEditContact('" + data.ContactId + "','" + data.ContactName + "','" + data.PhoneNumber + "','" + data.Address + "','" + data.Remark + "')\" role='button' data-toggle='modal'><i class='icon-edit padding-null'></i> 编辑 </a>";
+                                var del = "<a class='btn btn-danger btn-small' href='#' onclick=\"deleteContact(" + data.ContactId + ",'" + data.ContactName + "')\"><i class='icon-trash padding-null'></i> 删除 </a>";
+
+                                return edit + "  " + del;
+                            }, "sClass": "center"
+                        }
+                    ],
+                });
+            }
+        }
+
+        function beforeClick(treeId, zNodes2) {
+            var zTree = $.fn.zTree.getZTreeObj("chkboxTree");
+            zTree.checkNode(zNodes2, !zNodes2.checked, null, true);
+            return false;
+        }
+
+        function onCheck(e, treeId, zNodes2) {
+            var zTree = $.fn.zTree.getZTreeObj("chkboxTree");
+            if (zTree != null) {
+                nodes = zTree.getCheckedNodes(true);
+            } else {
+                nodes = 0;
+            }
+
+            var zTree2 = $.fn.zTree.getZTreeObj("chkboxTree2");
+            if (zTree2 != null) {
+                nodes2 = zTree2.getCheckedNodes(true);
+            } else {
+                nodes2 = 0;
+            }
+
+            var zTree3 = $.fn.zTree.getZTreeObj("chkboxTree3");
+            if (zTree3 != null) {
+                nodes3 = zTree3.getCheckedNodes(true);
+            } else {
+                nodes3 = 0;
+            }
+
+            //定义用户名变量
+            var childrenobj = "";
+
+            for (var i = 0, l = nodes.length; i < l; i++) {
+                if (nodes[i].type == "" || nodes[i].type == null) {
+                    childrenobj += nodes[i].value + ",";
+                }
+            }
+
+            for (var i = 0, l = nodes2.length; i < l; i++) {
+                if (nodes2[i].type == "" || nodes2[i].type == null) {
+                    childrenobj += nodes2[i].value + ",";
+                }
+            }
+
+            for (var i = 0, l = nodes3.length; i < l; i++) {
+                if (nodes3[i].type == "" || nodes3[i].type == null) {
+                    childrenobj += nodes3[i].value + ",";
+                }
+            }
+
+            if (childrenobj.length > 0) childrenobj = childrenobj.substring(0, childrenobj.length - 1);
+
+            //定义用户号码变量
+            var userNumbers = "";
+
+            for (var i = 0, l = nodes.length; i < l; i++) {
+                if (nodes[i].type == "" || nodes[i].type == null) {
+                    userNumbers += nodes[i].smsNumber + ",";
+                }
+            }
+
+            for (var i = 0, l = nodes2.length; i < l; i++) {
+                if (nodes2[i].type == "" || nodes2[i].type == null) {
+                    userNumbers += nodes2[i].smsNumber + ",";
+                }
+            }
+
+            for (var i = 0, l = nodes3.length; i < l; i++) {
+                if (nodes3[i].type == "" || nodes3[i].type == null) {
+                    userNumbers += nodes3[i].smsNumber + ",";
+                }
+            }
+
+            if (userNumbers.length > 0) userNumbers = userNumbers.substring(0, userNumbers.length - 1);
+
+            //定义变量 用于 文本框显示 用户名称
+            var v = "";
+
+            for (var i = 0, l = nodes.length; i < l; i++) {
+                if (nodes[i].type == "" || nodes[i].type == null) {
+                    v += nodes[i].name + ",";
+                }
+            }
+
+            for (var i = 0, l = nodes2.length; i < l; i++) {
+                if (nodes2[i].type == "" || nodes2[i].type == null) {
+                    v += nodes2[i].name + ",";
+                }
+            }
+
+            for (var i = 0, l = nodes3.length; i < l; i++) {
+                if (nodes3[i].type == "" || nodes3[i].type == null) {
+                    v += nodes3[i].name + ",";
+                }
+            }
+
+            if (v.length > 0) v = v.substring(0, v.length - 1);
+
+            $("#addrSel").val(v);
+            $("#childrenObj").val(childrenobj);
+            $("#SMSNUMBERS").val(userNumbers);
+        }
+
+        function showMenu() {
+            var cityObj = $("#addrSel");
+            var cityOffset = $("#addrSel").offset();
+            var divWidth = $("#addrSel").width();
+
+            $("#menuContent").css({ left: cityOffset.left + "px", top: cityOffset.top + cityObj.outerHeight() + "px", width: divWidth * 1.03 }).slideDown("fast");
+            $("body").bind("mousedown", onBodyDown);
+        }
+
+        function hideMenu() {
+            $("#menuContent").fadeOut("fast");
+            $("body").unbind("mousedown", onBodyDown);
+        }
+
+        function onBodyDown(event) {
+            if (!(event.target.id == "menuBtn" || event.target.id == "addrSel" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length > 0)) {
+                hideMenu();
+            }
+        }
+
+        $(document).ready(function () {
+
+            hideFunction();
+
+            UpdateMessageCount();
+
+            if ("@ViewBag.backResult" != "") {
+                var backResult = "@ViewBag.backResult";
+
+                switch (backResult) {
+                    case "0":
+                        alert("发送成功");
+                        break;
+                    case "-4":
+                        alert("系统错误");
+                        break;
+                    case "-1":
+                        alert("用户名或密码错误");
+                        break;
+                    case "-7":
+                        alert("验证码错误");
+                        break;
+                    case "-13":
+                        alert("定时发送时间格式不对");
+                        break;
+                    case "-3":
+                        alert("超日流量或欠费");
+                        break;
+                    case "-6":
+                        alert("超出单次最大提交数");
+                        break;
+                    case "-11":
+                        alert("消息内容不能超过300字");
+                        break;
+                    case "-10":
+                        alert("消息内容不能为空");
+                        break;
+                    case "-2":
+                        alert("提交失败");
+                        break;
+                    case "-12":
+                        alert("短信提交批次不能为空");
+                        break;
+                }
+            }
+
+            $.ajax({
+                type: 'GET',
+                cache: false,
+                dataType: 'json',
+                url: '/UserManagement/GetUserManageTree?ContactsType=zzjg',
+                success: function (data) {
+                    if (data.length > 0) {
+                        var zNodes2 = data;
+                        $.fn.zTree.init($("#chkboxTree"), chkboxSetting, zNodes2);
+                    }
+                }
+            });
+
+            $.ajax({
+                type: 'GET',
+                cache: false,
+                dataType: 'json',
+                url: '/UserManagement/GetUserManageTree?ContactsType=yhz',
+                success: function (data) {
+                    if (data.length > 0) {
+                        var zNodes2 = data;
+                        $.fn.zTree.init($("#chkboxTree2"), chkboxSetting, zNodes2);
+                    }
+                }
+            });
+
+            $.ajax({
+                type: 'GET',
+                cache: false,
+                dataType: 'json',
+                url: '/UserManagement/GetUserManageTree?ContactsType=grtxl',
+                success: function (data) {
+                    if (data.length > 0) {
+                        var zNodes2 = data;
+                        $.fn.zTree.init($("#chkboxTree3"), chkboxSetting, zNodes2);
+                    }
+                }
+            });
+
+            //首次加载页面时显示收件箱列表
+            GetMessageInbox();
+
+            //发消息时信息的验证
+            $("#sendMessageForm").submit(function () {
+                var flag = true;
+                //收件人
+                if ($("#addrSel").val() == "") {
+                    $(".error_FromUserName").html("");
+                    flag = false;
+                    var msg = $("<span style='font-family:宋体!important;color:#b94a48'  generated='true'>*收件人必选</span>");
+                    $(".error_FromUserName").append(msg);
+                }
+                else {
+                    $(".error_FromUserName").html("");
+                }
+
+                //提醒方式
+                if ((!document.getElementById("checkbox1").checked)
+                    && (!document.getElementById("checkbox2").checked)
+                    && (!document.getElementById("checkbox3").checked)) {
+                    $(".error_sendChannels").html("");
+                    var msg = $("<span style='font-family:宋体!important;color:#b94a48'  generated='true'>*提醒方式必选</span>");
+                    flag = false;
+                    $(".error_sendChannels").append(msg);
+                }
+                else {
+                    $(".error_sendChannels").html("");
+                }
+                if (document.getElementById("checkbox3").checked == false) {
+                    //消息类型
+                    if ($("#xxtype").val() == "0") {
+                        $(".error_xxtype").html("");
+                        flag = false;
+                        var msg = $("<span style='font-family:宋体!important;color:#b94a48'  generated='true'>*请选择消息类型</span>");
+                        $(".error_xxtype").append(msg);
+                    }
+                    else {
+                        $(".error_xxtype").html("");
+                    }
+
+                    //消息标题
+                    if ($("input[name=xxtitle]").val() == "") {
+                        $(".error_xxTitle").html("");
+                        flag = false;
+                        var msg = $("<span style='font-family:宋体!important;color:#b94a48'  generated='true'>*标题不能为空</span>");
+                        $(".error_xxTitle").append(msg);
+                    }
+                    else {
+                        $(".error_xxTitle").html("");
+                    }
+                }
+
+                //消息内容
+                if ($("#xxcontent").val() == "") {
+                    $(".error_content").html("");
+                    flag = false;
+                    var msg = $("<span style='font-family:宋体!important;color:#b94a48'  generated='true'>*内容不能为空</span>");
+                    $(".error_content").append(msg);
+                }
+                else {
+                    $(".error_content").html("");
+                }
+
+                return flag;
+            });
+
+            $("#zzjg").click(function () {
+                $("#chkboxTree2").hide();
+                $("#chkboxTree3").hide();
+                $("#addrSel").val("");
+                $(".xxlx").hide();
+                $(".xxbt").hide();
+                $(".rtx").show();
+                $(".xt").show();
+                $("#txfs input[type='checkbox']").prop("checked", false);
+                document.getElementById("checkbox3").checked = true;
+                RemoveNumber();
+                $("#chkboxTree").show();
+            });
+
+            $("#yhz").click(function () {
+                $("#chkboxTree").hide();
+                $("#chkboxTree3").hide();
+                $("#addrSel").val("");
+                $(".xxlx").hide();
+                $(".xxbt").hide();
+                $(".rtx").show();
+                $(".xt").show();
+                $("#txfs input[type='checkbox']").prop("checked", false);
+                document.getElementById("checkbox3").checked = true;
+                RemoveNumber();
+                $("#chkboxTree2").show();
+            });
+
+            $("#grtxl").click(function () {
+                $("#chkboxTree").hide();
+                $("#chkboxTree2").hide();
+                $("#addrSel").val("");
+                $(".xxlx").hide();
+                $(".xxbt").hide();
+                $(".rtx").hide();
+                $(".xt").hide();
+                $("#txfs input[type='checkbox']").prop("checked", false);
+                document.getElementById("checkbox3").checked = true;
+                RemoveNumber();
+                $("#chkboxTree3").show();
+            });
+
+            $("#txfs input[type='checkbox']").click(function () {
+                $("#txfs input[type='checkbox']").prop("checked", false);
+                if ($(this).val() == "3") {
+                    if (document.getElementById("grtxl").checked == true) {
+                        $(".rtx").hide();
+                        $(".xt").hide();
+                    }
+                    $(".xxlx").hide();
+                    $(".xxbt").hide();
+                } else {
+                    $(".xxlx").show();
+                    $(".xxbt").show();
+                }
+                $(this).prop("checked", true);
+            })
+        });
+
+        //收件箱列表
+        function GetMessageInbox() {
+            $("#inbox").show();
+            $("#transmitted").hide();
+            $("#tsxx").show();
+            $("#tsxx").html("收件夹");
+            $("#sjj2").hide();
+            $("#sjj1").show();
+            $("#yfs2").hide();
+            $("#yfs1").show();
+            $("#contentAndSelect").show();
+            $("#contact").hide();
+
+            var messageTypeArr = new Array();
+
+            var arr = $("input[name=sjjcheckboxname]");
+
+            for (i = 0; i < arr.length; i++) {
+
+                if (arr[i].checked) {
+                    messageTypeArr[i] = "";
+                }
+                else {
+                    messageTypeArr[i] = arr[i].value;
+                }
+            }
+
+            var InboxUrl = "/MessageCentre/MessageInbox?messageTypeArr=" + messageTypeArr + "&romdom=" + Math.random();
+
+            if (oTableInbox != null) {
+                oTableInbox.fnSettings().sAjaxSource = InboxUrl;
+                oTableInbox.fnDraw(true);
+            }
+            else {
+                MessageInbox(InboxUrl);
+            }
+        }
+
+        //已发送列表
+        function GetMessageTransmitted() {
+            $("#inbox").hide();
+            $("#transmitted").show();
+            $("#sjj1").hide();
+            $("#sjj2").show();
+            $("#yfs1").hide();
+            $("#yfs2").show();
+            $("#contentAndSelect").show();
+            $("#contact").hide();
+            $("#tsxx").show();
+            $("#tsxx").html("已发送");
+
+            var messageTypeArr = new Array();
+
+            var arr = $("input[name=yfscheckboxname]");
+
+            for (i = 0; i < arr.length; i++) {
+
+                if (arr[i].checked) {
+                    messageTypeArr[i] = "";
+                }
+                else {
+                    messageTypeArr[i] = arr[i].value;
+                }
+            }
+            var TransmittedUrl = "/MessageCentre/MessageTransmitted?messageTypeArr=" + messageTypeArr + "&random=" + Math.random();
+
+            if (Transmitted != null) {
+                Transmitted.fnSettings().sAjaxSource = TransmittedUrl;
+                Transmitted.fnDraw(true);
+            }
+            else {
+                MessageTransmitted(TransmittedUrl);
+            }
+        }
+
+        //个人通讯录
+        function personalContact() {
+            $("#inbox").hide();
+            $("#transmitted").hide();
+            $("#sjj1").show();
+            $("#sjj2").hide();
+            $("#yfs1").show();
+            $("#yfs2").hide();
+            $("#contentAndSelect").hide();
+            $("#contact").show();
+            $("#tsxx").hide();
+            $.ajax({
+                type: 'get',
+                dataType: 'json',
+                cache: false,
+                url: '/UserManagement/GetUserManageTree?ContactsType=grtxl',
+                success: function (data) {
+                    if (data != null && data != "") {
+                        var treeNode = data;
+                        $.fn.zTree.init($("#tree"), AddPerAddressBookSetting, treeNode);
+                    }
+                }
+
+            });
+            var url = "/MessageCentre/GetContacts?ContactGroupId="
+            BindDataTable(url + $("#CONTACTGROUPID").val() + "&random=" + Math.random());
+        }
+
+        //删除消息时提示信息
+        function deteteMessage(messageID, title) {
+            if (window.confirm("是否确认删除" + title)) {
+                DelMessage(messageID);
+            }
+        }
+
+        //消息的查看
+        function CheckMessage(MessageID) {
+            $.get("/MessageCentre/MessageView?random=" + Math.random(),
+          { messageID: MessageID, tsxx: $("#tsxx").html() },
+          function (data) {
+              $("#messageView").html(data);
+              $("#modal-2").modal('show');
+              UpdateMessageCount();
+
+              if ($("#tsxx").html() == "收件夹") {
+                  GetMessageInbox();
+              }
+          }, "text");
+        }
+
+        //更新各种消息的数量
+        function UpdateMessageCount() {
+            $.ajax({
+                type: 'GET',
+                dataType: 'json',
+                data: { userID: "@Web.SessionManager.User.UserID" },
+                url: '/MessageCentre/GetMessageCount?random=' + Math.random(),
+                success: function (data) {
+                    if (data != "" && data != null) {
+                        $("#systemInformations").html(data.xtxx);
+                        $("#informations").html(data.xx);
+                        $("#announcements").html(data.gg);
+                        $("#presentations").html(data.ts);
+                        $("#informs").html(data.tz);
+                    }
+                }
+            });
+        };
+
+        //消息的筛选                                                           
+        $("input[type=checkbox]").change(function () {
+
+            var messageTypeArr = new Array();
+
+            if ($("#tsxx").html() == "收件夹") {
+
+                var arr = $("input[name=sjjcheckboxname]");
+
+                for (i = 0; i < arr.length; i++) {
+                    if (arr[i].checked) {
+                        messageTypeArr[i] = "";
+                    }
+                    else {
+                        messageTypeArr[i] = arr[i].value;
+                    }
+                }
+
+                var InboxUrl = "/MessageCentre/MessageInbox?messageTypeArr=" + messageTypeArr + "&romdom=" + Math.random();
+
+                if (oTableInbox != null) {
+                    oTableInbox.fnSettings().sAjaxSource = InboxUrl;
+                    oTableInbox.fnDraw(true);
+                }
+                else {
+                    MessageInbox(InboxUrl);
+                }
+            }
+            else if ($("#tsxx").html() == "已发送") {
+
+                var arr = $("input[name=yfscheckboxname]");
+
+                for (i = 0; i < arr.length; i++) {
+                    if (arr[i].checked) {
+                        messageTypeArr[i] = "";
+                    }
+                    else {
+                        messageTypeArr[i] = arr[i].value;
+                    }
+                }
+
+                var TransmittedUrl = "/MessageCentre/MessageTransmitted?messageTypeArr=" + messageTypeArr + "&random=" + Math.random();
+
+                if (Transmitted != null) {
+                    Transmitted.fnSettings().sAjaxSource = TransmittedUrl;
+                    Transmitted.fnDraw(true);
+                }
+                else {
+                    MessageTransmitted(TransmittedUrl);
+                }
+            }
+
+        });
+
+        //已发送信息列表独立的方法
+        function MessageTransmitted(TransmittedUrl) {
+            Transmitted = $('#MessageTransmitted_table').dataTable({
+                sAjaxSource: TransmittedUrl,
+
+                aoColumns: [
+                { "mDataProp": "ToUserName" },
+                    { "mDataProp": "TypeName" },
+                    { "mDataProp": "SendChannels" },
+                    { "mDataProp": "Title" },
+                    { "mDataProp": "CreatedTime" },
+                    {
+                        "mDataProp": function (data) {
+                            var check = "<a href='#' onclick=\"CheckMessage(" + data.MessageID + ");\">查看</a>";
+                            var del = "<a  href='#' onclick=\"deteteMessage(" + data.MessageID + ",'" + data.Title + "');\"> 删除 </a>";
+                            return check + "  " + del;
+                        }, "sClass": "center"
+                    }
+                ],
+
+            });
+        }
+
+        //收件夹信息列表独立的方法
+        function MessageInbox(InboxUrl) {
+            oTableInbox = $('#MessageInbox_table').dataTable({
+                sAjaxSource: InboxUrl,
+                aoColumns: [
+                    { "mDataProp": "FromUserName" },
+                    { "mDataProp": "TypeName" },
+                    { "mDataProp": "SendChannels" },
+                    { "mDataProp": "Title" },
+                    { "mDataProp": "CreatedTime" },
+                    {
+                        "mDataProp": function (data) {
+                            var check = "<a href='#' onclick=\"CheckMessage("
+                                + data.MessageID + ");\">查看</a>";
+                            return check;
+                        }, "sClass": "center"
+                    }
+                ]
+            });
+        }
+
+        //删除功能独立出来
+        function DelMessage(messageID) {
+            $.ajax({
+                type: 'GET',
+                data: { MessageID: messageID },
+                url: '/MessageCentre/DeleteMessage?random=' + Math.random(),
+                success: function () {
+                    if ($("#tsxx").html() == "收件夹") {
+                        GetMessageInbox();
+                        UpdateMessageCount();
+                    }
+                    else if ($("#tsxx").html() == "已发送") {
+                        GetMessageTransmitted();
+                        UpdateMessageCount();
+                    }
+                }
+
+            });
+        }
+
+        function RemoveNumber() {
+            $("#addrSel").val("");
+            $("#childrenObj").val("");
+            $("#SMSNUMBERS").val("");
+
+            var zTree = $.fn.zTree.getZTreeObj("chkboxTree");
+            if (zTree != null) {
+                var nodes = zTree.getCheckedNodes(true);
+                for (var i = 0 ; i < nodes.length; i++) {
+                    zTree.checkNode(nodes[i], false, false);
+                }
+            }
+
+            var zTree2 = $.fn.zTree.getZTreeObj("chkboxTree2");
+            if (zTree2 != null) {
+                var nodes2 = zTree2.getCheckedNodes(true);
+                for (var i = 0 ; i < nodes2.length; i++) {
+                    zTree2.checkNode(nodes2[i], false, false);
+                }
+            }
+
+            var zTree3 = $.fn.zTree.getZTreeObj("chkboxTree3");
+            if (zTree3 != null) {
+                var nodes3 = zTree3.getCheckedNodes(true);
+                for (var i = 0 ; i < nodes3.length; i++) {
+                    zTree3.checkNode(nodes3[i], false, false);
+                }
+            }
+        }
+
+        //添加个人通讯录分组
+        $("#addContactGroup").click(function () {
+            var contactGroupName = $("#contactGroupName").val();
+            var contactGroupSeqno = $("#contactGroupSeqno").val();
+            $.ajax({
+                type: "post",
+                url: "/MessageCentre/AddContactGroup?contactGroupName=" + encodeURI(contactGroupName) + "&contactGroupSeqno=" + contactGroupSeqno + "",
+                cache: false,
+                success: function () {
+                    //关闭当前添加窗口
+                    $("#closeAddContactGroup").click();
+                    //重新加载一次个人通讯录
+                    personalContact();
+                }
+            });
+            $("#AddContactGroupForm input[id!='addContactGroup']").val("");
+        });
+
+        //点击添加联系人时，给弹出的添加联系人页面分组下拉框绑定值
+        $("#AddContact").click(function () {
+            $("#contactGroup").empty();
+            $.ajax({
+                type: "get",
+                cache: false,
+                url: "/MessageCentre/GetAllContactGroupList",
+                success: function (data) {
+                    $.each(data, function (i, t) {
+                        $("#contactGroup").append("<option value=" + t.CONTACTSGROUPID + ">" + t.CONTACTSGROUPNAME + "</option");
+                    })
+                }
+            });
+        });
+
+        //添加联系人
+        $("#addContact").click(function () {
+            var contactGroupId = $("#contactGroup").val();
+            var contactName = $("#contactName").val();
+            var phoneNumber = $("#phoneNumber").val();
+            var address = $("#address").val();
+            var remark = $("#remark").val();
+
+            $.ajax({
+                type: "post",
+                url: "/MessageCentre/AddContact",
+                data: "contactGroupId=" + contactGroupId + "&contactName=" + contactName +
+                    "&phoneNumber=" + phoneNumber + "&address=" + address +
+                    "&remark=" + remark + "",
+                success: function () {
+                    $("#CONTACTGROUPID").val(contactGroupId);
+                    //关闭当前窗口
+                    $("#closeAddContact").click();
+                    //重新加载一次个人通讯录
+                    personalContact();
+                }
+            });
+            //添加后清空表单
+            $("#AddContactForm input[id!='addContact']").val("");
+        });
+
+        //删除联系人
+        function deleteContact(ContactId, ContactName) {
+            if (confirm("确定删除" + ContactName + "?")) {
+                $.ajax({
+                    type: "get",
+                    url: "/MessageCentre/DeleteContact?contactId=" + ContactId + "",
+                    success: function () {
+                        //重新加载一次个人通讯录
+                        personalContact();
+                    }
+                });
+            }
+        }
+
+        //点击编辑联系人时，给弹出的修改联系人页面赋值
+        function loadEditContact(ContactId, ContactName,workDW, PhoneNumber,GDnumbers, Address, Remark) {
+            if (ContactName == "null") {
+                $("#editContactName").val("")
+            } else {
+                $("#editContactName").val(ContactName);
+            }
+            if (workDW == "null") {
+                $("#editworkDW").val("");
+            } else {
+                $("#editworkDW").val(workDW);
+            }
+            if (PhoneNumber == "null") {
+                $("#editPhoneNumber").val("");
+            } else {
+                $("#editPhoneNumber").val(PhoneNumber);
+            }
+
+            if (GDnumbers == "null") {
+                $("#editGDnumbers").val("");
+            } else {
+                $("#editGDnumbers").val(GDnumbers);
+            }
+
+            if (Address == "null") {
+                $("#editAddress").val("");
+            }
+            else {
+                $("#editAddress").val(Address);
+            }
+
+            if (Remark == "null") {
+                $("#editRemark").val("");
+            } else {
+                $("#editRemark").val(Remark);
+            }
+
+            $("#EDITCONTACTID").val(ContactId);
+        }
+
+        //修改联系人
+        $("#editContact").click(function () {
+            var contactId = $("#EDITCONTACTID").val();
+            var contactName = $("#editContactName").val();
+            var workDW = $("#editworkDW").val();
+            var GDnumbers = $("#GDnumbers").val();
+            var phoneNumber = $("#editPhoneNumber").val();
+            var address = $("#editAddress").val();
+            var remark = $("#editRemark").val();
+
+            $.ajax({
+                type: "post",
+                url: "/MessageCentre/EditContact",
+                data: "contactId=" + contactId + "&contactName=" + contactName+"&worKDW="+workDW+"&GDnumbers="+GDnumbers + "&phoneNumber=" + phoneNumber +
+                    "&address=" + address + "&remark=" + remark + "",
+                success: function () {
+                    //关闭当前修改窗口
+                    $("#closeEditContact").click();
+                    //刷新个人通讯录
+                    personalContact();
+                }
+            });
+        });
+
+        //修改联系人组时初始化组信息
+        $("#editGroup").click(function () {
+            var groupId = $("#EDITCONTACTGROUPID").val()
+            $.ajax({
+                type: "get",
+                url: "/MessageCentre/GetContactGroupByGrouopId?groupId=" + groupId + "",
+                cache: false,
+                success: function (data) {
+                    var contactGroup = data.split(",");
+                    $("#editContactGroupName").val(contactGroup[0]);
+                    $("#editContactGroupSeqno").val(contactGroup[1]);
+                }
+            });
+        });
+
+        //修改联系人
+        $("#editContactGroup").click(function () {
+            var contactGroupName = $("#editContactGroupName").val();
+            var contactGroupSeqno = $("#editContactGroupSeqno").val();
+            var contactGroupId = $("#EDITCONTACTGROUPID").val();
+            $.ajax({
+                type: "post",
+                url: "/MessageCentre/EditContactGroup",
+                data: "contactGroupId=" + contactGroupId + "&contactGroupName=" + contactGroupName + "&contactGroupSeqno=" + contactGroupSeqno + "",
+                success: function () {
+                    //关闭当前修改窗口
+                    $("#closeEditContactGroup").click();
+                    //刷新个人通讯录
+                    personalContact();
+                }
+            });
+        });
+
+        function hideFunction() {
+            var urlstr = window.location.toString();
+            //alert(urlstr);
+            var urlstr_split = urlstr.split("?");
+            if (urlstr_split.length > 0) {
+                if (urlstr_split[1]) {
+                    urlstr_split = urlstr_split[1].split("&");
+                    if (urlstr_split[0] == "type=1") {
+                        $("#showmodal").click();
+                        $(".xxlx").hide();
+                        $(".xxbt").hide();
+                    }
+                }
+            }
+        }
+
+    </script>
+}
+<div id="main-content" style="margin-left: 0px;">
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="icon-home" style="font-size: 18px;"></i>
+                <a href="#">个人中心</a>
+                <span class="divider"><i class="icon-angle-right"></i></span>
+            </li>
+            <li class="active">消息中心</li>
+        </ul>
+    </div>
+    <div class="row" style="margin-left: 0px; padding-bottom: 10px;">
+        <div class="span" style="width: 22%; margin-left: 5px;">
+            <div class="row" style="margin-left: 0px; height: 150px;">
+                <div class="span" style="width: 100%; margin-left: 0px; height: 150px;">
+                    <div class="box margin-top-0px">
+                        <div class="box-content">
+                            <div class="gridTitle">
+                                今天共有消息&nbsp;&nbsp;<span id="systemInformations"></span>&nbsp;&nbsp;条
+                            </div>
+                            <ul class="iconic">
+                                <li><a href="#"><i class="icon-building orange" style="padding-right: 10px;"></i>信息&nbsp;&nbsp;<span
+                                    id="informations"></span>&nbsp;&nbsp;条</a></li>
+                                <li><a href="#"><i class="icon-envelope orange" style="padding-right: 7px;"></i>公告&nbsp;&nbsp;<span
+                                    id="announcements"></span>&nbsp;&nbsp;条</a></li>
+                                <li><a href="#"><i class="icon-archive orange" style="padding-right: 7px;"></i>提示&nbsp;&nbsp;<span
+                                    id="presentations"></span>&nbsp;&nbsp;条</a></li>
+                                <li><a href="#"><i class="icon-archive orange" style="padding-right: 7px;"></i>通知&nbsp;&nbsp;<span
+                                    id="informs"></span>&nbsp;&nbsp;条</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-left: 0px; padding-top: 10px;">
+                <a id="showmodal" href="#modal-1" class="btn btn-primary" role="button" data-toggle="modal" style="width: 91%; height: 30px; line-height: 30px;">
+                    <i class="icon-comment-alt"></i>
+                    发消息
+                </a>
+            </div>
+            <div id="sjj1" class="row" style="margin-left: 0px; padding-top: 10px;">
+                <div class="span" style="width: 100%; margin-left: 0px;">
+                    <div class="box">
+                        <div class="box-title height-18px">
+                            <a href="#" onclick="GetMessageInbox();">
+                                <h5><i class="icon-comments"></i>收件夹</h5>
+                            </a>
+                            <div class="box-tool">
+                                <a href="#" data-action="collapse"><i class="icon-chevron-up"></i></a>
+                            </div>
+                        </div>
+                        <div class="box-content">
+                            <div class="typeRow">
+                                <span>信息</span>
+                                <div class="switch" data-on-label="选中" data-off-label="取消">
+                                    <input type="checkbox" checked value="1" name="sjjcheckboxname" />
+                                </div>
+                            </div>
+                            <div class="typeRow">
+                                <span>公告</span>
+                                <div class="switch" data-on-label="选中" data-off-label="取消">
+                                    <input type="checkbox" checked value="2" name="sjjcheckboxname" />
+                                </div>
+                            </div>
+                            <div class="typeRow">
+                                <span>提示</span>
+                                <div class="switch" data-on-label="选中" data-off-label="取消">
+                                    <input type="checkbox" checked value="3" name="sjjcheckboxname" />
+                                </div>
+                            </div>
+                            <div class="typeRow">
+                                <span>通知</span>
+                                <div class="switch" data-on-label="选中" data-off-label="取消">
+                                    <input type="checkbox" checked value="4" name="sjjcheckboxname" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="sjj2" class="row" style="margin-left: 0px; padding-top: 10px; display: none;">
+                <a href="#" class="btn btn-primary" role="button" data-toggle="modal" style="width: 91%; height: 30px; line-height: 30px;"
+                    onclick="GetMessageInbox();">
+                    <i class="icon-comments"></i>
+                    收件夹
+                </a>
+            </div>
+            <div id="yfs1" class="row" style="margin-left: 0px; padding-top: 10px;">
+                <a href="#" class="btn btn-primary" role="button" data-toggle="modal" style="width: 91%; height: 30px; line-height: 30px;"
+                    onclick="GetMessageTransmitted();">
+                    <i class="icon-comment"></i>
+                    已发送
+                </a>
+            </div>
+            <div id="yfs2" class="row" style="margin-left: 0px; padding-top: 10px; display: none;">
+                <div class="span" style="width: 225px; margin-left: 0px;">
+                    <div class="box">
+                        <div class="box-title height-18px">
+                            <a href="#" onclick="GetMessageTransmitted();">
+                                <h5><i class="icon-comment"></i>已发送</h5>
+                            </a>
+                            <div class="box-tool">
+                                <a href="#" data-action="collapse"><i class="icon-chevron-up"></i></a>
+                            </div>
+                        </div>
+                        <div class="box-content">
+                            <div class="typeRow">
+                                <span>信息</span>
+                                <div class="switch" data-on-label="选中" data-off-label="取消">
+                                    <input type="checkbox" checked name="yfscheckboxname" value="1" />
+                                </div>
+                            </div>
+                            <div class="typeRow">
+                                <span>公告</span>
+                                <div class="switch" data-on-label="选中" data-off-label="取消">
+                                    <input type="checkbox" checked name="yfscheckboxname" value="2" />
+                                </div>
+                            </div>
+                            <div class="typeRow">
+                                <span>提示</span>
+                                <div class="switch" data-on-label="选中" data-off-label="取消">
+                                    <input type="checkbox" checked name="yfscheckboxname" value="3" />
+                                </div>
+                            </div>
+                            <div class="typeRow">
+                                <span>通知</span>
+                                <div class="switch" data-on-label="选中" data-off-label="取消">
+                                    <input type="checkbox" checked name="yfscheckboxname" value="4" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="divAddgrtxl" class="row" style="margin-left: 0px; padding-top: 10px;">
+                <a href="#" id="clickgrtxl" onclick="personalContact()" class="btn btn-primary" style="width: 91%; height: 30px; line-height: 30px;">
+                    <i class="icon-comment-alt"></i>
+                    个人通讯录
+                </a>
+            </div>
+        </div>
+        <div class="span" style="width: 76%; margin-left: 10px;">
+            <div class="box box-black" style="margin-top: 0px;">
+                <div id="tsxx" class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+                </div>
+                <div class="box-content" id="contentAndSelect">
+                    <div class="form-group" style="margin-top: 5px; margin-bottom: 5px; float: left;">
+                        <label class="col-xs-3 col-lg-2 control-label" for="textfield3" style="float: left; width: auto; height: 30px; line-height: 30px; margin-right: 5px;">
+                            内容:</label>
+                        <input name="txtName" class="form-control" id="txtName" type="text" placeholder="内容">
+                    </div>
+                    <div class="form-group" style="margin-left: 10px; margin-top: 5px; margin-bottom: 5px; float: left;">
+                        <a href="#" class="btn btn-primary" style="margin-right: 10px;">查 询</a>
+                    </div>
+                </div>
+                <div class="box-content" id="inbox">
+                    <table class="table" id="MessageInbox_table">
+                        <thead>
+                            <tr>
+                                <th>发件人</th>
+                                <th>消息类型</th>
+                                <th style="min-width: 38px;">发送渠道</th>
+                                <th>消息主题</th>
+                                <th>发送时间</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+
+                    </table>
+                </div>
+                <div class="box-content" id="transmitted" style="display: none;">
+                    <table class="table" id="MessageTransmitted_table">
+                        <thead>
+                            <tr>
+                                <th>收件人</th>
+                                <th>消息类型</th>
+                                <th style="min-width: 38px;">发送渠道</th>
+                                <th>消息主题</th>
+                                <th>发送时间</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+
+                <div id="contact" style="display: none" class="row-fluid">
+                    <div class="span3">
+                        <div class="box box-black" style="margin-top: 0px; overflow-x: auto;">
+                            <div class="box-title" style="color: white; overflow-x: auto; width: 200px; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+                                <i class="icon-reorder" style="margin-right: 5px;"></i>用户结构树
+                            </div>
+                            <div class="box-content" id="AddressBookTreeDiv">
+                                <ul id="tree" class="ztree"></ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span9" id="span90">
+                        <div class="box box-black" style="margin-top: 0px;">
+                            <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+                                <i class="icon-reorder" style="margin-right: 5px;"></i>联系人列表
+                            </div>
+                            <div class="box-content" id="addButtonDiv">
+                                <a href="#modal-4" id="AddContact" class="btn btn-primary" role="button" data-toggle="modal">添加联系人</a>
+                                <a href="#modal-3" class="btn btn-primary" role="button" data-toggle="modal">添加组</a>
+                                <a href="#modal-6" id="editGroup" style="display: none;" class="btn btn-primary" role="button" data-toggle="modal">修改组</a>
+                            </div>
+                            <div class="box-content" id="AddressBookList">
+                                <table class="table table-bordered table-striped table-hover fill-head" id="AddressBookTable">
+                                    <thead>
+                                        <tr>
+                                            <th>联系人名称</th>
+                                            <th>工作单位</th>
+                                            <th>手机</th>
+                                            <th>备注</th>
+                                            <th style="text-align: center; width: 135px;">操作</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                                <div style="clear: both"></div>
+                            </div>
+                        </div>
+                        @Html.Hidden("CONTACTGROUPID", 1)
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>2013 © 杭州天尊信息技术有限公司</p>
+    </footer>
+    <a id="btn-scrollup" class="btn btn-circle btn-large" href="#"><i class="icon-chevron-up"></i></a>
+</div>
+
+<div id="modal-1" class="modal hide fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">发送消息</h3>
+            </div>
+            <form id="sendMessageForm" class="form-horizontal" action="/MessageCentre/SendMessages"
+                method="post">
+                <div class="modal-body">
+                    <div class="form-group" style="margin-bottom: 5px;">
+                        <label class="col-xs-3 col-lg-2 control-label" for="textfield3" style="width: 80px;">
+                            收件人</label>
+                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 100px;">
+                            <input name="addrSel" class="form-control" id="addrSel" type="text" placeholder="通讯录"
+                                style="width: 90%;" onclick="showMenu();" onfocus="this.blur();" />
+                            <br />
+                            <span class="error_FromUserName"></span>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 5px;">
+                        <label class="col-xs-3 col-lg-2 control-label" style="width: 80px;">提醒方式</label>
+                        <div id="txfs" class="col-sm-9 col-lg-10 controls" style="margin-left: 100px;">
+                            <label class="checkbox inline xt">
+                                <input type="checkbox" value="1" name="system" id="checkbox1" />
+                                系统
+                            </label>
+                            <label class="checkbox inline rtx">
+                                <input type="checkbox" value="2" name="RTX" id="checkbox2" />
+                                RTX
+                            </label>
+                            <label class="checkbox inline sjdx">
+                                <input type="checkbox" value="3" name="SMS" id="checkbox3" checked="checked" />
+                                手机短信
+                            </label>
+                            <br />
+                            <span class="error_sendChannels"></span>
+                        </div>
+                    </div>
+                    <div class="form-group xxlx" style="margin-bottom: 5px;">
+                        <label class="col-sm-3 col-lg-2 control-label" style="width: 80px;">消息类型</label>
+                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 100px;">
+                            <select id="xxtype" tabindex="1" name="xxtype" style="width: 93.3%;">
+                                <option value="0">请选择</option>
+                                <option value="1">信息</option>
+                                <option value="2">公告</option>
+                                <option value="3">提示</option>
+                                <option value="4">通知</option>
+                            </select>
+                            <br />
+                            <span class="error_xxtype"></span>
+                        </div>
+                    </div>
+                    <div class="form-group xxbt" style="margin-bottom: 5px;">
+                        <label class="col-xs-3 col-lg-2 control-label" for="textfield3" style="width: 80px;">
+                            消息标题</label>
+                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 100px;">
+                            <input name="xxtitle" class="form-control" id="xxtitle" type="text" placeholder="消息标题"
+                                style="width: 90%;">
+                            <br />
+                            <span class="error_xxTitle"></span>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 5px;">
+                        <label class="col-xs-3 col-lg-2 control-label" for="xxcontent" style="width: 80px;">
+                            消息内容</label>
+                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 100px;">
+                            <textarea name="xxcontent" class="form-control" id="xxcontent" rows="5" style="width: 90%;"></textarea>
+                            <br />
+                            <span class="error_content"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+                    <input type="submit" class="btn btn-primary" value="发送" />
+                </div>
+                @Html.Hidden("childrenObj")
+                @Html.Hidden("SMSNUMBERS")
+            </form>
+        </div>
+    </div>
+</div>
+<div id="modal-2" class="modal hide fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3>查看消息</h3>
+            </div>
+            <div id="messageView">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="menuContent" class="menuContent" style="display: none; position: absolute; z-index: 1051; border: 1px solid rgb(229,229,229); background-color: white; height: 277px;">
+    <div id="contactsType" style="margin-top: 0; color: #393939; overflow: hidden; margin-top: 10px; margin-left: 10px; margin-bottom: 10px;">
+        <input type="radio" id="zzjg" name="ContactsType" checked="checked" title="组织架构" />组织架构
+        &nbsp;
+        <input type="radio" id="yhz" name="ContactsType" title="用户组" />用户组 &nbsp;
+        <input type="radio" id="grtxl" name="ContactsType" title="个人通讯录" />个人通讯录 &nbsp;
+        <a href="#" onclick="RemoveNumber()" style="float: right; margin-right: 15px;">[清空]</a>
+    </div>
+    <ul id="chkboxTree" class="ztree" style="overflow-y: scroll; max-height: 220px;">
+    </ul>
+    <ul id="chkboxTree2" class="ztree" style="display: none; overflow-y: scroll; max-height: 220px;">
+    </ul>
+    <ul id="chkboxTree3" class="ztree" style="display: none; overflow-y: scroll; max-height: 220px;">
+    </ul>
+</div>
+<div id="modal-3" class="modal hide fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" id="closeAddContactGroup" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3>添加通讯录组</h3>
+            </div>
+            <form id="AddContactGroupForm" class="form-horizontal">
+                <div class="modal-body">
+                    <div class="form-group" style="margin-bottom: 5px;">
+                        <label class="col-xs-3 col-lg-2 control-label" style="width: 80px;">
+                            分组名称</label>
+                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 100px;">
+                            <input name="contactGroupName" id="contactGroupName" class="form-control" type="text" style="width: 90%" />
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 5px;">
+                        <label class="col-xs-3 col-lg-2 control-label" style="width: 80px;">排序号</label>
+                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 100px;">
+                            <input name="contactGroupSeqno" id="contactGroupSeqno" class="form-control" type="text" style="width: 90%" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+                    <input type="button" id="addContactGroup" class="btn btn-primary" value="保存" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div id="modal-4" class="modal hide fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" id="closeAddContact" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3>添加联系人</h3>
+            </div>
+            <form id="AddContactForm" class="form-horizontal">
+                <div class="modal-body">
+                    <div class="form-group" style="margin-bottom: 5px;">
+                        <label class="col-xs-3 col-lg-2 control-label" style="width: 80px;">所属分组</label>
+                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 100px;">
+                            <select id="contactGroup">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 5px;">
+                        <label class="col-xs-3 col-lg-2 control-label" style="width: 80px;">联系人姓名</label>
+                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 100px;">
+                            <input name="contactName" id="contactName" class="form-control" type="text" style="width: 90%" />
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 5px;">
+                        <label class="col-xs-3 col-lg-2 control-label" style="width: 80px;">工作单位</label>
+                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 100px;">
+                            <input name="contactName" id="workDW" class="form-control" type="text" style="width: 90%" />
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 5px;">
+                        <label class="col-xs-3 col-lg-2 control-label" style="width: 80px;">联系电话</label>
+                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 100px;">
+                            <input name="phoneNumber" id="phoneNumber" class="form-control" type="text" style="width: 90%" />
+                        </div>
+                    </div>
+                      <div class="form-group" style="margin-bottom: 5px;">
+                        <label class="col-xs-3 col-lg-2 control-label" style="width: 80px;">固定电话</label>
+                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 100px;">
+                            <input name="phoneNumber" id="GDnumbers" class="form-control" type="text" style="width: 90%" />
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 5px;">
+                        <label class="col-xs-3 col-lg-2 control-label" style="width: 80px;">地址</label>
+                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 100px;">
+                            <input name="address" id="address" class="form-control" type="text" style="width: 90%" />
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 5px;">
+                        <label class="col-xs-3 col-lg-2 control-label" style="width: 80px;">备注</label>
+                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 100px;">
+                            <input name="remark" id="remark" class="form-control" type="text" style="width: 90%" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+                    <input type="button" id="addContact" class="btn btn-primary" value="保存" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div id="modal-5" class="modal hide fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" id="closeEditContact" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3>修改联系人</h3>
+            </div>
+            <form id="EditContactForm" class="form-horizontal">
+                <div class="modal-body">
+                    <div class="form-group" style="margin-bottom: 5px;">
+                        <label class="col-xs-3 col-lg-2 control-label" style="width: 80px;">联系人姓名</label>
+                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 100px;">
+                            <input name="editContactName" id="editContactName" class="form-control" type="text" style="width: 90%" />
+                        </div>
+                    </div>
+                     <div class="form-group" style="margin-bottom: 5px;">
+                        <label class="col-xs-3 col-lg-2 control-label" style="width: 80px;">工作单位</label>
+                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 100px;">
+                            <input name="contactName" id="editworkDW" class="form-control" type="text" style="width: 90%" />
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 5px;">
+                        <label class="col-xs-3 col-lg-2 control-label" style="width: 80px;">联系电话</label>
+                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 100px;">
+                            <input name="editPhoneNumber" id="editPhoneNumber" class="form-control" type="text" style="width: 90%" />
+                        </div>
+                    </div>
+                          <div class="form-group" style="margin-bottom: 5px;">
+                        <label class="col-xs-3 col-lg-2 control-label" style="width: 80px;">固定电话</label>
+                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 100px;">
+                            <input name="phoneNumber" id="editGDnumbers" class="form-control" type="text" style="width: 90%" />
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 5px;">
+                        <label class="col-xs-3 col-lg-2 control-label" style="width: 80px;">地址</label>
+                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 100px;">
+                            <input name="editAddress" id="editAddress" class="form-control" type="text" style="width: 90%" />
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 5px;">
+                        <label class="col-xs-3 col-lg-2 control-label" style="width: 80px;">备注</label>
+                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 100px;">
+                            <input name="editRemark" id="editRemark" class="form-control" type="text" style="width: 90%" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+                    <input type="button" id="editContact" class="btn btn-primary" value="保存" />
+                </div>
+                @Html.Hidden("EDITCONTACTID")
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="modal-6" class="modal hide fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" id="closeEditContactGroup" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3>修改通讯录组</h3>
+            </div>
+            <form id="EditContacGrouptForm" class="form-horizontal">
+                <div class="modal-body">
+                    <div class="form-group" style="margin-bottom: 5px;">
+                        <label class="col-xs-3 col-lg-2 control-label" style="width: 80px;">分组名称</label>
+                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 100px;">
+                            <input name="editContactGroupName" id="editContactGroupName" class="form-control" type="text" style="width: 90%" />
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 5px;">
+                        <label class="col-xs-3 col-lg-2 control-label" style="width: 80px;">排序号</label>
+                        <div class="col-sm-9 col-lg-10 controls" style="margin-left: 100px;">
+                            <input name="editContactGroupSeqno" id="editContactGroupSeqno" class="form-control" type="text" style="width: 90%" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+                    <input type="button" id="editContactGroup" class="btn btn-primary" value="保存" />
+                </div>
+                @Html.Hidden("EDITCONTACTGROUPID")
+            </form>
+        </div>
+    </div>
+</div>

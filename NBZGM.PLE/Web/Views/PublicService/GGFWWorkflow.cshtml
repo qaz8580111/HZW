@@ -1,0 +1,598 @@
+﻿@model  Web.ViewModels.VMGGFW
+@using Taizhou.PLE.Model.ZFSJWorkflowModel.ZFSJWorkflow;
+@using Web.ViewModels;
+@{
+    Layout = null;
+    ZFSJForm zfsjform = (ZFSJForm)ViewBag.zfsjform;
+    IList<VMCASEPHONESMS> VMcasePhonesmsList = (IList<VMCASEPHONESMS>)ViewBag.VMcasePhonesmsList;
+}
+
+<style>
+    table th {
+        width: 10%;
+    }
+
+    table tr input.large {
+        width: 98%;
+    }
+
+    table tr input.small {
+        width: 94%;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("input[name=FXSJ]").datetimepicker();
+
+        $("#veto").click(function () {
+            $("#bc").val("1");
+            $("#EventReport")[0].submit();
+        });
+        //打开语音文件路径（参数：url路径）
+        $("#openSpeechFile").click(function () {
+            window.open($(this).attr("url"), 'newwindow', 'height=100,width=460,top=0,left=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
+        })
+    });
+
+
+    function goback() {
+        window.location.href = "/EventRegister/ProcessTaskList/";
+    }
+
+    function FormSubmit() {
+        $("#btn-success").attr("disabled", "disabled");
+        return true;
+    }
+
+    //初始化地图
+    function mapInited() {
+        setTimeout(function () {
+            var DTMD = $("#GEOMETRY").val();
+            if (DTMD) {
+                var mapCtrl = document.getElementById("mapCtrl").content.MapCtrl;
+                mapCtrl.AddMarker(DTMD);
+            }
+        }, 1000)
+    }
+
+    function changeEventSourceID() {
+        var EventSourceID = $("#EventSourceID").val();
+        if (EventSourceID == 4) {
+            $("#EventSource").css("display", "none");
+        } else {
+            $("#EventSource").css("display", "");
+        }
+    }
+
+    //根据执法大队获取对应执法大队下边的综合科队员
+    function GetZFDDUserList() {
+        var ZFDDList = $("#ZFDDList").val();
+        if (ZFDDList == 0) {
+            $("#UserListZHK").html("<option value='0'>直接归档</option>")
+        } else {
+            $.ajax({
+                url: "/EventRegister/ZFDSUserMes?randam=" + Math.random(),
+                type: "GET",
+                cache: false,
+                data: { ZFDDList: ZFDDList },
+                success: function (data) {
+                    $("#UserListZHK").html(data);
+                },
+                error: function () { alert("网络忙,请刷新重试") }
+            });
+        }
+    }
+
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null)
+            return unescape(r[2]);
+        return null;
+    }
+
+    function GoBackHistory() {
+        var iDisplayStart = getQueryString("iDisplayStart");
+        var iDisplayLength = getQueryString("iDisplayLength");
+        var startTime = getQueryString("startTime");
+        var endTime = getQueryString("endTime");
+        var Title = getQueryString("Title");
+        var LY = getQueryString("LY");
+        var tu = getQueryString("tu");
+        var Phone = getQueryString("Phone");
+        var Address = getQueryString("Address");
+        var DQZT = getQueryString("DQZT");
+        var ClassIDJYL = getQueryString("ClassIDJYL");
+        //alert(tu);
+        //alert("url:" + "/EventRegister/AllList/?iDisplayStart=" + iDisplayStart + "&iDisplayLength=" + iDisplayLength + "&startTime=" + startTime + "&endTime=" + endTime + "&Title=" + Title + "LY=" + LY);
+        if (tu) {
+            location.href = tu + "?iDisplayStart=" + iDisplayStart + "&iDisplayLength=" + iDisplayLength + "&startTime=" + startTime + "&endTime=" + endTime + "&Title=" + Title + "&LY=" + LY + "&Phone=" + Phone + "&Address=" + Address + "&DQZT=" + DQZT + "&ClassIDJYL=" + ClassIDJYL;
+        } else {
+            history.go(-1);
+        }
+    }
+
+    function functionShowCloseMap() {
+        var mapS = $("#mapS").css("display");
+        if (mapS == "none") {
+            $("#btnShowCloseMap").attr("value", "隐藏地图");
+            $("#mapS").css("display", "");
+        } else {
+            $("#btnShowCloseMap").attr("value", "显示地图");
+            $("#mapS").css("display", "none");
+        }
+    }
+
+</script>
+
+<div class="row-fluid">
+    <div class="span12" id="tabledata" style="margin-left: 0px;">
+        <div class="tab-content">
+            <div class="tab-pane active" id="detail">
+                <form method="post" enctype="multipart/form-data" action="/EventRegister/CommitWorkflow" id="ZFSJWorkflow2">
+                    @Html.HiddenFor(a => a.EVENTID)
+                    @Html.HiddenFor(a => a.STATUE)
+                    @Html.HiddenFor(a => a.WIID)
+                    @if (Request["type"] == "sel")
+                    {
+                        <div class="title" style="margin-bottom: 30px;">事件处理</div>
+                    }
+                    else
+                    {
+                        <div class="title" style="margin-bottom: 30px;">事件详情</div>    
+                    }
+                    <table class="table table-bordered">
+                        <tr>
+                            <th style="text-align: center; width: 10%">投诉人</th>
+                            <td style="width: 40%">
+                                <div class="form-group" style="margin-bottom: 5px;">
+                                    <div class="col-sm-9 col-lg-10 controls">@Model.REPORTPERSON</div>
+                                </div>
+                            </td>
+                            <th style="text-align: center; width: 10%">联系电话</th>
+                            <td>
+                                <div class="form-group" style="margin-bottom: 5px;">
+                                    <div class="col-sm-9 col-lg-10 controls">@Model.PHONE</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="padding-left: 30px!important;">事件来源</th>
+                            <td>@ViewBag.EventSource</td>
+                            <th style="text-align: center;">发现时间</th>
+                            <td>
+                                <div class="form-group" style="margin-bottom: 5px;">
+                                    <div class="col-sm-9 col-lg-10 controls">@Model.FXSJ</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center;">事件标题</th>
+                            <td style="width: 40%" colspan="3">@Model.EVENTTITLE</td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center;">事件地址</th>
+                            <td>
+                                <div class="form-group" style="margin-bottom: 5px;">
+                                    <div class="col-sm-9 col-lg-10 controls">@Model.EVENTADDRESS</div>
+                                </div>
+                            </td>
+                            <th style="text-align: center;">办结时间</th>
+                            <td>
+                                <div class="form-group" style="margin-bottom: 5px;">
+                                    <div class="col-sm-9 col-lg-10 controls">@Model.OVERTIME</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center;">问题大类
+                            </th>
+                            <td>
+                                <div class="form-group" style="margin-bottom: 5px;">
+                                    <div class="col-sm-9 col-lg-10 controls">@ViewBag.ClassBID</div>
+                                </div>
+                            </td>
+                            <th style="padding-left: 30px!important;">问题小类
+                            </th>
+                            <td>
+                                <div class="form-group" style="margin-bottom: 5px;">
+                                    <div class="col-sm-9 col-lg-10 controls">@ViewBag.ClassSID</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center;">事件内容
+                            </th>
+                            <td colspan="3">
+                                <div class="form-group" style="margin-bottom: 5px;">
+                                    <div class="col-sm-9 col-lg-10 controls">@Model.EVENTCONTENT</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; width: 10%">地图位置</th>
+                            <td colspan="3">
+                                <input type="hidden"  id="GEOMETRY" value="@Model.GEOMETRY" />
+                                <input type="button" value="显示地图" id="btnShowCloseMap" onclick="functionShowCloseMap()" />
+                                <div id="mapS" style="display:none;">
+                                <div id="silverlightControlHost" style="width: 100%; height: 350px;">
+                                    <object id="mapCtrl" data="data:application/x-silverlight-2," type="application/x-silverlight-2" height="350px" width="100%">
+                                        <param name="source" value="/ClientBin/MapCtrl.xap" />
+                                        <param name="background" value="white" />
+                                        <param name="minRuntimeVersion" value="5.0.61118.0" />
+                                        <param name="autoUpgrade" value="true" />
+                                        <param id="initParams" name="initParams" value="IsGoogleMap=false,MapUrl=http://tmap.tzsjs.gov.cn/services/tilecache/chinaemap,X1=121.409266152472,Y1=28.6559834674633,X2=121.423424005508,Y2=28.6614766315258,Mode=1,PinUrl=./Images/pin.png,OffsetX=24,OffsetY=48" />
+                                        <a href="http://go.microsoft.com/fwlink/?LinkID=149156&v=5.0.61118.0" style="text-decoration: none">
+                                            <img src="http://go.microsoft.com/fwlink/?LinkId=161376" alt="Get Microsoft Silverlight" style="border-style: none" />
+                                        </a>
+                                    </object>
+                                    <iframe id="_sl_historyFrame" style="visibility: hidden; height: 0px; width: 0px; border: 0px"></iframe>
+                                </div>
+                                </div>
+                            </td>
+                        </tr>
+                        @if (!string.IsNullOrEmpty(Model.AUDIOFILE) && Model.AUDIOFILE.Substring(0, 7) == "http://")
+                        {
+                            <tr>
+                                <th style="text-align: center">语音文件</th>
+                                <td colspan="3">
+                                    <a id="openSpeechFile" url="@Model.AUDIOFILE">
+                                        <img src="~/Images/gf_ind_b3.gif" /></a>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                    <!--案件指派的内容-->
+                    
+                    <table class="table table-bordered" style="width: 100%">
+                        @if (Model.ISDBAJ == 1)
+                        {
+                        <tr>
+                            <th colspan="4" style="font-size: 14px; padding-left: 20px;">指派领导审批</th>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; line-height: 30px; width: 10%">指派领导</th>
+                            <td style="line-height: 30px;" colspan="3">@Model.DBAJZPRName</td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center;">指派说明</th>
+                            <td colspan="3">@Model.DBAJZPYJ</td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; width: 10%">指派时间</th>
+                            <td style="width: 40%">@Model.CREATETIME</td>
+                            <th style="text-align: center; width: 10%">操作人</th>
+                            <td>@Model.USERNAME</td>
+                        </tr>
+                        }
+                        @if (Model.ISDBAJ == 1 && !string.IsNullOrEmpty(Model.DBAJCLYJ))
+                        {
+                        <tr>
+                            <th colspan="4" style="font-size: 14px; padding-left: 20px;">领导审批</th>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center;">审批结果</th>
+                            <td colspan="3">@Model.DBAJCLYJ</td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; width: 10%">指派时间</th>
+                            <td style="width: 40%">@Model.DBAJCLSJ</td>
+                            <th style="text-align: center; width: 10%">操作人</th>
+                            <td>@Model.DBAJZPRName</td>
+                        </tr>
+                        }
+                       @if(!(Model.STATUE==7 ||Model.STATUE==10) )
+                        {
+                            <tr>
+                                <th colspan="4" style="font-size: 14px; padding-left: 20px;">指派案件</th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; line-height: 30px; width: 10%">指派大队</th>
+                                <td style="line-height: 30px;" colspan="3">@ViewBag.SSDD</td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center;">指派意见</th>
+                                <td colspan="3">@ViewBag.COMMENTS</td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; width: 10%">指派时间</th>
+                                <td style="width: 40%">@ViewBag.CREATETIME</td>
+                                <th style="text-align: center; width: 10%">操作人</th>
+                                <td>@ViewBag.USERID</td>
+                            </tr>
+                       }
+                    </table>
+                    @{
+                        if (zfsjform != null && zfsjform.FinalForm != null && zfsjform.FinalForm.Form101 != null)
+                        {
+                        <table class="table table-bordered" style="width: 100%">
+                            <tr>
+                                <th style="font-size: 14px; padding-left: 20px;">指派中队</th>
+                                <td colspan="3">@ViewBag.ZDNAME</td>
+                            </tr>
+                        </table>
+                        }
+                    }
+
+
+                    @if (Model.STATUE == 6)
+                    {
+                        <!--归档案件的内容-->
+                        <table class="table table-bordered" style="width: 100%">
+                            <tr>
+                                <th colspan="4" style="font-size: 14px; padding-left: 20px;">归档案件</th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center">归档意见</th>
+                                <td colspan="3">@ViewBag.ARCHIVING</td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center">归档时间</th>
+                                <td style="width: 40%">@ViewBag.ARCHIVINGTIME</td>
+                                <th style="text-align: center">归档人</th>
+                                <td>@ViewBag.ARCHIVINGUSER</td>
+                            </tr>
+                        </table>
+                    }
+                    @if (Model.STATUE == 2)
+                    {
+                        <table class="table table-bordered" style="width: 100%">
+                            <tr>
+                                <th style="text-align: center; line-height: 30px; width: 10%">拒绝原因</th>
+                                <td colspan="3">@ViewBag.REFUSECONTENT</td>
+                            </tr>
+                        </table>
+                    }
+                    @if ((Model.STATUE==10 || Model.STATUE == 2) && Request["type"] == "sel")
+                    { 
+                        <table class="table table-bordered" style="width: 100%">
+                            <tr>
+                                <th style="text-align: center; line-height: 30px; width: 10%">指派大队</th>
+                                <td>
+                                    @Html.DropDownList("ZFDDList", ViewBag.ZFDDList as IEnumerable<SelectListItem>, new { style = "width:97%", onchange = "GetZFDDUserList()" })
+                                </td>
+                                <th style="text-align: center; line-height: 30px; width: 10%">短信提醒</th>
+                                <td style="text-align: left; padding-top: 10px; width: 40%">
+                                    @Html.DropDownList("UserListZHK", ViewBag.UserListZHK as IEnumerable<SelectListItem>, new { style = "width:50%" })
+                                    &nbsp;&nbsp;&nbsp;<input type="checkbox" value="1" name="IsMSG" />&nbsp;短信提醒
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; line-height: 30px; width: 10%">指派意见</th>
+                                <td colspan="3">
+                                    <div class="form-group" style="margin-bottom: 5px;">
+                                        <div class="col-sm-9 col-lg-10 controls">
+                                            <textarea id="COMMENTS" name="COMMENTS" style="width: 98%"></textarea>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    }
+                    @if (Model.STATUE == 5 && Request["type"] == "sel")
+                    { 
+                        <table class="table table-bordered" style="width: 100%">
+                            <tr>
+                                <th colspan="4" style="font-size: 14px; padding-left: 20px;">归档案件</th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center">归档意见</th>
+                                <td colspan="3">
+                                    <div class="form-group" style="margin-bottom: 5px;">
+                                        <div class="col-sm-9 col-lg-10 controls">
+                                            <textarea id="ARCHIVING" name="ARCHIVING" style="width: 98%"></textarea>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    }
+                    @if (Model.STATUE == 7 && Request["type"] == "sel")
+                    { 
+                        <table class="table table-bordered" style="width: 100%">
+                            <tr>
+                                <th colspan="4" style="font-size: 14px; padding-left: 20px;">领导审核</th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center">审核意见</th>
+                                <td colspan="3">
+                                    <div class="form-group" style="margin-bottom: 5px;">
+                                        <div class="col-sm-9 col-lg-10 controls">
+                                            <textarea id="DBAJCLYJ" name="DBAJCLYJ" style="width: 98%"></textarea>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    }
+                    @if (zfsjform != null && zfsjform.FinalForm != null)
+                    {
+                        if (zfsjform.FinalForm.Form103 != null)
+                        { <table class="table table-bordered">
+                            <tr>
+                                <th colspan="4" style="font-weight: bold; height: 25px; font-size: 14px">中队队员处理</th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; line-height: 30px;">处理意见</th>
+                                <td colspan="3" style="height: 40px;">
+                                    @zfsjform.FinalForm.Form103.ZFDYCLYJ</td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; line-height: 30px;">处理人</th>
+                                <td style="line-height: 30px; width: 40%">
+                                    @zfsjform.FinalForm.Form103.ProcessUserName</td>
+                                <th style="text-align: center; line-height: 30px;">处理时间</th>
+                                <td style="line-height: 30px">
+                                    @zfsjform.FinalForm.Form103.CLSJ</td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; line-height: 30px;">反馈建议</th>
+                                @if (zfsjform.FinalForm.Form103.FKYJ == "my")
+                                {
+                                    <td colspan="3" style="height: 40px;">满意</td>
+                                }
+                                else if (zfsjform.FinalForm.Form103.FKYJ == "bmy")
+                                {
+                                    <td colspan="3" style="height: 40px;">不满意</td>
+                                }
+                                else if (zfsjform.FinalForm.Form103.FKYJ == "wflx")
+                                {
+                                    <td colspan="3" style="height: 40px;">无法联系</td>
+                                }
+                            </tr>
+                        </table>
+         
+                        }
+                        if (zfsjform.FinalForm.Form104 != null)
+                        { 
+                        <table class="table table-bordered">
+                            <tr>
+                                <th colspan="4" style="font-weight: bold; height: 25px; font-size: 14px">中队长处理</th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; line-height: 30px;">处理意见</th>
+                                <td colspan="3" style="height: 40px;">
+                                    @zfsjform.FinalForm.Form104.ZFZDZYJ</td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; line-height: 30px;">处理人</th>
+                                <td style="line-height: 30px; width: 40%">
+                                    @zfsjform.FinalForm.Form104.ProcessUserName</td>
+                                <th style="text-align: center; line-height: 30px;">处理时间</th>
+                                <td style="line-height: 30px">
+                                    @zfsjform.FinalForm.Form104.CLSJ</td>
+                            </tr>
+                        </table>
+          
+                        }
+                        if (zfsjform.FinalForm.Form105 != null)
+                        { 
+                        <table class="table table-bordered">
+                            <tr>
+                                <th colspan="4" style="font-weight: bold; height: 25px; font-size: 14px">执法副大队长审核</th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; line-height: 30px;">审核意见</th>
+                                <td colspan="3" style="height: 40px;">
+                                    @zfsjform.FinalForm.Form105.ZFDDZYJ</td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; line-height: 30px;">审核人</th>
+                                <td style="line-height: 30px; width: 40%">
+                                    @zfsjform.FinalForm.Form105.ProcessUserName</td>
+                                <th style="text-align: center; line-height: 30px;">处理时间</th>
+                                <td style="line-height: 30px">
+                                    @zfsjform.FinalForm.Form105.CLSJ</td>
+                            </tr>
+                        </table>
+         
+                        }
+                        if (zfsjform.FinalForm.Form107 != null)
+                        { 
+                        <table class="table table-bordered">
+                            <tr>
+                                <th colspan="4" style="font-weight: bold; height: 25px; font-size: 14px">执法大队长审核</th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; line-height: 30px;">审核意见</th>
+                                <td colspan="3" style="height: 40px;">
+                                    @zfsjform.FinalForm.Form107.ZFDDYJ</td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; line-height: 30px;">审核人</th>
+                                <td style="line-height: 30px; width: 40%">
+                                    @zfsjform.FinalForm.Form107.ProcessUserName</td>
+                                <th style="text-align: center; line-height: 30px;">处理时间</th>
+                                <td style="line-height: 30px">
+                                    @zfsjform.FinalForm.Form107.CLSJ</td>
+                            </tr>
+                        </table>
+           
+                        }
+                        if (zfsjform.FinalForm.Form106 != null)
+                        { 
+                        <table class="table table-bordered">
+                            <tr>
+                                <th colspan="4" style="font-weight: bold; height: 25px; font-size: 14px">分管副局长审核</th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; line-height: 30px;">审核意见</th>
+                                <td colspan="3" style="height: 40px;">
+                                    @zfsjform.FinalForm.Form106.ZFJZYJ</td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; line-height: 30px;">审核人</th>
+                                <td style="line-height: 30px; width: 40%">
+                                    @zfsjform.FinalForm.Form106.ProcessUserName</td>
+                                <th style="text-align: center; line-height: 30px;">处理时间</th>
+                                <td style="line-height: 30px">
+                                    @zfsjform.FinalForm.Form106.CLSJ</td>
+                            </tr>
+                        </table>
+                        }
+                        if (zfsjform.FinalForm.Form108 != null)
+                        { 
+                        <table class="table table-bordered">
+                            <tr>
+                                <th colspan="4" style="font-weight: bold; height: 25px; font-size: 14px">分管局长审核</th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; line-height: 30px;">审核意见</th>
+                                <td colspan="3" style="height: 40px;">
+                                    @zfsjform.FinalForm.Form108.ZFJZYJ</td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; line-height: 30px;">审核人</th>
+                                <td style="line-height: 30px; width: 40%">
+                                    @zfsjform.FinalForm.Form108.ProcessUserName</td>
+                                <th style="text-align: center; line-height: 30px;">处理时间</th>
+                                <td style="line-height: 30px">
+                                    @zfsjform.FinalForm.Form108.CLSJ</td>
+                            </tr>
+                        </table>
+                        }
+                    }
+                    @if (VMcasePhonesmsList != null && VMcasePhonesmsList.Count > 0)
+                    { 
+                        <table class="table table-bordered">
+                            <tr>
+                                <th colspan="4" style="font-weight: bold; height: 25px; font-size: 14px">催办短信记录</th>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center; line-height: 20px;width: 10%;"><strong>发送人</strong></td>
+                                <td style="text-align: center; line-height: 20px;width: 10%;"><strong>接收人</strong></td>
+                                <td style="text-align: center; line-height: 20px;width: 15%;"><strong>发送时间</strong></td>
+                                <td style="text-align: center; line-height: 20px;"><strong>短信内容</strong></td>
+                            </tr>
+                            @foreach (VMCASEPHONESMS item in VMcasePhonesmsList)
+                            {
+                            <tr>
+                                <td style="text-align: center; line-height: 20px;width: 10%;">@item.DESPATCHERNAME</td>
+                                <td style="text-align: center; line-height: 20px;width: 10%;">@item.SENDEENAME</td>
+                                <td style="text-align: center; line-height: 20px;width: 15%;">@item.CREATETIME</td>
+                                <td style="text-align: left; line-height: 20px;">@item.CONTENT</td>
+                            </tr>
+                            }
+                        </table>
+                    }
+                    <div class="form-group" style="margin-bottom: 5px; margin-left: 130px;">
+                        <div class="col-sm-9 col-lg-10 controls">
+                            @if (Request["type"] == "sel")
+                            {
+                                <input type="submit" class="btn btn-success" value="提　交" onsubmit="return FormSubmit();">
+                                <a style="margin-left: 5px;" href="javascript:void(0)" class="btn goBack" onclick="goback();">返　回</a>
+                            }
+                            else
+                            {
+                                <a style="margin-left: 5px;" href="javascript:void(0)" onclick="GoBackHistory();" class="btn goBack">返　回</a>
+                            }
+                        </div>
+                    </div>
+                    @Html.Hidden("bc")
+                    <input type="hidden" id="PICTURES" value="@Model.PICTURES" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

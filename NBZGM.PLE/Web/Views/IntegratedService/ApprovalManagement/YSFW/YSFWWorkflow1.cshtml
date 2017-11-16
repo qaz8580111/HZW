@@ -1,0 +1,111 @@
+﻿@model Taizhou.PLE.Model.XZSPWorkflowModels.YSFW.Form101
+@{
+    Layout = null;
+    Taizhou.PLE.Model.XZSPWorkflowModels.YSFW.YSFWForm ysfwform = (Taizhou.PLE.Model.XZSPWorkflowModels.YSFW.YSFWForm)ViewBag.ysfwForm;
+    Taizhou.PLE.Model.XZSPWorkflowModels.YSFW.Form101 form101 = ysfwform.FinalForm.Form101;
+}
+
+<style>
+    table th
+    {
+        width: 100px;
+    }
+
+    table tr input.large
+    {
+        width: 98%;
+    }
+
+    table tr input.small
+    {
+        width: 94%;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#veto").click(function () {
+            $("#bc").val("1");
+            $("#YSFWWorkflow1")[0].submit()
+        });
+        $(".goBack").click(function () {
+            window.location.href = "/Approval/Approval";
+        });
+    });
+</script>
+<form method="post" enctype="multipart/form-data" action="/YSFWWorkflow1/Commit" id="YSFWWorkflow1">
+    <div class="title" style="padding-bottom: 10px;">
+        受理
+    </div>
+<table class="table table-bordered">
+    <tr>
+        <th style="text-align: center;">项目名称
+        </th>
+        <td colspan="3">
+            <div class="form-group" style="margin-bottom: 5px;">
+                <div class="col-sm-9 col-lg-10 controls">
+                    <input type="text" value="@form101.ProjectName" id="ProjectName" name="ProjectName" class="large"/>
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <th style="text-align: center;">申请人/单位
+        </th>
+        <td colspan="3">
+            <div class="form-group" style="margin-bottom: 5px;">
+                <div class="col-sm-9 col-lg-10 controls">
+                    <input type="text" value="@form101.Applicant" id="Applicant" name="Applicant" class="large"/>
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <th style="text-align: center;">联系人
+        </th>
+        <td>
+            <div class="form-group" style="margin-bottom: 5px;">
+                <div class="col-sm-9 col-lg-10 controls">
+                    <input type="text" value="@form101.LinkMan" id="LinkMan" name="LinkMan" class="small"/>
+                </div>
+            </div>
+        </td>
+        <th style="padding-left: 30px!important">联系电话
+        </th>
+        <td>
+            <div class="form-group" style="margin-bottom: 5px;">
+                <div class="col-sm-9 col-lg-10 controls">
+                    <input type="text" value="@form101.Telephone" id="Telephone" name="Telephone" class="small"/>
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <th style="text-align: center;">受理说明
+        </th>
+        <td colspan="3">
+            <div class="form-group" style="margin-bottom: 5px;">
+                <div class="col-sm-9 col-lg-10 controls">
+                    <input id="Description" name="Description" value="@form101.Description" type="text" class="large"/>
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <th></th>
+        <td colspan="3" style="border-left:none;">
+            <div class="form-group" style="margin-bottom: 5px;">
+                <div class="col-sm-9 col-lg-10 controls">
+                    <input id="veto" type="button" class="btn btn-danger" value="保　存">
+                    <input type="submit" class="btn btn-success" value="提　交">
+                    <a style="margin-left: 5px;" href="javascript:void(0)" class="btn goBack">返　回</a>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+    @Html.Hidden("WIID")
+    @Html.Hidden("AIID")
+    @Html.Hidden("ADID")
+    @Html.Hidden("bc")
+    </form>
+

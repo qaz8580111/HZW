@@ -1,0 +1,846 @@
+﻿@{
+    Layout = null;
+}
+@using ZGM.Model
+@using ZGM.Common
+@using ZGM.BLL.ZHCGBLL;
+@*@model ZGM.Model.XTGL_ZFSJS*@
+@model ZGM.Model.XTGL_ZHCGS
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>执法事件上报</title>
+    <link href="~/Content/css/OA.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/Scripts/assets/bootstrap/bootstrap.min.css" />
+    <script src="~/Scripts/jquery-1.7.1.js"></script>
+    <script type="text/javascript" src="~/Scripts/js/select-ui.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/js/jquery.idTabs.min.js"></script>
+    <script src="~/Scripts/assets/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-zh-CN.js"></script>
+    <script src="~/Scripts/js/PageNotBack.js"></script>
+
+
+    <link href="~/Scripts/layer/skin/layer.css" rel="stylesheet" />
+    <link href="~/Scripts/layer/skin/seaning/style.css" rel="stylesheet" />
+    <script src="~/Scripts/layer/layer.js"></script>
+    <script type="text/javascript">
+        layer.config({
+            skin: 'layer-ext-seaning',
+            offset: ['100px', '33%'],
+            title: '提示',
+            moveOut: true,
+            closeBtn: false,
+            extend: '/skin/seaning/style.css'
+        });
+
+    </script>
+    <style type="text/css">
+        table tr input.large {
+            width: 98%;
+            height: 30px;
+        }
+
+        table tr input.small {
+            width: 94%;
+            height: 30px;
+        }
+
+        .fontStyle * {
+            font-family: 宋体 !important;
+        }
+
+        .docBtn {
+            /*font-weight: bold;*/
+            font-size: 13px;
+            width: 150px;
+            margin: 5px 0px;
+            text-align: left;
+        }
+
+        .inf_link {
+            margin-left: -16px;
+            margin-top: -4px;
+        }
+
+        .ui-xbox {
+            position: absolute;
+            z-index: 998;
+            width: 220px;
+            height: 100px;
+            visibility: visible;
+            text-align: center;
+        }
+
+        .leftbar-search {
+            width: 250px;
+            float: left;
+            border: 1px solid gray;
+        }
+
+        .content-search {
+            border: 1px solid gray;
+        }
+
+        .imgDiv {
+            display: inline-block;
+            position: relative;
+        }
+
+            .imgDiv .delete {
+                position: absolute;
+                top: 0px;
+                right: 0px;
+                width: 20px;
+                height: 20px;
+                display: none;
+            }
+
+        .a_href:hover {
+            display: block;
+            background: #f00;
+            color: #fff;
+        }
+
+        .table th {
+            width: 10%;
+        }
+    </style>
+
+    <style type="text/css">
+        #SJPQID td {
+            border: solid #b9aeae;
+            border-width: 0px 1px 1px 0px;
+            padding: 10px 0px;
+            text-align: left;
+            line-height: 30px;
+        }
+
+        table td label {
+            margin-left: 20px;
+        }
+
+        #SJPQID th {
+            width: 170px;
+            border: solid #b9aeae;
+            border-width: 0px 1px 1px 0px;
+            padding: 8px;
+            text-align: center;
+            line-height: 30px;
+        }
+
+        #SJPQID tr input.large {
+            width: 98%;
+            height: 30px;
+        }
+
+        #SJPQID tr input.small {
+            width: 94%;
+        }
+
+        #SJPQID {
+            width: 100%;
+            border: solid #b9aeae;
+            border-width: 1px 0px 0px 1px;
+        }
+        a, a:focus {
+            text-decoration:none;
+            color:#000;
+        }
+    </style>
+
+    <script type="text/javascript">
+        $(document).ready(init);
+        function init() {
+            $(".imgDiv").mouseenter(function () {
+                $(this).find(".delete").show();
+            });
+
+            $(".imgDiv").mouseleave(function () {
+                $(this).find(".delete").hide();
+            });
+
+            $(".a_href").mouseenter(function () {
+                $(this).find(".delete").attr("src", "/Images/images/close1.png")
+            });
+            $(".a_href").mouseleave(function () {
+                $(this).find(".delete").attr("src", "/Images/images/close.png")
+            });
+
+
+        }
+        function PushPage(dataURL) {
+            //alert(dataURL);
+            var left = ($(window).width() - 720) / 2;
+            window.showModalDialog(dataURL, window, "dialogHeight:480px;dialogWidth:720px;dialogLeft:" + left + ";dialogTop:150px;menubar=no,titlebar=no,toolbar=no, status=no,location=no;center=yes");
+        }
+
+        function ClearFile(fileid, imgid, i) {
+
+            document.getElementById(fileid).outerHTML += '';//清空IE的
+            document.getElementById(fileid).value = "";//可以清空火狐的
+            document.getElementById("urlname" + i).value = "";
+            document.getElementById(imgid).onclick = '';
+            $("#" + imgid).attr("src", "/Images/20076110836311.png");
+        }
+
+    </script>
+    <script type="text/javascript">
+
+
+
+        function fileUpload(fileid, imgid) {
+
+            var $file = $(fileid);
+            var fileObj = $file[0];
+            var windowURL = window.URL || window.webkitURL;
+            var dataURL;
+            var $img = $(imgid);
+
+            if (fileObj && fileObj.files && fileObj.files[0]) {
+                dataURL = windowURL.createObjectURL(fileObj.files[0]);
+                $img.attr('src', dataURL);
+            } else {
+                dataURL = $file.val();
+                var imgObj = $(imgid);
+                // 两个坑:
+                // 1、在设置filter属性时，元素必须已经存在在DOM树中，动态创建的Node，也需要在设置属性前加入到DOM中，先设置属性在加入，无效；
+                // 2、src属性需要像下面的方式添加，上面的两种方式添加，无效；
+                imgObj.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+                imgObj.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = dataURL;
+
+            }
+
+        }
+        //function getQueryString(name) {
+        //    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        //    var r = window.location.search.substr(1).match(reg);
+        //    if (r != null)
+        //        return unescape(r[2]);
+        //    return null;
+        //}
+
+       
+        $(document).ready(function () {
+           
+
+            var deliveryTemplateID = $("#bigclass").val();
+            var deliveryCount = $("#BCLASSID option").length;
+            for (var i = 1; i < deliveryCount; i++) {
+                if ($("#BCLASSID").get(0).options[i].text == deliveryTemplateID) {
+                    $("#BCLASSID").get(0).options[i].selected = true;
+                    $.get("/XTGL/GetQuestionXL", { BCLASSID: $("#BCLASSID").get(0).options[i].value },
+               function (data) {
+                   $("#SCLASSID").empty();
+                   $("#SCLASSID").append("<option value=''>请选择小类</option>");
+                   $.each(data, function (i, item) {
+                       $("#SCLASSID").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                   });
+               });
+                    SClassfunction();
+                    break;
+                }
+            }
+
+            function SClassfunction() {
+                var Subtype = $("#subtype").val();
+                if ($("#BCLASSID").get(0).options[i].value != "" && $("#BCLASSID").get(0).options[i].value != 0) {
+                    for (var j = 1; j < $("#SCLASSID option").length; j++) {
+                        if ($("#SCLASSID").get(0).options[j].text == Subtype) {
+                            $("#SCLASSID").get(0).options[j].selected = true;
+                        }
+                    }
+                }
+            }
+
+
+            $("#FOUNDTIME").datetimepicker({ changeMonth: true, changeYear: true, showMonthAfterYear: true, showButtonPanel: true });
+
+            $("#BCLASSID").change(function () {
+
+                var BCLASSID = $(this).val();
+
+                $.get("/XTGL/GetQuestionXL", { BCLASSID: BCLASSID },
+                    function (data) {
+                        $("#SCLASSID").empty();
+                        $("#SCLASSID").append("<option value=''>请选择小类</option>");
+                        $.each(data, function (i, item) {
+                            $("#SCLASSID").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                        });
+                    });
+            });
+            $("#CXFD").change(function () {
+                var CXFDID = $(this).val();
+                $.get("/XTGL/GetUserByDeptName", { BCLASSID: CXFDID },
+                    function (data) {
+                        $("#DYID").empty();
+                        $("#DYID").append("<option value=''>请选择队员</option>");
+                        $.each(data, function (i, item) {
+                            $("#DYID").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                        });
+                    });
+            });
+
+            $("#SSZDID").change(function () {
+                var unitid = $(this).val();
+                if (unitid == "") {
+                    $("#PhoneAboutUserName").html("");
+                    $("#PhoneNum").html("");
+                }
+                if (unitid != "") {
+                    $.ajax({
+                        type: "POST",
+                        url: "/XTGL/GetUserPhoneNum",
+                        data: { UnitID: unitid },
+                        cache: false,
+                        success: function (data) {
+                            var user = data.split(",");
+                            $("#span1").html("(");
+                            $("#PhoneNum").html(user[1]);
+                            $("#span2").html(")");
+                            $("#PhoneAboutUserName").html(user[0]);
+                            $("#smsusernum").val(user[1]);
+                            $("#username").val(user[0]);
+                            $("#userid").val(user[2]);
+                        },
+                        error: function () {
+                            alert("网络异常，请重试！");
+                        }
+                    });
+                }
+            })
+
+            $("#veto").click(function () {
+                $("#bc").val("1");
+                $("#EventReport")[0].submit();
+            });
+
+            $("#SelectLink").change(function () {
+                var SelectLink = $("#SelectLink").val();
+                if (SelectLink == 1) {
+                    document.getElementById("SendComments").style.width = "95%";
+                    document.getElementById("PQDY").style.display = "";
+
+                    $("#JBSJTH").css("visibility", "visible");
+                    $("#JBSJTD").css("visibility", "visible");
+                } else if (SelectLink == 2) {
+                    document.getElementById("SendComments").style.width = "95%";
+                    document.getElementById("PQDY").style.display = "none";
+
+                    $("#JBSJTH").css("visibility", "hidden");
+                    $("#JBSJTD").css("visibility", "hidden");
+                    $("#JBSJTH").css("border-width", "0px 0px 1px");
+                } else if (SelectLink == 3) {
+                    document.getElementById("SendComments").style.width = "95%";
+                    document.getElementById("PQDY").style.display = "none";
+                    $("#JBSJTH").css("visibility", "hidden");
+                    $("#JBSJTD").css("visibility", "hidden");
+                    $("#JBSJTH").css("border-width", "0px 0px 1px");
+                }
+
+            });
+        });
+        function validate_form(thisform) {
+            document.getElementById("XSDT").value = "显示地图";
+            document.getElementById("XSDT").setAttribute("onclick", "GetShowOrHide(this,'show')");
+            document.getElementById("ShowOrHide").style.display = 'none';
+            var PHONE = $("#CONTACTPHONE").val();
+            if (PHONE != "") {
+                if (!(/^[1][358][0-9]{9}$/.test(PHONE))) {
+                    layer.alert('手机号码格式不正确', {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    });
+                    return false;
+                }
+            }
+            var SelectLink = $("#SelectLink").val();
+            var SendComments = $("#SendComments").val();
+            if (SelectLink == "1") {
+                var DISPOSELIMIT = $("#DISPOSELIMIT").val();
+                var DYID = $("#DYID").val();
+
+                if (DISPOSELIMIT == null || DISPOSELIMIT == "") {
+                    layer.alert('处理期限不能为空！', {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    });
+                    return false;
+                }
+                var CLQX = /^\d+$/.test(DISPOSELIMIT)
+                if (CLQX == false) {
+                    layer.alert('处理期限必须为纯数字！', {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    });
+                    return false;
+                }
+                if (DYID == null || DYID == "") {
+                    layer.alert('请选择队员！', {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    });
+                    return false;
+                }
+                if (SendComments == "" || SendComments == null) {
+                    layer.alert('请添加派遣意见！', {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    });
+                    return false;
+                }
+            } else if (SelectLink == "2") {
+                if (SendComments == "" || SendComments == null) {
+                    layer.alert('请添加挂起意见！', {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    });
+                    return false;
+                }
+            } else if (SelectLink == "3") {
+                if (SendComments == "" || SendComments == null) {
+                    layer.alert('请添加作废意见！', {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    });
+                    return false;
+                }
+            }
+            with (thisform) {
+                if (validate_required(EVENTTITLE, "事件标题不能为空!") == false)
+                { EVENTTITLE.focus(); return false }
+                if (validate_required(ZONEID, "事件片区不能为空!") == false)
+                { ZONEID.focus(); return false }
+                //if (validate_required(CONTACT, "相关联系人不能为空!") == false)
+                //{ CONTACT.focus(); return false }
+                if (validate_required(EventAddress, "事件地址不能为空!") == false)
+                { EventAddress.focus(); return false }
+                if (validate_required(EVENTCONTENT, "事件内容不能为空!") == false)
+                { EVENTCONTENT.focus(); return false }
+                if (validate_select(BCLASSID, "请选择问题大类!") == false)
+                { BCLASSID.focus(); return false }
+                if (validate_select(SCLASSID, "请选择问题小类!") == false)
+                { SCLASSID.focus(); return false }
+                else { return true }
+            }
+        }
+
+        function validate_required(field, alerttxt) {
+            with (field) {
+                if (value == null || value == "") {
+                    layer.alert(alerttxt, {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    });
+                    return false
+                }
+                else { return true }
+            }
+        }
+        function validate_select(fieId, alerttxt) {
+            with (fieId) {
+                if (value == IndexStr(value)) {
+                    layer.alert(alerttxt, {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    }); return false
+                }
+                else { return true }
+            }
+        }
+        function IndexStr(str2) {
+            var str1 = "请选择";
+            var s = str1.indexOf(str2);
+            return (s);
+        }
+
+        //地图描点
+        var geometry = "";
+        function mapInited() {
+            setTimeout(function () {
+                var DTMD = $("input[name=GEOMETRY]")[0].value;
+                if (DTMD != "") {
+                    var mapCtrl = document.getElementById("mapCtrl").content.MapCtrl;
+                    mapCtrl.AddMarker(DTMD);
+                }
+            }, 1000)
+        }
+
+        //地图坐标点
+        function mapDraw(s) {
+            geometry = s;
+            document.getElementById("GEOMETRY").value = geometry;
+        }
+        $("#confirm").click(function () {
+            //document.getElementById("DTWZShow").value = geometry;
+            document.getElementById("GEOMETRY").value = geometry;
+            $("#mapDepicting").modal('hide');
+        });
+
+        //事件来源改变事件
+        function changeEventSourceID() {
+            var EventSourceID = $("#EventSourceID").val();
+            if (EventSourceID == 4) {
+                $("#EventSource").css("display", "none");
+            } else {
+                $("#EventSource").css("display", "");
+            }
+        }
+
+        //显示隐藏地图
+        function GetShowOrHide(o, otype) {
+            if (otype == "show") {
+                o.value = "隐藏地图";
+                o.setAttribute("onclick", "GetShowOrHide(this,'hide')");
+                document.getElementById("ShowOrHide").style.display = 'block';
+
+            } else if (otype == 'hide') {
+                o.value = "显示地图";
+                o.setAttribute("onclick", "GetShowOrHide(this,'show')");
+                document.getElementById("ShowOrHide").style.display = 'none';
+            }
+        }
+        function goback() {
+            window.location.href = "/XTGL/UpcomingEvents/";
+        }
+    </script>
+</head>
+<body>
+   
+    <div class="formbody">
+
+        <form method="post" enctype="multipart/form-data" action="/HomeSystem/AddCommit" onsubmit="return validate_form(this)" id="EventReport">
+            <div style="margin-bottom: 10px">
+                <h6 style="font-size: 32px; text-align: center; margin-bottom: 20px; margin-top: 10px;">事件派遣</h6>
+            </div>
+            <div>
+
+                <table class="table table-bordered" style="font-size: 13px">
+                    <tr>
+                        <th style="text-align: center; line-height: 30px;">事件标题 </th>
+                        <td style="width: 40%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <input type="text" name="EVENTTITLE" id="EventTitle" class="large" value="(@ViewBag.TASKNUM)@ViewBag.Subtype"/>
+                                </div>
+                            </div>
+                        </td>
+                        <th style="text-align: center; line-height: 30px;">事件来源
+                        </th>
+                        <td style="line-height: 30px; width: 40%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    @*  @Html.DropDownList("SOURCEID", ViewBag.EventSource as IEnumerable<SelectListItem>, "请选择来源", new { onchange = "changeEventSourceID()", @style = "width:98%;" })*@
+                                    智慧城管
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <th style="text-align: center; line-height: 30px">相关联系人
+                        </th>
+                        <td style="line-height: 30px; width: 40%">
+                            <div class="form-group" style="margin-bottom: 5px;">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <input type="text" name="CONTACT" id="CONTACT" class="large" />
+                                </div>
+                            </div>
+                        </td>
+                        <th style="text-align: center; line-height: 30px">相关联系人电话
+                        </th>
+                        <td style="line-height: 30px; width: 40%">
+                            <div class="form-group" style="margin-bottom: 5px;">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <input type="text" name="CONTACTPHONE" id="CONTACTPHONE" class="large" />
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+
+
+                    <tr>
+                        <th style="text-align: center; line-height: 30px;">事件地址
+                        </th>
+                        <td>
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <input type="text" id="EventAddress" name="EventAddress" class="large" value="@ViewBag.EVENTADDRESS"/>
+                                </div>
+                            </div>
+                        </td>
+                        <th style="text-align: center; line-height: 30px;">事件片区
+                        </th>
+                        <td style="line-height: 30px; width: 40%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    @Html.DropDownList("ZONEID", ViewBag.ZONE as IEnumerable<SelectListItem>, "请选择片区", new { onchange = "changeEventSourceID()", @style = "width:98%;" })
+                                </div>
+                            </div>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <th style="text-align: center; line-height: 30px;">事件内容
+                        </th>
+                        <td colspan="3">
+
+                            <textarea style="resize: none; width: 99%; height: 95px" id="EVENTCONTENT" name="EVENTCONTENT">@ViewBag.EVENTDESCRIPTION</textarea>
+
+                        </td>
+                    </tr>
+
+
+
+
+                    <tr>
+                        <th style="text-align: center; line-height: 30px;">问题大类
+                        </th>
+                        <td style="line-height: 30px; width: 40%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    @Html.DropDownList("BCLASSID", ViewBag.QuestionDL as IEnumerable<SelectListItem>, "请选择大类", new { @id = "BCLASSID", @style = "width:98%;"})
+                                </div>
+                            </div>
+                        </td>
+                        <th style="text-align: center; line-height: 30px;">问题小类
+                        </th>
+                        <td style="line-height: 30px; width: 40%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <select id="SCLASSID" name="SCLASSID" style="width: 98%;">
+                                        <option value="">请选择小类</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+
+
+
+                    <tr>
+                        <th style="text-align: center; line-height: 30px;">发现时间
+                        </th>
+                        <td style="line-height: 30px; width: 40%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <input type="text"  id="FOUNDTIME" readonly="readonly" name="FOUNDTIME" value="@ViewBag.CRATETIME.ToString("yyyy-MM-dd HH:mm")" class="large" />
+                                </div>
+                            </div>
+                        </td>
+                        <th style="text-align: center; line-height: 30px;">紧急级别 </th>
+                        <td colspan="3">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <select class="select2" id="LEVELNUM" name="LEVELNUM" style="width: 98%;">
+                                        <option value="1">一般</option>
+                                        <option value="2">紧急</option>
+                                        <option value="3">特急</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+
+
+
+                    <tr>
+                        <th style="text-align: center; line-height: 30px">地图位置
+                        </th>
+                        <td colspan="3">
+                            <input type="button" id="XSDT" value="显示地图" onclick="GetShowOrHide(this, 'show')" />
+                            <div class="form-group" id="ShowOrHide" style="margin-bottom: 5px; display: none">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                </div>
+                                <input type="hidden"  id="GEOMETRY" name="GEOMETRY" value=" @ViewBag.COORDINATEX,@ViewBag.COORDINATEY" />
+                                <div id="silverlightControlHost" style="width: 100%; height: 350px;">
+                                    <object id="mapCtrl" data="data:application/x-silverlight-2," type="application/x-silverlight-2" height="350px" width="100%">
+                                        <param name="source" value="/ClientBin/MapCtrl.xap" />
+                                        <param name="background" value="white" />
+                                        <param name="minRuntimeVersion" value="5.0.61118.0" />
+                                        <param name="autoUpgrade" value="true" />
+                                        <param id="initParams" name="initParams" value="IsGoogleMap=false,MapUrl=@ZGM.Web.ConfigManager.MapUrl,X1=@ZGM.Web.ConfigManager.MapLonX1,Y1=@ZGM.Web.ConfigManager.MapLatY1,X2=@ZGM.Web.ConfigManager.MapLonX2,Y2=@ZGM.Web.ConfigManager.MapLatY2,Mode=2,PinUrl=./Images/pin.png,OffsetX=24,OffsetY=48,fileUrl=" />
+                                        <a href="http://go.microsoft.com/fwlink/?LinkID=149156&v=5.0.61118.0" style="text-decoration: none">
+                                            <img src="http://go.microsoft.com/fwlink/?LinkId=161376" alt="Get Microsoft Silverlight" style="border-style: none" />
+                                        </a>
+                                    </object>
+
+                                    <iframe id="_sl_historyFrame" style="visibility: hidden; height: 0px; width: 0px; border: 0px"></iframe>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+
+
+
+
+                    <tr>
+                        <th style="text-align: center; line-height: 30px;">附件上传</th>
+                        <td style="line-height: 30px" colspan="3">
+                            <div style="clear: both">
+                                <table style="clear: both; table-layout: fixed;">
+                                    <tr>
+                                        <td style="text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><a href="javascript:void(0)" class="file">选择图片1
+                                                    <input type="file" name="material1" id="material1" onchange="fileUpload('#material1','#img1')" />
+                                        </a></td>
+                                        <td style="text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><a href="javascript:void(0)" class="file">选择图片2
+                                                    <input type="file" name="material2" id="material2" onchange="fileUpload('#material2','#img2')" />
+                                        </a></td>
+                                        <td style="text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><a href="javascript:void(0)" class="file">选择图片3
+                                                    <input type="file" name="material3" id="material3" onchange="fileUpload('#material3','#img3')" />
+                                        </a></td>
+                                        <td style="text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><a href="javascript:void(0)" class="file">选择图片4
+                                                    <input type="file" name="material4" id="material4" onchange="fileUpload('#material4','#img4')" />
+                                        </a></td>
+                                        <td style="text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><a href="javascript:void(0)" class="file">选择图片5
+                                                    <input type="file" name="material5" id="material5" onchange="fileUpload('#material5','#img5')" />
+                                        </a></td>
+                                        <td style="text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><a href="javascript:void(0)" class="file">选择图片6
+                                                    <input type="file" name="material6" id="material6" onchange="fileUpload('#material6','#img6')" />
+                                        </a></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+
+                                        @{
+                                            IList<XTGL_ZHCGMEDIAS> list = (IList<XTGL_ZHCGMEDIAS>)ViewBag.ZHCGListFile;
+                                            list = list.ToList();
+                                            int count = list.Count() == 0 ? 0 : list.Count();
+                                            if (count != 0)
+                                            {
+                                                for (int i = 0; i < count; i++)
+                                                {
+                                                    var material = "material" + (i + 1);
+                                                    var img = "img" + (i + 1);
+                                                    //var url = "C:\\ZGMImage\\ZHCGFilePath\\sourse\\" + list[i].IMGCODE;
+                                                    var url = "E:/ZGMImage/ZHCGFilePath/sourse/" + list[i].IMGCODE;
+                                                    var urlname = "urlname" + (i + 1);
+                                                    var num = (i + 1);
+                                            <td>
+                                                <div class="imgDiv">
+                                                   <img style="width: 100px; height: 120px" id="@img" src="/GetPictureFile.ashx?PicPath=@url" onclick="PushPage('/GetPictureFile.ashx?PicPath=@url')"/>
+                                                    <a class="a_href" href="javascript:void(0)" onclick="ClearFile('@material','@img','@num')">
+                                                        <img src="~/Images/images/close.png" class="delete" />
+                                                    </a>
+                                                </div>
+                                                <input type="hidden" id="@urlname" name="@urlname" value="@url"/>
+                                            </td>
+                                           
+                                                }
+
+                                            }
+
+                                            for (int i = count; i < 6; i++)
+                                            {
+                                                var material = "material" + (i + 1);
+                                                var img = "img" + (i + 1);
+                                                var urlname = "urlname" + (i + 1);
+                                                var num = (i + 1);
+                                            <td>
+                                                <div class="imgDiv">
+                                                    <img style="width: 100px; height: 120px" id="@img" src="~/Images/20076110836311.png" />
+                                                    <a class="a_href" href="javascript:void(0)" onclick="ClearFile('@material','@img','@num')">
+                                                        <img src="~/Images/images/close.png" class="delete" />
+                                                    </a>
+                                                </div>
+                                                <input type="hidden" id="@urlname" name="@urlname" value=""/>
+                                            </td>
+                                            }
+                                            
+                                        }
+                                    </tr>
+                                </table>
+                            </div>
+
+
+
+                        </td>
+                    </tr>
+                </table>
+
+                <table style="margin-bottom: 20px;" id="SJPQID">
+                    <tr>
+                        <th style="text-align: left;" colspan="4">事件派遣</th>
+                    </tr>
+                    <tr>
+                        <th style="text-align: center; line-height: 30px;">选择环节
+                        </th>
+                        <td style="line-height: 30px; width: 40%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <select id="SelectLink" name="SelectLink" class="large" style="margin-left: 20px;">
+                                        <option value="1">事件派遣</option>
+                                        <option value="2">事件挂起</option>
+                                        <option value="3">作废</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </td>
+
+                        <th id="JBSJTH" style="text-align: center; line-height: 30px;">处理期限 </th>
+                        <td id="JBSJTD" style="line-height: 30px; width: 40%">
+                            <div style="float: left">
+
+                                @if (@ViewBag.ASSIGNTIME != null && @ViewBag.ASSIGNTIME != "")
+                                {
+                                    <input name="page" type="text" size="14" maxlength="14" disabled="disabled" />
+                                }
+                                else
+                                {
+                                    <input name="DISPOSELIMIT" type="text" class="large" maxlength="14" style="margin-left: 20px; height: 22px; width: 32px; float: left; margin-right: 5px" id="DISPOSELIMIT" readonly="readonly" value="@ViewBag.DEALTIMELIMIT"/><b>单位（小时）</b> <label style=" margin-left: 200px;margin-top: -24px;cursor:text"><b >处置截止时间:</b><input type="text" style="margin-left:5px;width: 140px; margin-top:-5px; height: 22px;" readonly="readonly" name="DEALENDTIME" value="@ViewBag.DEALENDTIME"/></label>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                    <tr id="PQDY" style="text-align: center; line-height: 30px;">
+                        <th style="text-align: center; line-height: 30px;">选择分队 </th>
+                        <td style="line-height: 30px; width: 40%">
+                            <div style="float: left">
+                                @Html.DropDownList("CXFD", ViewBag.CXFDlist as IEnumerable<SelectListItem>, "请选择分队", new { @id = "CXFD", @style = "margin-left: 20px; float: left;", @class = "large" })
+                            </div>
+
+                        </td>
+                        <th style="text-align: center; line-height: 30px;">选择队员
+                        </th>
+                        <td style="line-height: 30px; width: 40%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <select id="DYID" name="DYID" class="large" style="margin-left: 20px; float: left;">
+                                        <option value="">请选择队员</option>
+                                    </select>
+                                </div>
+                                <input id="Notification" type="checkbox" style="float: left; margin-left: 5px; height: 22px" />
+                                &nbsp;短信提醒
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="text-align: center; line-height: 30px; margin-left: 20px;">意见 </th>
+                        <td colspan="3" style="line-height: 30px; width: 40%">
+                            <textarea id="SendComments" name="SendComments" style="resize: none; margin-left: 20px; width: 95%; height: 100px" class="dtablefinputs">请尽快处理！</textarea>
+                        </td>
+                    </tr>
+                </table>
+                <input type="hidden" name="TASKNUM" id="TASKNUM" value="@ViewBag.TASKNUM" />
+                <div class="form-group" style="margin-bottom: 5px;">
+                    <div class="col-sm-9 col-lg-10 controls" style="text-align:center;">
+                        <input type="submit" class="btn btn-success" value="提　交" onsubmit="return FormSubmit();">
+                        @*<input type="button" class="btn goBack" onclick="goback();" value="返　回" />*@
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <input type="hidden" value="@ViewBag.bigclass" id="bigclass" />
+    <input type="hidden" value="@ViewBag.Subtype" id="subtype" />
+</body>
+</html>

@@ -1,0 +1,277 @@
+﻿@{
+    Layout = "~/Views/IntegratedService/ApprovalManagement/_LayoutApprovalManagement.cshtml";
+}
+
+@section HeadStyles_ApprovalManage{
+    <link href="~/Scripts/assets/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.css" rel="stylesheet" />
+    <link href="~/Content/workflowCommonForm.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/zTree/zTreeStyle.css" rel="stylesheet" />
+    <style type="text/css">
+        .fontStyle *
+        {
+            font-family: 宋体 !important;
+        }
+
+        #docItems
+        {
+            display: table;
+        }
+
+            #docItems .grid
+            {
+                margin: 5px;
+                width: 200px;
+                float: left;
+                cursor: pointer;
+                border: 1px solid #fff;
+            }
+
+                #docItems .grid .grid-content .c_avatar
+                {
+                    width: 48px;
+                    float: left;
+                }
+
+                    #docItems .grid .grid-content .c_avatar img
+                    {
+                        height: 48px;
+                        width: auto;
+                        border: 0px;
+                    }
+
+                #docItems .grid .grid-content .conversation-info
+                {
+                    float: left;
+                    margin-left: 8px;
+                    width: 122px;
+                    margin-top: 0px;
+                }
+
+                    #docItems .grid .grid-content .conversation-info .conversation-title
+                    {
+                        margin-left: 0px;
+                        margin-top: 0px;
+                        font-size: 12px;
+                        width: 122px;
+                        height: 30px;
+                        line-height: 15px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+
+                        #docItems .grid .grid-content .conversation-info .conversation-title SPAN
+                        {
+                            font-weight: normal;
+                        }
+
+                    #docItems .grid .grid-content .conversation-info .conversation-date-status
+                    {
+                        height: 14px;
+                        line-height: 14px;
+                        margin-top: 2px;
+                    }
+
+        .selectItem
+        {
+            border-color: rgb(78,169,236) !important;
+            background-color: rgb(216,234,255);
+        }
+
+        #docItems .grid:hover
+        {
+            border-color: rgb(185,215,252);
+            background-color: rgb(246,250,255);
+        }
+
+        .docBtn
+        {
+            /*font-weight: bold;*/
+            font-size: 13px;
+            width: 150px;
+            margin: 5px 0px;
+            text-align: left;
+        }
+
+        .inf_link
+        {
+            margin-left: -16px;
+            margin-top: -4px;
+        }
+
+        .ui-xbox-shadow
+        {
+            overflow: hidden;
+            position: absolute;
+            visibility: visible;
+            left: 0px;
+            top: 0px;
+            z-index: 997;
+            filter: alpha(opacity=20);
+            background-image: none;
+            background-attachment: scroll;
+            background-repeat: repeat;
+            background-position-x: 0%;
+            background-position-y: 0%;
+            background-color: rgb(0,0,0);
+        }
+
+        .ui-xbox
+        {
+            position: absolute;
+            z-index: 998;
+            width: 220px;
+            height: 100px;
+            visibility: visible;
+            text-align: center;
+        }
+
+        .leftbar-search
+        {
+            width: 250px;
+            float: left;
+            border: 1px solid gray;
+        }
+
+        .content-search
+        {
+            border: 1px solid gray;
+        }
+    </style>
+}
+
+@section FootScripts_ApprovalManage{
+    <script src="~/Scripts/assets/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-zh-CN.js"></script>
+    <script src="~/Scripts/assets/zTree/jquery.ztree.core-3.5.js"></script>
+    <script src="~/Scripts/js/IntegratedService/CaseManagement/Workflow/workflow.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ("@ViewBag.currentActivityName" == "受理")
+            {
+                $("#fileGo").css("margin-left", "0px");
+                $("#buttonUpload").css("margin-right", "320px");
+            }
+
+            var $items = $("#docItems");
+
+            var viewData =
+                {
+                    "WIID": "@ViewBag.WIID",
+                    "AIID": "@ViewBag.AIID",
+                    "ADID": "@ViewBag.ADID"
+                };
+
+            $.ajax({
+                type: "GET",
+                cache: false,
+                url: ("/YSFWDocument/GetYSFWDocItems?rad=" + Math.random()),
+                data: viewData,
+                success: function (data)
+                {
+                    //遍历附件
+                    $.each(data, function (i, val)
+                    {                                     
+                        //插入到列表中
+                        var $grid=$("<a href='"+val.path+"' target='_blank'>'"+val.name+"'</a>")
+                        $items.prepend($grid);
+                    });
+                }
+            });
+        });
+    </script>  
+}
+
+@section BreadcrumbSection{
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li><a href="javascript:void(0)"><i class="icon-home"></i>综合业务</a></li>
+            <li>></li>
+            <li><a href="javascript:void(0)">行政审批</a></li>
+            <li>></li>
+            <li><a href="javascript:void(0)">事项审批</a></li>
+            <li>></li>
+            <li><a href="javascript:void(0)">待处理列表</a></li>
+            <li>></li>
+            <li class="active">审批事项处理</li>
+        </ul>
+    </div>
+}
+
+<div class="row-fluid">
+    <div class="span12" id="tabledata">
+        <div class="box box-black" style="margin-top: 0px;">
+            <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+                <i class="icon-reorder" style="margin-right: 5px;"></i>审批事项处理               
+            </div>
+            <div class="box-content">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#detail" data-toggle="tab">基本信息</a>
+                    </li>
+                    <li class="">
+                        <a href="#attach" data-toggle="tab">附件查看</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="detail">
+                        @Html.Action("Index", (string)ViewBag.ControllerName,
+            new
+            {
+                WIID = ViewBag.WIID,
+                AIID = ViewBag.AIID,
+                ADID = ViewBag.ADID,
+                ysfwForm = ViewBag.ysfwForm
+            })
+                    </div>
+                    <div class="tab-pane" id="attach">
+                        @if (ViewBag.currentActivityName!="受理") { 
+                        <div style="float: left; width: 200px; margin-left: 5px;">                                                    
+                            <div class="grid">
+                                <div class="grid-title">
+                                    <div class="pull-left">@ViewBag.currentActivityName</div>
+                                    <div class="pull-right"></div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="grid-content">
+                                    <div id="docBtns">
+                                    </div>
+                                    <a id="btnCaseForm" class="btn btn-info" href="javascript:void(0);" style="font-weight: bold; width: 150px; margin: 5px 0px;">上传附件</a>
+                                </div>
+                            </div>
+                        </div>}
+                        <div style="margin-left: 210px;" id="fileGo">
+                            <div id="docManagePanel" class="tabForm">
+                                <div id="docManage" class="grid" style="display:block;">
+                                    <div class="grid-content" id="docItems">
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="grid" style="margin-top: 5px;">
+            <div class="grid-content" style="overflow: auto;height:200px;">
+                <form method="post" enctype="multipart/form-data" action="/YSFWWorkflow/YSFWFileUpLoad">
+                     <ul style="list-style: none; margin-left: 0px;">
+                    <li style="margin-top: 5px;">附件1：<input type="file" name="file1" style="width: 400px;" class="file" /></li>
+                    <li style="margin-top: 5px;">附件2：<input type="file" name="file2" style="width: 400px;" class="file" /></li>
+                    <li style="margin-top: 5px;">附件3：<input type="file" name="file3" style="width: 400px;" class="file" /></li>
+                    <li style="margin-top: 5px;">附件4：<input type="file" name="file4" style="width: 400px;" class="file" /></li>
+                    <li style="margin-top: 5px;">附件5：<input type="file" name="file5" style="width: 400px;" class="file" /></li>
+                </ul>
+                <input type="submit" class="btn btn-success" value="上　传" style="float:right;margin-right:110px;" id="buttonUpload"/>
+                    @Html.Hidden("WIID")
+                    @Html.Hidden("AIID")
+                    @Html.Hidden("ADID")
+                    </form>
+            </div>
+        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

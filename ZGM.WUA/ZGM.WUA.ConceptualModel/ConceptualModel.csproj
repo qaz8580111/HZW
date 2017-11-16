@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6CE20F96-788D-4BEB-ACAC-A168C4CC05AA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ZGM.WUA.ConceptualModel</RootNamespace>
+    <AssemblyName>ZGM.WUA.ConceptualModel</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile23</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .NET Framework is automatically included -->
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AlarmModel.cs" />
+    <Compile Include="AreaModel.cs" />
+    <Compile Include="BMDAreaModel.cs" />
+    <Compile Include="BMDModel.cs" />
+    <Compile Include="CameraDevModel.cs" />
+    <Compile Include="CameraInfoModel.cs" />
+    <Compile Include="CameraJsonModel.cs" />
+    <Compile Include="CameraRegionModel.cs" />
+    <Compile Include="CameraThemeItemModel.cs" />
+    <Compile Include="CameraThemeModel.cs" />
+    <Compile Include="CameraUnitModel.cs" />
+    <Compile Include="ConstructionJGModel.cs" />
+    <Compile Include="ConstructionSGJDModel.cs" />
+    <Compile Include="ConstructionSGWTModel.cs" />
+    <Compile Include="ConstructionSJModel.cs" />
+    <Compile Include="ConstructionZBModel.cs" />
+    <Compile Include="ConstructionSGZJBFModel.cs" />
+    <Compile Include="DrawModel.cs" />
+    <Compile Include="EventReportModel.cs" />
+    <Compile Include="FileClass.cs" />
+    <Compile Include="IllegalBuildingFileModel.cs" />
+    <Compile Include="MessageContentModel.cs" />
+    <Compile Include="MessageModel.cs" />
+    <Compile Include="MessageNoReadModel.cs" />
+    <Compile Include="PartsBridgeModel.cs" />
+    <Compile Include="CarModel.cs" />
+    <Compile Include="CarPositionModel.cs" />
+    <Compile Include="ConstrAreaModel.cs" />
+    <Compile Include="ConstructionModel.cs" />
+    <Compile Include="DemolitionModel.cs" />
+    <Compile Include="FileModel.cs" />
+    <Compile Include="IllegalBuildingModel.cs" />
+    <Compile Include="MapElementModel.cs" />
+    <Compile Include="PartsCoverLoadModel.cs" />
+    <Compile Include="PartsCoverModel.cs" />
+    <Compile Include="PartsLandscapeLampModel.cs" />
+    <Compile Include="PartsLandscapeLampTJModel.cs" />
+    <Compile Include="PartsLoadGreenModel.cs" />
+    <Compile Include="PartsParkGreenModel.cs" />
+    <Compile Include="PartsProtectionGreenModel.cs" />
+    <Compile Include="PartsPumpModel.cs" />
+    <Compile Include="PartsRiverModel.cs" />
+    <Compile Include="PartsRoadModel.cs" />
+    <Compile Include="PartsRoadPartModel.cs" />
+    <Compile Include="PartsStreetLampLoadModel.cs" />
+    <Compile Include="PartsStreetLampModel.cs" />
+    <Compile Include="PartsStreetLampTJModel.cs" />
+    <Compile Include="PartsToiltModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RemoveBuildingEntMoneyModel.cs" />
+    <Compile Include="RemoveBuildingHouseCheckoutModel.cs" />
+    <Compile Include="RemoveBuildingHouseDrawHouseModel.cs" />
+    <Compile Include="RemoveBuildingHouseDrawModel.cs" />
+    <Compile Include="RemoveBuildingHouseTransitionModel.cs" />
+    <Compile Include="RemoveBuildingHouseSignModel.cs" />
+    <Compile Include="RemoveBuildingModel.cs" />
+    <Compile Include="R_TaskCount.cs" />
+    <Compile Include="R_TaskSourceModel.cs" />
+    <Compile Include="R_StatModel.cs" />
+    <Compile Include="R_UserUnitModel.cs" />
+    <Compile Include="TaskDisposeModel.cs" />
+    <Compile Include="TaskModel.cs" />
+    <Compile Include="TJReportModel.cs" />
+    <Compile Include="UserAlarmModel.cs" />
+    <Compile Include="UserModel.cs" />
+    <Compile Include="UserPositionModel.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

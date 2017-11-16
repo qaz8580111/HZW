@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="Scripts/assets/jquery/jquery.min.js"></script>
+    <title></title>
+    <script type="text/ecmascript">
+        $(function () {
+            $("#ztclick").bind("click", function () {
+                var urlstr = window.location.toString();
+                urlstr = urlstr.split("?");
+                urlstr = urlstr[1].split("&");
+                var userData = {
+                    account: urlstr[0].split("=")[1].toString(),
+                    password: urlstr[1].split("=")[1].toString()
+                };
+                alert(userData.password + userData.account);
+                var urls = "http://10.1.1.30/Login/CheckExist?account=" + userData.account + "&password=" + userData.password;
+                alert(urls);
+                $.ajax({
+                    type: "GET",
+                    url: urls,
+                    dataType: "jsonp",
+                    error: function (result) {
+                        alert("登陆异常，请联系管理员！");
+                    },
+                    success: function (result) {
+                        if (result == "success") {
+                            location.href = "http://10.1.1.30/Monitor"
+                        } else {
+                            alert("账号或密码错误！");
+                        }
+                    }
+                });
+            })
+            $("#ztclick").click();
+        })
+    </script>
+</head>
+<body>
+    <div style="display: none">
+        <form id="ztform">
+            <input type="text" name="account" />
+            <input type="text" name="password" />
+            <input type="button" id="ztclick" />
+        </form>
+    </div>
+</body>
+</html>

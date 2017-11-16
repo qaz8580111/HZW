@@ -1,0 +1,36 @@
+﻿@model Taizhou.PLE.Model.XZSPWorkflowModels.YSFW.Form106
+@{
+    Layout = null;
+    Taizhou.PLE.Model.XZSPWorkflowModels.YSFW.YSFWForm ysfwform = (Taizhou.PLE.Model.XZSPWorkflowModels.YSFW.YSFWForm)ViewBag.ysfwForm;
+    Taizhou.PLE.Model.XZSPWorkflowModels.YSFW.Form101 form101 = ysfwform.FinalForm.Form101;
+    Taizhou.PLE.Model.XZSPWorkflowModels.YSFW.Form102 form102 = ysfwform.FinalForm.Form102;
+    Taizhou.PLE.Model.XZSPWorkflowModels.YSFW.Form103 form103 = ysfwform.FinalForm.Form103;
+    Taizhou.PLE.Model.XZSPWorkflowModels.YSFW.Form104 form104 = ysfwform.FinalForm.Form104;
+    Taizhou.PLE.Model.XZSPWorkflowModels.YSFW.Form105 form105 = ysfwform.FinalForm.Form105;
+    Taizhou.PLE.Model.XZSPWorkflowModels.YSFW.Form106 form106 = ysfwform.FinalForm.Form106;
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#veto").click(function () {
+            $("#bc").val("1");
+            $("#YSFWWorkflow6")[0].submit()
+        });
+    });
+</script>
+<form method="post" enctype="multipart/form-data" action="/YSFWWorkflow6/Commit" id="YSFWWorkflow6">
+    <div class="title" style="padding-bottom: 10px;">
+        结案归档
+    </div>
+    
+        @Html.Action("ControlWorkflowForm", "YSFWWorkflow6", new 
+{
+     ysfwForm=ViewBag.ysfwForm
+})
+    @Html.Hidden("WIID")
+    @Html.Hidden("AIID")
+    @Html.Hidden("ADID")
+    @Html.Hidden("bc")
+</form>
+
+
+

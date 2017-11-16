@@ -1,0 +1,349 @@
+﻿@{
+    Layout = "~/Views/IntegratedService/ApprovalManagement/_LayoutApprovalManagement.cshtml";
+}
+
+@section HeadStyles_ApprovalManage{
+    <link href="~/Scripts/assets/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.css" rel="stylesheet" />
+    <link href="~/Content/workflowCommonForm.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/zTree/zTreeStyle.css" rel="stylesheet" />
+    <style type="text/css">
+        table th {
+            width: 100px;
+        }
+
+        table tr input.large {
+            width: 98%;
+        }
+
+        table tr input.small {
+            width: 94%;
+        }
+
+        .fontStyle * {
+            font-family: 宋体 !important;
+        }
+
+        #docItems {
+            display: table;
+        }
+
+            #docItems .grid {
+                margin: 5px;
+                width: 200px;
+                float: left;
+                cursor: pointer;
+                border: 1px solid #fff;
+            }
+
+                #docItems .grid .grid-content .c_avatar {
+                    width: 48px;
+                    float: left;
+                }
+
+                    #docItems .grid .grid-content .c_avatar img {
+                        height: 48px;
+                        width: auto;
+                        border: 0px;
+                    }
+
+                #docItems .grid .grid-content .conversation-info {
+                    float: left;
+                    margin-left: 8px;
+                    width: 122px;
+                    margin-top: 0px;
+                }
+
+                    #docItems .grid .grid-content .conversation-info .conversation-title {
+                        margin-left: 0px;
+                        margin-top: 0px;
+                        font-size: 12px;
+                        width: 122px;
+                        height: 30px;
+                        line-height: 15px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+
+                        #docItems .grid .grid-content .conversation-info .conversation-title SPAN {
+                            font-weight: normal;
+                        }
+
+                    #docItems .grid .grid-content .conversation-info .conversation-date-status {
+                        height: 14px;
+                        line-height: 14px;
+                        margin-top: 2px;
+                    }
+
+        .selectItem {
+            border-color: rgb(78,169,236) !important;
+            background-color: rgb(216,234,255);
+        }
+
+        #docItems .grid:hover {
+            border-color: rgb(185,215,252);
+            background-color: rgb(246,250,255);
+        }
+
+        .docBtn {
+            /*font-weight: bold;*/
+            font-size: 13px;
+            width: 150px;
+            margin: 5px 0px;
+            text-align: left;
+        }
+
+        .inf_link {
+            margin-left: -16px;
+            margin-top: -4px;
+        }
+
+        .ui-xbox-shadow {
+            overflow: hidden;
+            position: absolute;
+            visibility: visible;
+            left: 0px;
+            top: 0px;
+            z-index: 997;
+            filter: alpha(opacity=20);
+            background-image: none;
+            background-attachment: scroll;
+            background-repeat: repeat;
+            background-position-x: 0%;
+            background-position-y: 0%;
+            background-color: rgb(0,0,0);
+        }
+
+        .ui-xbox {
+            position: absolute;
+            z-index: 998;
+            width: 220px;
+            height: 100px;
+            visibility: visible;
+            text-align: center;
+        }
+
+        .leftbar-search {
+            width: 250px;
+            float: left;
+            border: 1px solid gray;
+        }
+
+        .content-search {
+            border: 1px solid gray;
+        }
+    </style>
+}
+
+
+@section FootScripts_ApprovalManage{
+    <script src="~/Scripts/assets/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-zh-CN.js"></script>
+    <script src="~/Scripts/assets/zTree/jquery.ztree.core-3.5.js"></script>
+    <script src="~/Scripts/js/IntegratedService/CaseManagement/Workflow/workflow.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //默认显示第一环节附件
+            GetAttachItems(1);
+            GetDocBtns();
+            if ($("#WorkflowView").val() == "WorkflowView") {
+                alert($("#WorkflowView").val())
+                $(".workflowOrView").hide();
+            }
+            var scrollHeight = window.document.body.scrollHeight;
+            load(scrollHeight);
+        });
+        //获取环节附件附件
+        function GetAttachItems(ADID) {
+            $("#tabFormDetails").css({ "display": "none" });
+            $("#docdiv").css({ "display": "none" });
+            $("#imgdiv").css({ "display": "none" });
+            var $items = $("#docItems");
+            $items.html("");
+
+            var viewData =
+                {
+                    "WIID": "@ViewBag.WIID",
+                    "AIID": "@ViewBag.AIID",
+                    "ADID": ADID
+                };
+
+            $.ajax({
+                type: "GET",
+                cache: false,
+                url: ("/XZSPAttachment/GetAttachmentItems?rad=" + Math.random()),
+                data: viewData,
+                success: function (data) {
+                    //遍历附件
+                    $.each(data, function (i, item) {
+                        var name = "";
+                        if (item.name.length > 6) {
+                            name = item.name.substring(0, 6) + "...";
+                        }
+                        else {
+                            name = item.name;
+                        }
+
+                        if (item.typeID == "1")//图片类型
+                        {
+                            var $grid = $("<div class='grid gridDetails'  TypeID='" + item.typeID
+                            + "' Src='" + item.path
+                            + "'  title=" + item.name + " style='width:80px;'></div>")
+                            var $content = $("<div class='grid-content'>");
+                            var $avatar = $("<div class='c_avatar'><a><img alt='JPG' src=\"/Images/XZSP/20076110836311.png\" style='width:80px;height:60px;'></a></div>");
+                            var $info = $("<div class='conversation-info' style='width:100%; margin-left:0px'></div>");
+                            var $title = $("<div class='conversation-title' style='width:100%;'><span  style='margin:0 auto'>" + name + "</span></div>");
+                            var $clear = $("<div class='clear'></div>");
+                            //结构
+                            $title.appendTo($info);
+                            $avatar.appendTo($content);
+                            $info.appendTo($content);
+                            $clear.appendTo($content);
+                            $content.appendTo($grid);
+                            $items.append($grid);
+                        }
+                        else//word
+                        {
+                            var $grid = $("<div class='grid gridDetails'  TypeID='" + item.typeID
+                           + "' Src='" + item.path
+                           + "'  title=" + item.name + " style='width:80px;'></div>");
+                            var $content = $("<div class='grid-content'>");
+                            var $avatar = $("<div class='c_avatar'><a><img alt='PDF' src=\"/Images/XZSP/20076110916590.png\" style='width:80px;height:60px;'></a></div>");
+                            var $info = $("<div class='conversation-info' style='width:100%; margin-left:0px'></div>");
+                            var $title = $("<div class='conversation-title' style='width:100%;'><span  style='margin:0 auto'>" + name + "</span></div>");
+                            var $clear = $("<div class='clear'></div>");
+                            //结构
+                            $title.appendTo($info);
+                            $avatar.appendTo($content);
+                            $info.appendTo($content);
+                            $clear.appendTo($content);
+                            $content.appendTo($grid);
+                            $items.append($grid);
+                        }
+
+                    });
+                    $(".gridDetails").bind("click", (function () {
+                        $("#tabFormDetails").css({ "display": "block" });
+                        $("#fileGo").css({ "display": "block" });
+                        if ($(this).attr("TypeID") == "1") {
+                            $("#docdiv").css({ "display": "none" });
+                            $("#imgdiv").css({ "display": "block" });
+                            $("#imgdiv img").attr("src", $(this).attr("Src"));
+                        }
+                        else {
+                            $("#imgdiv").css({ "display": "none" });
+                            $("#docdiv").css({ "display": "block" });
+                            $("#docdiv iframe").attr("src", $(this).attr("Src"));
+                        }
+                    })
+                  );
+                    var scrollHeight = window.document.body.scrollHeight;
+                    load(scrollHeight);
+                }
+            });
+        }
+        //获取环节按钮
+        function GetDocBtns() {
+            $.ajax({
+                type: "GET",
+                cache: false,
+                url: ("/XZSPAttachment/GetDocBtns?rad=" + Math.random()),
+                data: { WIID: "@ViewBag.WIID", ADID: "@ViewBag.ADID" },
+                success: function (data) {
+                    //字符串转化为object
+                    var json = eval("(" + data + ")");
+                    $.each(json, function (i, item) {
+                        var btnHTML = "<div class='clear'></div>"
+                            + "<a class='btn docBtn' style='width:91%' href='javascript:void(0);' count='" + item.Count + "' ADID='" + item.ADID + "' id='GetFileList' onclick='GetAttachItems(" + item.ADID + ")'>" + item.Name + "</a>";
+
+                        var tagHTML = "<span class='inf_link'>" + item.Count + "</span>";
+
+                        if (item.Count != "0") {
+                            $("#docBtnContainer").append($(btnHTML + tagHTML));
+                        } else {
+                            $("#docBtnContainer").append($(btnHTML));
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+}
+
+@section BreadcrumbSection{
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li><a href="javascript:void(0)"><i class="icon-home"></i>综合业务</a></li>
+            <li>></li>
+            <li><a href="javascript:void(0)">行政审批</a></li>
+            <li>></li>
+            <li class="active">查看详细</li>
+        </ul>
+    </div>
+}
+<div class="row-fluid">
+    <div class="span12" id="tabledata">
+        <div class="box box-black" style="margin-top: 0px;">
+            <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+                <i class="icon-reorder" style="margin-right: 5px;"></i>@ViewBag.ADNAME
+            </div>
+            <div class="box-content">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#detail" data-toggle="tab">基本信息</a>
+                    </li>
+                    <li class="">
+                        <a href="#attach" data-toggle="tab">相关附件</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="detail">
+                        <form method="post" enctype="multipart/form-data" action="/Approval/CommitRegistration" id="Registration" onsubmit="return FormSubmit();">
+                            <div class="title" style="margin-bottom: 30px;">
+                                查看详细
+                            </div>
+                            @Html.Action("ControlWorkflowForm", "XZSPWorkflow",
+                            new
+                            {
+                                WIID = ViewBag.WIID,
+                                ADID = ViewBag.ADID,
+                                APID = ViewBag.APID,
+                                ProjectName = ViewBag.ProjectName
+                            })
+                        </form>
+                    </div>
+                    <div class="tab-pane" id="attach">
+                        @Html.Action("Index", (string)ViewBag.ControllerAttachName,
+                        new
+                        {
+                            WIID = ViewBag.WIID,
+                            AIID = ViewBag.AIID,
+                            ADID = ViewBag.ADID,
+                            APID = ViewBag.APID,
+                            WDID = ViewBag.WDID,
+                            currentActivityName = ViewBag.ADNAME,
+                            WorkflowView = ViewBag.WorkflowView
+                        })
+                    </div>
+                    <div style="margin-left: 23%;" id="fileGo">
+                        <div class="tabForm" style="display: none" id="tabFormDetails">
+                            <div id="docManage" class="grid" style="display: block; text-align: center">
+                                <div id="imgdiv" style="display: none;">
+                                    <img style="width: 98%" />
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="grid-content" id="docdiv" style="display: none">
+                                    <iframe style="width: 98%; height: 600px"></iframe>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

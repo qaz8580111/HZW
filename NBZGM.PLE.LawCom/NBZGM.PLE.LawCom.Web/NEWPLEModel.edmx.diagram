@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="6c1f59c6397f4e3f81c5b2f420ae4e72" Name="关系图1" ZoomLevel="29">
+        <EntityTypeShape EntityType="Model.ACITIVITYDEFINITION" Width="1.5" PointX="9.8151972358185784" PointY="5.7590865370626965" />
+        <EntityTypeShape EntityType="Model.ACTIVITYDEFINITIONDOCPHAS" Width="1.5" PointX="0.35829651558692405" PointY="30.026556446229367" />
+        <EntityTypeShape EntityType="Model.ACTIVITYINSTANCE" Width="1.5" PointX="4.7433434653763396" PointY="2.1338683972758559" />
+        <EntityTypeShape EntityType="Model.ACTIVITYPERMISSION" Width="1.5" PointX="9.1016354472849681" PointY="9.3124680115433733" />
+        <EntityTypeShape EntityType="Model.ACTIVITYPERMISSIONTYPE" Width="1.5" PointX="1.5431701548132906" PointY="28.011912373831453" />
+        <EntityTypeShape EntityType="Model.ACTIVITYPEROPERTy" Width="1.5" PointX="3.601862625964853" PointY="10.331122343582624" />
+        <EntityTypeShape EntityType="Model.ACTIVITYSTATUS" Width="1.5" PointX="2.3937699414760667" PointY="2.752420143574672" />
+        <EntityTypeShape EntityType="Model.APP" Width="1.5" PointX="3.3457902927630538" PointY="16.629862495060014" />
+        <EntityTypeShape EntityType="Model.APPVERSION" Width="1.5" PointX="9.4936944141488961" PointY="8.5819135348228333" />
+        <EntityTypeShape EntityType="Model.ARTICLE" Width="1.5" PointX="6.6144923505440794" PointY="26.9714165306517" />
+        <EntityTypeShape EntityType="Model.CAMERARELATION" Width="1.5" PointX="4.7225490141299318" PointY="21.856417129680707" />
+        <EntityTypeShape EntityType="Model.CAMERA" Width="1.5" PointX="11.94737335478299" PointY="27.477661384026362" />
+        <EntityTypeShape EntityType="Model.CAMERATYPE" Width="1.5" PointX="8.986557532561271" PointY="11.733634358147921" />
+        <EntityTypeShape EntityType="Model.CARALARM" Width="1.5" PointX="10.791647454161033" PointY="4.54864169869043" />
+        <EntityTypeShape EntityType="Model.CARALARMTYPE" Width="1.5" PointX="7.9329525436893817" PointY="19.603753858992714" />
+        <EntityTypeShape EntityType="Model.CARCARD" Width="1.5" PointX="8.2588381898863421" PointY="3.3313525930658692" />
+        <EntityTypeShape EntityType="Model.CARCOMPANy" Width="1.5" PointX="0.40924750660045422" PointY="9.080261145290109" />
+        <EntityTypeShape EntityType="Model.CARDDEVICE" Width="1.5" PointX="9.3750900707091613" PointY="0.12376579648059131" />
+        <EntityTypeShape EntityType="Model.CARDLOG" Width="1.5" PointX="4.6823108888614513" PointY="18.958150708562766" />
+        <EntityTypeShape EntityType="Model.CARDRECORD" Width="1.5" PointX="11.826820956462445" PointY="2.1715804944613857" />
+        <EntityTypeShape EntityType="Model.CARDTYPE" Width="1.5" PointX="4.8254996560632719" PointY="23.119680653847606" />
+        <EntityTypeShape EntityType="Model.CARHISTORYPOSITION" Width="1.5" PointX="8.9343515862405063" PointY="25.718606379683411" />
+        <EntityTypeShape EntityType="Model.CARHISTORYTEMPPOSITION" Width="1.5" PointX="11.438457810989794" PointY="17.078484155739883" />
+        <EntityTypeShape EntityType="Model.CARLATESTPOSITION" Width="1.5" PointX="11.451438171533606" PointY="20.253394344939569" />
+        <EntityTypeShape EntityType="Model.CARLOCATION" Width="1.5" PointX="1.2010716112335547" PointY="18.19729019058742" />
+        <EntityTypeShape EntityType="Model.CARLOCATIONTYPE" Width="1.5" PointX="7.8060192315867258" PointY="24.900863554748177" />
+        <EntityTypeShape EntityType="Model.CAR" Width="1.5" PointX="6.7364117255138289" PointY="24.087433230172579" />
+        <EntityTypeShape EntityType="Model.CARSYNCPOSITION" Width="1.5" PointX="10.156497900447109" PointY="4.3174421658355007" />
+        <EntityTypeShape EntityType="Model.CARTYPE" Width="1.5" PointX="2.2122840966155213" PointY="5.4777959908721021" />
+        <EntityTypeShape EntityType="Model.CASEPHONESMS" Width="1.5" PointX="2.2734011347747414" PointY="0.91528154952231866" />
+        <EntityTypeShape EntityType="Model.CASESOURCE" Width="1.5" PointX="2.0085531948174133" PointY="19.722386160736153" />
+        <EntityTypeShape EntityType="Model.CONSTRSITE" Width="1.5" PointX="7.5592229606393833" PointY="16.511366553842727" />
+        <EntityTypeShape EntityType="Model.CONTACT" Width="1.5" PointX="2.2456289503004538" PointY="6.2736144095070729" />
+        <EntityTypeShape EntityType="Model.CONTACTSGROUP" Width="1.5" PointX="3.46492337224303" PointY="29.303125365312734" />
+        <EntityTypeShape EntityType="Model.DOCDEFINITIONRELATION" Width="1.5" PointX="3.657067483131339" PointY="8.79834165088755" />
+        <EntityTypeShape EntityType="Model.DOCDEFINITION" Width="1.5" PointX="1.5538875467860547" PointY="6.3583677291676253" />
+        <EntityTypeShape EntityType="Model.DOCINSTANCE" Width="1.5" PointX="3.3913966190961173" PointY="15.467065773656156" />
+        <EntityTypeShape EntityType="Model.DOCPHAS" Width="1.5" PointX="5.2887815429311154" PointY="21.473783383832213" />
+        <EntityTypeShape EntityType="Model.DUMPINGSITE" Width="1.5" PointX="11.261804837389757" PointY="6.1410558997378946" />
+        <EntityTypeShape EntityType="Model.FUNCTION" Width="1.5" PointX="10.865665208020092" PointY="6.8856692644235071" />
+        <EntityTypeShape EntityType="Model.GGFWCASENAME" Width="1.5" PointX="4.9486747127718633" PointY="8.5243321994898533" />
+        <EntityTypeShape EntityType="Model.GGFWEVENT" Width="1.5" PointX="0.50466902577535677" PointY="2.9572499259175964" />
+        <EntityTypeShape EntityType="Model.GGFWMONTHLYREPORT" Width="1.5" PointX="11.545388465535542" PointY="29.1227049516154" />
+        <EntityTypeShape EntityType="Model.GGFWSOURCE" Width="1.5" PointX="6.5128454968858716" PointY="9.0038934540953" />
+        <EntityTypeShape EntityType="Model.GGFWSTATUE" Width="1.5" PointX="5.2486000290366821" PointY="20.682798022722267" />
+        <EntityTypeShape EntityType="Model.GGFWTOZFZD" Width="1.5" PointX="9.834128077064701" PointY="7.0083663794251" />
+        <EntityTypeShape EntityType="Model.GGFWXFDOC" Width="1.5" PointX="4.8359053809362953" PointY="30.622907667710869" />
+        <EntityTypeShape EntityType="Model.GROUP" Width="1.5" PointX="10.805789490605607" PointY="25.145612922099239" />
+        <EntityTypeShape EntityType="Model.ILLEGALCLASS" Width="1.5" PointX="1.1106572845534688" PointY="7.3135710094652939" />
+        <EntityTypeShape EntityType="Model.ILLEGALITEM" Width="1.5" PointX="7.3988484420808263" PointY="24.22893975313238" />
+        <EntityTypeShape EntityType="Model.LAYERTYPE" Width="1.5" PointX="2.9395081861594266" PointY="1.2340430921102144" />
+        <EntityTypeShape EntityType="Model.LEADERWEEKWORKPLAN" Width="1.5" PointX="3.9379553962209983" PointY="26.404515979068595" />
+        <EntityTypeShape EntityType="Model.MAPINFO" Width="1.5" PointX="5.2700962746842279" PointY="14.457683555063644" />
+        <EntityTypeShape EntityType="Model.MENU" Width="1.5" PointX="5.9464272139344487" PointY="2.4966988277140532" />
+        <EntityTypeShape EntityType="Model.MESSAGE" Width="1.5" PointX="3.7440059183836012" PointY="5.6102110173600774" />
+        <EntityTypeShape EntityType="Model.MESSAGETOUSER" Width="1.5" PointX="2.3572359747985545" PointY="31.758368357903496" />
+        <EntityTypeShape EntityType="Model.ONDUTy" Width="1.5" PointX="3.1885082885569469" PointY="31.17673376164247" />
+        <EntityTypeShape EntityType="Model.PHONEERROR" Width="1.5" PointX="7.3945558682990065" PointY="28.831809653356583" />
+        <EntityTypeShape EntityType="Model.PORTALCATEGORy" Width="1.5" PointX="6.8912257845007" PointY="17.200677969120758" />
+        <EntityTypeShape EntityType="Model.QUESTIONID" Width="1.5" PointX="6.64637399215548" PointY="8.8656389158524753" />
+        <EntityTypeShape EntityType="Model.QUESTIONLIST" Width="1.5" PointX="7.83975990667928" PointY="0.23590220521944677" />
+        <EntityTypeShape EntityType="Model.RCDCEVENT" Width="1.5" PointX="5.7400719829555937" PointY="21.06938193229464" />
+        <EntityTypeShape EntityType="Model.RCDCTOZFZD" Width="1.5" PointX="5.4652500420181314" PointY="29.135333745337711" />
+        <EntityTypeShape EntityType="Model.RECIPE" Width="1.5" PointX="9.5484825175015651" PointY="10.420816649878779" />
+        <EntityTypeShape EntityType="Model.ROLEFUNCTION" Width="1.5" PointX="6.9943601745154522" PointY="20.957804525717069" />
+        <EntityTypeShape EntityType="Model.ROLEMENU" Width="1.5" PointX="6.9420114843836114" PointY="22.717908556907396" />
+        <EntityTypeShape EntityType="Model.ROLE" Width="1.5" PointX="6.9040475203208853" PointY="4.7461674682545327" />
+        <EntityTypeShape EntityType="Model.SCHEDULE" Width="1.5" PointX="11.642617787999388" PointY="11.962422808614756" />
+        <EntityTypeShape EntityType="Model.SCHEDULETYPE" Width="1.5" PointX="11.258669178587695" PointY="6.9412680896656909" />
+        <EntityTypeShape EntityType="Model.SIMPLECASEPICTURE" Width="1.5" PointX="7.8388724475348717" PointY="16.3300190196978" />
+        <EntityTypeShape EntityType="Model.SIMPLECAS" Width="1.5" PointX="4.974587142921326" PointY="14.870889163981605" />
+        <EntityTypeShape EntityType="Model.SINGNIN" Width="1.5" PointX="11.632454126902136" PointY="8.3860557267377409" />
+        <EntityTypeShape EntityType="Model.SPECIALACTIVITICE" Width="1.5" PointX="5.3988132837222951" PointY="26.465973180935706" />
+        <EntityTypeShape EntityType="Model.SPECIALACTIVITYDEFINITON" Width="1.5" PointX="11.439629103727466" PointY="13.719013920854318" />
+        <EntityTypeShape EntityType="Model.SPECIALTOZFSJ" Width="1.5" PointX="4.08903450709257" PointY="31.983628988258367" />
+        <EntityTypeShape EntityType="Model.SPECIALWORKFLOWINSTANCE" Width="1.5" PointX="2.538379061286514" PointY="17.761074789688493" />
+        <EntityTypeShape EntityType="Model.STREESTORE" Width="1.5" PointX="8.0962151363940045" PointY="10.86462359636306" />
+        <EntityTypeShape EntityType="Model.STREESTORETYPE" Width="1.5" PointX="1.2460925007453618" PointY="7.6027862912056907" />
+        <EntityTypeShape EntityType="Model.STREETASSESSMENTTYPE" Width="1.5" PointX="6.7226941765857369" PointY="21.431832457628023" />
+        <EntityTypeShape EntityType="Model.STREETBAS" Width="1.5" PointX="4.4364434501325913" PointY="16.918256320486897" />
+        <EntityTypeShape EntityType="Model.STREETEXAMINE" Width="1.5" PointX="7.8731488156473031" PointY="5.4363225872797534" />
+        <EntityTypeShape EntityType="Model.STREETPROBLEM" Width="1.5" PointX="5.9419018858773178" PointY="21.0262112566392" />
+        <EntityTypeShape EntityType="Model.STREET" Width="1.5" PointX="7.1618176471264192" PointY="15.568054042555417" />
+        <EntityTypeShape EntityType="Model.STREETTYPE" Width="1.5" PointX="5.0053406138929262" PointY="3.7565213012306584" />
+        <EntityTypeShape EntityType="Model.STREETUSER" Width="1.5" PointX="0.048657372616537554" PointY="7.7563928401825919" />
+        <EntityTypeShape EntityType="Model.TABLE1" Width="1.5" PointX="11.553259441421023" PointY="11.435334002336177" />
+        <EntityTypeShape EntityType="Model.TJGHZF" Width="1.5" PointX="10.611381790885414" PointY="1.3936449593834788" />
+        <EntityTypeShape EntityType="Model.TRANSLICENSECARCOMPANy" Width="1.5" PointX="10.350027450523353" PointY="6.0351372538298076" />
+        <EntityTypeShape EntityType="Model.TRANSLICENSECAR" Width="1.5" PointX="0.45600920005515644" PointY="6.9208028944771751" />
+        <EntityTypeShape EntityType="Model.TRANSLICENSEROAD" Width="1.5" PointX="2.5022049408881948" PointY="20.108026931112644" />
+        <EntityTypeShape EntityType="Model.TRANSLICENS" Width="1.5" PointX="11.486121050774177" PointY="11.74360612581652" />
+        <EntityTypeShape EntityType="Model.TRANSRECORD" Width="1.5" PointX="11.818771736611971" PointY="18.667998143782839" />
+        <EntityTypeShape EntityType="Model.TRANSROAD" Width="1.5" PointX="5.320797635857387" PointY="0.75095583533447041" />
+        <EntityTypeShape EntityType="Model.UNIT" Width="1.5" PointX="0.42300057244626832" PointY="7.5461697911592989" />
+        <EntityTypeShape EntityType="Model.UNITTYPE" Width="1.5" PointX="0.53372029985008773" PointY="23.444194476792678" />
+        <EntityTypeShape EntityType="Model.USERARCHIVE" Width="1.5" PointX="9.7632143766447967" PointY="8.5912853519391668" />
+        <EntityTypeShape EntityType="Model.USERCATEGORy" Width="1.5" PointX="10.166532083492044" PointY="3.9854035396060921" />
+        <EntityTypeShape EntityType="Model.USERGROUP" Width="1.5" PointX="10.250608316739372" PointY="7.8292431271771168" />
+        <EntityTypeShape EntityType="Model.USERONDUTy" Width="1.5" PointX="11.634681550615785" PointY="9.9936664150998311" />
+        <EntityTypeShape EntityType="Model.USERPHONESIGNIN" Width="1.5" PointX="7.9829532504002341" PointY="30.828781380704037" />
+        <EntityTypeShape EntityType="Model.USERPOSITION" Width="1.5" PointX="4.9193993289579634" PointY="26.749156308709249" />
+        <EntityTypeShape EntityType="Model.USERROLE" Width="1.5" PointX="5.0959728477038313" PointY="3.147699178730929" />
+        <EntityTypeShape EntityType="Model.USER" Width="1.5" PointX="0.44060142917586559" PointY="27.333676827761195" />
+        <EntityTypeShape EntityType="Model.USERS_DEL" Width="1.5" PointX="8.0490212552477711" PointY="20.196262071000532" />
+        <EntityTypeShape EntityType="Model.WORKFLOWDEFINITION" Width="1.5" PointX="5.7242063981127949" PointY="29.287776081491156" />
+        <EntityTypeShape EntityType="Model.WORKFLOWINSTANCE" Width="1.5" PointX="2.3950356591469775" PointY="11.006381576418123" />
+        <EntityTypeShape EntityType="Model.WORKFLOWPEROPERTy" Width="1.5" PointX="5.5347322307223141" PointY="23.7224889359076" />
+        <EntityTypeShape EntityType="Model.WORKFLOWSTATUS" Width="1.5" PointX="6.8582250694084088" PointY="9.2514573825762874" />
+        <EntityTypeShape EntityType="Model.WTUSERRELATION" Width="1.5" PointX="2.2198492336179356" PointY="29.177073551890008" />
+        <EntityTypeShape EntityType="Model.XCJGAREA" Width="1.5" PointX="2.5640315853823124" PointY="18.347224557002644" />
+        <EntityTypeShape EntityType="Model.XCJGCARTASK" Width="1.5" PointX="5.4150196935120132" PointY="5.8014051792218373" />
+        <EntityTypeShape EntityType="Model.XCJGROUTE" Width="1.5" PointX="0.87497518811140917" PointY="8.68555851685142" />
+        <EntityTypeShape EntityType="Model.XCJGSIGNIN" Width="1.5" PointX="5.1454329384236743" PointY="22.217406491850227" />
+        <EntityTypeShape EntityType="Model.XCJGUSERTASK" Width="1.5" PointX="6.1217181673840244" PointY="24.311614569421678" />
+        <EntityTypeShape EntityType="Model.XZSPACTDEF" Width="1.5" PointX="2.2720085430294317" PointY="19.770830074218487" />
+        <EntityTypeShape EntityType="Model.XZSPACTIST" Width="1.5" PointX="2.6284949195703931" PointY="23.222358118380587" />
+        <EntityTypeShape EntityType="Model.XZSPACTISTS_DELETE" Width="1.5" PointX="6.6123478350287055" PointY="7.84376512833115" />
+        <EntityTypeShape EntityType="Model.XZSPACTISTS_DELETE1" Width="1.5" PointX="2.6211107702092784" PointY="3.8804998266885522" />
+        <EntityTypeShape EntityType="Model.XZSPACTIVITYDEFINITION" Width="1.5" PointX="11.307879449477362" PointY="28.369025452234329" />
+        <EntityTypeShape EntityType="Model.XZSPAPPROVALPROJECT" Width="1.5" PointX="6.5598978747426981" PointY="18.855116867858506" />
+        <EntityTypeShape EntityType="Model.XZSPKZHC" Width="1.5" PointX="4.2325871830026562" PointY="12.931739455522848" />
+        <EntityTypeShape EntityType="Model.XZSPNEWACTIVITYDEFINITION" Width="1.5" PointX="9.1056072735719411" PointY="4.13547805144241" />
+        <EntityTypeShape EntityType="Model.XZSPNEWTAB" Width="1.5" PointX="6.3965372696502776" PointY="15.028856761301336" />
+        <EntityTypeShape EntityType="Model.XZSPNEWWORKFLOWINSTANCE" Width="1.5" PointX="9.6869997762548739" PointY="3.3882632867378479" />
+        <EntityTypeShape EntityType="Model.XZSPPROJECTNAME" Width="1.5" PointX="6.6363012579438738" PointY="18.083498128728706" />
+        <EntityTypeShape EntityType="Model.XZSPSTU" Width="1.5" PointX="0.716116939073483" PointY="1.8487439164187498" />
+        <EntityTypeShape EntityType="Model.XZSPWFDEF" Width="1.5" PointX="1.1835933202801241" PointY="2.9406507773979804" />
+        <EntityTypeShape EntityType="Model.XZSPWFIST" Width="1.5" PointX="6.145773324252" PointY="7.316993031332732" />
+        <EntityTypeShape EntityType="Model.XZSPWFISTS_DELETE" Width="1.5" PointX="9.1559584276545589" PointY="4.9037024103587967" />
+        <EntityTypeShape EntityType="Model.XZZFLISTSH" Width="1.5" PointX="8.0349542536004233" PointY="10.957530652618749" />
+        <EntityTypeShape EntityType="Model.XZZFQUESTIONCLASS" Width="1.5" PointX="4.1284106430264238" PointY="29.152442111239043" />
+        <EntityTypeShape EntityType="Model.XZZFTABLIST" Width="1.5" PointX="5.3015897335957689" PointY="27.493720320748967" />
+        <EntityTypeShape EntityType="Model.ZBRZLIST" Width="1.5" PointX="8.3544211109887918" PointY="15.164403639344686" />
+        <EntityTypeShape EntityType="Model.ZFGKCARHISTORYPOSITION" Width="1.5" PointX="9.51504525612809" PointY="6.9155208202616878" />
+        <EntityTypeShape EntityType="Model.ZFGKCARLATESTPOSITION" Width="1.5" PointX="6.2748225807560711" PointY="14.408100358400541" />
+        <EntityTypeShape EntityType="Model.ZFGKCAR" Width="1.5" PointX="4.1614170689887446" PointY="9.5505725040801668" />
+        <EntityTypeShape EntityType="Model.ZFGKUSERHISTORYPOSITION" Width="1.5" PointX="4.3815047072160542" PointY="19.982300693160994" />
+        <EntityTypeShape EntityType="Model.ZFGKUSERLATESTPOSITION" Width="1.5" PointX="2.6476220258733361" PointY="1.5083130605091868" />
+        <EntityTypeShape EntityType="Model.ZFSJACTIVITYDEFINITION" Width="1.5" PointX="5.0699196686362473" PointY="30.197789116854683" />
+        <EntityTypeShape EntityType="Model.ZFSJACTIVITYINSTANCE" Width="1.5" PointX="8.8605471741690067" PointY="30.6922977411618" />
+        <EntityTypeShape EntityType="Model.ZFSJCHARTBYQL" Width="1.5" PointX="10.644527658188961" PointY="12.936318492952882" />
+        <EntityTypeShape EntityType="Model.ZFSJCHECKWAY" Width="1.5" PointX="2.4805542055892547" PointY="19.975191319349776" />
+        <EntityTypeShape EntityType="Model.ZFSJPROCESSWAY" Width="1.5" PointX="6.69794433875845" PointY="5.1605758691022992" />
+        <EntityTypeShape EntityType="Model.ZFSJQUESTIONCLASS" Width="1.5" PointX="7.5247909741125962" PointY="14.692276782678569" />
+        <EntityTypeShape EntityType="Model.ZFSJSOURCE" Width="1.5" PointX="8.79563859887218" PointY="31.672635689225345" />
+        <EntityTypeShape EntityType="Model.ZFSJSTATU" Width="1.5" PointX="4.299229007353647" PointY="25.250642788247504" />
+        <EntityTypeShape EntityType="Model.ZFSJSUMMARYINFORMATION" Width="1.5" PointX="2.6034302909874496" PointY="6.5355303466951149" />
+        <EntityTypeShape EntityType="Model.ZFSJTIMELIMIT" Width="1.5" PointX="2.9422581824205154" PointY="14.134457043434706" />
+        <EntityTypeShape EntityType="Model.ZFSJWORKFLOWINSTANCE" Width="1.5" PointX="11.5478125622253" PointY="28.78789907544288" />
+        <AssociationConnector Association="Model.ACITIVITYDEFINITIONS_WORK_FK1" />
+        <AssociationConnector Association="Model.ACTIVITYINSTANCES_ACITIVI_FK1" />
+        <AssociationConnector Association="Model.ACTIVITYPERMISSIONS_ACITI_FK1" />
+        <AssociationConnector Association="Model.DOCDEFINITIONRELATIONS_AC_FK1" />
+        <AssociationConnector Association="Model.ACTIVITYINSTANCES_ACTIINST_FK1" />
+        <AssociationConnector Association="Model.ACTIVITYINSTANCES_STATUS_FK1" />
+        <AssociationConnector Association="Model.ACTIVITYINSTANCES_WINS_FK1" />
+        <AssociationConnector Association="Model.ACTIVITYPEROPERTIES_ACTIV_FK1" />
+        <AssociationConnector Association="Model.DOCINSTANCES_ACTIVITYINST_FK1" />
+        <AssociationConnector Association="Model.ACTIVITYPERMISSIONS_ACTIV_FK1" />
+        <AssociationConnector Association="Model.ACTIVITYPERMISSIONS_UNIT_FK1" />
+        <AssociationConnector Association="Model.MENUS_APPS_FK1" />
+        <AssociationConnector Association="Model.ARTICLES_PORTALCATEGORIES_FK1" />
+        <AssociationConnector Association="Model.CAMERA_CAMERATYPES_FK1" />
+        <AssociationConnector Association="Model.CAMERA_CARS_FK1" />
+        <AssociationConnector Association="Model.CAMERA_CONSTRSITES_FK1" />
+        <AssociationConnector Association="Model.CAMERA_DUMPINGSITES_FK1" />
+        <AssociationConnector Association="Model.CAMERAS_FK1" />
+        <AssociationConnector Association="Model.CAMERAS_CAMERATYPES_FK1" />
+        <AssociationConnector Association="Model.CAMERAS_CARS_FK1" />
+        <AssociationConnector Association="Model.CAMERAS_CONSTRSITES_FK1" />
+        <AssociationConnector Association="Model.CAMERAS_DUMPINGSITES_FK1" />
+        <AssociationConnector Association="Model.CARALARMS_CARALARMTYPES_FK1" />
+        <AssociationConnector Association="Model.CARALARMS_CARS_FK1" />
+        <AssociationConnector Association="Model.CARALARMS_USERS_FK1" />
+        <AssociationConnector Association="Model.CARLATESTPOSITIONS_CARALA_FK1" />
+        <AssociationConnector Association="Model.COMPANIES_USERS_FK1" />
+        <AssociationConnector Association="Model.TRANSCARCOMPANIES_CARCOMP_FK1" />
+        <AssociationConnector Association="Model.CARDRECORDS_CARDTYPES_FK1" />
+        <AssociationConnector Association="Model.CARDRECORDS_CARS_FK1" />
+        <AssociationConnector Association="Model.CARDRECORDS_CONSTRSITES_FK1" />
+        <AssociationConnector Association="Model.CARDRECORDS_DUMPINGSITES_FK1" />
+        <AssociationConnector Association="Model.CARHISTORYPOSITIONS_CARS_FK1" />
+        <AssociationConnector Association="Model.CARLATESTPOSITIONS_CARS_FK1" />
+        <AssociationConnector Association="Model.TRANSLICENSECARS_CARS_FK1" />
+        <AssociationConnector Association="Model.CONSTRSITES_UNITS_FK1" />
+        <AssociationConnector Association="Model.TRANSLICENSES_CONSTRSITES_FK1" />
+        <AssociationConnector Association="Model.CONTACTS_CONTACTSGROUPS_FK1" />
+        <AssociationConnector Association="Model.DOCDEFINITIONRELATIONS_DO_FK1" />
+        <AssociationConnector Association="Model.DOCINSTANCES_DOCDEFINITIO_FK1" />
+        <AssociationConnector Association="Model.DOCINSTANCES_WORKFLOWINST_FK1" />
+        <AssociationConnector Association="Model.DUMPINGSITES_UNITS_FK1" />
+        <AssociationConnector Association="Model.TRANSLICENSES_DUMPINGSITE_FK1" />
+        <AssociationConnector Association="Model.FUNCTIONROLEFUNCTIONS_FUN_FK2" />
+        <AssociationConnector Association="Model.FUNCTIONS_FUNCTIONS_FK1" />
+        <AssociationConnector Association="Model.GGFWMONTHLYREPORTS_GGFWCA_FK1" />
+        <AssociationConnector Association="Model.GGFWTOZFZDS_GGFWEVENTS_FK1" />
+        <AssociationConnector Association="Model.GGFWMONTHLYREPORTS_GGFWSO_FK1" />
+        <AssociationConnector Association="Model.GGFWTOZFZDS_ZFSJWORKFLOWI_FK1" />
+        <AssociationConnector Association="Model.ILLEGALITEMS_ILLEGALCLASS_FK1" />
+        <AssociationConnector Association="Model.ONDUTIES_USERS_FK1" />
+        <AssociationConnector Association="Model.USERONDUTIES_ONDUTIES_FK1" />
+        <AssociationConnector Association="Model.RCDCTOZFZDS_RCDCEVENTS_FK1" />
+        <AssociationConnector Association="Model.FUNCTIONROLEFUNCTIONS_FUN_FK1" />
+        <AssociationConnector Association="Model.USERFUNCTIONROLERELATIONS_FK2" />
+        <AssociationConnector Association="Model.SIMPLECASEID_FK" />
+        <AssociationConnector Association="Model.SINGNINS_USERS_FK1" />
+        <AssociationConnector Association="Model.SPECIALACTIVITICES_SPECIA_FK1" />
+        <AssociationConnector Association="Model.SPECIALACTIVITICES_SPECIA_FK2" />
+        <AssociationConnector Association="Model.SPECIALACTIVITICES_UNITS_FK1" />
+        <AssociationConnector Association="Model.SPECIALACTIVITICES_USERS_FK1" />
+        <AssociationConnector Association="Model.SPECIALTOZFSJ_SPECIALACTI_FK1" />
+        <AssociationConnector Association="Model.SPECIALWORKFLOWINSTANCES__FK2" />
+        <AssociationConnector Association="Model.SPECIALTOZFSJ_USERS_FK1" />
+        <AssociationConnector Association="Model.SPECIALWORKFLOWINSTANCES__FK1" />
+        <AssociationConnector Association="Model.STREESTORES_STREESTORETYP_FK1" />
+        <AssociationConnector Association="Model.STREETEXAMINES_STREETBASE_FK1" />
+        <AssociationConnector Association="Model.STREETEXAMINES_STREETS_FK1" />
+        <AssociationConnector Association="Model.STREETPROBLEMS_STREETEXAM_FK1" />
+        <AssociationConnector Association="Model.STREETUSERS_STREETEXAMINE_FK1" />
+        <AssociationConnector Association="Model.STREETS_STREETTYPES_FK1" />
+        <AssociationConnector Association="Model.STREETUSERS_USERS_FK1" />
+        <AssociationConnector Association="Model.TRANSCARCOMPANIES_TRANSLI_FK1" />
+        <AssociationConnector Association="Model.TRANSLICENSECARS_TRANSLI_FK1" />
+        <AssociationConnector Association="Model.TRANSLICENSEROADS_TRANSLI_FK1" />
+        <AssociationConnector Association="Model.TRANSLICENSEROADS_TRANSRO_FK1" />
+        <AssociationConnector Association="Model.TRANSLICENSES_UNITS_FK1" />
+        <AssociationConnector Association="Model.UNITS_UNITS_FK1" />
+        <AssociationConnector Association="Model.UNITS_UNITTYPES_FK1" />
+        <AssociationConnector Association="Model.USERS_UNIT_FK1" />
+        <AssociationConnector Association="Model.WORKFLOWINSTANCES_UNIT_FK1" />
+        <AssociationConnector Association="Model.XCJGSIGNINS_UNITS_FK1" />
+        <AssociationConnector Association="Model.ZFGKCARS_UNITS_FK1" />
+        <AssociationConnector Association="Model.ATTACHMENTS_USERS_FK1" />
+        <AssociationConnector Association="Model.USERS_CATEGORY_FK1" />
+        <AssociationConnector Association="Model.USERONDUTIES_USERPOSITION_FK1" />
+        <AssociationConnector Association="Model.USERONDUTIES_USERS_FK1" />
+        <AssociationConnector Association="Model.USER_USERPOSITION_FK1" />
+        <AssociationConnector Association="Model.USERFUNCTIONROLERELATIONS_FK1" />
+        <AssociationConnector Association="Model.USERHISTORYPOSITIONS_USERS_FK1" />
+        <AssociationConnector Association="Model.USERLATESTPOSITIONS_USERS_FK1" />
+        <AssociationConnector Association="Model.WTUSERRELATIONS_USERS_FK1" />
+        <AssociationConnector Association="Model.XCJGUSERTASKS_USERS_FK1" />
+        <AssociationConnector Association="Model.WORKFLOWINSTANCES_WORKFLO_FK1" />
+        <AssociationConnector Association="Model.WORKFLOWINSTANCES_WORKFLO_FK2" />
+        <AssociationConnector Association="Model.WORKFLOWPEROPERTIES_WORKF_FK1" />
+        <AssociationConnector Association="Model.XCJGCARTASKS_AREAS_FK1" />
+        <AssociationConnector Association="Model.XCJGUSERTASKS_AREAS_FK1" />
+        <AssociationConnector Association="Model.XCJGCARTASKS_ROUTES_FK1" />
+        <AssociationConnector Association="Model.XCJGCARTASKS_ZFJGCARS_FK1" />
+        <AssociationConnector Association="Model.XCJGUSERTASKS_ROUTES_FK1" />
+        <AssociationConnector Association="Model.XZSPACTDEFS_XZSPWFDEFS_FK1" />
+        <AssociationConnector Association="Model.XZSPACTISTS_XZSPACTDEFS_FK1" />
+        <AssociationConnector Association="Model.XZSPACTISTS_XZSPSTUS_FK1" />
+        <AssociationConnector Association="Model.XZSPACTISTS_XZSPWFISTS_FK1" />
+        <AssociationConnector Association="Model.XZSPWFISTS_XZSPSTUS_FK1" />
+        <AssociationConnector Association="Model.XZSPWFISTS_XZSPWFDEFS_FK1" />
+        <AssociationConnector Association="Model.XZZFTABLISTS_XZZFQUESTION_FK1" />
+        <AssociationConnector Association="Model.ZFGKCARHS_ZFGKCARS_FK1" />
+        <AssociationConnector Association="Model.ZFGKCARLPS_ZFGKCARS_FK1" />
+        <AssociationConnector Association="Model.ZFSJACTIVITYINSTANCES_ZFS_FK1" />
+        <AssociationConnector Association="Model.ZFSJACTIVITYINSTANCES_ZFS_FK2" />
+        <AssociationConnector Association="Model.ID_PROCESSID_FK1" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

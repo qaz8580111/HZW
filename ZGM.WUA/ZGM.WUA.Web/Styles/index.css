@@ -1,0 +1,208 @@
+﻿
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+#silverlightControlHost {
+    height: 100%;
+    text-align: center;
+}
+
+#loadingDiv {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 102;
+    background-color: white;
+}
+
+    #loadingDiv img {
+        display: block;
+        margin: auto;
+        margin-top: 178px;
+    }
+
+    #loadingDiv span {
+        float: left;
+        width: 100%;
+        text-align: center;
+        margin-left: 20px;
+    }
+
+    #loadingDiv button {
+        margin: 0 auto;
+        cursor: pointer;
+    }
+
+#messageDiv {
+    height: 402px;
+    width: 580px;
+    position: absolute;
+    top: 55px;
+    left: 450px;
+    background-color: #001b38;
+    visibility: collapse;
+}
+
+#ewDiv {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+}
+
+#__g, #swdiv {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    visibility: visible;
+}
+
+#headDiv {
+    height: 50px;
+    width: 100%;
+    min-width: 1024px;
+    /*background-image: url(/Images/head.png);*/
+}
+
+#reportDiv {
+    height: 50px;
+    width: 100%;
+    min-width: 1024px;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    background-color: #0e1f2b;
+    visibility: hidden;
+    /*background-image: url(/Images/head.png);*/
+}
+
+
+/*菜单栏*/
+#menuDiv {
+    height: 145px;
+    width: 100%;
+    min-width: 1024px;
+    background-color: #0e1e30;
+    /*background-image: url(/Images/menu.png);*/
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+    #menuDiv .bottomDiv {
+        width: 100%;
+    }
+
+    #menuDiv .self {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        text-align: center;
+        line-height: 35px;
+    }
+
+        #menuDiv .self .titleMenu {
+            font-size: 14px;
+            font-weight: 500;
+            color: #7bb2f3;
+            width: 100%;
+        }
+
+        #menuDiv .self .contentMenu {
+            font-size: medium;
+            font-weight: 500;
+            color: #2bcbfd;
+            /*cursor: pointer;*/
+            /*margin-right: 20px;*/
+        }
+
+    /*#menuDiv .self .contentMenu:hover {
+                opacity: 0.6;
+            }*/
+
+    #menuDiv .bottomDiv {
+        float: left;
+        width: 100%;
+        margin: 0px 5px;
+    }
+
+    #menuDiv .bottomSon {
+        width: 50px;
+        height: 100%;
+        float: left;
+    }
+
+    #menuDiv .bottomMargin {
+        margin-top: 8px;
+    }
+
+    #menuDiv .hoverImg {
+        cursor: pointer;
+    }
+
+        #menuDiv .hoverImg:hover {
+            opacity: 0.6;
+        }
+
+    #menuDiv #menuContent {
+        height: 100px;
+        float: left;
+        position: relative;
+        background: url(../Images/Menu/backgroundPic.png) no-repeat;
+        background-size: 1024px 100px;
+    }
+
+        #menuDiv #menuContent #picBottow {
+            position: absolute;
+            height: 4px;
+            margin-top: 5px;
+        }
+
+        #menuDiv #menuContent #backgroundPic {
+            position: absolute;
+            height: 104px;
+            margin-top: -4px;
+        }
+/*列表*/
+#listDiv {
+    height: 360px;
+    width: 206px;
+    position: absolute;
+    top: 140px;
+    left: 1150px;
+    background-color: #001b38;
+    visibility: hidden;
+}
+/*概要面板*/
+#detail-minDiv {
+    width: 281px;
+    height: 152px;
+    position: absolute;
+    top: 140px;
+    left: 500px;
+    background-color: #001b38;
+    visibility: hidden;
+}
+/*详情*/
+#detailDiv {
+    /*height: 402px;*/
+    height: 25px;
+    width: 580px;
+    position: absolute;
+    top: 90px;
+    left: 500px;
+    background-color: #001b38;
+    visibility: hidden;
+}

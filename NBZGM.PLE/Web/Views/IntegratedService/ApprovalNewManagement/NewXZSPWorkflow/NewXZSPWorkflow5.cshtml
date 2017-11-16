@@ -1,0 +1,77 @@
+﻿@model Taizhou.PLE.Model.XZSPNewModels.Workflow5
+@using Taizhou.PLE.Model.XZSPNewModels
+@{
+    
+}
+
+<style>
+    table th {
+        width: 10%;
+    }
+
+    table td {
+        width: 40%;
+    }
+
+    table tr input.large {
+        width: 98%;
+    }
+
+    table tr input.small {
+        width: 94%;
+    }
+
+    table tr td .form-group div {
+        width: 94%;
+        line-height: 30px;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+    });
+</script>
+<form method="post" enctype="multipart/form-data" action="/NewXZSPWorkflow5/Commit" id="XZSPWorkflow5">
+    <div class="title" style="margin-bottom: 30px;">
+        中队审核
+    </div>
+    <table class="table table-bordered" id="ContentTable">
+    </table>
+    <table class="table table-bordered">
+          <tr>
+            <th style="text-align: center; line-height: 80px">中队长意见
+            </th>
+            <td colspan="3">
+                <div class="form-group" style="margin-bottom: 5px;">
+                    <div class="col-sm-9 col-lg-10 controls">
+                        <div>
+                            <textarea class="input-xlarge" style="height: 80px; width: 98.5%;" name="ZDSHYJ" id="ZDSHYJ"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th></th>
+            <td colspan="3" style="border-left: none;">
+                <div class="form-group" style="margin-bottom: 5px;">
+                    <div class="col-sm-9 col-lg-10 controls">
+                        <input id="btnSubmit" type="submit" class="btn btn-success" value="提　交">
+                        <a style="margin-left: 5px;" href="/NewApproval/NewApproval" class="btn goBack">返　回</a>
+                    </div>
+                </div>
+            </td>
+        </tr>
+           <tr style="height:0px; border:none">
+            <th></th>
+            <td></td>
+            <th></th>
+            <td></td>
+        </tr>
+    </table>
+    @Html.Hidden("ID")
+    @Html.Hidden("AIID")
+    @Html.Hidden("ADID")
+    @Html.Hidden("ZDSHYJ")
+</form>
+

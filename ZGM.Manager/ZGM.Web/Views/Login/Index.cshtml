@@ -1,0 +1,375 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>智慧钟公庙管理平台</title>
+    <link rel='icon' href='~/Images/images/ielogo.ico' type='image/x-ico' />
+    <link href="~/Content/css/style.css" rel="stylesheet" />
+    <script src="~/Scripts/js/jquery.js"></script>
+    <script src="~/Scripts/js/cloud.js"></script>
+    <script src="~/Scripts/login/login.js"></script>
+    <script src="~/Scripts/jquery-1.7.1.js"></script>
+
+    <link href="~/Scripts/assets/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <script src="~/Scripts/assets/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/Scripts/js/iconfont.js"></script>
+    <style type="text/css">
+        .blur {
+            border: 1px solid red;
+        }
+        .loginbox {
+            height:370px;
+            background:#e7f1f6;
+            border-radius: 25px;
+            width:350px;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .loginbox ul {
+            margin-left:50px;
+            margin-top:37px;
+        }
+        .loginuser {
+            color:#90a2bc;
+        }
+        .icondiv{
+            float: left;
+            margin-left: 40px;
+            text-align: center;
+            cursor:pointer;
+        }
+        .icondiv:hover{
+            
+        }
+        .icon {
+           vertical-align: -0.15em;
+           fill: currentColor;
+           overflow: hidden;
+           width: 32px;
+           height: 32px;
+           color: #86bff4;
+           margin-top: 20px;
+        }
+        .icontext{
+            width: 60px;
+            color: #86bff4;
+        }
+        .icontext2{
+            margin-left: 70px;
+        }
+        .icontext3{
+            margin-left: 58px;
+        }
+        .horidashed{
+            width: 80%;
+            border-top: 1px dashed grey;
+            margin-left: 10%;
+            margin-top: 10px;
+        }
+        .perdashed1{
+            border-left: 1px dashed grey;
+            width: 1px;
+            position: absolute;
+            height: 70px;
+            margin-left: 220px;
+            margin-top: 15px;
+        }
+        .perdashed2{
+            border-left: 1px dashed grey;
+            width: 1px;
+            position: absolute;
+            height: 70px;
+            margin-left: 125px;
+            margin-top: 15px;
+        }
+        .loginuser{
+            width:206px;
+            height:35px;
+        }
+        .loginpwd{
+            width:206px;
+            height:35px;
+        }
+        .loginbtn{
+            margin-left:70px;
+        }
+        .black_overlay {
+            display: none;
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            z-index: 1001;
+            -moz-opacity: 0.5;
+            opacity: .50;
+            filter: alpha(opacity=50);
+        }
+        .white_content {
+            display: none;
+            top: 65%;
+            width: 350px;
+            height: auto;
+            z-index: 1002;
+            overflow: auto;
+            border-radius: 5px;
+        }
+        .white_content a:hover{
+            color: #207aae;
+        }
+        .document,.computer{
+            text-align: center;
+            margin-top: 10px;
+        }
+        .phone{
+            margin-left: 85px;
+            width: 180px;
+            border: 1px solid rgba(0,0,0,0.2);
+            border-radius: 10px;
+            text-align: center;
+            height: 40px;
+            line-height: 40px;
+            background:rgba(0,0,0,0.2);
+            margin-bottom: 10px;
+        }
+        .phoneimg{
+            width: 70px;
+            height: 70px;
+            margin-left: 137px;
+        }
+        .backpage{
+            width: 24px;
+            height: 24px;
+            position: absolute;
+            margin-top: 5px;
+            right: 30px;
+            cursor: pointer;
+        }
+        .downloadfont{
+            font-size: 14px;
+            color:white;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+            window.onload = function () {
+                if ($("#ip").val() == "172") { //|| $("#ip").val() == "192"
+                    $("#LinkType1").attr("disabled", false);
+                    $("#LinkType2").attr("disabled", false);
+                    $("#loginbtn").attr("disabled", false);
+                } else {
+                    //document.getElementById("div_app").src = "/Images/ZGMTH.jpg";
+                    //document.getElementById("div_app").style.display = "none";
+                    //document.getElementById("app").src = "/Images/城管执法1.jpg";
+                    $("#LinkType22").html("协同管理平台");
+                    $("#LinkType1").attr("disabled", false);
+                    $("#LinkType2").attr("disabled", false);
+                    $("#loginbtn").attr("disabled", false);
+                    $("#LinkType2").attr("checked", "checked");
+                }
+
+            }
+
+        //function longin_type() {
+        //    var account = $("#account").val();
+        //    if (account != "") {
+        //        $.ajax({
+        //            type: "POST",
+        //            url: "/Login/Jurisdiction?t=" + Math.random(),
+        //            data: {
+        //                account: account
+        //            },
+        //            cache: false,
+        //            success: function (data) {
+        //                if (data == 0) {
+        //                    $("#LinkType22").html("后台管理平台");
+        //                    $("#LinkType1").attr("disabled", true);
+        //                    $("#LinkType2").attr("disabled", true);
+        //                    $("#loginbtn").attr("disabled", true);
+        //                    alert("用户名不存在!");
+        //                } else if (data == 1) {
+        //                    $("#LinkType22").html("后台管理平台");
+        //                    $("#LinkType1").attr("checked", "checked");
+        //                    $("#LinkType1").attr("disabled", false);
+        //                    $("#LinkType2").attr("disabled", false);
+        //                    $("#loginbtn").attr("disabled", false);
+        //                } else if (data == 2) {
+        //                    $("#LinkType22").html("协同管理平台");
+        //                    $("#LinkType1").attr("disabled", true);
+        //                    $("#LinkType2").attr("disabled", false);
+        //                    $("#LinkType2").attr("checked", "checked");
+        //                    $("#loginbtn").attr("disabled", false);
+        //                } else {
+        //                    $("#LinkType22").html("后台管理平台");
+        //                    $("#LinkType1").attr("disabled", true);
+        //                    $("#LinkType2").attr("disabled", false);
+        //                    $("#LinkType2").attr("checked", "checked");
+        //                    $("#LinkType2").attr("checked", "checked");
+        //                    $("#loginbtn").attr("disabled", false);
+        //                }
+
+        //            },
+        //            error: function () {
+        //                alert('网络异常！');
+        //            }
+        //        });
+        //    }
+        //}
+            
+        $(function () {
+            $('.loginbox').css({ 'position': 'absolute', 'left': ($(window).width() - 350) / 2 });
+            $('.white_content').css({ 'position': 'absolute', 'left': ($(window).width() - 350) / 2 });
+            $('.loginbox').css({ 'position': 'absolute', 'top': ($(window).height() - 500) / 2 });
+            $('.white_content').css({ 'position': 'absolute', 'top': ($(window).height() - 500) / 2 + 260 });
+            $('.systemlogo').css({ 'position': 'absolute', 'top': ($(window).height() - 700) / 2 });
+            $(window).resize(function () {
+                $('.loginbox').css({ 'position': 'absolute', 'left': ($(window).width() - 350) / 2 });
+                $('.white_content').css({ 'position': 'absolute', 'left': ($(window).width() - 350) / 2 });
+                $('.loginbox').css({ 'position': 'absolute', 'top': ($(window).height() - 500) / 2 });
+                $('.white_content').css({ 'position': 'absolute', 'top': ($(window).height() - 500) / 2 + 260 });
+                $('.systemlogo').css({ 'position': 'absolute', 'top': ($(window).height() - 700) / 2 });
+            })
+        });
+        //$(function () {
+        //    $("#account").blur(function () {
+        //        longin_type();
+        //    });
+        //});
+
+        //帮助文档
+        function OpenDocument() {
+            $("#tip2,#tip3,#download").hide();
+            $("#tip1").show();
+        }
+
+        //客户端
+        function OpenComputer() {
+            $("#tip1,#tip3,#download").hide();
+            $("#tip2").show();
+        }
+
+        //手机APP
+        function OpenPhone() {
+            $("#tip1,#tip2,#download").hide();
+            $("#tip3").show();
+        }
+
+        //关闭弹窗
+        function closetc() {
+            $("#tip1,#tip2,#tip3").hide();
+            $("#download").show();
+        }
+    </script>
+
+</head>
+
+<body style="background-color: #1c77ac; background-image: url(Images/images/light.png); background-repeat: no-repeat; background-position: center top; overflow: hidden;">
+
+
+
+    <div id="mainBody">
+        <div id="cloud1" class="cloud"></div>
+        <div id="cloud2" class="cloud"></div>
+    </div>
+
+
+    <div class="logintop">
+        <span>欢迎登录智慧钟公庙管理平台</span>
+        @* <ul>
+            <li><a href="#">回首页</a></li>
+            <li><a href="#">帮助</a></li>
+            <li><a href="#">关于</a></li>
+        </ul>*@
+    </div>
+
+    <div class="loginbody">
+        <span class="systemlogo"></span>
+
+        <div class="loginbox loginbox3">
+            
+            <form method="post" id="form-login">
+                <input type="hidden" id="ip" value="@ViewBag.IP"/>
+                <ul>
+                    <li>
+                        @*<input id="account" name="account" type="text" class="loginuser" onfocus="this.value=''" onblur="if(this.value==''){this.value='admin'}" />*@
+                        <input id="account" name="account" type="text" class="loginuser" placeholder="请输入账户" /></li>
+                    <li>
+                        <input id="password" name="password" type="password" class="loginpwd" placeholder="请输入密码" /></li>
+                    <li style="text-align: center; width: 250px;">
+                        <input type="radio" id="LinkType1" value="1" name="LinkType" disabled="disabled"  />
+                        <label style="padding-left: 0px;" for="LinkType1" id="LinkType11">管控指挥平台</label>
+                        <input type="radio" id="LinkType2" value="0" name="LinkType" disabled="disabled" style="margin-left: 20px" checked="checked"/>
+                        <label style="padding-left: 0px;" for="LinkType2" id="LinkType22">后台管理平台</label>
+
+
+                    </li>
+
+                    <li>
+                        <input name="" id="loginbtn" type="submit" class="loginbtn" value="登录" disabled="disabled" /></li>
+                </ul>
+            </form>
+
+            <div class="resource" style="position: absolute;width:350px;margin-left:150px;margin-left: 0%;margin-top: 2%;">                
+                <div class="horidashed"></div>
+                <div id="download">
+                    <div class="icondiv" onclick="OpenDocument();">
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#icon-wendang"></use>
+                        </svg>
+                        <div class="icontext">帮助文档</div>
+                    </div>
+                    <div class="perdashed1"></div>
+                    <div class="icondiv" onclick="OpenComputer();">
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#icon-pc"></use>
+                        </svg>
+                        <div class="icontext">客户端</div>
+                    </div>
+                    <div class="perdashed2"></div>
+                    <div class="icondiv" onclick="OpenPhone();">
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#icon-bangzhushouji"></use>
+                        </svg>
+                        <div class="icontext">执法APP</div>
+                    </div>
+                </div>                
+            </div>
+        </div>
+        <div id="fade" class="black_overlay"></div>
+        <div class="white_content" id="tip1">
+            <svg class="icon backpage" aria-hidden="true" onclick="closetc();">
+                <use xlink:href="#icon-fanhui"></use>
+            </svg>
+            <div class="document"><a class="downloadfont" href="http://172.172.100.20/ZGM_智慧钟公庙管控指挥平台用户手册_V1.1.docx">点击此处下载[管控平台使用手册]</a></div>
+            <div class="document"><a class="downloadfont" href="http://172.172.100.20/ZGM_智慧钟公庙管理平台用户手册_V1.1.docx">点击此处下载[指挥平台使用手册]</a></div>
+            <div class="document"><a class="downloadfont" href="http://172.172.100.20/ZGM_智慧钟公庙移动端用户手册_V1.0.docx">点击此处下载[手机平台使用手册]</a></div>
+        </div>
+        <div class="white_content" id="tip2">
+            <svg class="icon backpage" aria-hidden="true" onclick="closetc();">
+                <use xlink:href="#icon-fanhui"></use>
+            </svg>
+            <div class="computer"><a class="downloadfont" href="http://172.172.100.20/智慧钟公庙展示平台.exe">点击此处下载[智慧钟公庙展示平台]</a></div>
+            <div class="computer"><a class="downloadfont" href="http://172.172.100.20/智慧钟公庙管理平台.exe">点击此处下载[智慧办公平台]</a></div>
+        </div>
+        <div class="white_content" id="tip3">
+            <svg class="icon backpage" aria-hidden="true" onclick="closetc();">
+                <use xlink:href="#icon-fanhui"></use>
+            </svg>
+            <img class="phoneimg" src="~/Images/erweima_app.png" />
+            <div class="phone">
+                <a class="downloadfont" href="http://172.172.100.20/钟公庙手机端124_1.6.apk">移动端手动下载</a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="loginbm">版权所有©  2016</div>
+</body>
+
+</html>

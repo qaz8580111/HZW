@@ -1,0 +1,137 @@
+﻿@{
+    Layout = "~/Views/SysManagement/BasicManagement/_LayoutStreeStore.cshtml";
+}
+
+@section HeadStyles{
+    <style type="text/css">
+        .center {
+            text-align: center !important;
+        }
+    </style>
+}
+
+@section FootScripts{
+    <script type="text/javascript">
+        var oTable = null;
+
+        $(document).ready(function () {
+
+            //绑定搜索按钮点击事件
+            $("#btnQuery").click(function () {
+                var url = "/StreeStore/YJDJList";
+                //名称查询
+                var StoreName = escape($("#txtStoreName").val());
+                //地址查询
+                var Adress = escape($("#txtAdress").val());
+                url += "?StoreName=" + StoreName;
+                url += "&Adress=" + Adress;
+                url += "&random=" + Math.random();
+
+                BindDataTable(url);
+            });
+
+            $("#btnQuery").click();
+        })
+
+        //定义 datatable 数据加载函数
+        function BindDataTable(url) {
+            if (oTable != null) {
+                oTable.fnSettings().sAjaxSource = url;
+                oTable.fnDraw(true);
+            } else {
+                oTable = $("#CarPatrolRoute").dataTable({
+                    sAjaxSource: url,
+                    aoColumns: [
+                        { "mDataProp": "SEQNO", "sClass": "center" },
+                        { "mDataProp": "SHOPNAME", "sClass": "left" },
+                        { "mDataProp": "ADDRESS", "sClass": "left" },
+                        { "mDataProp": "SHOPUSERNAME", "sClass": "left" },
+                        { "mDataProp": "SHOPPHONE", "sClass": "left" },
+                        { "mDataProp": "STREESTORETYPEID", "sClass": "left" },
+                        { "mDataProp": "operating", "sClass": "center" }
+
+                    ],
+                    fnDrawCallback: function (oSettings) {
+                        var pagerIndex = oSettings._iDisplayStart / oSettings._iDisplayLength + 1;
+                        var $currentPager = $(".dataTables_paginate span a:contains('" + pagerIndex + "')");
+                        $currentPager.attr("style", "font-weight :bold;!important");
+                    }
+                });
+            }
+        }
+        //删除
+        function DeleteStree(STREESTOREID) {
+            if (!confirm("确认要删除?")) {
+                return;
+            }
+            $.ajax({
+                url: "/StreeStore/Delete?STREESTOREID=" + STREESTOREID,
+                type: "get",
+                success: function (data) {
+                    if (data == "1") {
+                        location.reload();
+                    } else {
+                        alert("操作失败");
+                    }
+
+                },
+                error: function (mes) {
+                    alert("服务器繁忙请刷新！")
+                }
+            });
+        }
+
+    </script>
+}
+
+@section BreadcrumbSection{
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+             <li><a href="#"><i class="icon-home"></i>沿街店家</a></li>
+             <li>></li>
+            <li><a href="IllegalManagement">店家信息列表</a></li>
+        </ul>
+    </div>
+}
+
+<div class="box box-black" style="margin: 5px;">
+    <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+        <i class="icon-reorder" style="margin-right: 5px;"></i>沿街店家列表
+    </div>
+    <div class="box-content" style="min-height: 400px;">
+        <div class="query">
+            <table>
+                <tr>
+                     <td style="width: 50px">
+                        <label style="vertical-align: bottom; margin-top: 5px; margin-bottom: 2px; float: left;">名称：</label></td>
+                    <td style="width: 250px">
+                        <input id="txtStoreName" type="text" style="margin-top: 5px; margin-bottom: 0px; float: left;" />
+                    </td> <td style="width: 50px">
+                        <label style="vertical-align: bottom; margin-top: 5px; margin-bottom: 2px; float: left;">地址：</label></td>
+                    <td style="width: 250px">
+                        <input id="txtAdress" type="text" style="margin-top: 5px; margin-bottom: 0px; float: left;" />
+                    </td>
+                    <td>
+                        <input id="btnQuery" type="button" style="margin-top: 5px; margin-bottom: 0px;" class="btn btn-info" title="查询" value="查 询">
+                        <a href="@Url.Content("~/StreeStore/Add")" style="margin-top: 5px; margin-bottom: 0px;" class="btn btn-info" title="添加">添 加</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <hr />
+        <table class="table table-bordered table-striped table-hover fill-head" id="CarPatrolRoute">
+            <thead>
+                <tr>
+                    <th style="text-align: center;width: 4%;">序号</th>
+                    <th style="text-align: center;width: 21%;">名称</th>
+                    <th style="text-align: center;width: 30%;">地址</th>
+                    <th style="text-align: center;width: 8%; ">法人代表</th>
+                    <th style="text-align: center;width: 10%;">联系方式</th>
+                    <th style="text-align: center;width: 15%; ">从事行业</th>
+                    <th style="text-align: center;width: 12%;">操作</th>
+               </tr>
+            </thead>
+        </table>
+        <div style="clear: both"></div>
+    </div>
+</div>

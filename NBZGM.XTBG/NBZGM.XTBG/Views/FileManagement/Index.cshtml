@@ -1,0 +1,428 @@
+﻿@using NBZGM.XTBG.CustomModels;
+@{
+    ViewBag.Title = "文件管理";
+    UserInfo UserEntity = ViewBag.UserEntity;
+}
+@*标签页导航*@
+<ul class="nav nav-tabs navigation" role="tablist">
+    <li role="presentation" class="active"><a role="tab" data-toggle="tab" aria-controls="MyFile" href="#MyFile">我的文件</a></li>
+    @if (UserEntity.RoleIDS.Where(m => m.ROLEID == 16).FirstOrDefault() != null)
+    {
+        <li role="presentation"><a role="tab" data-toggle="tab" aria-controls="FileSend" href="#FileSend">发送文件</a></li>
+        <li role="presentation"><a role="tab" data-toggle="tab" aria-controls="FileMgr" href="#FileMgr">文件管理</a></li>
+    }
+</ul>
+@*标签页内容*@
+<div class="tab-content">
+    @*标签页内容（我的文件）*@
+    <div role="tabpanel" class="tab-pane active" id="MyFile">
+        @*查询条件（我的文件），用form表单实现*@
+        <form class="form-inline" id="MyFile_Form">
+            <div class="row">
+                <div class="col-md-6">
+                    <label>文件标题：</label>
+                    <input type="text" class="form-control calc100-6" name="FileTitle" placeholder="" />
+                </div>
+                <div class="col-md-6">
+                    <label>发送时间：</label>
+                    <input type="text" class="form-control datepicker calc50-4" name="CreateTimeStart" placeholder="开始时间" style="width: 6em;" />
+                    <label>至</label>
+                    <input type="text" class="form-control datepicker calc50-4" name="CreateTimeEmd" placeholder="结束时间" style="width: 6em;" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label>文号：　　</label>
+                    <input type="text" class="form-control calc100-6" name="FileNumber" placeholder="" />
+                </div>
+                <div class="col-md-3">
+                    <label>发件人：　</label>
+                    <input type="text" class="form-control calc100-6" name="CreateUserName" placeholder="" />
+                </div>
+                <div class="col-md-3">
+                    <label>阅读状态：</label>
+                    <select class="form-control  calc100-6" name="StatusID">
+                        <option value="">全部</option>
+                        <option value="0">未读</option>
+                        <option value="1">已读</option>
+                    </select>
+                </div>
+                <div class="col-md-3 text-right">
+                    <input type="button" class="btn btn-default" value="检索" id="MyFile_btnFilter" />
+                    <input type="reset" class="btn btn-default" value="重置" />
+                </div>
+            </div>
+        </form>
+        @*表格（我的文件）*@
+        <table class="table table-hover table-bordered" id="MyFile_Table">
+            <thead>
+                <tr>
+                    @*<th>序号</th>*@
+                    <th>发件人</th>
+                    <th>发件时间</th>
+                    <th>文件标题</th>
+                    <th>文号</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    @*标签页内容（文件管理）*@
+    <div role="tabpanel" class="tab-pane" id="FileMgr">
+        @*查询条件（文件管理），用form表单实现*@
+        <form class="form-inline" id="FileMgr_Form">
+            <div class="row">
+                <div class="col-md-6">
+                    <label>文件标题：</label>
+                    <input type="text" class="form-control calc100-6" name="FileTitle" placeholder="" />
+                </div>
+                <div class="col-md-6">
+                    <label>发送时间：</label>
+                    <input type="text" class="form-control datepicker  calc50-4" name="CreateTimeStart" placeholder="发送时间" />
+                    <label>至</label>
+                    <input type="text" class="form-control datepicker  calc50-4" name="CreateTimeEmd" placeholder="发送时间" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label>文号：　　</label>
+                    <input type="text" class="form-control calc100-6" name="FileNumber" placeholder="" />
+                </div>
+                <div class="col-md-3">
+                    <label>发件人：　</label>
+                    <input type="text" class="form-control calc100-6" name="CreateUserName" placeholder="" />
+                </div>
+                <div class="col-md-3">
+                    <label>接收人：　</label>
+                    <input type="text" class="form-control calc100-6" name="RecipientUserName" placeholder="" />
+                </div>
+                <div class="col-md-3 text-right">
+                    <input type="button" class="btn btn-default" value="检索" id="FileMgr_btnFilter" />
+                    <input type="reset" class="btn btn-default" value="重置" />
+                </div>
+            </div>
+        </form>
+        @*表格（文件管理）*@
+        <table class="table table-hover table-bordered" id="FileMgr_Table">
+            <thead>
+                <tr>
+                    @*<th>序号</th>*@
+                    <th>发件人</th>
+                    <th>发件时间</th>
+                    <th>接收人</th>
+                    <th>文件标题</th>
+                    <th>文号</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    @*标签页内容（发送文件）*@
+    <div role="tabpanel" class="tab-pane" id="FileSend">
+        @*well-lg bootStarp辅助类，实现padding（内填充）效果*@
+        <div class="well-lg">
+            @*表单（发送文件）*@
+            <form class="form-inline" id="FileSend_Form" action="/FileManagement/Commit">
+                <table class="table table-bordered" style="table-layout: fixed">
+                    <colgroup>
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                    </colgroup>
+                    <tr>
+                        <td>文件标题<span class="required">*</span></td>
+                        <td colspan="5">
+                            <input type="text" name="FileTitle" placeholder="" required="required" /></td>
+                        <td>文号<span class="required">*</span></td>
+                        <td colspan="5">
+                            <input type="text" name="FileNumber" placeholder="" required="required" /></td>
+                    </tr>
+                    <tr>
+                        <td>文件附件</td>
+                        <td colspan="10">
+                            <table class="table table-hover table-bordered" id="FileName_Table">
+                                <thead>
+                                    <tr>
+                                        <th>文件名</th>
+                                        <th>大小</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td>
+                            <input type="hidden" id="FileAttachmentIDs" name="FileAttachmentIDs" />
+                            <input id="fileupload" class="hidden" type="file" name="files[]" data-url="/Common/UploadFile" multiple>
+                            <i class="icon-plus text-primary" id="FileSend_FileName_Add">添加</i>
+                            <i class="icon-trash text-muted" id="FileSend_FileName_Emptied">清空</i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>接收人<span class="required">*</span></td>
+                        <td colspan="10">
+                            <input type="text" name="RecipientUserNames" id="RecipientUserNames" placeholder="" required="required" />
+                        </td>
+                        <td>
+                            <input type="hidden" id="RecipientUserIDs" name="RecipientUserIDs" />
+                            <input type="hidden" id="RecipientUserPhones" name="RecipientUserPhones" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>短信提醒<span class="required">*</span></td>
+                        <td>
+                            <input type="radio" name="SMSRemind" value="1" />
+                            是
+                                <input type="radio" name="SMSRemind" value="0" checked="checked" />
+                            否
+                        </td>
+                        <td>提醒模版</td>
+                        <td colspan="9">
+                            <input type="text" name="RemindContent" placeholder="您有一个文件【XXXX】【XXXX】已发送至您的OA系统，请注意查收  【发送人：XXX】" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>外部号码</td>
+                        <td colspan="11">
+                            <input type="text" name="ExternalNumbers" placeholder="如果存在多个，请用 “，” 隔开" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>文件说明<span class="required">*</span></td>
+                        <td colspan="11">
+                            <textarea rows="5" name="FileContent"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="12" class="text-center">
+                            <input type="submit" class="btn btn-primary" value="发送" />
+                            <input type="reset" class="btn btn-default" value="重置" />
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section css{
+    <style type="text/css">
+        textarea, input[type=text] {
+            width: 100%;
+        }
+
+        form td {
+            width: 1em;
+            white-space: nowrap;
+        }
+
+        .bar {
+            height: 18px;
+            background: green;
+        }
+
+        .modal-body > div {
+            margin: 1em 0;
+        }
+    </style>
+}
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            InitUserTreeModal({
+                UserIDs: "#RecipientUserIDs",
+                UserNames: "#RecipientUserNames",
+                UserPhones: "#RecipientUserPhones",
+            });
+            //初始化时间控件
+            $(".datepicker").datepicker({
+                format: 'yyyy-mm-dd'
+            });
+            //附件添加按钮
+            $('#FileSend_FileName_Add').on('click', function () {
+                $('#fileupload').trigger('click');
+            });
+            //附件清空按钮
+            $('#FileSend_FileName_Emptied').on('click', function () {
+                $('#FileName_Table tbody tr').remove();
+                $('#FileAttachmentIDs').val('');
+            });
+            //附件删除按钮
+            $('#FileName_Table').on('click', '.btnDelete', function () {
+                var FileAttachmentIDs = $('#FileAttachmentIDs').val();
+                FileAttachmentIDs = FileAttachmentIDs.replace(',' + $(this).attr('fileid') + ',', ',');
+                $('#FileAttachmentIDs').val(FileAttachmentIDs);
+                $(this).parent().parent().remove();
+            });
+            //初始化文件上传按钮
+            $('#fileupload').fileupload({
+                dataType: 'json',
+                //上传成功回调函数
+                done: function (e, data) {
+                    var $FileIDs = $('#FileAttachmentIDs');
+                    var FileAttachmentIDs = $FileIDs.val();
+                    if (FileAttachmentIDs == '') {
+                        FileAttachmentIDs += ',';
+                    }
+                    $.each(data.result.files, function (index, file) {
+                        FileAttachmentIDs = FileAttachmentIDs + file.fileid + ',';
+                        $('#FileName_Table').append(
+                            '<tr>\
+                                <td>'+ file.name + '</td>\
+                                <td class="text-center nowrap">' + file.size + '</td>\
+                                <td class="text-center ">\
+                                <i class="icon-trash text-muted btnDelete" fileid="'+ file.fileid + '">删除</i>\
+                                </td>\
+                            </tr>'
+                        )
+                    });
+                    $FileIDs.val(FileAttachmentIDs);
+                }
+            });
+            //无刷新提交表单
+            $('#FileSend_Form').on('submit', submitForm);
+            $('#FileSend_Form').on('submit', function () {
+                MyFile_Table.ajax.reload(null, true);
+                FileMgr_Table.ajax.reload(null, true);
+            });
+            //初始化表格（文件管理）
+            var FileMgr_Table = $('#FileMgr_Table').DataTable({
+                bAutoWidth: false, bDeferRender: true, responsive: true, bServerSide: true, sServerMethod: 'post', bServerSide: true, bSort: false,
+                //表格数据源
+                ajax: {
+                    //服务器方法地址
+                    url: '/FileManagement/GetFileList',
+                    //参数
+                    data: function (d) {
+                        var array = $("#FileMgr_Form").serializeArray();
+                        $(array).each(function () {
+                            d[this.name] = this.value;
+                        });
+                    },
+                    error: errorMsg
+                },
+                //表格数据绑定
+                aoColumns: [
+                    //序列
+                    //{ mData: null, sClass: 'text-center nowrap' },
+                    //发送人
+                    { mData: 'CREATEUSERNAME', sClass: 'text-center nowrap' },
+                    //发送时间
+                    { mData: 'CREATETIME', sClass: 'text-center nowrap' },
+                    //接收人
+                    { mData: 'RECIPIENTUSERNAMES', sClass: 'nowrap', mRender: getDtContent },
+                    //文件标题
+                    { mData: 'FILETITLE' },
+                    //文件号码
+                    { mData: 'FILENUMBER', sClass: 'text-center nowrap' },
+                    //操作
+                    {
+                        mData: null, sClass: 'text-center nowrap', mRender: function (innerData, type, rowData, meta) {
+                            return '<a class="btnSeeMgr">查看</a> | <a class="btnCheck">查阅情况</a> | <a class="btnDelete">撤回</a>';
+                        }
+                    }
+                ],
+                //aoColumnDefs: [{ bSortable: false, aTargets: [0, 6] }],
+                //fnDrawCallback: GenerateSerialNumber,
+            });
+            //筛选按钮（文件管理）
+            $("#FileMgr_btnFilter").on("click", function () {
+                //重新加载表格数据，并且重新绘制界面
+                FileMgr_Table.ajax.reload(null, true);
+            })
+            //操作按钮事件
+            $('#FileMgr_Table').on("click", "a.btnDelete", function () {
+                var nRow = $(this).parents('tr')[0];
+                var aData = FileMgr_Table.row(nRow).data();
+                $.post('/FileManagement/Delete', aData)
+                    .success(function (data) {
+                        if (data.StatusID == 1) {
+                            FileMgr_Table.draw(true);
+                            successMsg();
+                        }
+                    })
+                    .error(errorMsg);
+            });
+            //初始化表格（我的文件）
+            var MyFile_Table = $('#MyFile_Table').DataTable({
+                bAutoWidth: false, bDeferRender: true, responsive: true, bServerSide: true, sServerMethod: 'post', bServerSide: true, bSort: false,
+                //表格数据源
+                ajax: {
+                    url: '/FileManagement/GetRecipientList',
+                    data: function (d) {
+                        var array = $("#MyFile_Form").serializeArray();
+                        $(array).each(function () {
+                            d[this.name] = this.value;
+                        });
+                    },
+                    error: errorMsg
+                },
+                //表格数据绑定
+                aoColumns: [
+                    //序列
+                    //{ mData: null, sClass: 'text-center nowrap' },
+                    //发送人
+                    { mData: 'CREATEUSERNAME', sClass: 'text-center nowrap' },
+                    //发送时间
+                    { mData: 'CREATETIME', sClass: 'text-center nowrap' },
+                    //文件标题
+                    { mData: 'FILETITLE' },
+                    //文件号码
+                    { mData: 'FILENUMBER', sClass: 'text-center nowrap' },
+                    //状态
+                    {
+                        mData: 'RECIPIENTUSERIDS2', sClass: 'text-center nowrap', mRender: function (innerData, type, rowData, meta) {
+                            if (innerData == null) { return '未读'; }
+                            return innerData.indexOf('@ViewBag.UserID') == -1 ? '未读' : '已读';
+                        }
+                    },
+                    //操作
+                    {
+                        mData: null, sClass: 'text-center nowrap', mRender: function (innerData, type, rowData, meta) {
+                            return '<a class="btnSee">查看</a>';
+                        }
+                    }
+                ],
+                //fnDrawCallback: GenerateSerialNumber,
+            });
+            //筛选按钮（我的文件）
+            $('#MyFile_btnFilter').on("click", function () {
+                //重新加载表格数据，并且重新绘制界面
+                MyFile_Table.ajax.reload(null, true);
+            })
+            $('#FileMgr_Table').on('click', '.btnCheck', function () {
+                var nRow = $(this).parents('tr')[0];
+                var aData = FileMgr_Table.row(nRow).data();
+                window.parent.showLgModel('/FileManagement/FileCheck?FileID=' + aData.FILEID);
+                return false;
+            });
+            $('#MyFile_Table').on('click', '.btnSee', function () {
+                var nRow = $(this).parents('tr')[0];
+                var aData = MyFile_Table.row(nRow).data();
+                window.parent.showLgModel('/FileManagement/FileDetails?FileID=' + aData.FILEID + '&typeID=1');
+                MyFile_Table.ajax.reload(null, true);
+                return false;
+            });
+            $('#FileMgr_Table').on('click', '.btnSeeMgr', function () {
+                var nRow = $(this).parents('tr')[0];
+                var aData = FileMgr_Table.row(nRow).data();
+                window.parent.showLgModel('/FileManagement/FileDetails?FileID=' + aData.FILEID + '&typeID=2');
+                FileMgr_Table.ajax.reload(null, true);
+                return false;
+            });
+        });
+    </script>
+}

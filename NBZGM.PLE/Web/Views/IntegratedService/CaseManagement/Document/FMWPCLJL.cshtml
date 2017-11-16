@@ -1,0 +1,162 @@
+﻿@model Taizhou.PLE.Model.CaseDocModels.FMWPCLJL
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("input[name=CLSJ]").datepicker();
+        $("input[name=bulidDocType]").click(function () {
+            var buildDocType = $(this).val();
+            if (buildDocType == "1") {
+                $("table tr#uploadFile").hide();
+                $("table tr").not($("table tr#uploadFile")).show();
+            }
+            else {
+                $("table tr").not($(".notHideTD")).hide();
+                $("table tr#uploadFile").show();
+            }
+        });
+    });
+
+    function ValidateDocForm() {
+        var flag = true;
+        $(".formErrorMsg").hide();
+        $(".formErrorMsg").html("");
+        if ($("input[name=bulidDocType]:checked").val() == "1") {
+            flag = true;
+        }
+        else {
+            $(".error").remove();
+            //验证上传的图片
+            var files = $(".file");
+
+            var AllImgExt = ".jpg|.jpeg|.gif|.bmp|.png";
+
+            var fileIsEmpty = true;
+
+            $.each(files, function (i, n) {
+                if (n.value != null && n.value != "") {
+                    fileIsEmpty = false;
+                    var filePath = n.value;
+
+                    //截取最后一个点之后的字符串
+                    var su = filePath.substring(filePath.lastIndexOf("."));
+
+                    if (AllImgExt.indexOf(su.toLowerCase()) == -1) {
+                        flag = false;
+                        $(n).parent().append($("<label class='error' style='margin-left:5px;display:inline-block;'>图片格式不正确.</label>"));
+                    }
+                }
+            });
+
+            if (fileIsEmpty) {
+                flag = false;
+                $(".uploadFileTD").append("<Label class='error' generated='true'>请至少选择一张图片.</Label>");
+            }
+        }
+
+        return flag;
+    }
+</script>
+<form class="docForm" method="post" action="/DocFMWPCLJL/CommitDocumentFMWPCLJL" style="margin-bottom: 30px;" enctype="multipart/form-data">
+    <div class="title">
+        罚没物品处理记录
+    </div>
+    <div>
+    </div>
+    <table class="workflow" border="0" cellspacing="0" cellpadding="0" style="width: 700px; border-collapse: collapse; margin: 0 auto; margin-top: 20px;">
+        <tr class="notHideTD">
+            <th colspan="1">新增方式</th>
+            <td colspan="10">
+                <label for="bdlr" style="display: inline-block; cursor: pointer;">
+                    <input type="radio" name="bulidDocType" id="bdlr" value="1" checked="checked" />表单录入</label>
+                <label for="scsmj" style="display: inline-block; cursor: pointer;">
+                    <input type="radio" id="scsmj" name="bulidDocType" value="2" />上传扫描件
+                </label>
+            </td>
+        </tr>
+        <tr id="uploadFile" style="display: none;">
+            <th colspan="1">上传文书
+            </th>
+            <td colspan="10" class="uploadFileTD">
+                <ul style="list-style: none; margin-left: 0px;">
+                    <li style="margin-top: 5px;">第1张：<input type="file" name="file1" style="width: 400px;" class="file" /></li>
+                    <li style="margin-top: 5px;">第2张：<input type="file" name="file2" style="width: 400px;" class="file" /></li>
+                    <li style="margin-top: 5px;">第3张：<input type="file" name="file3" style="width: 400px;" class="file" /></li>
+                    <li style="margin-top: 5px;">第4张：<input type="file" name="file4" style="width: 400px;" class="file" /></li>
+                    <li style="margin-top: 5px;">第5张：<input type="file" name="file5" style="width: 400px;" class="file" /></li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <th colspan="1">处理机关<br />
+                名称<br />
+                （印章）</th>
+            <td colspan="6">
+                @Html.TextBoxFor(model => model.CLJGMCHYZ)</td>
+            <th colspan="1">处理时间</th>
+            <td colspan="3">
+            @Html.TextBox("CLSJ", Model.CLSJ != null ? Convert.ToDateTime(Model.CLSJ).ToString("yyyy年MM月dd日") : "")
+        </tr>
+        <tr>
+            <th colspan="1">处理地点</th>
+            <td colspan="6">
+                @Html.TextBoxFor(model => model.CLDD)</td>
+            <th colspan="1">处理物品执行人</th>
+            <td colspan="3">
+                @Html.TextBoxFor(model => model.CLWPZXR)</td>
+        </tr>
+        <tr>
+            <th colspan="1">记录人</th>
+            <td colspan="2">
+                @Html.TextBoxFor(model => model.JLR)</td>
+            <th colspan="1">见证人或监销人</th>
+            <td colspan="3">
+                @Html.TextBoxFor(model => model.JZRHJXR)</td>
+            <th colspan="1">处理物品原持有人</th>
+            <td colspan="3">
+                @Html.TextBoxFor(model => model.CLWPYCYR)</td>
+        </tr>
+        <tr>
+            <th>处理物品名称、数量和规格</th>
+            <td colspan="10">
+                @Html.TextAreaFor(model => model.CLWPMCSLJGG)</td>
+        </tr>
+        <tr>
+            <th>处理物品的原行政处罚决定书及文号</th>
+            <td colspan="10">
+                @Html.TextAreaFor(model => model.CLWPDYXZCFJDSJWH)</td>
+        </tr>
+        <tr>
+            <th>处理理由及依据</th>
+            <td colspan="10">
+                @Html.TextAreaFor(model => model.CLLYJYJ)</td>
+        </tr>
+        <tr>
+            <th>处理方式及处理结果</th>
+            <td colspan="10">
+                @Html.TextAreaFor(model => model.CLFSJCLJG)</td>
+        </tr>
+        <tr class="notHideTD">
+            <td style="width: 52px; border: none;"></td>
+            <td colspan="10" style="border: none; padding-top: 10px;">
+                <input id="btnDocFormSubmit" type="button" class="btn btn-success" value="保   存" />
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="border: none;">&nbsp;</td>
+        </tr>
+    </table>
+    @Html.Hidden("WIID")
+    @Html.Hidden("DDID")
+    @Html.Hidden("AIID")
+    @Html.Hidden("ADID")
+    @Html.Hidden("WICode")
+</form>

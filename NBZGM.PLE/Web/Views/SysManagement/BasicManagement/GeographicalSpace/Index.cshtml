@@ -1,0 +1,131 @@
+﻿@{
+    ViewBag.FunctionName = "空间地理信息管理";
+    Layout = "~/Views/SysManagement/BasicManagement/_LayoutGeographicalSpace.cshtml";
+}
+@section HeadStyles{
+    <style type="text/css">
+        .center {
+            text-align: center !important;
+        }
+    </style>
+}
+
+@section FootScripts{
+    <script type="text/javascript">
+        var oTable = null;
+        $(document).ready(function () {
+
+            //绑定搜索按钮点击事件
+            $("#btnQuery").click(function () {
+                var url = "/GeographicalSpace/GetMAPINFO";
+                //路线名称查询
+                var ELEMENTADDRESS = escape($("#ELEMENTADDRESS").val());
+                url += "?ELEMENTADDRESS=" + ELEMENTADDRESS;
+                url += "&random=" + Math.random();
+
+                BindDataTable(url);
+            });
+            $("#btnQuery").click();
+
+        })
+
+        //定义 datatable 数据加载函数
+        function BindDataTable(url) {
+            if (oTable != null) {
+                oTable.fnSettings().sAjaxSource = url;
+                oTable.fnDraw(true);
+            } else {
+                oTable = $("#GeographicalSpace").dataTable({
+                    sAjaxSource: url,
+                    aoColumns: [
+                        { "mDataProp": "LayerName", "sClass": "center" },
+                        { "mDataProp": "ELEMENTID", "sClass": "center" },
+                        { "mDataProp": "ELEMENTADDRESS", "sClass": "center" },
+                         //{ "mDataProp": "SingInDate", "sClass": "center" },
+                        //{ "mDataProp": "draw", "sClass": "center" },
+                        //{ "mDataProp": "operating", "sClass": "center" }
+                        {
+                            "mDataProp": function (data) {
+                                var operating = "<div><a class='btn btn-primary btn-small' href='/GeographicalSpace/Edit?ID=" + data.ID + "' title='修改'><i class='icon-edit padding-null'></i></a>";
+                                operating += "<a class='btn btn-danger btn-small' href='#' title='删除' onclick='Delete(" + data.ID + ")'><i class='icon-trash padding-null'></i></a></div>";
+                                return operating;
+                            }, "sClass": "center"
+                        }
+                    ],
+                    fnDrawCallback: function (oSettings) {
+                        var pagerIndex = oSettings._iDisplayStart / oSettings._iDisplayLength + 1;
+                        var $currentPager = $(".dataTables_paginate span a:contains('" + pagerIndex + "')");
+                        $currentPager.attr("style", "font-weight :bold;!important");
+                    }
+                });
+            }
+        }
+
+        function Delete(id) {
+            if (!confirm("确认要删除?")) {
+                return;
+            }
+            $.ajax({
+                url: "/GeographicalSpace/Delete?id=" + id + "&newtime=" + Math.random(),
+                type: "get",
+                success: function (returnData) {
+                    location.reload();
+                },
+                error: function (mes) {
+                    alert("操作失败");
+                }
+            });
+        }
+    </script>
+}
+
+@section BreadcrumbSection{
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li><a href="javascript:void(0)"><i class="icon-home"></i>综合业务</a></li>
+            <li>></li>
+            <li><a href="javascript:void(0)">巡查监管</a></li>
+            <li>></li>
+            <li class="active">队员签到管理</li>
+        </ul>
+    </div>
+}
+<div id="class1"></div>
+<div class="box box-black" style="margin: 5px;">
+    <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+        <i class="icon-reorder" style="margin-right: 5px;"></i>队员签到列表
+    </div>
+    <div class="box-content" style="min-height: 400px;">
+        <div class="query">
+            <table>
+                <tr>
+                    <td style="width: 80px">
+                        <label style="vertical-align: bottom; margin-top: 5px; margin-bottom: 2px; float: left;">元素地址:</label></td>
+                    <td style="width: 250px">
+                     <input type="text"  ID="ELEMENTADDRESS" style="margin-top: 5px; margin-bottom: 0px; float: left;"/>  
+                    </td>
+                    <td>
+                        <input id="btnQuery" type="button" style="margin-top: 5px; margin-bottom: 0px;" class="btn btn-info" title="查询" value="查 询">
+                        <a href="@Url.Content("/GeographicalSpace/Create")" style="margin-top: 5px; margin-bottom: 0px;" class="btn btn-info" title="添加">元素上报</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <hr />
+        <table class="table table-bordered table-striped table-hover fill-head" id="GeographicalSpace">
+            <thead>
+                <tr>
+                    <th style="text-align: center;">所属图层</th>
+                    <th style="text-align: center;">元素编号</th>
+                    <th style="text-align: center;">元素地址</th>
+                    <th style="text-align: center;">操作</th>
+                </tr>
+            </thead>
+        </table>
+        <div style="clear: both"></div>
+    </div>
+</div>
+
+
+
+

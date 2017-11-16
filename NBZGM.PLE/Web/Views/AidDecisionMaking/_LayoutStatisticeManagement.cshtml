@@ -1,0 +1,134 @@
+﻿@{
+    ViewBag.Title = "报表统计";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section HeadStyles{
+    <link href="~/Scripts/assets/data-tables/demo_table.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/data-tables/DT_bootstrap.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/zTree/zTreeStyle.css" rel="stylesheet" />
+    @RenderSection("HeadStyles_ApprovalManage", required: false)
+}
+
+@section FootScripts{
+    <script src="~/Scripts/assets/data-tables/jquery.datatables.min.js"></script>
+    <script src="~/Scripts/assets/data-tables/DT_bootstrap.js"></script>
+    <script src="~/Scripts/assets/data-tables/PLE_DT_bootstrap.js"></script>
+    <script src="~/Scripts/assets/zTree/jquery.ztree.core-3.5.js"></script>
+
+    <script type="text/javascript" lang="ja">
+        $(function () {
+            var n = function () {
+                if ($("#sidebar.sidebar-fixed").size() == 0) {
+                    $("#sidebar .nav").css("height", "auto");
+                    return
+                }
+                if ($("#sidebar.sidebar-fixed.sidebar-collapsed").size() > 0) {
+                    $("#sidebar .nav").css("height", "auto");
+                    return
+                }
+                var e = $(window).height() - 90;
+            };
+            n();
+
+            $("#sidebar a.dropdown-toggle").click(function () {
+                var e = $(this).next(".submenu");
+                var t = $(this).children(".arrow");
+                if (t.hasClass("icon-angle-right")) {
+                    t.addClass("anim-turn90")
+                }
+                else {
+                    t.addClass("anim-turn-90")
+                }
+                e.slideToggle(400, function () {
+                    if ($(this).is(":hidden")) {
+                        t.attr("class", "arrow icon-angle-right");
+                    } else {
+                        t.attr("class", "arrow icon-angle-down");
+                        n()
+                    }
+                    t.removeClass("anim-turn90").removeClass("anim-turn-90")
+                })
+            });
+        });
+    </script>
+
+    @RenderSection("FootScripts_ApprovalManage", required: false)
+
+    <script type="text/javascript">
+        function load(scrollHeight) {
+            var sidebarHeight = scrollHeight - 112;
+            $("#sidebar").css("height", sidebarHeight);
+        }
+    </script>
+}
+<div id="sidebar" style="height: 100%" class="nav-collapse">
+    <ul class="nav nav-list">
+        <li>
+            <a href="/Statistics/CaseChart">
+                <i class="icon-plus-sign"></i>
+                <span>一般案件统计</span>
+            </a>
+        </li>
+        <li>
+            <a href="/Statistics/SimpleCaseChart">
+                <i class="icon-edit"></i>
+                <span>简易案件统计</span>
+            </a>
+        </li>
+        <li>
+            <a href="/Statistics/ZFSJChart">
+                <i class="icon-search"></i>
+                <span>执法事件统计</span>
+            </a>
+        </li>
+            <li>
+            <a href="/Statistics/ZFSJChartByQL">
+                <i class="icon-search"></i>
+                <span>根据大类统计</span>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="dropdown-toggle">
+                <i class="icon-search"></i>
+                <span>行政执法统计</span>
+                <b class="arrow icon-angle-right"></b>
+            </a>
+              <ul class="submenu">
+                <li><a href="/Statistics/XZZFChartAdd/">增加数据</a></li>
+                <li><a href="/Statistics/XZZFChart">统计报表</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#" class="dropdown-toggle">
+                <i class="icon-search"></i>
+                <span>规划执法统计</span>
+                <b class="arrow icon-angle-right"></b>
+            </a>
+            <ul class="submenu" id="GeneralCase">
+                <li><a href="/Statistics/GHZFChartAdd/">增加数据</a></li>
+                <li><a href="/Statistics/GHZFChart">统计报表</a></li>
+            </ul>
+        </li>
+         <li>
+            <a href="/Statistics/GGFWChart">
+                <i class="icon-search"></i>
+                <span>信访事项月报</span> 
+            </a>
+        </li>
+    </ul>
+    <div id="sidebar-collapse" class="visible-desktop">
+        <i class="icon-double-angle-left"></i>
+    </div>
+</div>
+
+<div id="main-content">
+    @RenderSection("BreadcrumbSection", false)
+    <div id="content">
+        @RenderBody()
+    </div>
+    <footer>
+        <p>2013 © 钟公庙行政执法局.</p>
+    </footer>
+    <a id="btn-scrollup" class="btn btn-circle btn-large" href="#"><i class="icon-chevron-up"></i></a>
+</div>

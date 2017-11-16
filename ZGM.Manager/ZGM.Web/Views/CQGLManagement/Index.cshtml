@@ -1,0 +1,503 @@
+﻿@{
+    Layout = null;
+}
+@model ZGM.Model.CQGL_PROJECTS
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>项目列表</title>
+    <link href="/Scripts/assets/data-tables/demo_table.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/data-tables/DT_bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/css/OA.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-1.7.1.js"></script>
+    <script type="text/javascript" src="~/Scripts/js/select-ui.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/js/jquery.idTabs.min.js"></script>
+    <script src="~/Scripts/assets/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/assets/data-tables/jquery.datatables.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/assets/data-tables/DT_bootstrap.js"></script>
+    <script type="text/javascript" src="~/Scripts/assets/data-tables/PLE_DT_bootstrap.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-zh-CN.js"></script>
+
+    <script src="~/Scripts/js/PageNotBack.js"></script>
+    <link href="~/Scripts/layer/skin/layer.css" rel="stylesheet" />
+    <link href="~/Scripts/layer/skin/seaning/style.css" rel="stylesheet" />
+    <script src="~/Scripts/layer/layer.js"></script>
+    <style>
+        .addfilebtn {
+            width: 40px;
+            height: 22px;
+            line-height: 22px;
+            display: inline-block;
+            margin-top: 6px;
+            color: rgb(255, 255, 255);
+            background: transparent url("/Images/images/btnbg1.png") repeat-x scroll 0% 0%;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 3px;
+            cursor: pointer;
+            text-align: center;
+        }
+    </style>
+    <script type="text/javascript">
+        layer.config({
+            skin: 'layer-ext-seaning',
+            offset: ['100px', '33%'],
+            title: '提示',
+            moveOut: true,
+            closeBtn: false,
+            extend: 'skin/seaning/style.css'
+        });
+
+        $(document).ready(function () {
+            $(".select1").uedSelect({
+                width: 345
+            });
+            $(".select2").uedSelect({
+                width: 167
+            });
+            $(".select3").uedSelect({
+                width: 100
+            });
+
+            $("#selectUser").click(function () {
+                $("#tip1").fadeIn(200);
+            });
+            $(".sure").click(function () {
+                $(".tip").fadeOut(100);
+            });
+
+            $("#SetUser").click(function () {
+                $("#tip2").fadeIn(200);
+            });
+            $(".tiptop a").click(function () {
+                $(".tip").fadeOut(200);
+            });
+            $("#usual1 ul").idTabs();
+            $('.tablelist tbody tr:odd').addClass('odd');
+
+            $("#StartTime").datepicker({ changeMonth: true, changeYear: true, showMonthAfterYear: true, showButtonPanel: true });
+            $("#EndTime").datepicker({ changeMonth: true, changeYear: true, showMonthAfterYear: true, showButtonPanel: true });
+            $("#EStartTime").datepicker({ changeMonth: true, changeYear: true, showMonthAfterYear: true, showButtonPanel: true });
+            $("#EEndTime").datepicker({ changeMonth: true, changeYear: true, showMonthAfterYear: true, showButtonPanel: true });
+            $("input[name='STARTTIME']").datepicker({ changeMonth: true, changeYear: true, showMonthAfterYear: true, showButtonPanel: true });
+            $("input[name='ENDTIME']").datepicker({ changeMonth: true, changeYear: true, showMonthAfterYear: true, showButtonPanel: true });
+            GetDataTable();
+
+        })
+
+        //后台回调js函数
+        function AddCallBack(flag) {
+            $("#silverlightControlHost").css("visibility", "hidden");
+            if (flag == 1) {
+                layer.alert("操作成功!", {
+                    icon: 1,
+                    skin: 'layer-ext-seaning'
+                }, function (index) {
+                    layer.close(index);
+                    location.href = "/CQGLManagement/Index";
+                });
+            }
+            if (flag == 2) {
+                layer.alert("操作失败!", {
+                    icon: 0,
+                    skin: 'layer-ext-seaning'
+                }, function (index) {
+                    layer.close(index);
+                    location.href = "/CQGLManagement/Index";
+                });
+            }
+        }
+
+        var oTable;
+        //填充项目列表
+        function GetDataTable() {
+            oTable = $('#CQGLManagementTable').dataTable({
+                sAjaxSource: "/CQGLManagement/CQGLManagement_Grid",
+                fnServerParams: function (aoData) {
+                    aoData.push(
+                        { "name": "ProjectName", "value": $("#ProjectName").val() },
+                        { "name": "ProjectUser", "value": $("#ProjectUser").val() },
+                        { "name": "StartTime", "value": $("#StartTime").val() },
+                        { "name": "EndTime", "value": $("#EndTime").val() },
+                        { "name": "EStartTime", "value": $("#EStartTime").val() },
+                        { "name": "EEndTime", "value": $("#EEndTime").val() })
+                },
+                aoColumns: [
+                    {
+                        mDataProp: function (data) {
+                            var span = "<span title='" + data.ProjectName + "'>" + data.ProjectName + "</span>";
+                            return span;
+                        }
+                    },
+                    { mDataProp: "ProjectUser" },
+                    //{ mDataProp: "HouseHolds" },
+                    //{ mDataProp: "ProjectArea" },
+                    { mDataProp: "StartTime" },
+                    { mDataProp: "EndTime" },
+                    {
+                        mDataProp: function (data) {
+                            var edit = "<a class='btn_ico_a_edit' href='#' onclick=\"EditShow(" + data.ProjectID + ")\"><img src='/Images/btnimage/edit.png' class='btn_ico_image' />编辑</a>";
+                            var del = "<a class='btn_ico_a_delete' href='#' onclick=\"Delete(" + data.ProjectID + ")\"><img src='/Images/btnimage/delete.png' class='btn_ico_image' />删除</a>";
+                            var look = "<a class='btn_ico_a_look' href='#' onclick=\"Look(" + data.ProjectID + ")\"><img src='/Images/btnimage/look.png' class='btn_ico_image' />查看</a>";
+                            return edit + "  "  + look;
+                        }, "sClass": "center"
+                    }
+
+                ],
+                aoColumnDefs: [{ sDefaultContent: '', aTargets: ['_all'] }],
+                fnDrawCallback: function (oSettings) {
+                    var pagerIndex = oSettings._iDisplayStart / oSettings._iDisplayLength + 1;
+                    var $currentPager = $(".dataTables_paginate span a:contains('" + pagerIndex + "')");
+                    $currentPager.attr("style", "font-weight :bold;!important");
+                }
+            });
+        }
+
+        function validate_form(thisform) {
+            with (thisform) {
+                if (validate_required(PROJECTNAME, "项目名称不能为空!") == false)
+                { PROJECTNAME.focus(); return false }
+                if (validate_required(PROJECTUSER, "负责人不能为空!") == false)
+                { PROJECTUSER.focus(); return false }
+                if (validate_required(HOUSEHOLDS, "户数不能为空!") == false)
+                { HOUSEHOLDS.focus(); return false }
+                if (validate_required(PROJECTAREA, "面积不能为空!") == false)
+                { PROJECTAREA.focus(); return false }
+                if (validate_required(STARTTIME, "项目启动时间不能为空!") == false)
+                { STARTTIME.focus(); return false }
+                if (validate_required(ENDTIME, "项目完结时间不能为空!") == false)
+                { ENDTIME.focus(); return false }
+                var sdatestr = $("input[name='STARTTIME']").val().replace(/-/g, '/');
+                var ssdate = new Date(sdatestr);
+                var sdate = ssdate.getTime().toString().substr(0, 10);
+                var edatestr = $("input[name='ENDTIME']").val().replace(/-/g, '/');
+                var eedate = new Date(edatestr);
+                var edate = eedate.getTime().toString().substr(0, 10);
+                if (sdate > edate) {
+                    $("#silverlightControlHost").css("visibility", "hidden");
+                    layer.alert("项目完结时间不得早于启动时间", {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    }, function (index) {
+                        layer.close(index);
+                        $("#silverlightControlHost").css("visibility", "visible");
+                    });
+                    return false
+                }
+                if (validate_required(GEOMETRY, "地图区域不能为空!") == false)
+                { GEOMETRY.focus(); return false }
+                else { return true }
+            }
+        }
+
+        function validate_required(field, alerttxt) {
+            with (field) {
+                if (value == null || value == "") {
+                    $("#silverlightControlHost").css("visibility", "hidden");
+                    layer.alert(alerttxt, {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    }, function (index) {
+                        layer.close(index);
+                        $("#silverlightControlHost").css("visibility", "visible");
+                    });
+                    return false
+                }
+                else { return true }
+            }
+        }
+
+        //查询
+        function Search() {
+            oTable.fnPageChange('first', true);
+            oTable.fnClearTable(false);
+        }
+
+        //查看项目
+        function Look(id) {
+            location.href = "/CQGLManagement/IndexLook?ProjectId=" + id;
+        }
+
+        //获取url参数
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null)
+                return unescape(r[2]);
+            return null;
+        }
+
+        //删除项目
+        function Delete(id) {
+            layer.confirm('是否确认删除?', {
+                btn: ['是', '否'],
+                icon: 4,
+                //按钮
+            }, function () {
+                $.ajax({
+                    type: "GET",
+                    url: "/CQGLManagement/Delete?ProjectId=" + id,
+                    success: function (data) {
+                        layer.alert(data);
+                        location.href = "/CQGLManagement/Index";
+                    }
+                });
+            }, function () {
+                layer.close();
+            });
+        }
+
+        //项目编辑显示
+        function EditShow(id) {
+            $.ajax({
+                type: 'GET',
+                url: '/CQGLManagement/EditShow?random=' + Math.random(),
+                data: { ProjectId: id },
+                success: function (data) {
+                    $(".itab a:eq(1)").click();
+                    $(".itab a:eq(1)").text("编辑项目");
+                    $("input[name='hidden-projectid']").val(id);
+                    $("input[name='hidden-isedit']").val("1");
+                    $("input[name='PROJECTNAME']").val(data.list.PROJECTNAME);
+                    $("input[name='PROJECTUSER']").val(data.list.PROJECTUSER);
+                    $("input[name='HOUSEHOLDS']").val(data.list.HOUSEHOLDS);
+                    $("input[name='PROJECTAREA']").val(data.list.PROJECTAREA);
+                    $("input[name='STARTTIME']").val(data.list.StartTimeStr);
+                    $("input[name='ENDTIME']").val(data.list.EndTimeStr);
+                    $("input[name='GEOMETRY']").val(data.list.GEOMETRY);
+                    $("textarea[name='REMARKS']").val(data.list.REMARKS);
+                    if (data.list.FILENAME != null && data.list.FILENAME != "") {
+                        var fileid = new Array();
+                        fileid = data.list.FileIdStr.split('|');
+                        var filestring = new Array();
+                        filestring = data.list.FILENAME.split('|');
+                        var filepath = new Array();
+                        filepath = data.list.FILEPATH.split('|');
+                        var strhtml = "";
+                        var hidefilepath = $("#hidden-filepath").val();
+                        for (var i = 0; i < filestring.length; i++) {
+                            strhtml += "<div style='margin: 20px 0px;'><a href='/DownFile/DownLoadOAWorkFlow?path=" + hidefilepath+
+                                filepath[i] + "&&fileName=" + filestring[i] + "'>" + filestring[i] + "</a><span id=" + fileid[i] +
+                                " onclick='DeleteDBFile(this);' style='margin-left:50px;cursor:pointer;' >删除</span></div>";
+                        }
+                        $("#showfile").html(strhtml);
+                    } else
+                        $("#showfile").html("<div id='AddAfterFile' class='addfilebtn' onclick='AddAfterFile();'>添加</div>");
+
+                }
+            });
+        }
+
+        //添加公告文件
+        function AddAfterFile() {
+            $("#AddAfterFile").after("<div style='margin: 20px 0px;'><input name='AddFile" + Math.random(10000, 99999) + "' type='file'  value='' /><b style='cursor:pointer;color:black;' onclick='DeleteFile(this);'>删除</b></div>");
+        }
+
+        //删除公告文件
+        function DeleteFile(obj) {
+            $(obj).parent().remove();
+        }
+
+        function mapInited() {
+            setTimeout(function () {
+                var mapCtrl = document.getElementById("mapCtrl").content.MapCtrl;
+                var Geometry = $("#GEOMETRY").val();
+                mapCtrl.AddPolygon("Green", Geometry);
+            }, 1000)
+        }
+
+        function mapDraw(color, s) {
+            var a = $("#GEOMETRY").val();
+            a = s;
+            $("#GEOMETRY").val(a);
+        }
+
+        function mapClear() {
+            var a = "";
+            $("#GEOMETRY").val(a);
+        }
+
+        //删除数据库附件
+        function DeleteDBFile(obj) {
+            $("#silverlightControlHost").css("visibility", "hidden");
+            layer.confirm('是否确认删除?', {
+                btn: ['是', '否'],
+                icon: 4,
+                //按钮
+            }, function () {
+                $.ajax({
+                    type: 'GET',
+                    url: '/CQGLManagement/DeleteDBFile?random=' + Math.random(),
+                    data: { AttrachId: obj.id },
+                    success: function (data) {
+                        if (data == "删除成功") {
+                            var oobj = $(obj).parent().parent();
+                            $(obj).parent().remove();
+                            if (oobj.html() == "")
+                                $("#showfile").html("<div id='AddAfterFile' class='addfilebtn' onclick='AddAfterFile();'>添加</div>");
+                            layer.alert(data, {
+                                icon: 1,
+                                skin: 'layer-ext-seaning'
+                            });
+                        } else {
+                            layer.alert(data, {
+                                icon: 0,
+                                skin: 'layer-ext-seaning'
+                            });
+                        }
+                    }
+                })
+            }, function () {
+                layer.close();
+                $("#silverlightControlHost").css("visibility", "visible");
+            });
+        }
+    </script>
+</head>
+<body>
+
+
+    <div class="place">
+        <span>位置：</span>
+        <ul class="placeul">
+            <li>项目列表</li>
+        </ul>
+    </div>
+
+    <div class="formbody">
+        <div id="usual1" class="usual">
+            <div class="itab">
+                <ul>
+                    <li><a href="#tab1" class="selected">项目列表</a></li>
+                    <li><a href="#tab2">新建项目</a></li>
+                </ul>
+            </div>
+
+            <div id="tab1" class="tabson">
+                <ul class="seachform">
+                    <li>
+                        <label>项目名称：</label>
+                        <input id="ProjectName" type="text" class="dfinputs" style="width: 120px; height: 32px" />
+                    </li>
+                    <li>
+                        <label style="width:auto;">负责人：</label>
+                        <input id="ProjectUser" type="text" class="dfinputs" style="width: 120px; height: 32px" />
+                    </li>
+                    <li>
+                        <label style="width: auto;">项目启动时间：</label>
+                        <input id="StartTime" type="text" class="dfinputs" readonly="readonly" data-date-format="yyyy-mm-dd" value="" style="width: 120px; height: 32px" />
+                    </li>
+                    <li>
+                        <label style="width: auto">至</label>
+                        <input id="EndTime" type="text" class="dfinputs" readonly="readonly" data-date-format="yyyy-mm-dd" value="" style="width: 120px; height: 32px" />
+                    </li>
+                    <li>
+                        <label style="width: auto;">项目完结时间：</label>
+                        <input id="EStartTime" type="text" class="dfinputs" readonly="readonly" data-date-format="yyyy-mm-dd" value="" style="width: 120px; height: 32px" />
+                    </li>
+                    <li>
+                        <label style="width: auto">至</label>
+                        <input id="EEndTime" type="text" class="dfinputs" readonly="readonly" data-date-format="yyyy-mm-dd" value="" style="width: 120px; height: 32px" />
+                    </li>
+                    <li>
+                        <input type="button" class="sure" value="查询" onclick="Search()" />
+                    </li>
+                </ul>
+                <div style="clear: both; margin-top: 10px;" class="tableListDiv">
+                    <table class="tablelist" id="CQGLManagementTable" style="text-align: center">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center">项目名称</th>
+                                <th style="text-align: center">负责人</th>
+                                <th style="text-align: center;">启动时间</th>
+                                <th style="text-align: center;">完结时间</th>
+                                <th style="text-align: center;">操作</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div id="tab2" class="tabson">
+                <form method="post" enctype="multipart/form-data" action="/CQGLManagement/Commit" target="hidden_frame" onsubmit="return validate_form(this)">
+
+                    <ul class="forminfo">
+                        <li>
+                            <label>项目名称<b>*</b></label>
+                            <input name="PROJECTNAME" type="text" class="dfinputs" placeholder="请输入项目名称" />
+                        </li>
+                        <li>
+                            <label>负责人<b>*</b></label>
+                            <input name="PROJECTUSER" type="text" class="dfinputs" placeholder="请输入负责人" />
+                        </li>
+                        <li>
+                            <label>户数(户)<b>*</b></label>
+                            <input name="HOUSEHOLDS" type="text" class="dfinputs" placeholder="请输入户数" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" />
+                        </li>
+                        <li>
+                            <label>面积<b>*</b></label>
+                            <input name="PROJECTAREA" type="text" class="dfinputs" placeholder="请输入面积" />
+                        </li>
+                        <li>
+                            <label>项目启动时间 <b>*</b></label>
+                            <input name="STARTTIME" type="text" readonly="readonly" data-date-format="yyyy-mm-dd" class="dfinputs" placeholder="请输入项目启动时间" />
+                        </li>
+                        <li>
+                            <label>项目完结时间<b>*</b></label>
+                            <input name="ENDTIME" class="dfinputs" readonly="readonly" data-date-format="yyyy-mm-dd" placeholder="请输入项目完结时间" />
+                        </li>
+                        <li>
+                            <label>备注</label>
+                            <textarea name="REMARKS" class="dfinputs" style="width: 700px; height: 250px;" placeholder="请输入备注"></textarea>
+                        </li>
+                        <li>
+                            <label style="width:90px;">地图位置<b>*</b></label>
+                            <div class="form-group" id="ShowOrHide" style="margin-bottom: 5px; margin-left:85px; margin-top: 280px;">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    @Html.HiddenFor(model => model.GEOMETRY, new { @name = "GEOMETRY", @id = "GEOMETRY" })
+                                    <div class="form-group" style="width: 90%; height: 350px; margin-left: 20px;">
+                                        <div id="silverlightControlHost" style="height: 340px;">
+                                            <object id="mapCtrl" data="data:application/x-silverlight-2," type="application/x-silverlight-2" height="100%" width="100%">
+                                                <param name="source" value="/ClientBin/MapCtrl.xap" />
+                                                <param name="background" value="white" />
+                                                <param name="minRuntimeVersion" value="5.0.61118.0" />
+                                                <param name="autoUpgrade" value="true" />
+                                                <param id="initParams" name="initParams" value="IsGoogleMap=false,MapUrl=@ZGM.Web.ConfigManager.MapUrl,X1=@ZGM.Web.ConfigManager.MapLonX1,Y1=@ZGM.Web.ConfigManager.MapLatY1,X2=@ZGM.Web.ConfigManager.MapLonX2,Y2=@ZGM.Web.ConfigManager.MapLatY2,Mode=4,PinUrl=./Images/pin.png,OffsetX=24,OffsetY=48,fileUrl=" />
+                                                <a href="http://go.microsoft.com/fwlink/?LinkID=149156&v=5.0.61118.0" style="text-decoration: none">
+                                                    <img src="http://go.microsoft.com/fwlink/?LinkId=161376" alt="Get Microsoft Silverlight" style="border-style: none" />
+                                                </a>
+                                            </object>
+                                            <iframe id="_sl_historyFrame" style="visibility: hidden; height: 0px; width: 0px; border: 0px"></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <label id="filechange">上传附件</label>
+                            <div id="showfile" style="margin-left: 90px;">
+                                <div id="AddAfterFile" class="addfilebtn" onclick="AddAfterFile();">添加</div>
+                            </div>
+                        </li>
+                        <li>
+                            <label>&nbsp;</label>
+                            <input type="submit" class="sure" value="保  存" />
+                            <input type="button" class="sure" value="返  回" onclick="window.location.href = '/CQGLManagement/Index'" />
+                            <input type="hidden" name="hidden-projectid" value="0" />
+                            <input type="hidden" name="hidden-isedit" value="0" />
+                            <input type="hidden" id="hidden-filepath"  value="@System.Configuration.ConfigurationManager.AppSettings["ProjectPath"].Replace("\\","/")"/>
+                        </li>
+                    </ul>
+                </form>
+            </div>
+        </div>
+    </div>
+    <iframe name='hidden_frame' id="hidden_frame" style="display: none"></iframe>
+
+</body>
+</html>

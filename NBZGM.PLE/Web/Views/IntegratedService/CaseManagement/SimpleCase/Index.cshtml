@@ -1,0 +1,150 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/IntegratedService/CaseManagement/_LayoutCaseManagement.cshtml";
+}
+
+@section HeadStyles_CaseManage{
+    <link href="~/Scripts/assets/bootstrap-timepicker/compiled/timepicker.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" />
+    <style type="text/css">
+        .table {
+            table-layout: fixed;
+        }
+
+            .table td.left {
+                text-align: left;
+            }
+
+            .table td.center {
+                text-align: center;
+            }
+
+        .overflow {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+}
+
+@section FootScripts_CaseManage{
+    <script src="~/Scripts/assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
+    <script src="~/Scripts/assets/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/assets/bootstrap-datepicker/js/bootstrap-datepicker-zh_CN.js"></script>
+    <script type="text/javascript">
+        var oTable;
+        $(document).ready(function () {
+            //激活菜单
+            $("#menuCase").addClass("active");
+            $("#startTime").datepicker();
+            $("#endTime").datepicker();
+
+            $("#btnQuery").click(function () {
+                var url = "/SimpleCase/GetSimpleCases";
+                var strStartTime = $("#startTime").val();
+                var strEndTime = $("#endTime").val();
+
+                var startTime = new Date(strStartTime.replace(/-/g, "/"));
+                var endTime = new Date(strEndTime.replace(/-/g, "/"));
+
+                if (startTime > endTime) {
+                    alert("开始时间不能大于结束时间");
+                }
+                else {
+                    url += "?startTime=" + $("#startTime").val();
+                    url += "&endTime=" + $("#endTime").val();
+                    BindDataTable(url);
+                }
+            });
+
+            $("#btnQuery").click();
+        });
+
+        //获取案件列表数据
+        function BindDataTable(url) {
+            if (oTable != null) {
+                oTable.fnSettings().sAjaxSource = url;
+                oTable.fnDraw(true);
+            } else {
+                oTable = $('#dataTableList').dataTable({
+                    sAjaxSource: url,
+                    aoColumns: [
+                        { "mDataProp": "JDSBH", "sClass": "center", sWidth: "120px" },
+                        {
+                            "mDataProp": function (data) {
+                                var view = "<div class='overflow' title='" + data.WFXWName + "'>" + data.WFXWName + "</div>"
+                                return view;
+                            }, "sClass": "left"
+                        },
+                        { "mDataProp": "DSRNAME", "sClass": "left", sWidth: "90px" },
+                        {
+                            "mDataProp": function (data) {
+                                var CaseTimeYY = "<span title='" + data.CaseTimeYY + "'>" + data.CaseTime + "</span>";
+                                return CaseTimeYY;
+                            }, "sClass": "center", sWidth: "90px"
+                        },
+                        {
+                            "mDataProp": function (data) {
+                                var view = "<a class='btn btn-primary btn-small' href='/SimpleCase/ShowSimpleCase?simpleCaseID=" + data.SimpleCaseID + "'\"><i class='padding-null'></i> 详情 </a>";
+                                return view;
+                            }, "sClass": "center", sWidth: "60px"
+                        }
+                    ],
+                    fnDrawCallback: function (oSettings) {
+                        var pagerIndex = oSettings._iDisplayStart / oSettings._iDisplayLength + 1;
+                        var $currentPager = $(".dataTables_paginate span a:contains('" + pagerIndex + "')");
+                        $currentPager.attr("style", "font-weight :bold;!important");
+                    }
+                });
+            }
+        }
+
+    </script>
+}
+
+@section BreadcrumbSection{
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li><a href="javascript:void(0)"><i class="icon-home"></i>综合业务</a></li>
+            <li>></li>
+            <li><a href="javascript:void(0)">案件管理</a></li>
+            <li>></li>
+            <li><a href="javascript:void(0)">简易案件</a></li>
+        </ul>
+    </div>
+}
+<div class="row-fluid">
+    <div class="span12" id="tabledata">
+        <div class="box box-black" style="margin-top: 0px;">
+            <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+                <i class="icon-reorder" style="margin-right: 5px;"></i>简易案件
+            </div>
+            <div class="box-content" id="">
+                <label style="width: 70px; text-align: left; display: inline-block">开始时间</label>
+                <input type="text" id="startTime" style="margin-top:10px;" value="@string.Format("{0:yyyy-MM-dd}", DateTime.Now.AddDays(-6))" class="datepicker" data-date-format="yyyy-mm-dd"/>
+                <label style="width: 70px; text-align: left; display: inline-block; margin-left: 10px;">结束时间</label>
+                <input type="text" id="endTime" style="margin-top:10px;" value="@string.Format("{0:yyyy-MM-dd}", DateTime.Now)"class="datepicker" data-date-format="yyyy-mm-dd"/>
+                <input id="btnQuery" type="button" class="btn btn-primary" title="查询" value="查 询" style="margin-left: 10px;" />
+                <a id="btnAdd" class="btn btn-primary" title="添加" style="margin-left: 10px;" href="/SimpleCase/Add">添 加</a>
+            </div>
+            <div class="box-content">
+                <table class="table table-bordered table-striped table-hover fill-head" id="dataTableList">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center;">决定书编号</th>
+                            <th style="text-align: left;">违法行为</th>
+                            <th style="text-align: center">当事人/负责人</th>
+                            <th style="text-align: center;">违法时间</th>
+                            <th style="text-align: center;">操作</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div style="clear: both"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

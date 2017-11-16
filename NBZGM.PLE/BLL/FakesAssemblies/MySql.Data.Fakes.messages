@@ -1,0 +1,184 @@
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Common.SqlTokenizer 生成存根: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 zlib.ZInputStream 生成存根: 类型不受支持，因为它不可用或已在版本之间更改。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Types.IMySqlValue 生成存根: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Types.MySqlTimeSpan 生成存根: 类型是一个值类型。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Types.MySqlSingle 生成存根: 类型是一个值类型。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Types.MetaData 生成存根: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.Statement 生成存根: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.PreparableStatement 生成存根: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 zlib.zlibConst 生成存根: 类型已密封。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 zlib.Tree 生成存根: 类型已密封。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlDataReader 生成存根: 类型已密封。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Types.MySqlUInt16 生成存根: 类型是一个值类型。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.ClientFlags 生成存根: 类型是一个值类型。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.ServerStatusFlags 生成存根: 类型是一个值类型。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.DBCmd 生成存根: 类型是一个值类型。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlDbType 生成存根: 类型是一个值类型。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.Field_Type 生成存根: 类型是一个值类型。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlConnectionProtocol 生成存根: 类型是一个值类型。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlDriverType 生成存根: 类型是一个值类型。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 zlib.ZOutputStream 生成存根: 类型不受支持，因为它不可用或已在版本之间更改。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.SchemaProvider 生成存根: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlParameter 生成存根: 类型已密封。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlParameterConverter 生成存根: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlPoolManager 生成存根: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Common.SharedMemoryStream 生成存根: 类型不受支持，因为它不可用或已在版本之间更改。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Common.NativeMethods 生成存根: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Common.ContextString 生成存根: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlCommandBuilder 生成存根: 类型已密封。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Types.MySqlInt32 生成存根: 类型是一个值类型。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlHelper 生成存根: 类型已密封。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.Driver 生成存根: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 zlib.Deflate 生成存根: 类型已密封。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Types.MySqlInt64 生成存根: 类型是一个值类型。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Types.MySqlBit 生成存根: 类型是一个值类型。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 zlib.ZStreamException 生成存根: 类型不受支持，因为它不可用或已在版本之间更改。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 zlib.ZStream 生成存根: 类型已密封。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 zlib.InfTree 生成存根: 类型已密封。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Types.MySqlDecimal 生成存根: 类型是一个值类型。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlStream 生成存根: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.Logger 生成存根: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlBulkLoaderPriority 生成存根: 类型是一个值类型。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlBulkLoaderConflictOption 生成存根: 类型是一个值类型。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 zlib.StaticTree 生成存根: 类型已密封。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Types.MySqlDateTime 生成存根: 类型是一个值类型。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlDataAdapter 生成存根: 类型已密封。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlRowUpdatingEventHandler 生成存根: 类型已密封。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlRowUpdatedEventHandler 生成存根: 类型已密封。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlRowUpdatingEventArgs 生成存根: 类型已密封。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlRowUpdatedEventArgs 生成存根: 类型已密封。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.CompressedStream 生成存根: 类型不受支持，因为它不可用或已在版本之间更改。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Common.Platform 生成存根: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Common.NamedPipeStream 生成存根: 类型不受支持，因为它不可用或已在版本之间更改。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Types.MySqlUInt32 生成存根: 类型是一个值类型。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlTransaction 生成存根: 类型已密封。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.ProcedureCache 生成存根: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.ColumnFlags 生成存根: 类型是一个值类型。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlField 生成存根: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlStatementExecutedEventHandler 生成存根: 类型已密封。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlScriptErrorEventHandler 生成存根: 类型已密封。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.ScriptStatement 生成存根: 类型是一个值类型。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Types.MySqlUInt64 生成存根: 类型是一个值类型。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 zlib.SupportClass 生成存根: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Types.MySqlUByte 生成存根: 类型是一个值类型。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlErrorCode 生成存根: 类型是一个值类型。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.ISSchemaProvider 生成存根: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlException 生成存根: 类型已密封。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Common.DBVersion 生成存根: 类型是一个值类型。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 zlib.Adler32 生成存根: 类型已密封。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlParameterCollection 生成存根: 类型已密封。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlPromotableTransaction 生成存根: 类型已密封。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.DriverTransactionManager 生成存根: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 zlib.InfCodes 生成存根: 类型已密封。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 zlib.InfBlocks 生成存根: 类型已密封。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlClientFactory 生成存根: 类型已密封。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlConnection 生成存根: 类型已密封。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlInfoMessageEventHandler 生成存根: 类型已密封。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.UsageAdvisor 生成存根: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Types.MySqlDouble 生成存根: 类型是一个值类型。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Types.MySqlByte 生成存根: 类型是一个值类型。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlCommand 生成存根: 类型已密封。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Common.Cache`2 生成存根: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.CharSetMap 生成存根: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.CharacterSet 生成存根: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Types.MySqlInt16 生成存根: 类型是一个值类型。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.StoredProcedure 生成存根: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.PerformanceMonitor 生成存根: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.NativeDriver 生成存根: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlConnectionStringBuilder 生成存根: 类型已密封。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.ConnectionProtocolDescriptor 生成存根: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.Keyword 生成存根: 类型是一个值类型。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.Crypt 生成存根: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Common.StreamCreator 生成存根: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Common.SHA1Hash 生成存根: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.Properties.Resources 生成存根: 类型是编译器生成的。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 zlib.Inflate 生成存根: 类型已密封。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Types.MySqlString 生成存根: 类型是一个值类型。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Types.MySqlBinary 生成存根: 类型是一个值类型。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlPool 生成存根: 类型已密封。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 <PrivateImplementationDetails>{98B6C946-2398-459E-9253-D2FFEBEB7237} 生成存根: 类型不受支持，因为存在于内部限制。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Common.SqlTokenizer 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 zlib.ZInputStream 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Types.IMySqlValue 生成填充码: 类型是一个接口。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Types.MySqlTimeSpan 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Types.MySqlSingle 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Types.MetaData 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.Statement 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.PreparableStatement 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 zlib.zlibConst 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 zlib.Tree 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Types.MySqlUInt16 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.ClientFlags 生成填充码: 类型是一个枚举。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.ServerStatusFlags 生成填充码: 类型是一个枚举。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.DBCmd 生成填充码: 类型是一个枚举。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlDbType 生成填充码: 类型是一个枚举。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.Field_Type 生成填充码: 类型是一个枚举。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlConnectionProtocol 生成填充码: 类型是一个枚举。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlDriverType 生成填充码: 类型是一个枚举。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 zlib.ZOutputStream 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.SchemaProvider 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlParameterConverter 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlPoolManager 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Common.SharedMemoryStream 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Common.NativeMethods 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Common.ContextString 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Types.MySqlInt32 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.Driver 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 zlib.Deflate 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Types.MySqlInt64 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Types.MySqlBit 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 zlib.ZStreamException 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 zlib.ZStream 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 zlib.InfTree 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Types.MySqlDecimal 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlStream 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.Logger 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlBulkLoaderPriority 生成填充码: 类型是一个枚举。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlBulkLoaderConflictOption 生成填充码: 类型是一个枚举。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 zlib.StaticTree 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlRowUpdatingEventHandler 生成填充码: 类型是一个委托。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlRowUpdatedEventHandler 生成填充码: 类型是一个委托。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.CompressedStream 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Common.Platform 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Common.NamedPipeStream 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Types.MySqlUInt32 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.ProcedureCache 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.ColumnFlags 生成填充码: 类型是一个枚举。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlField 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlStatementExecutedEventHandler 生成填充码: 类型是一个委托。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlScriptErrorEventHandler 生成填充码: 类型是一个委托。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.ScriptStatement 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Types.MySqlUInt64 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 zlib.SupportClass 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Types.MySqlUByte 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlErrorCode 生成填充码: 类型是一个枚举。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.ISSchemaProvider 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Common.DBVersion 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 zlib.Adler32 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlPromotableTransaction 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.DriverTransactionManager 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 zlib.InfCodes 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 zlib.InfBlocks 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlInfoMessageEventHandler 生成填充码: 类型是一个委托。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.UsageAdvisor 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Types.MySqlDouble 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Types.MySqlByte 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlCommand+AsyncDelegate 生成填充码: 类型是一个委托。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Common.Cache`2 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.CharSetMap 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.CharacterSet 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Types.MySqlInt16 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.StoredProcedure 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.PerformanceMonitor 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.NativeDriver 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.ConnectionProtocolDescriptor 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.Keyword 生成填充码: 类型是一个枚举。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.Crypt 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Common.StreamCreator 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Common.SHA1Hash 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.Properties.Resources 生成填充码: 类型是编译器生成的。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 zlib.Inflate 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Types.MySqlString 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.Types.MySqlBinary 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 MySql.Data.MySqlClient.MySqlPool 生成填充码: 类型对 exported or assembly(MySql.Data.Fakes) 不可见。
+E:\work\taizhouManager\Taizhou.PLE\BLL\Fakes\MySql.Data.fakes : warning : 无法为 <PrivateImplementationDetails>{98B6C946-2398-459E-9253-D2FFEBEB7237} 生成填充码: 类型不受支持，因为存在于内部限制。

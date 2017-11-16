@@ -1,0 +1,183 @@
+﻿@model Taizhou.PLE.Model.CaseDocModels.ZLTZWFZXWTZS
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("input[name=TZSJ]").datepicker();
+        $("input[name=FASJ]").datetimepicker();
+        $("input[name=bulidDocType]").click(function () {
+            var buildDocType = $(this).val();
+            if (buildDocType == "1") {
+                $("#uploadFile").hide();
+                $("table tr").not($("#uploadFile")).show();
+            }
+            else {
+                $("table tr").not($(".notHideTD")).hide();
+                $("#uploadFile").show();
+            }
+        });
+    });
+
+    function ValidateDocForm() {
+        var flag = true;
+        $(".formErrorMsg").hide();
+        $(".formErrorMsg").html("");
+        if ($("input[name=bulidDocType]:checked").val() == "1") {
+            //文书编号
+            var docBH = escape($.trim($("#BH").val()));
+            if (docBH == "") {
+                flag = false;
+                $("#error_BH").show();
+                $("#error_BH").html("编号不能为空");
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: "/Document/ValidateWSBH",
+                    data: "DDID=" + $("#DOCDDID").val() + "&WSBH=" + docBH + "",
+                    cache: false,
+                    async: false,
+                    success: function (data) {
+                        if (data != "True") {
+                            $("#error_BH").show();
+                            $("#error_BH").html("文书编号已存在");
+                            flag = false;
+                        }
+                    }
+                });
+            }
+        }
+        else {
+            $(".error").remove();
+            //验证上传的图片
+            var files = $(".file");
+
+            var AllImgExt = ".jpg|.jpeg|.gif|.bmp|.png";
+
+            var fileIsEmpty = true;
+
+            $.each(files, function (i, n) {
+                if (n.value != null && n.value != "") {
+                    fileIsEmpty = false;
+                    var filePath = n.value;
+
+                    //截取最后一个点之后的字符串
+                    var su = filePath.substring(filePath.lastIndexOf("."));
+
+                    if (AllImgExt.indexOf(su.toLowerCase()) == -1) {
+                        flag = false;
+                        $(n).parent().append($("<label class='error' style='margin-left:5px;display:inline-block;'>图片格式不正确.</label>"));
+                    }
+                }
+            });
+
+            if (fileIsEmpty) {
+                flag = false;
+                $(".uploadFileTD").append("<Label class='error' generated='true'>请至少选择一张图片.</Label>");
+            }
+        }
+
+        return flag;
+    }
+</script>
+<form class="docForm" method="post" action="/DocZLTZWFZXWTZS/CommitDocumentZLTZWFZXWTZS" style="margin-bottom: 30px;" enctype="multipart/form-data">
+    @Html.Hidden("DOCDDID", Taizhou.PLE.Common.DocDefinition.ZLTZWFXWTZS)
+    <div class="title">
+        责令停止违（章）行为通知书
+    </div>
+    <table class="workflow" border="0" cellspacing="0" cellpadding="0" style="width: 700px; border-collapse: collapse; margin: 0 auto; margin-top: 20px;">
+        <tr class="notHideTD">
+            <th colspan="2">新增方式</th>
+            <td colspan="9">
+                <label for="bdlr" style="display: inline-block; cursor: pointer;">
+                    <input type="radio" name="bulidDocType" value="1" checked="checked" id="bdlr" />表单录入
+                </label>
+                <label for="scsmj" style="display: inline-block; cursor: pointer;">
+                    <input type="radio" name="bulidDocType" value="2" id="scsmj" />上传扫描件
+                </label>
+            </td>
+        </tr>
+        <tr id="uploadFile" style="display: none;">
+            <th colspan="2">上传文书
+            </th>
+            <td colspan="9" class="uploadFileTD">
+                <ul style="list-style: none; margin-left: 0px;">
+                    <li style="margin-top: 5px;">第1张：<input type="file" name="file1" style="width: 400px;" class="file" /></li>
+                    <li style="margin-top: 5px;">第2张：<input type="file" name="file2" style="width: 400px;" class="file" /></li>
+                    <li style="margin-top: 5px;">第3张：<input type="file" name="file3" style="width: 400px;" class="file" /></li>
+                    <li style="margin-top: 5px;">第4张：<input type="file" name="file4" style="width: 400px;" class="file" /></li>
+                    <li style="margin-top: 5px;">第5张：<input type="file" name="file5" style="width: 400px;" class="file" /></li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">编号</th>
+            <td colspan="9">
+                @Html.TextBoxFor(model => model.BH)
+                <label class="formErrorMsg" id="error_BH"></label>
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">当事人姓名或名称</th>
+            <td colspan="4">
+                @Html.TextBoxFor(model => model.DSR)
+            </td>
+            <th colspan="1">案发时间</th>
+            <td colspan="4">
+                @Html.TextBoxFor(model => model.FASJ)
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">违法行为</th>
+            <td colspan="9">
+                @Html.TextAreaFor(model => model.WFXWandFADD)
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">违法规定</th>
+            <td colspan="9">
+                @Html.TextAreaFor(model => model.WFDGD)
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">法律根据</th>
+            <td colspan="9">
+                @Html.TextAreaFor(model => model.FLGJ)
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">通知时间</th>
+            <td colspan="9">
+                @Html.TextBox("TZSJ", DateTime.Now.ToString("yyyy-MM-dd"))
+            </td>
+        </tr>
+        <tr class="notHideTD">
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 42px; border: none;"></td>
+            <td colspan="9" style="border: none; padding-top: 10px;">
+                <input id="btnDocFormSubmit" type="button" class="btn btn-success" value="保   存" />
+            </td>
+        </tr>
+        <tr class="notHideTD">
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 42px; border: none;"></td>
+            <td style="width: 42px; border: none;"></td>
+            <td style="width: 92px; border: none;"></td>
+            <td style="width: 42px; border: none;"></td>
+            <td style="width: 72px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 42px; border: none;"></td>
+            <td style="width: 42px; border: none;"></td>
+            <td style="border: none;">&nbsp;</td>
+        </tr>
+    </table>
+    @Html.Hidden("DDID")
+    @Html.Hidden("WIID")
+    @Html.Hidden("AIID")
+    @Html.Hidden("ADID")
+    @Html.Hidden("WICode")
+</form>
+
+
+
+
+

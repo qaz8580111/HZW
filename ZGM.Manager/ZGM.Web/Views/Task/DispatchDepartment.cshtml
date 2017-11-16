@@ -1,0 +1,560 @@
+﻿@{
+    Layout = null;
+}
+@using ZGM.Model
+@using ZGM.Common
+@using ZGM.BLL.WORKFLOWManagerBLLs
+@using ZGM.BLL.UserBLLs
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>科室派遣</title>
+    <link href="~/Content/css/OA.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/Scripts/assets/bootstrap/bootstrap.min.css" />
+
+    <script src="~/Scripts/jquery-1.7.1.js"></script>
+    <script type="text/javascript" src="~/Scripts/js/select-ui.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/js/jquery.idTabs.min.js"></script>
+    <script src="~/Scripts/assets/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-zh-CN.js"></script>
+    <script src="~/Scripts/js/PageNotBack.js"></script>
+
+    <link href="~/Scripts/assets/zTree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+    <script src="~/Scripts/assets/zTree/js/jquery.ztree.core.js"></script>
+    <script src="~/Scripts/assets/zTree/js/jquery.ztree.excheck.js"></script>
+    <script src="~/Scripts/assets/zTree/js/jquery.ztree.exedit.js"></script>
+
+    <link href="~/Scripts/layer/skin/layer.css" rel="stylesheet" />
+    <link href="/Scripts/layer/skin/seaning/style.css" rel="stylesheet" />
+    <script src="~/Scripts/layer/layer.js"></script>
+    <script type="text/javascript">
+        layer.config({
+            skin: 'layer-ext-seaning',
+            offset: ['100px', '33%'],
+            title: '提示',
+            moveOut: true,
+            closeBtn: false,
+            extend: '~/Scripts/layer/skin/seaning/style.css'
+        });
+
+    </script>
+
+    <style type="text/css">
+        table td {
+            border: solid #b9aeae;
+            border-width: 0px 1px 1px 0px;
+            padding: 10px 0px;
+            text-align: left;
+            line-height: 29px;
+            width: 40%;
+        }
+
+            table td label {
+                margin-left: 20px;
+            }
+
+        table th {
+            width: 170px;
+            border: solid #b9aeae;
+            border-width: 0px 1px 1px 0px;
+            padding: 8px;
+            text-align: center;
+            line-height: 30px;
+        }
+
+        table tr input.large {
+            width: 98%;
+            height: 30px;
+        }
+
+        table tr input.small {
+            width: 94%;
+        }
+
+        table {
+            width: 99%;
+            border: solid #b9aeae;
+            border-width: 1px 0px 0px 1px;
+        }
+        a, a:focus {
+            text-decoration:none;
+            color:#000;
+        }
+    </style>
+
+    @*加载树*@
+    <script type="text/javascript">
+        var setting = {
+            check: {
+                enable: true
+            },
+            view: {
+                dblClickExpand: false
+            },
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            },
+            callback: {//该事件在节点被单击后触发
+                onCheck: function (e, treeId, zNodes2) {
+                    var zTree = $.fn.zTree.getZTreeObj("chkboxTree");
+                    nodes = zTree.getCheckedNodes(true);
+                    //定义用户组变量
+                    var childrenobj = "";
+                    for (var i = 0, l = nodes.length; i < l; i++) {
+                        if (nodes[i].type != "组织") {
+                            childrenobj += nodes[i].value + ",";
+                        }
+                    }
+                    if (childrenobj.length > 0)
+                        childrenobj = childrenobj.substring(0, childrenobj.length - 1);
+                    $("#SelectUserIds").val(childrenobj);
+
+                    //定义用户号码变量
+                    var userNames = "";
+                    for (var i = 0, l = nodes.length; i < l; i++) {
+                        if (nodes[i].type != "组织") {
+                            userNames += nodes[i].name + ",";
+                        }
+                    }
+
+                    if (userNames.length > 0)
+                        userNames = userNames.substring(0, userNames.length - 1);
+
+                    $("#SelectUserNames").val(userNames);
+                },
+                beforeClick: function (treeId, zNodes2) {
+                    var zTree = $.fn.zTree.getZTreeObj("chkboxTree");
+                    zTree.checkNode(zNodes2, !zNodes2.checked, null, true);
+                    return false;
+                }
+            },
+        };
+
+
+        function showMenu() {
+            var cityObj = $("#SelectUserNames");
+            var cityOffset = $("#SelectUserNames").offset();
+            var divWidth = $("#SelectUserNames").width();
+
+            //加载用户结构树
+            $.ajax({
+                type: 'GET',
+                dataType: 'json',
+                url: '/Meeting/GetUserManageTree?random=' + Math.random(),
+                success: function (data) {
+                    if (data != null && data != "") {
+                        var zNodes = data;
+                        $.fn.zTree.init($("#chkboxTree"), setting, zNodes);
+                        var treeObj = $.fn.zTree.getZTreeObj("chkboxTree");
+                        treeObj.expandAll(false);
+                    }
+                }
+            });
+
+            $("#menuContent").css({ left: cityOffset.left + "px", top: cityOffset.top + cityObj.outerHeight() + "px", width: divWidth * 1.03 }).slideDown("fast");
+            $("body").bind("mousedown", onBodyDown);
+        }
+       
+
+    </script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            var pagenum = getQueryString("PageNum");
+            if (pagenum != null && pagenum != "" && pagenum != undefined) {
+                $("#default").val(pagenum);
+                $(".itab a:eq(" + pagenum + ")").click();
+            }
+
+          
+
+
+        });
+
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null)
+                return unescape(r[2]);
+            return null;
+        }
+
+      
+        function onBodyDown(event) {
+            if (!(event.target.id == "menuBtn" || event.target.id == "SelectUserNames" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length > 0)) {
+                hideMenu();
+            }
+        }
+        function hideMenu() {
+            $("#menuContent").fadeOut("fast");
+            $("#menuCheck").fadeOut("fast");
+            $("body").unbind("mousedown", onBodyDown);
+        }
+
+    </script>
+
+
+
+
+    <script type="text/javascript">
+        function goback() {
+            if ($("#default").val() != '') {
+                location.href = '/OA_Default/Index';
+            } else {
+                location.href = "/Task/Index?PageNum=1";
+            }
+        }
+
+        function Go_OK() {
+            var SelectUserIds = $("#SelectUserIds").val();
+            var opinion = $("#opinion").val();
+            var TASKID = $("#TASKID").val();
+            var WFSAID = $("#WFSAID").val();
+            var WFSID = $("#WFSID").val();
+            var WFDID = $("#WFDID").val();
+            var TASK_ID = $("#TASK_ID").val();
+            $.ajax({
+                type: "POST",
+                url: "/Task/SubmitSending",
+                data: {
+                    SelectUserIds: SelectUserIds, opinion: opinion, TASKID: TASKID, WFSAID: WFSAID, WFSID: WFSID, WFDID: WFDID, Link: 2, TASKCONTENT: $("#TASKCONTENT").val(), FINISHTIME: $("#FINISHTIME").val(), TASKTITLE: $("#TASKTITLE").val(), CREATEUSERID: $("#CREATEUSERID").val(), TASK_ID: TASK_ID
+                },
+                cache: false,
+                success: function (data) {
+                    if (data == 1) {
+                        layer.alert('派遣成功!', { icon: 1, skin: 'layer-ext-seaning' }, function (index) {
+                            layer.close(index);
+                            location.href = "/Task/Index?PageNum=2";
+                        });
+                    }
+                },
+                error: function () {
+                    layer.alert('网络异常，请重试！', {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    });
+                }
+            });
+
+
+        }
+        $(document).ready(function () {
+            var wfdid = $("#hid_wfdid").val();
+            if (wfdid != null && wfdid != "") {
+                if (wfdid == "20160517094110004" || wfdid == "20160517094110005" || wfdid == "20160517094110006") {
+                    $("#p_sjsb").append(' <p style="background-color: #b9aeae; margin: 5px;"><a href="javascript:void(0)" style="font-size: 18px" onclick="GetAttr(2)">队员处理</a></p>')
+                }
+            }
+            GetAttr(1);
+
+            $("input[name='type_Link']").change(function () {
+                var id = $(this).attr("value");
+                if (id == "0") {
+                    document.getElementById("TASK_ID").value = id;
+                    document.getElementById("XTBG_PQYR").style.display = ""
+                } else {
+                    document.getElementById("TASK_ID").value = id;
+                    document.getElementById("XTBG_PQYR").style.display = "none"
+
+                }
+            });
+
+        });
+
+        //获取事件图片
+        function GetAttr(did) {
+            var TaskId = $("#TASKID").val();
+            $.ajax({
+                type: "POST",
+                url: "/task/GetAttachFile",
+                data: {
+                    TaskId: TaskId, WFDID: did
+                },
+                cache: false,
+                success: function (data) {
+                    $("#div_piclist").empty();
+                    //遍历附件
+                    $.each(data, function (i, item) {
+                        var name = "";
+                        if (item.FILENAME.length > 10) {
+                            name = item.FILENAME.substring(0, 10) + "...";
+                        }
+                        else {
+                            name = item.FILENAME;
+                        }
+
+                        var html = "<div style='width:80px;height:100px;border:1px soild #f00;float:left;margin-left: 15px'><a href='/DownFile/DownLoadOAWorkFlow?path=" + $("#XTGLTasksFile").val() + item.FILEPATH + "&&fileName=" + item.FILENAME + "'  ><div style='width:80px;height:80px;border:1px soild #f00;'><img src='/Images/20076110836312.png'></div><div style='width:80px;height:20px;border:1px soild #f00;margin-top:20px;text-align:center;'>" + name + "</div></a></div>";
+                        $("#div_piclist").append(html);
+                    });
+                },
+                error: function () {
+                    alert("网络异常，请重试！");
+                }
+            });
+        }
+    </script>
+
+</head>
+<body>
+    <div class="place" style="background-image: url(/Images/images/righttop.gif)">
+        <span>位置：</span>
+        <ul class="placeul">
+            <li><a href="/Task/Index">任务</a></li>
+            <li>科室派遣</li>
+        </ul>
+    </div>
+
+    <div class="formbody">
+        <div style="margin-bottom: 10px">
+            <h6 style="font-size: 32px; text-align: center; margin-bottom: 20px; margin-top: 10px;">科室派遣</h6>
+            <input type="hidden" id="default" />
+        </div>
+        <div id="usual1" class="usual">
+            <div class="itab">
+                <ul>
+                    <li><a href="#tab1" class="selected">事件详情</a></li>
+                    <li><a href="#tab2">附件</a></li>
+                    <li><a href="#tab3">历史环节</a></li>
+                </ul>
+            </div>
+            <div id="tab1" class="tabson">
+                <input type="hidden" id="XTGLTasksFile" value="@System.Configuration.ConfigurationManager.AppSettings["XTGLTasksFile"]"/>
+                <div>
+                    <table style="margin-bottom: 20px;">
+                        <tr>
+                            <th>任务编号 </th>
+                            <td>
+                                <label class="lablestyle">@ViewBag.TASKID</label>
+                            </td>
+                            <th>任务标题 </th>
+                            <td>
+                                <label class="lablestyle">@ViewBag.TASKTITLE</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>任务期限 </th>
+                            <td>
+                                <label class="lablestyle">@ViewBag.FINISHTIME</label>
+                            </td>
+                            <th>重要程度 </th>
+                            <td>
+                                <label class="lablestyle">@ViewBag.IMPORTANT</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>任务内容 </th>
+                            <td colspan="3">
+                                <label class="lablestyle">@ViewBag.TASKCONTENT</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>请选择下一步环节 </th>
+                            <td colspan="3">
+                                <div style="float: left; margin-top: 5px; margin-left: 20px">
+                                    <input type="radio" name="type_Link" value="0" checked="checked" style="margin:0px;" /><span style="margin-left: 5px;">派遣</span>
+                                    <input type="radio" name="type_Link" value="1" style="margin:0px;"/><span id="ZY_span" style="margin-left: 5px;">处理</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr id="XTBG_PQYR">
+                            <th>派遣人员 </th>
+                            <td colspan="3">
+                                <div class="col-sm-9 col-lg-10 controls" style="margin-left: 15px;">
+                                    <input name="SelectUserNames" id="SelectUserNames" style="width: 98%;" type="text" class="dfinputs" placeholder="请选择人员" onclick="showMenu();" onfocus="this.blur();" />
+                                    <br />
+                                    <span class="error_FromUserName"></span>
+                                </div>
+                                <input type="hidden" id="SelectUserIds" name="SelectUserIds" value="" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>意见 </th>
+                            <td colspan="3">
+                                <div class="col-sm-9 col-lg-10 controls" style="margin-left: 15px;">
+                                    <textarea id="opinion" name="opinion" class="dfinputs" style="width: 98%; height: 100px;" placeholder="请输入意见"></textarea>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div style="clear: both"></div>
+                    <div style="margin-top: 10px; margin-left: 5%">
+                        <div>
+                            <input id="TASK_ID" type="hidden" value="0" />
+                            <input type="button" id="Go_OK" onclick="Go_OK()" class="btn btn-success" value="提　交" />
+                            <input type="button" class="btn goBack" onclick="goback();" value="返　回" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div id="tab2" class="tabson  yincang">
+                <div style="width: 15%; float: left; margin-left: 20px; border: 1px solid #808080; text-align: center;">
+                    <p style="text-align: center; font-size: 24px; margin-top: 15px;">环节名称</p>
+                    <hr />
+                    <p id="p_sjsb" style="background-color: #b9aeae; margin: 5px; margin-bottom: 10px"><a href="javascript:void(0)" style="font-size: 18px" onclick="GetAttr(1)">添加任务</a></p>
+
+                </div>
+                <div style="width: 75%; float: left; margin-left: 20px">
+                    <div id="div_piclist" style="width: 100%">
+                    </div>
+                    <p style="clear: both"></p>
+                    <hr />
+
+                </div>
+            </div>
+            <div id="tab3" class="tabson yincang">
+
+                <table>
+                    @{
+                        IList<WF_WORKFLOWSPECIFICACTIVITYS> list = (IList<WF_WORKFLOWSPECIFICACTIVITYS>)ViewBag.WFSAList;
+                        list = list.OrderByDescending(a => a.STATUS).OrderBy(a => a.DEALTIME).ToList();
+                        if (list != null && list.Count() > 0)
+                        {
+   
+                        <tr>
+                            <th style="text-align: center; margin-left: 20px; width: 10%; line-height: 30px">历史审批意见</th>
+                            <td colspan="3">
+                                @for (int i = 0; i < list.Count(); i++)
+                                {
+                                    <div style="margin-top: 5px; border-bottom: 1px solid #e1d9d9;">
+                                        <div style="font-size: 14px;">
+                                            <span style="color: #08c;">第 @(i + 1) 个环节：</span>
+                                            <span>@list[i].WF_WORKFLOWDETAILS.WFDNAME</span>
+                                        </div>
+                                        @{
+                                    string WFSAID = list[i].WFSAID;
+                                    string wfdid = list[i].WFDID;
+                                    IList<WF_WORKFLOWSPECIFICUSERS> wfsuList = new WF_WORKFLOWSPECIFICUSERSBLL()
+                                        .GetList().Where(a => a.WFSAID == WFSAID).
+                                        OrderByDescending(a => a.STATUS).ToList();
+                                    IList<SYS_USERS> userList = ZGM.BLL.UserBLLs.UserBLL.GetAllUsers().ToList();
+                                    foreach (var item in wfsuList)
+                                    {
+                                        string styleT = "";
+                                        if (item.ISMAINUSER != 2)
+                                        {
+                                            styleT = "background-color: #f2eded;";
+                                        }
+                                            <div style="padding-left: 30px; border-top: 1px solid #e9dfdf; @styleT">
+                                                <div>
+                                                    @if (item.ISMAINUSER == 2)
+                                                    {
+                                                        <span style="color: #f00">(内转)</span>
+                                                    }
+
+                                                    <span style="color: #08c;">发起人姓名：</span>
+                                                    @if (item.CREATEUSERID != null)
+                                                    {
+                                                        <span>@userList.FirstOrDefault(a => a.USERID == item.CREATEUSERID).USERNAME</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>暂无</span>
+                                                    }
+                                                    <span style="color: #08c; margin-left: 15px;">发起时间：</span>
+                                                    @if (item.CREATETIME != null)
+                                                    {
+                                                        <span>@Convert.ToDateTime(item.CREATETIME).ToString("yyyy-MM-dd HH:mm:ss")</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>暂无</span>
+                                                    }
+                                                </div>
+                                                @if (item.STATUS == 2)
+                                                {
+                                                    <div>
+                                                        <span style="color: #08c;">处理人姓名：</span>
+                                                        <span>@userList.FirstOrDefault(a => a.USERID == item.USERID).USERNAME</span>
+                                                        <span style="color: #08c; margin-left: 15px;">处理时间：</span>
+                                                        @if (item.DEALTIME != null)
+                                                        {
+                                                            <span>@Convert.ToDateTime(item.DEALTIME).ToString("yyyy-MM-dd HH:mm:ss")</span>
+                                                        }
+                                                    </div>
+                                                    <div>
+                                                        @if (wfdid != "20160407132010001")
+                                                        {
+                                                            <span style="color: #08c;">内容：</span>
+                                                            if (string.IsNullOrEmpty(item.CONTENT))
+                                                            {
+                                                            <span>暂无</span>
+                                                            }
+                                                            else
+                                                            {
+                                                            <span>@item.CONTENT</span>
+                                                            }
+                                                        }
+
+                                                        @if (wfsuList[0].WF_WORKFLOWSPECIFICACTIVITYS.WFDID == "20160517094110001")
+                                                        {
+                                                               
+                                                            <input id="CREATEUSERID" type="hidden" value="@wfsuList[0].USERID" />
+                                                        }
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div>
+                                                        <span style="color: #08c;">姓名：</span>
+                                                        <span>@userList.FirstOrDefault(a => a.USERID == item.USERID).USERNAME</span>
+                                                        <span style="margin-left: 30px;">正在处理中...</span>
+                                                        <span style="margin-left: 30px;">
+                                                            @* <input type="button" value="重发短信" onclick="SendMsgAgain('@item.WFSAID    ','@item.USERID    ')" />*@
+                                                        </span>
+                                                    </div>
+                                                }
+                                            </div>
+                                    }
+                                        }
+
+                                    </div>
+                                }
+                            </td>
+                        </tr>
+
+
+                        }
+                    }
+                </table>
+
+            </div>
+
+            <input id="TASKID" type="hidden" value="@ViewBag.TASKID"/>
+            <input id="WFSAID" type="hidden" value="@ViewBag.WFSAID"/>
+            <input id="WFSID" type="hidden" value="@ViewBag.WFSID"/>
+            <input id="WFDID" type="hidden" value="@ViewBag.WFDID"/>
+
+            <input id="TASKTITLE" type="hidden" value="@ViewBag.TASKTITLE"/>
+            <input id="FINISHTIME" type="hidden" value="@ViewBag.FINISHTIME"/>
+            <input id="TASKCONTENT" type="hidden" value="@ViewBag.TASKCONTENT"/>
+
+            <input type="hidden" id="hid_default" />
+            <input id="hid_wfdid" type="hidden" value="@ViewBag.WFDID" />
+        </div>
+
+
+
+    </div>
+
+    @*   <input id="hid_wfdid" type="hidden" value="@ViewBag.WFDID" />*@
+
+    <div id="menuContent" class="menuContent" style="display: none; position: absolute; z-index: 99999999;">
+        <ul id="chkboxTree" class="ztree" style="margin-top: 0; width: 400px; height: 250px; border: 1px solid #cdcdcd; background-color: rgb(255, 255, 255); color: #393939; overflow-y: scroll;"></ul>
+    </div>
+    <script type="text/javascript">
+        $("#usual1 ul").idTabs();
+    </script>
+    <script type="text/javascript">
+        $('.tablelist tbody tr:odd').addClass('odd');
+    </script>
+</body>
+</html>

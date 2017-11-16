@@ -1,0 +1,72 @@
+﻿html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+
+.fullTb {
+    margin: 0px 10px 0px 0px;
+    height: 100%;
+}
+
+.leftalign {
+    text-align: left;
+}
+.centreAlign {
+    text-align:center;
+}
+
+.hoverImg {
+    cursor: pointer;
+
+}
+
+.hoverImg:hover {
+    opacity: 0.6;
+}
+.borderImg {
+    background: url(../../Images/Menu/border.png) no-repeat;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height: 80px;
+    width: 1px;
+    float: right;
+    /*margin-left:55px;*/
+}
+
+.lableFont {
+      font-size: 12px;
+  font-family: "Microsoft YaHei";
+  color: rgb( 255, 255, 255 );
+  line-height: 1.917;
+  width:65px;
+  /*text-align:right;*/
+  /*cursor:pointer;*/
+    text-align:left;
+   display:inline-block;
+}
+.fewEvent {
+     font-size: 13px;
+  font-family: "Microsoft YaHei";
+  color: #f4d547;
+  line-height: 2.308;
+   width:25px;
+    text-align:right;
+  display:inline-block;
+}
+.totalEvent {
+     font-size: 13px;
+  font-family: "Microsoft YaHei";
+  color: #f28a2e;
+  line-height: 2.308;
+  width:20px;
+  text-align:left;
+   display:inline-block;
+}

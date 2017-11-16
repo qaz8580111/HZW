@@ -1,0 +1,218 @@
+﻿@{
+    Layout = "~/Views/SysManagement/WorkflowConfig/_LayoutWorkFlowConfigManagement.cshtml";
+}
+
+@section HeadStyles_WorkFlowConfigManage{
+    <style type="text/css">
+        .center {
+            text-align: center !important;
+        }
+    </style>
+}
+
+@section FootScripts_WorkFlowConfigManage
+{
+    <script type="text/javascript">
+        var oTable;
+        $(function () {
+            $("#IllegalListUL").css("display", "block");
+            //左边违法行为树
+            var setting = {
+                data: {
+                    simpleData: {
+                        enable: true
+                    }
+                },
+                callback: {//点击树节点时触发事件
+                    onClick: function (event, treeId, treeNode) {
+                        var id = treeNode.value;
+                        var type = treeNode.type;
+                        $("#nodeID")[0].value = id;
+                        $("#nodeType")[0].value = type;
+                        $("#itemAddPanel").css("display", "none");
+                        $("#itemEditPanel").css("display", "none");
+                        $("#tabledata").css("display", "block");
+                        var IllegalItemListClickURL = "/IllegalManagement/IllegalItemList?ID="
+                            + id + "&&type="
+                            + type + "&&Random="
+                            + Math.random();
+
+                        BindDataTable(IllegalItemListClickURL);
+                    }
+                },
+            };
+
+            $.ajax({
+                type: "POST",
+                url: ("/IllegalManagement/GetIllegalTree"),
+                success: function (data) {
+                    var zNodes = data;
+                    $.fn.zTree.init($("#tree"), setting, zNodes);
+
+                    //配置树展开
+                    var selectID = "@ViewBag.ID", selectType = "@ViewBag.Type";
+
+                    if (selectID != "0" && selectID != "root") {
+                        var treeObj = $.fn.zTree.getZTreeObj("tree");
+                        var node = treeObj.getNodeByParam("value", selectID, null);
+                        $("#nodeID")[0].value = selectID;
+                        $("#nodeType")[0].value = selectType;
+                        //展开节点
+                        treeObj.expandNode(node, true, false, true);
+                        treeObj.selectNode(node);
+                        var IllegalItemListURL = "/IllegalManagement/IllegalItemList?ID="
+                            + selectID + "&&type="
+                            + selectType + "&&Random="
+                            + Math.random();
+
+                        BindDataTable(IllegalItemListURL);
+                    }
+                        //第一次加载页面显示所有的违法事项
+                    else {
+                        var IllegalItemListIndexURL = "/IllegalManagement/IllegalItemList?ID=0&&type=root&&Random="
+                            + Math.random();
+
+                        BindDataTable(IllegalItemListIndexURL);
+                    }
+                }
+            });
+        })
+
+        //获取违法行为事项列表数据
+        function BindDataTable(url) {
+            if (oTable != null) {
+                oTable.fnSettings().sAjaxSource = url;
+                oTable.fnDraw(true);
+            } else {
+                oTable = $('#ILLEGALCLASSTable').dataTable({
+                    sAjaxSource: url,
+
+                    aoColumns: [
+                        { "mDataProp": "Code", "sClass": "center" },
+                        //{ "mDataProp": "Type", "sClass": "center" },
+                        { "mDataProp": "Name", "sClass": "left" },
+                        {
+                            "mDataProp": function (data) {
+                                var ID = $("#nodeID").val();
+                                var Type = $("#nodeType").val();
+                                var edit = "<a class='btn btn-primary btn-small' href='#' onclick=\"EditIllegalItem(" + data.IllegalItemID + ")\"><i class='icon-edit padding-null'></i> 编辑 </a>";
+                                var del = "<a class='btn btn-danger btn-small' href='/IllegalManagement/DeleteIllegalItem?IllegalItemID=" + data.IllegalItemID + "&&ID=" + ID + "&&Type=" + Type + "' onclick=\"return DeleteIllegalItem(" + data.IllegalItemID + ",'" + data.Name + "');\"><i class='icon-trash padding-null'></i> 删除 </a>";
+                                return edit + "  " + del;
+                            }, "sClass": "center"
+                        }
+                    ],
+                    fnDrawCallback: function (oSettings) {
+                        var pagerIndex = oSettings._iDisplayStart / oSettings._iDisplayLength + 1;
+                        var $currentPager = $(".dataTables_paginate span a:contains('" + pagerIndex + "')");
+                        $currentPager.attr("style", "font-weight :bold;!important");
+                        setHeightFunction();
+                    }
+                });
+            }
+        }
+
+        //设置树的高度
+        function setHeightFunction() {
+            var height1 = $("#listContentDiv")[0].clientHeight;
+            var height2 = $("#addButton")[0].clientHeight;
+            $("#treeContentDiv").height(height1 + height2 - 20);
+        }
+
+        //添加违法行为事项
+        function AddIllegalItem() {
+            $("#tabledata").css("display", "none");
+            $("#itemAddPanel").css("display", "block");
+            $("#itemAddPanel").load("/IllegalManagement/AddIllegalItem?random=" + Math.random(),
+                {
+                    //用户返回按钮操作
+                    ID: $("#nodeID").val(),
+                    Type: $("#nodeType").val()
+                });
+        }
+
+        //编辑违法事项
+        function EditIllegalItem(illegalItemID) {
+            $("#tabledata").css("display", "none");
+            $("#itemEditPanel").css("display", "block");
+            $("#itemEditPanel").load("/IllegalManagement/EditIllegalItem?random=" + Math.random(),
+                {
+                    illegalItemID: illegalItemID,
+                    //用户返回按钮操作
+                    ID: $("#nodeID").val(),
+                    Type: $("#nodeType").val()
+                });
+        }
+
+        //违法事项的删除
+        function DeleteIllegalItem(IllegalItemID, IllegalItemName) {
+            var flag = false;
+
+            if (window.confirm("是否确认删除:" + IllegalItemName + "?")) {
+                flag = true;
+            }
+
+            return flag;
+        }
+    </script>
+
+}
+
+@section BreadcrumbSection{
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+
+            <li><a href="#"><i class="icon-home"></i>综合业务</a></li>
+            <li>></li>
+            <li><a href="#">案件管理</a></li>
+            <li>></li>
+            <li class="active" id="">违法行为事项</li>
+            <li id=""></li>
+
+        </ul>
+    </div>
+}
+
+<div class="row-fluid">
+    <div class="span3">
+        <div class="box box-black" style="margin-top: 0px;">
+            <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+                <i class="icon-reorder" style="margin-right: 5px;"></i>违法行为类别树
+            </div>
+            <div class="box-content" id="treeContentDiv">
+                <ul id="tree" class="ztree"></ul>
+            </div>
+        </div>
+    </div>
+    <div class="span9" id="tabledata">
+        <div class="box box-black" style="margin-top: 0px;">
+            <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+                <i class="icon-reorder" style="margin-right: 5px;"></i>违法行为事项列表
+            </div>
+            <div class="box-content" id="addButton">
+                <button class="btn btn-primary" id="" onclick="AddIllegalItem()">添加违法事项</button>
+            </div>
+            <div class="box-content" id="listContentDiv">
+                <table class="table table-bordered table-striped table-hover fill-head" id="ILLEGALCLASSTable">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center;">代码</th>
+                            @*<th style="text-align: center;">类型</th>*@
+                            <th style="text-align: center;">名称</th>
+                            <th style="text-align: center; width: 135px;">操作</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div style="clear: both"></div>
+            </div>
+        </div>
+    </div>
+    @*违法行为事项添加*@
+    <div id="itemAddPanel" style="display: none;" class="span9">
+    </div>
+    @*违法行为事项修改*@
+    <div id="itemEditPanel" style="display: none;" class="span9">
+    </div>
+</div>
+@Html.Hidden("nodeID", "0")
+@Html.Hidden("nodeType", "root")
+

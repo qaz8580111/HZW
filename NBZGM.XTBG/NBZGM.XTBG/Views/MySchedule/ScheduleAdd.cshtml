@@ -1,0 +1,55 @@
+﻿@{
+    Layout = null;
+}
+<style type="text/css">
+    .form-control {
+        display: inline-block;
+    }
+</style>
+<div class="modal-header bg-primary">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">添加日程</h4>
+</div>
+
+<div class="modal-body">
+    <form id="ScheduleAdd_Form" action="/MySchedule/Add">
+        <div class="form-group">
+            <label for="ScheduleTitle">日程标题：</label><span class="required">*</span>
+            <input type="text" class="form-control" id="ScheduleTitle" name="ScheduleTitle" placeholder="日程标题" required="required" />
+        </div>
+        <div class="form-group">
+            <label for="ScheduleTime">日程时间：</label><span class="required">*</span>
+            <div>
+                <input type="text" class="form-control datetimepicker calc50-1" id="ScheduleStartTime" name="ScheduleStartTime" placeholder="开始时间" value="@ViewBag.date" required="required" >
+                至
+                <input type="text" class="form-control datetimepicker calc50-1" id="ScheduleEndTime" name="ScheduleEndTime" placeholder="结束时间" value="@ViewBag.date" required="required" >
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="ScheduleContent">日程内容：</label><span class="required">*</span>
+            <textarea class="form-control" id="ScheduleContent" name="ScheduleContent" placeholder="日程内容" rows="5" required="required"></textarea>
+        </div>
+        <div class="row text-center">
+            <input type="submit" class="btn btn-default" value="提交" />
+            <input type="reset" class="btn btn-default" value="重置" />
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#ScheduleAdd_Form').on('submit', submitForm);
+        $('#ScheduleAdd_Form').on('submit', function () {
+            document.getElementById("ifrMySchedule").contentWindow.$('#calendar').fullCalendar('refetchEvents');
+            $(this).parents('.modal').modal('toggle');
+        });
+        $(".datetimepicker").datetimepicker({ format: 'yyyy-mm-dd hh:ii', language: 'zh-CN', autoclose: true })
+        .on('changeDate', function () { $('#ScheduleEndTime').datetimepicker('setStartDate', $('#ScheduleStartTime').val()) });
+
+        $("#ScheduleStartTime,#ScheduleEndTime").datetimepicker('setStartDate', moment().format('YYYY-MM-DD'));
+
+        $('#ScheduleAdd_Form').on('click', 'input[type=submit]', function () {
+            if ($('#ScheduleEndTime').val() < $('#ScheduleStartTime').val()) { errorTimeMsg(); return false; }
+        });
+    });
+</script>

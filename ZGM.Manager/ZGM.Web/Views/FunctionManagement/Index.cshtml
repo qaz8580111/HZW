@@ -1,0 +1,246 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="/Scripts/assets/data-tables/demo_table.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/data-tables/DT_bootstrap.css" rel="stylesheet" />
+    <link href="/Scripts/assets/zTree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+    <link href="/Content/css/OA.css" rel="stylesheet" />
+
+    <script src="/Scripts/jquery-1.7.1.js"></script>
+    <script src="/Scripts/assets/data-tables/jquery.datatables.min.js"></script>
+    <script src="/Scripts/assets/data-tables/DT_bootstrap.js"></script>
+    <script src="/Scripts/assets/data-tables/PLE_DT_bootstrap.js"></script>
+    <script src="/Scripts/assets/zTree/js/jquery.ztree.core.js"></script>
+    <script src="/Scripts/assets/zTree/js/jquery.ztree.excheck.js"></script>
+    <script src="/Scripts/assets/zTree/js/jquery.ztree.exedit.js"></script>
+
+   <script src="~/Scripts/js/PageNotBack.js"></script>
+    <link href="~/Scripts/layer/skin/layer.css" rel="stylesheet" />
+    <link href="~/Scripts/layer/skin/seaning/style.css" rel="stylesheet" />
+    <script src="~/Scripts/layer/layer.js"></script>
+
+    <script type="text/javascript">
+        layer.config({
+            skin: 'layer-ext-seaning',
+            offset: ['100px', '33%'],
+            title: '提示',
+            moveOut: true,
+            closeBtn: false,
+            extend: 'skin/seaning/style.css'
+        });
+    </script>
+
+    <script type="text/javascript">
+        var oTable = null;
+        $(document).ready(function () {
+            var treeURL = "/FunctionManagement/GetFunctionManageTree?random=" + Math.random();
+            var FunctionURL = "/FunctionManagement/GetFunctions?ParentFunctionID=";
+            var setting = {
+                callback: {
+                    onClick: function (event, treeId, treeNode) {
+                        var parentUnit = treeNode.value;
+                        $("#ParentFunctionID").val(parentUnit);
+                        //改变导航条
+                        $("#tit").text("功能项列表");
+                        // 隐藏添加列表
+                        $("#AddFunction").hide();
+                        //隐藏编辑表单
+                        $("#EditFunction").hide();
+                        // 显示列表表单
+                        $("#listfunction").show();
+                        // 显示子节点列表数据
+                        BindDataTable(FunctionURL + treeNode.value);
+                    },
+                }
+            };
+          
+            $.ajax({
+                type: 'GET',
+                dataType: 'json',
+                url: treeURL,
+                success: function (data) {
+                    if (data != null && data != "") {
+                        parentIDValue = '@ViewData["ParentFunctionID"]';
+                        var zNodes = data;
+                        $.fn.zTree.init($("#tree"), setting, zNodes);
+                        var treeObj = $.fn.zTree.getZTreeObj("tree");
+                        var node = treeObj.getNodeByParam("value", parentIDValue, null);
+                        treeObj.selectNode(node);
+                        treeObj.expandNode(node, true);
+                        BindDataTable(FunctionURL + parentIDValue + "&random=" + Math.random());
+                    }
+                }
+            });
+
+        //添加功能项
+        $("#addfunction").click(function () {
+            $("#tit").text("新增功能项");
+            $.ajax({
+                type: "GET",
+                url: "/FunctionManagement/AddFunction?ParentFunctionID=" + $("#ParentFunctionID").val() + "&random=" + Math.random(),
+                success: function (data) {
+                    //隐藏列表
+                    $("#listfunction").hide();
+                    //隐藏编辑表单
+                    $("#EditFunction").hide();
+                    //显示添加表单
+                    $("#AddFunction").show();
+                    $("#AddFunction").html(data);
+                }
+            });
+        });
+    });
+
+        
+
+       
+
+        //获取具体功能列表表单
+        function BindDataTable(url) {
+            if (oTable != null) {
+                oTable.fnSettings().sAjaxSource = url;
+                oTable.fnDraw(true);
+            } else {
+                oTable = $('#FunctionTableContent').dataTable({
+                    sAjaxSource: url,
+                    aoColumns: [
+                        { mDataProp: "Name" },
+                         { mDataProp: "Code" },
+                         { mDataProp: "URL" },
+                         {
+                             mDataProp: function (data) {
+                                 var html = "<i class='" + data.ICONPATH + "'></i> " + data.ICONPATH;
+
+                                 if (data.StatusID == 0) {
+                                     data.StatusID = "已删除";
+                                 }
+
+                                 if (data.StatusID == 1) {
+                                     data.StatusID = "正常";
+                                 }
+
+                                 if (data.StatusID == 2) {
+                                     data.StatusID = "禁用";
+                                 }
+                                 return html;
+                             }
+                         },
+                         { mDataProp: "StatusID" },
+                       
+                        {
+                            mDataProp: function (data) {
+                                var ParentFunctionID = $("#ParentFunctionID").val();
+                                var edit = "<a class='btn_ico_a_edit' href='#' onclick=\"Edit(" + data.FunctionID + ")\"><img src='/Images/btnimage/edit.png' class='btn_ico_image' />编辑</a>";
+                                var del = "<a class='btn_ico_a_delete' href='#'  onclick=\"Delete(" + data.FunctionID + ");\"><img src='/Images/btnimage/delete.png' class='btn_ico_image' />删除 </a>";
+                                return edit + "  " + del;
+                            }, "sClass": "center"
+                        }
+                    ],
+                    fnDrawCallback: function (oSettings) {
+                        var pagerIndex = oSettings._iDisplayStart / oSettings._iDisplayLength + 1;
+                        var $currentPager = $(".dataTables_paginate span a:contains('" + pagerIndex + "')");
+                        $currentPager.attr("style", "font-weight :bold;!important");
+                        //setHeightFuncttion();
+                    }
+                });
+
+            }
+        }
+
+
+        //功能项编辑
+        function Edit(functionid)
+        {
+            $("#tit").text("编辑功能项");
+            $.ajax({
+                type: "GET",
+                url: "/FunctionManagement/EditFunction?functionID=" + functionid,
+                success: function (data) {
+                    //隐藏列表
+                    $("#listfunction").hide();
+                    //隐藏编辑表单
+                    $("#AddFunction").hide();
+                    //显示添加表单
+                    $("#EditFunction").show();
+                    $("#EditFunction").html(data);
+                }
+            });
+        }
+
+        //功能项删除
+        function Delete(functionid)
+        {
+            if (confirm("是否删除该功能项？"))
+            {
+                $.ajax({
+                    type: 'GET',
+                    url: '/FunctionManagement/DeleteFunction?functionID=' + functionid,
+                    success: function (data) {
+                        alert("删除成功");
+                        location.href = "/FunctionManagement/Index";
+                    }
+                });
+            }
+        }
+
+    </script>
+
+</head>
+<body>
+     <div class="place">
+        <span>位置：</span>
+        <ul class="placeul">
+            <li>功能项管理</li>
+        </ul>
+    </div>
+    <div style="width: 15%; float: left; margin: 10px">
+        <div class="formtitle">
+            <span>功能项结构树</span>
+        </div>
+        <div>
+            <ul id="tree" class="ztree"></ul>
+        </div>
+    </div>
+    <div style="width: 75%; float: left; border: 1px;">
+        <div class="formbody">
+            <div class="formtitle"><span id="tit">功能项列表</span></div>
+            <div id="listfunction">
+                <ul class="seachform">
+                    <li>
+                        <input name="" type="button" class="sure" value="添加" id="addfunction" />
+                    </li>
+                </ul>
+                <div style="clear:both;margin-top:10px;" class="tableListDiv">
+                    <table class="tablelist" id="FunctionTableContent" style="text-align: center; ">
+                        <thead>
+                            <tr>
+                                <th>名称</th>
+                                <th>代码</th>
+                                <th>路径</th>
+                                <th>图标(路径)</th>
+                                <th>状态</th>
+                               
+                                <th style="text-align: center; width: 135px;">操作</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div style="display: none;" id="AddFunction">
+            </div>
+            <div style="display: none;" id="EditFunction">
+            </div>
+        </div>
+    </div>
+
+    @Html.Hidden("ParentFunctionID")
+</body>
+
+</html>

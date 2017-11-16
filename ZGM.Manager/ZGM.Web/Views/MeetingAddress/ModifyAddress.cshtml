@@ -1,0 +1,114 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>修改会议地址</title>
+    <link href="/Scripts/assets/data-tables/demo_table.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/data-tables/DT_bootstrap.css" rel="stylesheet" />
+
+    <link href="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.7.1.js"></script>
+
+    <script type="text/javascript" src="~/Scripts/js/jquery.idTabs.min.js"></script>
+    <script src="~/Scripts/assets/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/assets/data-tables/jquery.datatables.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/assets/data-tables/DT_bootstrap.js"></script>
+    <script type="text/javascript" src="~/Scripts/assets/data-tables/PLE_DT_bootstrap.js"></script>
+    <script src="~/Scripts/js/PageNotBack.js"></script>
+
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-zh-CN.js"></script>
+    <script type="text/javascript" src="~/Scripts/js/select-ui.min.js"></script>
+    <link href="~/Content/css/OA.css" rel="stylesheet" />
+
+    <link href="~/Scripts/layer/skin/layer.css" rel="stylesheet" />
+    <link href="/Scripts/layer/skin/seaning/style.css" rel="stylesheet" />
+    <script src="~/Scripts/layer/layer.js"></script>
+    <script type="text/javascript">
+        layer.config({
+            skin: 'layer-ext-seaning',
+            offset: ['100px', '33%'],
+            title: '提示',
+            moveOut: true,
+            closeBtn: false,
+            extend: 'skin/seaning/style.css'
+        });
+    </script>
+    <script>
+        //后台回调js函数
+        function AddCallBack(flag) {
+            if (flag == "Address") {
+                layer.alert("操作成功!", {
+                    icon: 1,
+                    skin: 'layer-ext-seaning'
+                }, function (index) {
+                    layer.close(index);
+                    location.href = "/MeetingAddress/Index";
+                });
+            }
+        }
+
+        //form 表单提交验证
+        function validate_form(thisform) {
+            with (thisform) {
+                if (validate_required(ADDRESSNAME, "会议地址不能为空!") == false)
+                { ADDRESSNAME.focus(); return false }
+                if (validate_required(SEQ, "排序号不能为空!") == false)
+                { SEQ.focus(); return false }
+                else { return true }
+            }
+        }
+        function validate_required(field, alerttxt) {
+            with (field) {
+                if (value == null || value == "") {
+                    layer.alert(alerttxt, {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    });
+                    return false
+                }
+                else { return true }
+            }
+        }
+    </script>
+</head>
+<body>
+      <div class="place" style="background-image: url(/Images/images/righttop.gif)">
+        <span>位置：</span>
+        <ul class="placeul">
+            <li><a href="/MeetingAddress/Index">会议地址管理</a></li>
+            <li>修改会议地址</li>
+        </ul>
+    </div>
+       <div class="formbody">
+        <div id="usual1" class="usual">
+            <div id="tab2" class="tabson">
+                <form method="post" enctype="multipart/form-data" action="/MeetingAddress/ModifyMeetingAddress" onsubmit="return validate_form(this)" target="hidden_frame" id="EventReport">
+                    <ul class="forminfo">
+                        <li>
+                            <label>会议地址<b>*</b></label>
+                            <input id="ADDRESSNAME" name="ADDRESSNAME" type="text" class="dfinputs" value="@ViewBag.ADDRESSNAME" placeholder="请输入会议地址" />
+                        </li>
+                        <li>
+                            <label>排序号<b>*</b></label>
+                            <input id="SEQ" name="SEQ" type="text" class="dfinputs" value="@ViewBag.SEQ" placeholder="请输入排序号" />
+                        </li>
+                        <li>
+                            <input  type="hidden" name="ADDRESSID" id="ADDRESSID" value="@ViewBag.ADDRESSID"/> 
+                            <input name="" type="submit" class="sure" value="确  认" />
+                            <input type="button" class="sure" value="返  回" onclick="window.location.href = '/MeetingAddress/Index'" />
+                        </li>
+                    </ul>
+                </form>
+            </div>
+        </div>
+    </div>
+    <iframe name='hidden_frame' id="hidden_frame" style="display: none"></iframe>
+</body>
+</html>

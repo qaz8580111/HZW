@@ -1,0 +1,132 @@
+﻿@model Taizhou.PLE.Model.CaseDocModels.XCZPTPZJ
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("input[name=PSHZSJ]").datetimepicker();
+
+        //重新上传图片
+        $("#uploadNewImg").click(function () {
+            $("#newImg").show();
+        });
+    });
+
+    //表单验证
+    function ValidateDocForm() {
+        var flag = true;
+
+        $(".formErrorMsg").text("");
+        $(".formErrorMsg").hide();
+
+        //验证拍摄地点
+        var psdd = $("#PSDD").val();
+        if ($.trim(psdd) == "") {
+            flag = false;
+            $("#error_PSDD").show();
+            $("#error_PSDD").text("请输入拍摄地点.");
+        }
+        //验证拍摄绘制时间
+        var pshzsj = $("#PSHZSJ").val();
+        if ($.trim(pshzsj) == "") {
+            flag = false;
+            $("#error_PSHZSJ").show();
+            $("#error_PSHZSJ").text("请输入拍摄绘制时间.");
+        }
+
+        //验证上传图片格式
+        var sctp = $("#sctp").val();
+        var imgAllExt = ".jpg|.jpeg|.gif|.bmp|.png";
+        //截取图片格式
+        var tupian = sctp.substring(sctp.lastIndexOf("."));
+        if (imgAllExt.indexOf(tupian.toLowerCase()) == -1) {
+            flag = false;
+            $("#error_sctp").show();
+            $("#error_sctp").text("图片格式不正确.");
+        }
+
+        return flag;
+    }
+
+</script>
+<form class="docForm" method="post" enctype="multipart/form-data"
+    action="/DocXCZPTPZJ/CommitEditDocumentXCZPTPZJ" style="margin-bottom: 30px;">
+    <div class="title">
+        现场照片（图片）证据
+    </div>
+    <table class="workflow" border="0" cellspacing="0" cellpadding="0" style="width: 700px; border-collapse: collapse; margin: 0 auto; margin-top: 20px;">
+        <tr>
+            <th colspan="2" style="width: 80px;">拍摄地点</th>
+            <td colspan="9">
+                @Html.TextBoxFor(model => model.PSDD)
+                <label class="formErrorMsg" id="error_PSDD"></label>
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2" rowspan="2">拍摄（绘制）人</th>
+            <th colspan="2">执法人姓名1</th>
+            <td colspan="2">
+                @Html.DropDownListFor(model => model.ZFRY1, ViewBag.ZFRY11 as IEnumerable<SelectListItem>, new { @style = "width:100px;height:30px;" })
+            </td>
+            <th colspan="2">执法人姓名2</th>
+            <td colspan="3">
+                @Html.DropDownListFor(model => model.ZFRY2, ViewBag.ZFRY22 as IEnumerable<SelectListItem>, new { @style = "width:100px;height:30px;" })
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">拍摄绘制时间</th>
+            <td colspan="7">
+                @Html.TextBoxFor(model => model.PSHZSJ, "{0:yyyy-MM-dd HH:mm}")
+                <label class="formErrorMsg" id="error_PSHZSJ"></label>
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">拍摄内容</th>
+            <td colspan="9">
+                @Html.TextAreaFor(model => model.PSNR)
+            </td>
+        </tr>
+        <tr id="newImg" style="display: none;">
+            <th colspan="2">上传新照片</th>
+            <td colspan="9">
+                <div>
+                    <input id="sctp" name="sctp" type="file" value="上传照片" style="width: 400px;" />
+                    <label class="formErrorMsg" id="error_sctp"></label>
+                    
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="11" style="width: 660px; text-align: center;">
+                <img src="/DocXCZPTPZJ/GetXCZPTPZJImg?filePath=@ViewBag.PICTUREURL" style=" width:98%; border:1px solid black; margin-left:13px;" />
+                <input type="hidden" id="PictureUrl" name="PictureUrl" value="@ViewBag.PICTUREURL" />
+                <br />
+                <input type="button" id="uploadNewImg" class="btn btn-success" style="margin-top: 10px" value="重新上传图片" />
+            </td>
+        </tr>
+        <tr class="notHideTD">
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td colspan="9" style="border: none; padding-top: 10px;">
+                <input type="button" id="btnDocFormSubmit" class="btn btn-success" value="保  存" />
+            </td>
+        </tr>
+        <tr class="notHideTD">
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="border: none;">&nbsp;</td>
+        </tr>
+    </table>
+    @Html.Hidden("WIID")
+    @Html.Hidden("DDID")
+    @Html.Hidden("AIID")
+    @Html.Hidden("ADID")
+    @Html.Hidden("WICode")
+    @Html.Hidden("DIID")
+</form>

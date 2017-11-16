@@ -1,0 +1,238 @@
+﻿@{
+    Taizhou.PLE.Model.CaseWorkflowModels.TotalForm wmCaseForm = ViewBag.TotalForm;
+    Taizhou.PLE.Model.CaseWorkflowModels.Form101 wmForm1 = wmCaseForm.Form101;
+    Taizhou.PLE.Model.CaseWorkflowModels.Form107 wmForm7 = wmCaseForm.Form107;
+    Taizhou.PLE.Model.CaseWorkflowModels.Form108 wmForm8 = wmCaseForm.Form108;
+    Taizhou.PLE.Model.CaseWorkflowModels.Form109 wmForm9 = wmCaseForm.Form109;
+    Taizhou.PLE.Model.CaseWorkflowModels.Form110 wmForm10 = wmCaseForm.Form110;
+    Taizhou.PLE.Model.CaseWorkflowModels.Form111 wmForm11 = wmCaseForm.Form111;
+    Taizhou.PLE.Model.CaseWorkflowModels.Form112 wmForm12 = wmCaseForm.Form112;
+}
+
+<div class="form">
+    <div class="title">
+        案件处理审批表
+    </div>
+    <table class="workflow" border="0" cellspacing="0" cellpadding="0" style="width: 700px; border-collapse: collapse; margin: 0 auto; margin-top: 20px;">
+        <tr>
+            <th colspan="2">案　　由</th>
+            <td colspan="3">
+                <input type="text" name="ay" id="ay" disabled="disabled" value="@wmForm1.AY"/>
+            </td>
+            <th colspan="2">案件来源</th>
+            <th colspan="4">
+                <select name="ajly" id="ajly" disabled="disabled">
+                    <option value="@wmForm1.AJLYID">@wmForm1.AJLYName</option>
+                </select></th>
+        </tr>
+        <tr>
+            <th style="width: 42px;" rowspan="6">当事<br />
+                人基<br />
+                本情<br />
+                况</th>
+            <th colspan="2">当事人类型</th>
+            <td colspan="8">
+                @{
+                    string dwChecked12 = wmForm1.DSRLX == "dw" ? "checked=\"checked\"" : "";
+                    string grChecked12 = wmForm1.DSRLX == "gr" ? "checked=\"checked\"" : "";
+                }
+                <input type="radio" @dwChecked12  disabled="disabled"/>单位
+                <input type="radio" @grChecked12  disabled="disabled"/>个人
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 42px;" rowspan="2">单位</th>
+            <th style="width: 42px;">名称</th>
+            <td colspan="4">
+                <input type="text" id="mc" name="mc" category="dw" disabled="disabled" value="@wmForm1.OrgForm.MC" />
+            </td>
+            <th colspan="2">组织机构<br />
+                代码证编号</th>
+            <td colspan="2">
+                <input type="text" id="zzjgdmzbh" name="zzjgdmzbh" category="dw" disabled="disabled" value="@wmForm1.OrgForm.ZZJGDMZBH"/>
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">法定代表人<br />
+                （负责人）姓名</th>
+            <td colspan="3">
+                <input type="text" id="fddbrxm" name="fddbrxm" category="dw" disabled="disabled" value="@wmForm1.OrgForm.FDDBRXM" />
+            </td>
+            <th colspan="2">职务</th>
+            <td colspan="2">
+                <input type="text" id="zw" name="zw" category="dw" disabled="disabled" value="@wmForm1.OrgForm.ZW"/>
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 42px;" rowspan="2">个人</th>
+            <th style="width: 42px;">姓名</th>
+            <td style="width: 92px;">
+                <input type="text" id="xm" name="xm" category="gr" disabled="disabled" value="@wmForm1.PersonForm.XM"/>
+            </td>
+            <th style="width: 42px;">性别</th>
+            <td style="width: 72px;">
+                <select name="xb" id="xb" category="gr" disabled="disabled">
+                    <option value="@wmForm1.PersonForm.XB">@wmForm1.PersonForm.XB</option>
+                </select></td>
+            <th style="width: 52px;">出生<br />
+                年月</th>
+            <td style="width: 102px;" colspan="2">
+                <input type="text" id="csny" name="csny" category="gr" disabled="disabled" value="@wmForm1.PersonForm.CSNY"/>
+            </td>
+            <th style="width: 42px;">民族</th>
+            <td style="width: 92px;">
+                <input type="text" id="mz" name="mz" category="gr" disabled="disabled" value="@wmForm1.PersonForm.MZ"/>
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 42px;">身份<br />
+                证号</th>
+            <td colspan="2">
+                <input type="text" id="sfzh" name="sfzh" category="gr" disabled="disabled" value="@wmForm1.PersonForm.SFZH"/>
+            </td>
+            <th style="width: 72px;">工作单位</th>
+            <td colspan="5">
+                <input type="text" id="gzdw" name="gzdw" category="gr" disabled="disabled" value="@wmForm1.PersonForm.GZDW"/>
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">住所地<br />
+                （住址）</th>
+            <td colspan="5">
+                <input type="text" id="zsd" name="zsd" disabled="disabled" value="@wmForm1.ZSD"/></td>
+            <th style="width: 42px;">联系<br />
+                电话</th>
+            <td colspan="2">
+                <input type="text" id="lxdh" name="lxdh" disabled="disabled" value="@wmForm1.LXDH"/>
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 42px;">认定<br />
+                的违<br />
+                法事<br />
+                实</th>
+            <td colspan="10">
+                <textarea id="RDDWFSS" name="RDDWFSS" disabled="disabled">@wmForm7.RDDWFSS</textarea>
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 42px;">证据</th>
+            <td colspan="10">
+                <textarea id="ZJ" name="ZJ" disabled="disabled">@wmForm7.ZJ</textarea>
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 42px;">违反<br />
+                的法律、<br />
+                法规<br />
+                和规<br />
+                章</th>
+            <td colspan="10">
+                <textarea id="WFDFLFGHGZ" name="WFDFLFGHGZ" disabled="disabled">@wmForm7.WFDFLFGHGZ</textarea>
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 42px;">处罚<br />
+                依据</th>
+            <td colspan="10">
+                <textarea id="CFYJ" name="CFYJ" disabled="disabled">@wmForm7.CFYJ</textarea>
+            </td>
+        </tr>
+        <tr>
+            <th colspan="1">是否处罚</th>
+            <td colspan="3">
+                @{
+                    string xzcf12 = wmForm7.CLFS == "xzcf" ? "checked=\"checked\"" : "";
+                    string ca12 = wmForm7.CLFS == "ca" ? "checked=\"checked\"" : "";
+                    string bycf12 = wmForm7.CLFS == "bycf" ? "checked=\"checked\"" : "";
+                    string ys12 = wmForm7.CLFS == "ys" ? "checked=\"checked\"" : "";
+                }
+                <input type="radio" @xzcf12  disabled = "disabled"/>行政处罚
+                <input type="radio" @ca12  disabled = "disabled"/>撤案
+                <input type="radio" @bycf12  disabled = "disabled"/>不予处罚
+                <input type="radio" @ys12  disabled = "disabled"/>移送
+            </td>
+            <th colspan="2">处罚金额</th>
+            <td colspan="5">
+                <textarea id="CFJE" name="CFJE" disabled="disabled" aria-valuetext="">@wmForm7.CFJE.ToString()</textarea>（元） 
+                <input type="button" value="自由裁量计算" /></td>
+        </tr>
+        <tr>
+            <th style="width: 42px;">主办<br />
+                队员<br />
+                意见</th>
+            <td colspan="10">
+                <textarea id="ZBDYYJ" name="ZBDYYJ" disabled="disabled">@wmForm7.DCZJHCBRYJ</textarea>
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 42px;">协办<br />
+                队员<br />
+                意见</th>
+            <td colspan="10">
+                <textarea id="XBDYYJ" name="XBDYYJ" disabled="disabled">@wmForm8.XBDYYJ</textarea>
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 42px;">办案<br />
+                单位<br />
+                意见</th>
+            <td colspan="10">
+                <textarea id="BADWYJ" name="BADWYJ" disabled="disabled">@wmForm9.BADWYJ</textarea>
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 42px;">法制<br />
+                部门<br />
+                意见</th>
+            <td colspan="10">
+                <textarea id="FZCYJ" name="FZCYJ" disabled="disabled">@wmForm10.FZCYJ</textarea>
+            </td>
+        </tr>
+        @{
+            if (wmForm11 != null &&
+                !string.IsNullOrWhiteSpace(wmForm11.TLJG))
+            {
+            <tr>
+                <th style="width: 42px;">讨论<br />
+                    意见</th>
+                <td colspan="10">
+                    <textarea id="TLJG" name="TLJG" disabled="disabled">@wmForm11.TLJG</textarea>
+                </td>
+            </tr>
+            }
+        }
+        <tr>
+            <th style="width: 42px;">分管<br />
+                领导<br />
+                意见</th>
+            <td colspan="10">
+                @Html.TextArea("fgldyj", wmForm12.FGFJZYJ, new { disabled = "disabled" })
+            </td>
+        </tr>
+        <tr>
+            <th>处理人</th>
+            <td colspan="4">@Html.TextBox("clr", wmForm12.ProcessUser.UserName, new { disabled = "disabled" })</td>
+            <th colspan="2">处理时间</th>
+            <td colspan="4">@Html.TextBox("clsj", wmForm12.ProcessTime != null ? wmForm12.ProcessTime.Value.ToString("yyyy-MM-dd HH:mm:ss") : "", new { disabled = "disabled" })</td>
+        </tr>
+        <tr style="height: 0px; line-height: 0px;">
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="width: 92px; border: none; padding: 0px;"></td>
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="width: 72px; border: none; padding: 0px;"></td>
+            <td style="width: 52px; border: none; padding: 0px;"></td>
+            <td style="width: 52px; border: none; padding: 0px;"></td>
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="border: none; padding: 0px;">&nbsp;</td>
+        </tr>
+    </table>
+    <div class="clear"></div>
+</div>
+
+
+
+

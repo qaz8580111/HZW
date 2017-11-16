@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Taizhou.PLE.Model.CommonModel.PendingTask>
+@{
+    Layout = null;
+}
+<ul class="feeds">
+    @foreach (var item in Model)
+    {
+        <li>
+            <div class="col1">
+                <div class="cont">
+                    <div class="cont-col1">
+                        <div class="label label-success">
+                            <i class="icon-bell"></i>
+                        </div>
+                    </div>
+                    <div class="cont-col2" style="width: 570px;">
+                        <div class="desc" style="height: 20px; width: 80%; overflow: hidden;">
+                            @if (item.WDID == 1)
+                            {
+                                <a style="text-decoration:none" href='/Workflow/WorkflowProcess?WIID=@item.WIID&AIID=@item.AIID'>[@item.ADName]&nbsp;@item.WIName</a>
+                            }
+                            else
+                            {
+                                <a style="text-decoration:none" href='/RelevantItemWorkflow/RelevantItemWorkflowProcess?ParentWIID=@item.ParentWIID&WIID=@item.WIID&AIID=@item.AIID'>[@item.ADName]&nbsp;[@item.WIName]@item.AY</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col2">
+                <div class="date">
+                    @item.DeliveryTime.ToString("yy-MM-dd HH:mm")
+                </div>
+            </div>
+        </li>
+    }
+</ul>
+

@@ -1,0 +1,384 @@
+﻿@model  Taizhou.PLE.Model.ZFSJWorkflowModel.ZFSJWorkflow.ZFSJForm
+@using Taizhou.PLE.Model.ZFSJWorkflowModel.ZFSJWorkflow
+@using Taizhou.PLE.BLL.ZFSJBLL
+@using Taizhou.PLE.Model
+@{
+    Layout = null;
+    Form101 form101 = Model.FinalForm.Form101;
+    Form102 form102 = Model.FinalForm.Form102;
+    Form103 form103 = Model.FinalForm.Form103;
+    Form104 form104 = Model.FinalForm.Form104;
+    Form105 form105 = Model.FinalForm.Form105;
+    Form106 form106 = Model.FinalForm.Form106;
+    Form107 form107 = Model.FinalForm.Form107;
+    Form108 form108 = Model.FinalForm.Form108;
+    
+}
+<style type="text/css">
+    table th {
+        width: 80px;
+    }
+
+    table tr input.large {
+        width: 98%;
+    }
+
+    table tr input.small {
+        width: 94%;
+    }
+</style>
+
+<script type="text/javascript">
+
+    function mapInited() {
+        setTimeout(function () {
+            var DTMD = "@form101.DTWZ";
+            if (DTMD) {
+                DTMD = DTMD.replace('|', ',');
+                var mapCtrl = document.getElementById("mapCom").content.MapCtrl;
+                mapCtrl.AddMarker(DTMD);
+            }
+        }, 1000)
+    }
+</script>
+
+<table class="table table-bordered">
+    @if (form101 != null)
+    {
+        <tr>
+            <th style="text-align: center; line-height: 30px;">事件标题
+            </th>
+            <td style="line-height: 30px">
+                <div class="form-group" style="margin-bottom: 5px;">
+                    <div class="col-sm-9 col-lg-10 controls">
+                        @form101.EventTitle
+                    </div>
+                </div>
+            </td>
+            <th style="text-align: center; line-height: 30px;">事件来源
+            </th>
+            <td style="line-height: 30px">
+                <div class="form-group" style="margin-bottom: 5px;">
+                    <div class="col-sm-9 col-lg-10 controls">
+                        @{  ZFSJSOURCE source = ZFSJSourceBLL.GetSourceByID(form101.EventSourceID);
+                            if (source == null)
+                            {
+                                source = new ZFSJSOURCE();
+                            }
+                        }
+                        @source.SOURCENAME
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th style="text-align: center; line-height: 30px">相关联系人
+            </th>
+            <td style="line-height: 30px; width: 40%">
+                <div class="form-group" style="margin-bottom: 5px;">
+                    <div class="col-sm-9 col-lg-10 controls">
+                        @form101.XGLXR
+                    </div>
+                </div>
+            </td>
+            <th style="text-align: center; line-height: 30px">相关联系人电话
+            </th>
+            <td style="line-height: 30px; width: 40%">
+                <div class="form-group" style="margin-bottom: 5px;">
+                    <div class="col-sm-9 col-lg-10 controls">
+                        @form101.XGLXRDH
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th style="text-align: center; line-height: 30px;">事件地址
+            </th>
+            <td colspan="3">
+                <div class="form-group" style="margin-bottom: 5px;">
+                    <div class="col-sm-9 col-lg-10 controls">
+                        @form101.EventAddress
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th style="text-align: center; line-height: 30px;">事件内容
+            </th>
+            <td colspan="3">
+                <div class="form-group" style="margin-bottom: 5px;">
+                    <div class="col-sm-9 col-lg-10 controls">
+                        @form101.Content
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th style="text-align: center; line-height: 30px;">问题大类
+            </th>
+            <td style="line-height: 30px">
+                <div class="form-group" style="margin-bottom: 5px;">
+                    <div class="col-sm-9 col-lg-10 controls">
+                        @{  ZFSJQUESTIONCLASS DL = ZFSJQuestionClassBLL.GetZFSHQuestionByID(form101.QuestionDLID);
+                            if (DL == null)
+                            {
+                                DL = new ZFSJQUESTIONCLASS();
+                            }
+                        }
+                        @DL.CLASSNAME
+                    </div>
+                </div>
+            </td>
+            <th style="text-align: center; line-height: 30px;">问题小类
+            </th>
+            <td style="line-height: 30px">
+                <div class="form-group" style="margin-bottom: 5px;">
+                    <div class="col-sm-9 col-lg-10 controls">
+                        @{  ZFSJQUESTIONCLASS XL = ZFSJQuestionClassBLL.GetZFSHQuestionByID(form101.QuestionXLID);
+                            if (XL == null)
+                            {
+                                XL = new ZFSJQUESTIONCLASS();
+                            }
+                        }
+                        @XL.CLASSNAME
+                    </div>
+                </div>
+            </td>
+        </tr>@*
+        <tr>
+            <th style="text-align: center; line-height: 30px;">所属区局
+            </th>
+            <td style="line-height: 30px">
+                <div class="form-group" style="margin-bottom: 5px;">
+                    <div class="col-sm-9 col-lg-10 controls">
+                        直属一大队
+                    </div>
+                </div>
+            </td>
+            <th style="text-align: center; line-height: 30px;">所属中队
+            </th>
+            <td style="line-height: 30px">
+                <div class="form-group" style="margin-bottom: 5px;">
+                    <div class="col-sm-9 col-lg-10 controls">
+                        @{
+                            decimal unitZDID = form101.SSZDID;
+                            UNIT unitZD = Taizhou.PLE.BLL.UnitBLLs.UnitBLL.GetUnitByUnitID(unitZDID).First();
+                            if (unitZD == null)
+                            {
+                                unitZD = new UNIT();
+                            }
+                        }
+                        @unitZD.UNITNAME
+                    </div>
+                </div>
+            </td>
+        </tr>*@
+        <tr>
+            <th style="text-align: center; line-height: 30px;">发现时间
+            </th>
+            <td style="line-height: 30px">
+                <div class="form-group" style="margin-bottom: 5px;">
+                    <div class="col-sm-9 col-lg-10 controls">
+                        @form101.FXSJ
+                    </div>
+                </div>
+            </td>
+            <th style="text-align: center; line-height: 30px;">上报人员
+            </th>
+            <td style="line-height: 30px">
+                <div class="form-group" style="margin-bottom: 5px;">
+                    <div class="col-sm-9 col-lg-10 controls">
+                        @form101.ProcessUserName
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th style="text-align: center; line-height: 30px;">地理位置</th>
+            <td colspan="3" style="line-height: 30px; padding: 2px">
+                <div class="form-group">
+                    <div class="col-sm-9 col-lg-10 controls" id="location" style="height: 100%; padding: 0px; border: 1px solid #fff">
+                        <object id="mapCom" data="data:application/x-silverlight-2," type="application/x-silverlight-2" style="width: 100%; height: 300px; margin-bottom: -5px;">
+                            <param name="source" value="/ClientBin/MapCtrl.xap" />
+                            <param name="onError" value="onSilverlightError" />
+                            <param name="background" value="white" />
+                            <param name="minRuntimeVersion" value="5.0.61118.0" />
+                            <param name="autoUpgrade" value="true" />
+                            <param id="initParams" name="initParams" value="IsGoogleMap=false,MapUrl=http://www.arcgisonline.cn/ArcGIS/rest/services/ChinaOnlineCommunity/MapServer,X1=13518954.8851951,Y1=3485438.4251543,X2=13541927.6179195,Y2=3475859.38899982,Mode=1,PinUrl=./Images/pin.png,OffsetX=24,OffsetY=48" />
+                            <a href="http://go.microsoft.com/fwlink/?LinkID=149156&v=5.0.61118.0" style="text-decoration: none">
+                                <img src="http://go.microsoft.com/fwlink/?LinkId=161376" alt="Get Microsoft Silverlight" style="border-style: none" />
+                            </a>
+                        </object>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        
+    }
+</table>
+@if (form102 != null)
+{ 
+       
+    <table class="table table-bordered">
+        <tr>
+            <th colspan="4" style="font-weight: bold; height: 25px; font-size: 14px">指挥中心派遣</th>
+        </tr>
+        <tr>
+            <th style="text-align: center; line-height: 30px;">派遣意见</th>
+            <td colspan="3" style="height: 40px;">
+                @form102.PQYJ</td>
+        </tr>
+        <tr>
+            <th style="text-align: center; line-height: 30px;">派遣人</th>
+            <td style="line-height: 30px; width: 40%">
+                @form102.ProcessUserName</td>
+            <th style="text-align: center; line-height: 30px;">派遣时间</th>
+            <td style="line-height: 30px">
+                @form102.PQSJ</td>
+        </tr>
+    </table>
+       
+}
+@if (form103 != null)
+{ <table class="table table-bordered">
+    <tr>
+        <th colspan="4" style="font-weight: bold; height: 25px; font-size: 14px">队员处理</th>
+    </tr>
+    <tr>
+        <th style="text-align: center; line-height: 30px;">处理意见</th>
+        <td colspan="3" style="height: 40px;">
+            @form103.ZFDYCLYJ</td>
+    </tr>
+    <tr>
+        <th style="text-align: center; line-height: 30px;">处理人</th>
+        <td style="line-height: 30px; width: 40%">
+            @form103.ProcessUserName</td>
+        <th style="text-align: center; line-height: 30px;">处理时间</th>
+        <td style="line-height: 30px">
+            @form103.CLSJ</td>
+    </tr>
+    </table>
+         
+}
+@if (form104 != null)
+{ 
+    <table class="table table-bordered">
+        <tr>
+            <th colspan="4" style="font-weight: bold; height: 25px; font-size: 14px">指挥中心审核</th>
+        </tr>
+        <tr>
+            <th style="text-align: center; line-height: 30px;">处理意见</th>
+            <td colspan="3" style="height: 40px;">
+                @form104.ZFZDZYJ</td>
+        </tr>
+        <tr>
+            <th style="text-align: center; line-height: 30px;">处理人</th>
+            <td style="line-height: 30px; width: 40%">
+                @form104.ProcessUserName</td>
+            <th style="text-align: center; line-height: 30px;">处理时间</th>
+            <td style="line-height: 30px">
+                @form104.CLSJ</td>
+        </tr>
+    </table>
+          
+}
+@if (form105 != null)
+{ 
+    <table class="table table-bordered">
+        <tr>
+            <th colspan="4" style="font-weight: bold; height: 25px; font-size: 14px">执法副大队长审核</th>
+        </tr>
+        <tr>
+            <th style="text-align: center; line-height: 30px;">审核意见</th>
+            <td colspan="3" style="height: 40px;">
+                @form105.ZFDDZYJ</td>
+        </tr>
+        <tr>
+            <th style="text-align: center; line-height: 30px;">审核人</th>
+            <td style="line-height: 30px; width: 40%">
+                @form105.ProcessUserName</td>
+            <th style="text-align: center; line-height: 30px;">处理时间</th>
+            <td style="line-height: 30px">
+                @form105.CLSJ</td>
+        </tr>
+    </table>
+         
+}
+@if (form107 != null)
+{ 
+    <table class="table table-bordered">
+        <tr>
+            <th colspan="4" style="font-weight: bold; height: 25px; font-size: 14px">执法大队长审核</th>
+        </tr>
+        <tr>
+            <th style="text-align: center; line-height: 30px;">审核意见</th>
+            <td colspan="3" style="height: 40px;">
+                @form107.ZFDDYJ</td>
+        </tr>
+        <tr>
+            <th style="text-align: center; line-height: 30px;">审核人</th>
+            <td style="line-height: 30px; width: 40%">
+                @form107.ProcessUserName</td>
+            <th style="text-align: center; line-height: 30px;">处理时间</th>
+            <td style="line-height: 30px">
+                @form107.CLSJ</td>
+        </tr>
+    </table>
+           
+}
+@if (form106 != null)
+{ 
+    <table class="table table-bordered">
+        <tr>
+            <th colspan="4" style="font-weight: bold; height: 25px; font-size: 14px">分管副局长审核</th>
+        </tr>
+        <tr>
+            <th style="text-align: center; line-height: 30px;">审核意见</th>
+            <td colspan="3" style="height: 40px;">
+                @form106.ZFJZYJ</td>
+        </tr>
+        <tr>
+            <th style="text-align: center; line-height: 30px;">审核人</th>
+            <td style="line-height: 30px; width: 40%">
+                @form106.ProcessUserName</td>
+            <th style="text-align: center; line-height: 30px;">处理时间</th>
+            <td style="line-height: 30px">
+                @form106.CLSJ</td>
+        </tr>
+    </table>
+}
+@if (form108 != null)
+{ 
+    <table class="table table-bordered">
+        <tr>
+            <th colspan="4" style="font-weight: bold; height: 25px; font-size: 14px">分管局长审核</th>
+        </tr>
+        <tr>
+            <th style="text-align: center; line-height: 30px;">审核意见</th>
+            <td colspan="3" style="height: 40px;">
+                @form108.ZFJZYJ</td>
+        </tr>
+        <tr>
+            <th style="text-align: center; line-height: 30px;">审核人</th>
+            <td style="line-height: 30px; width: 40%">
+                @form108.ProcessUserName</td>
+            <th style="text-align: center; line-height: 30px;">处理时间</th>
+            <td style="line-height: 30px">
+                @form108.CLSJ</td>
+        </tr>
+    </table>
+           
+}
+<table class="table table-bordered">
+    <tr>
+        <th></th>
+        <td colspan="3" style="border-left: none;">
+            <div class="form-group" style="margin-bottom: 5px;">
+                <div class="col-sm-9 col-lg-10 controls">
+                    <input type="button" onclick="javascript: window.history.go(-1);" value="返回" style="margin-left: 5px;" class="btn goBack" />
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+

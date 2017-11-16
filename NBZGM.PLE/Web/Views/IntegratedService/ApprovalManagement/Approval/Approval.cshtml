@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.Title = "Approval";
+    Layout = "~/Views/IntegratedService/ApprovalManagement/_LayoutApprovalManagement.cshtml";
+}
+
+@section HeadStyles_ApprovalManage
+    {
+    <style type="text/css">
+        .table td.left {
+            text-align: left;
+        }
+
+        .table td.center {
+            text-align: center;
+        }
+    </style>
+}
+@section FootScripts_ApprovalManage
+    {
+    <script type="text/javascript">
+        var oTable;
+        $(document).ready(function () {
+            var url = "/Approval/ApprovalList";
+            BindDataTable(url);
+
+        });
+        //获取审批任务列表数据
+        function BindDataTable(url) {
+            if (oTable != null) {
+                oTable.fnSettings().sAjaxSource = url;
+                oTable.fnDraw(true);
+            } else {
+                oTable = $('#approvalTable').dataTable({
+                    sAjaxSource: url,
+                    aoColumns: [
+                          {
+                              "mDataProp": "SEQNO", "sClass": "center"
+                          },
+                        { "mDataProp": "ADName", "sClass": "left" },
+
+                       {
+                           "mDataProp": function (data) {
+                               var deal = "<a  href='/XZSPWorkflow/XZSPWorkflowProcess?ADID= " + data.ADID + "'>处理 </a>";
+                               return deal;
+                           }, "sClass": "center", sWidth: "80px"
+                       }
+                    ],
+                    fnDrawCallback: function (oSettings) {
+                        var pagerIndex = oSettings._iDisplayStart / oSettings._iDisplayLength + 1;
+                        var $currentPager = $(".dataTables_paginate span a:contains('" + pagerIndex + "')");
+                        $currentPager.attr("style", "font-weight :bold;!important");
+                        var scrollHeight = window.document.body.scrollHeight;
+                        load(scrollHeight);
+                    }
+                });
+            }
+        }
+    </script>
+}
+
+@section BreadcrumbSection{
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li><a href="javascript:void(0)"><i class="icon-home"></i>综合业务</a></li>
+            <li>></li>
+            <li><a href="javascript:void(0)">行政审批</a></li>
+            <li>></li>
+            <li class="active">待办审批</li>
+        </ul>
+    </div>
+}
+<div class="row-fluid">
+    <div class="span12" id="tabledata">
+        <div class="box box-black" style="margin-top: 0px;">
+            <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+                <i class="icon-reorder" style="margin-right: 5px;"></i>审批列表
+            </div>
+            <div class="box-content" style="min-height: 400px;">
+                <table class="table table-bordered table-striped table-hover fill-head" id="approvalTable">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center; width: 40px">序号</th>
+                            <th style="text-align: center; width: 50px;">流程</th>
+                            <th style="text-align: center; width: 50px;">操作</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div style="clear: both"></div>
+            </div>
+        </div>
+    </div>
+</div>

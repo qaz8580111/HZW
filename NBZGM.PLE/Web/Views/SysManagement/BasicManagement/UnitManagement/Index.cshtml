@@ -1,0 +1,233 @@
+﻿@{
+    ViewBag.FunctionName = "组织管理";
+    Layout = "~/Views/SysManagement/BasicManagement/_LayoutBasicManagement.cshtml";
+}
+
+@section HeadStyles{
+    <style type="text/css">
+        .center
+        {
+            text-align: center !important;
+        }
+        #unitTreeDiv {
+            padding-right: 5px;
+            overflow: auto;
+            height: 500px;
+        }
+    </style>
+}
+
+@section FootScripts{
+    <script type="text/javascript">
+        var oTable = null;
+        $(document).ready(function () {
+
+            $("#sysUnitManagement").addClass("active");
+
+            var url = "/UnitManagement/GetUnits?ParentUnitID=";
+            var setting = {
+                callback: {
+                    onClick: function (event, treeId, treeNode) {
+                        var parentUnit = treeNode.value;
+                        $("#ParentUnitID").val(parentUnit);
+                        //改变导航条
+                        $("#aaa").text("").html("组织管理").addClass("active");
+                        $("#UintInfo").text("").removeClass("active");
+                        //隐藏添加列表
+                        $("#span91").hide();
+                        //隐藏编辑表单
+                        $("#span92").hide();
+                        //显示列表表单
+                        $("#span90").show();
+                        //显示子节点列表数据
+                        BindDataTable(url + treeNode.value + "&random=" + Math.random());
+                    },
+                }
+            };
+
+            $.ajax({
+                type: 'GET',
+                dataType: 'json',
+                url: '/UnitManagement/GetUnitManageTree?random=' + Math.random(),
+                success: function (data) {
+                    if (data != null && data != "") {
+                        unitIDValue = '@ViewData["ParentUnitID"]';
+                        var zNodes = data;
+                        $.fn.zTree.init($("#tree"), setting, zNodes);
+                        var treeObj = $.fn.zTree.getZTreeObj("tree");
+                        var node = treeObj.getNodeByParam("value", unitIDValue, null);
+                        treeObj.selectNode(node);
+                        treeObj.expandNode(node, true);
+                        BindDataTable(url + unitIDValue + "&random=" + Math.random());
+
+                    }
+                }
+
+            });
+
+            $("#addUnit").click(function () {
+
+                var parentUnitID = $("#ParentUnitID").val();
+
+                AddUnit(parentUnitID);
+            });
+        });
+
+        function BindDataTable(url) {
+            if (oTable != null) {
+                oTable.fnSettings().sAjaxSource = url;
+                oTable.fnDraw(true);
+            } else {
+                oTable = $('#UnitTable').dataTable({
+                    sAjaxSource: url,
+
+                    aoColumns: [
+                        { "mDataProp": "UnitName" },
+                        { "mDataProp": "UnitTypeName" },
+                        { "mDataProp": "SeqNo" },
+                        { "mDataProp": function (data) {
+                                var parentUnitID = $("#ParentUnitID").val();
+                                var edit = "<a class='btn btn-primary btn-small' href='#' onclick=\"EditUnit(" + data.UnitID + ")\"><i class='icon-edit padding-null'></i> 编辑 </a>";
+                                var del = "<a class='btn btn-danger btn-small' href='/UnitManagement/DeleteUnit?UnitID=" + data.UnitID + "&ParentUnitID=" + parentUnitID + "' onclick=\" return DeleteUnit(" + data.UnitID + ",'" + data.UnitName + "')\"><i class='icon-trash padding-null'></i> 删除 </a>";
+                                return edit + "  " + del;
+                            }, "sClass": "center"
+                        }
+                    ],
+                    fnDrawCallback: function (oSettings) {
+                        var pagerIndex = oSettings._iDisplayStart / oSettings._iDisplayLength + 1;
+                        var $currentPager = $(".dataTables_paginate span a:contains('" + pagerIndex + "')");
+                        $currentPager.attr("style", "font-weight :bold;!important");
+                        setHeightFunction();
+                    }
+                });
+            }
+        }
+
+        function setHeightFunction()
+        {
+            var height1 = $("#addButton")[0].clientHeight;
+            var height2 = $("#unitListDiv")[0].clientHeight;
+            $("#unitTreeDiv").height(height1+height2-20);
+        }
+
+        function AddUnit(parentUnitID) {
+            $("#aaa").text("").html("<a href='#'>组织管理</a>").removeClass("active");
+            $("#UintInfo").addClass("active").text(">新增组织");
+            $.ajax(
+                {
+                    type: 'GET',
+                    url: '/UnitManagement/AddUnit?random=' + Math.random(),
+                    dataType: 'html',
+                    data: { ParentUnitID: parentUnitID },
+                    success: function (data) {
+                        //隐藏列表
+                        $("#span90").hide();
+                        //隐藏编辑表单
+                        $("#span92").hide();
+                        //显示添加表单
+                        $("#span91").show();
+                        $("#span91").html(data);
+                    }
+                });
+        }
+
+        function EditUnit(unitID) {
+            $("#aaa").text("").html("<a href='#'>组织管理</a>").removeClass("active");
+            $("#UintInfo").addClass("active").text(">编辑组织");
+            $.ajax(
+                {
+                    type: 'GET',
+                    url: '/UnitManagement/EditUnit?random=' + Math.random(),
+                    dataType: 'html',
+                    data: { UnitID: unitID },
+                    success: function (data) {
+                        //隐藏列表
+                        $("#span90").hide();
+                        //隐藏添加表单
+                        $("#span91").hide();
+                        //显示编辑表单
+                        $("#span92").show();
+                        $("#span92").html(data);
+                    }
+                });
+        }
+
+        function DeleteUnit(unitID, unitName) {
+            var flag = false;
+            $.ajax({
+                type: 'GET',
+                url: '/UnitManagement/ValidateUnitDelete?random=' + Math.random(),
+                async: false,
+                data: { UnitID: unitID },
+                success: function (data) {
+                    if (data == "0") {
+                        flag = true;
+                        if (!window.confirm("是否确认删除" + unitName)) {
+                            flag = false;
+                        }
+                    }
+                    else {
+                        alert("该单位已存在子单位，请先删除子单位!");
+                    }
+                }
+            });
+            return flag;
+        }
+
+    </script>
+}
+
+@section BreadcrumbSection{
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+
+            <li><a href="#"><i class="icon-home"></i>系统管理</a></li>
+            <li>></li>
+            <li><a href="#">基础管理</a></li>
+            <li>></li>
+            <li class="active" id="aaa">组织管理</li>
+            <li id="UintInfo"></li>
+        </ul>
+    </div>
+}
+
+<div class="row-fluid">
+    <div class="span3">
+        <div class="box box-black" style="margin-top: 0px;">
+            <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+                <i class="icon-reorder" style="margin-right: 5px;"></i>组织结构树
+            </div>
+            <div class="box-content" id="unitTreeDiv">
+                <ul id="tree" class="ztree"></ul>
+            </div>
+        </div>
+    </div>
+    <div class="span9" id="span90">
+        <div class="box box-black" style="margin-top: 0px;">
+            <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+                <i class="icon-table" style="margin-right: 5px;"></i>组织机构列表
+            </div>
+            <div class="box-content" id="addButton">
+                <button class="btn btn-primary" id="addUnit">添 加</button>
+            </div>
+            <div class="box-content" id="unitListDiv">
+                <table class="table table-bordered table-striped table-hover fill-head" id="UnitTable">
+                    <thead>
+                        <tr>
+                            <th>单位名称</th>
+                            <th>单位类型名称</th>
+                            <th>单位排序号</th>
+                            <th style="text-align: center; width: 135px;">操作</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div style="clear: both"></div>
+            </div>
+        </div>
+        @Html.Hidden("ParentUnitID")
+    </div>
+    <div class="span9" style="display: none;" id="span91">
+    </div>
+    <div class="span9" style="display: none;" id="span92">
+    </div>
+</div>

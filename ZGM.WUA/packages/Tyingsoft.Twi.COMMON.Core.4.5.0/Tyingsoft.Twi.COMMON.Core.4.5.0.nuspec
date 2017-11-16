@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Tyingsoft.Twi.COMMON.Core</id>
+    <version>4.5.0</version>
+    <title>Tyingsoft.Twi.COMMON.Core</title>
+    <authors>feitianxinhong</authors>
+    <owners>feitianxinhong</owners>
+    <projectUrl>http://www.tyingsoft.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Core of Twifly of Twi Framework</description>
+    <summary />
+    <copyright>©2015 杭州踏影科技有限公司【Tyingsoft、Twilight、Twifly】版权所有</copyright>
+    <language>zh-CN</language>
+  </metadata>
+</package>

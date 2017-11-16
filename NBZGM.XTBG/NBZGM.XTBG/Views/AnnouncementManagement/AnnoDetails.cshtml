@@ -1,0 +1,114 @@
+﻿@using NBZGM.XTBG.Models;
+@{
+    ViewBag.Title = "公告详情";
+    Layout = null;
+    List<XTBG_ATTACHMENT> NoticeEntities = ViewBag.AttachmentEntities as List<XTBG_ATTACHMENT>;
+    XTBG_ANNOUNCEMENT AnnoEntity = ViewBag.AnnoEntity as XTBG_ANNOUNCEMENT;
+    decimal typeID = ViewBag.typeID;
+}
+
+
+<style type="text/css">
+    .panel {
+        margin-bottom: 0;
+    }
+</style>
+
+<div class="modal-header bg-primary">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">公告详情</h4>
+</div>
+
+<div class="modal-body">
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="text-center"><b>@AnnoEntity.ANNOUNCEMENTTITLE</b></div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="text-right">
+                <b>发件部门：</b><span>@AnnoEntity.UNITNAME</span>
+                <b>发件人：</b><span>@AnnoEntity.CREATEUSERNAME</span>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+
+            <p style="text-indent: 2em; padding: 0px; margin: 0px;">@Html.Raw(AnnoEntity.ANNOUNCEMENTCONTENT)</p>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <ul class="nav nav-tabs" role="tablist">
+                @foreach (XTBG_ATTACHMENT Attachment in NoticeEntities)
+                {
+                    <li role="presentation" style="width: 20%;">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <img class="pull-left" src="/Images/fileIoc.png" style="height: 3em; width: 2em; margin-right: 0.5em;" />
+                                <div style="width: 7em; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">@Attachment.ATTACHMENTNAME</div>
+                                <div>
+                                    <div class="pull-left">@Math.Round((Convert.ToDouble(Attachment.ATTACHMENTSIZE) / 1024 / 1024), 2).ToString()M</div>
+                                    <div class="pull-right">
+                                        <a href="/Common/DownloadFile?filepath=@Attachment.ATTACHMENTPATH&filename=@Attachment.ATTACHMENTNAME">下载</a>
+                                    </div>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+        <div class="panel-body">
+            <div class="panel-body">
+                <b>收件人：</b><span>@AnnoEntity.ANNOUNCEMENTSCOPE</span>
+                @*<b>发送状态：</b><span>@AnnoEntity.STATUSID</span>*@
+            </div>
+
+
+
+        </div>
+
+    </div>
+</div>
+<div class="modal-footer">
+    @*/上一邮件按钮/*@
+    @if (ViewBag.NextEntityID == null)
+    {
+        <input type="button" class="btn btn-default" id="btnAnno_EmailUP" value="上一公告" disabled="disabled" />
+    }
+    else
+    {
+        <input type="button" class="btn btn-default" id="btnAnno_EmailUP" value="上一公告">
+    }
+    @*/下一邮件按钮/*@
+    @if (ViewBag.PreviousEntityID == null)
+    { 
+    
+        <input type="button" class="btn btn-default" id="btnAnno_EmaiDown" value="下一公告" disabled="disabled" />
+    }
+    else
+    {
+        <input type="button" class="btn btn-default" id="btnAnno_EmaiDown" value="下一公告" />
+    }
+    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#btnAnno_EmailUP').on('click', function () {
+            showLgModel('/AnnouncementManagement/AnnoDetails?ANNOUNCEMENTID=@ViewBag.NextEntityID&typeID=@typeID');//PreviousEntityID
+        });
+        $('#btnAnno_EmaiDown').on('click', function () {
+            showLgModel('/AnnouncementManagement/AnnoDetails?ANNOUNCEMENTID=@ViewBag.PreviousEntityID&typeID=@typeID');//NextEntityID           
+        });
+    });
+</script>

@@ -1,0 +1,69 @@
+﻿@model Taizhou.PLE.Model.CaseDocModels.WSSDHZ
+<script type="text/javascript">
+
+    //表单验证
+    function ValidateDocForm() {
+        return true;
+    }
+
+</script>
+<form class="docForm" method="post" action="/DocWSSDHZ/CommitEditDocumentWSSDHZ" style="margin-bottom: 30px;" enctype="multipart/form-data">
+    <div class="title">
+        文书送达回证
+    </div>
+    <div>
+    </div>
+    <table class="workflow" border="0" cellspacing="0" cellpadding="0" style="width: 700px; border-collapse: collapse; margin: 0 auto; margin-top: 20px;">
+        <tr>
+            <th colspan="2">案　　由</th>
+            <td colspan="9">@Html.TextBoxFor(model => model.AY)</td>
+        </tr>
+        <tr>
+            <th colspan="2">送达文书名称、<br />
+                文号及件数</th>
+            <td colspan="9">
+                @Html.TextAreaFor(model => model.SDWSMCWHJJS, new { style = "height:50px" })</td>
+        </tr>
+        <tr>
+            <th colspan="2">受送达人</th>
+            <td colspan="9">@Html.TextBoxFor(model => model.SSDR)</td>
+        </tr>
+        <tr>
+            <th colspan="2">送达方式</th>
+            <td colspan="9">@Html.TextBoxFor(model => model.SDFS)</td>
+        </tr>
+        <tr>
+            <th colspan="2">送达地点</th>
+            <td colspan="9">@Html.TextBoxFor(model => model.SDDD)</td>
+        </tr>
+        <tr>
+            <th colspan="2" style="vertical-align: top;">备　　注</th>
+            <td colspan="9">@Html.TextAreaFor(model => model.BZ, new { style = "height:100px" })</td>
+        </tr>
+        <tr class="notHideTD">
+            <td colspan="2" style="border: none;"></td>
+            <td colspan="9" style="border: none; padding-top: 10px;">
+                <input id="btnDocFormSubmit" type="button" class="btn btn-success" value="保   存" />
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="border: none;">&nbsp;</td>
+        </tr>
+    </table>
+    @Html.Hidden("WIID")
+    @Html.Hidden("DDID")
+    @Html.Hidden("AIID")
+    @Html.Hidden("ADID")
+    @Html.Hidden("DIID")
+    @Html.Hidden("WICode")
+</form>

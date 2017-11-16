@@ -1,0 +1,92 @@
+﻿@model Taizhou.PLE.Model.XZSPWorkflowModels.YSFW.Form103
+@{
+    Layout = null;
+    Taizhou.PLE.Model.XZSPWorkflowModels.YSFW.YSFWForm ysfwform= (Taizhou.PLE.Model.XZSPWorkflowModels.YSFW.YSFWForm)ViewBag.ysfwForm;
+    Taizhou.PLE.Model.XZSPWorkflowModels.YSFW.Form101 form101 = ysfwform.FinalForm.Form101;
+    Taizhou.PLE.Model.XZSPWorkflowModels.YSFW.Form102 form102 = ysfwform.FinalForm.Form102;
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#veto").click(function () {
+            $("#bc").val("1");
+            $("#YSFWWorkflow3")[0].submit()
+        });
+    });
+</script>
+<form method="post" enctype="multipart/form-data" action="/YSFWWorkflow3/Commit" id="YSFWWorkflow3">
+    <div class="title" style="padding-bottom: 10px;">
+        勘探反馈
+    </div>
+    @*<table class="workflow" border="0" cellspacing="0" cellpadding="0" style="width: 700px; border-collapse: collapse; margin: 0 auto;">
+        <tr>
+            <th>项目名称</th>                        
+            <td colspan="10">
+                <input type="text" value="@form101.ProjectName" disabled="disabled"/>
+            </td>
+        </tr>
+        <tr>
+            <th>申请人/单位</th>
+            <td colspan="10">
+                <input type="text" value="@form101.Applicant" disabled="disabled"/>
+            </td>
+        </tr>
+        <tr>
+            <th colspan="1">联系人</th>
+            <td colspan="4">
+                <input type="text" value="@form101.LinkMan" disabled="disabled"/>
+            </td>
+            <th colspan="1">联系电话</th>
+            <td colspan="5">
+                <input type="text" value="@form101.Telephone" disabled="disabled"/>
+            </td>
+        </tr>
+        <tr>
+            <th>受理说明</th>
+            <td colspan="10">
+                <textarea disabled="disabled">@form101.Description</textarea>
+            </td>
+        </tr>
+        <tr>
+            <th>领导意见</th>
+            <td colspan="10">
+                <textarea id="" name="" disabled="disabled">@form102.description</textarea>
+            </td>
+        </tr>
+        <tr>
+            <th>队员勘探意见反馈</th>
+            <td colspan="10">
+                <textarea id="description" name="description"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 42px; border: none;"></td>
+            <td colspan="10" style="border: none; padding-top: 10px;">
+                <input id="veto" type="button" class="btn btn-danger" value="保　存">
+                <input type="submit" class="btn btn-success" value="提　交">
+                <a style="margin-left: 5px;" href="javascript:void(0)" class="btn goBack">取　消</a>
+            </td>
+        </tr>
+        <tr style="height: 0px; line-height: 0px;">
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="width: 92px; border: none; padding: 0px;"></td>
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="width: 72px; border: none; padding: 0px;"></td>
+            <td style="width: 52px; border: none; padding: 0px;"></td>
+            <td style="width: 52px; border: none; padding: 0px;"></td>
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="border: none; padding: 0px;">&nbsp;</td>
+        </tr>
+    </table>*@
+     @Html.Action("ControlWorkflowForm", "YSFWWorkflow3", new 
+{
+     ysfwForm=ViewBag.ysfwForm
+})
+    @Html.Hidden("WIID")
+    @Html.Hidden("AIID")
+    @Html.Hidden("ADID")
+    @Html.Hidden("bc")
+</form>
+

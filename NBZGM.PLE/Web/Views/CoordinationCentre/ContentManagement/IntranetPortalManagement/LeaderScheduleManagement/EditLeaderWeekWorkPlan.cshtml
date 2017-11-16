@@ -1,0 +1,116 @@
+﻿@{
+    Layout = "~/Views/CoordinationCentre/ContentManagement/_LayoutContentManagement.cshtml";
+}
+@section FootScripts_Manage{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#table-content").append($("#table").val());
+        });
+        $("#ArticleList").css("display", "block");
+
+        $("#btn_submit").click(function () {
+            var LWWP = {
+                PLANID: $("#PLANID").val(),
+                ONDUTYLEADER_: $("#ONDUTYLEADER").val(),
+                ONDUTYDEPT: $("#ONDUTYDEPT").val()
+            };
+
+            $.ajax({
+                url: "/LeaderScheduleMangement/CommitEditLeaderWeekPlan",
+                type: "post",
+                data: LWWP,
+                success: function (data) {
+                    var scheduleArray = new Array();
+                    $(".schedule").each(function (index, domEle) {
+
+                        if (domEle != null && domEle != "") {
+                            var startTime;
+                            var endTime;
+
+                            startTime = $(domEle).attr("startTime");
+                            endTime = $(domEle).attr("endTime");
+
+                            var schedule = {
+                                TITLE: domEle.value,
+                                SCHEDULETYPEID: 1,
+                                STARTTIME: startTime,
+                                ENDTIME: endTime,
+                                ISALLDAYEVENT: 0,
+                                SHARETYPEID: 1,
+                                OWNER: $(domEle).attr("owner"),
+                                SCHEDULESOURCEID: $("#PLANID").val(),
+                            };
+                            scheduleArray.push(schedule);
+                        }
+                    });
+                    $.ajax({
+                        url: "/LeaderScheduleMangement/CommitSchedule/",
+                        type: "post",
+                        data: { scheduleArray: scheduleArray },
+                        success: function (data) {
+                            location.href("/LeaderScheduleMangement/Index");
+                        }
+                    })
+                },
+                error: function (data) {
+                    if (data.status == 404) {
+                        alert("服务器找不到请求的网页");
+                    }
+                }
+            });
+        });
+    </script>
+}
+@section BreadcrumbSection{
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li><a href="#"><i class="icon-home"></i>协同中心</a></li>
+            <li>></li>
+            <li><a href="/ArticleManagement/">发布管理</a></li>
+            <li>></li>
+            <li><a href="/LeaderScheduleMangement/">领导日程</a></li>
+            <li>></li>
+            <li class="active">查看领导日程详情</li>
+            <li id="UintInfo"></li>
+        </ul>
+    </div>
+}
+<input type="hidden" id="PLANID" value="@ViewBag.LWWP.PLANID" />
+<input type="hidden" id="table" value="@ViewBag.table"/>
+<div class="row-fluid">
+    <div class="box box-black span12" style="margin-top: 0px; margin-bottom: 0px;">
+        <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+            <i class="icon-reorder" style="margin-right: 5px;"></i>修改领导本周主要工作
+        </div>
+
+        <div class="box-content" style="padding-bottom: 40px;">
+            <div style="text-align: center">
+                <span style="font-size: 24px;">局领导本周主要工作 </span>
+
+                ( @string.Format("{0:yyyy年MM月dd日}", @ViewBag.LWWP.STARTDATE)
+                至
+             @string.Format("{0:yyyy年MM月dd日}", @ViewBag.LWWP.ENDDATE))
+            </div>
+
+            <div class="box-content" style="margin-top: 10px;" id="table-content">
+            </div>
+
+            <div class="box-content" style="margin-top: 10px;">
+                <label class="control-label" style="float: left">值班领导：</label>
+                <input id="ONDUTYLEADER" title="值班领导" style="float: left; width: 100px" value="@ViewBag.LWWP.ONDUTYLEADER_" />
+                <label style="float: left; margin-left: 40px" class="control-label">值班处室：</label>
+                <input id="ONDUTYDEPT" title="值班处室" style="float: left; width: 100px" value="@ViewBag.LWWP.ONDUTYDEPT"/>
+                <div style="float: right; margin-right: 20px; text-align: center">
+                    台州城市管理行政执法局办公室
+                <br />
+                    @string.Format("{0:yyyy年MM月dd日}", @DateTime.Now)
+                </div>
+            </div>
+
+            <div class="box-content" style="margin-top: 10px">
+                <button type="button" id="btn_submit" style="float: left" class="btn btn-primary"><i class='icon-check-sign'>提 交</i></button>
+            </div>
+        </div>
+
+    </div>
+</div>

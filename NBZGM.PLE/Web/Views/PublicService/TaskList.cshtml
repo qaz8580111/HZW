@@ -1,0 +1,372 @@
+﻿@{
+    Layout = null;
+}
+@{
+    ViewBag.Title = "TaskList";
+    Layout = "~/Views/PublicService/_LayoutPublicService.cshtml";
+}
+
+@section HeadStyles_EnforceLawEventManage
+    {
+    <style type="text/css">
+        .table td.left {
+            text-align: left;
+        }
+
+        .table td.center {
+            text-align: center;
+        }
+    </style>
+}
+@section FootScripts_EnforceLawEventManage
+    {
+    <script type="text/javascript">
+
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null)
+                return unescape(r[2]);
+            return null;
+        }
+
+        var oTable;
+        $(document).ready(function () {
+
+            var iDisplayStart = getQueryString("iDisplayStart");
+            var iDisplayLength = getQueryString("iDisplayLength");
+            var startTime = getQueryString("startTime");
+            var endTime = getQueryString("endTime");
+            var Title = getQueryString("Title");
+            var LY = getQueryString("LY");
+            var ClassIDJYL = getQueryString("ClassIDJYL");
+
+            if (startTime)
+                $("#startTime").val(startTime);
+            if (endTime)
+                $("#endTime").val(endTime);
+            if (Title)
+                $("#Title").val(Title);
+            if (LY)
+                $("#LY").val(LY);
+
+            if (ClassIDJYL) {
+                if (ClassIDJYL == 1)
+                    $("#ClassIDJYL").prop("checked", true);
+                else
+                    $("#ClassIDJYL").prop("checked", false);
+            } else {
+                $("#ClassIDJYL").prop("checked", true);
+            }
+
+            var url = "/EventRegister/GGFWTaskList";
+            $("#startTime").datepicker();
+            $("#endTime").datepicker();
+            
+            functionBtnQuery(iDisplayStart, iDisplayLength);
+        });
+
+        function functionBtnQuery(iDisplayStart, iDisplayLength) {
+            var url = "/EventRegister/GGFWTaskList";
+            var strStartTime = $("#startTime").val();
+            var strEndTime = $("#endTime").val();
+
+            var startTime = new Date(strStartTime.replace(/-/g, "/"));
+            var endTime = new Date(strEndTime.replace(/-/g, "/"));
+
+            if (startTime > endTime) {
+                alert("开始时间不能大于结束时间");
+                return;
+            }
+            else {
+                url += "?startTime=" + $("#startTime").val();
+                url += "&endTime=" + $("#endTime").val();
+            }
+            if ($.trim($("#Title").val()) != "") {
+                url += "&Title=" + escape($("#Title").val());
+            }
+            if ($.trim($("#LY").val()) != "") {
+                url += "&LY=" + $("#LY").val();
+            }
+            var ClassIDJYL = 1;
+            if ($("#ClassIDJYL").prop("checked") == false)
+                ClassIDJYL = 0;
+            url += "&ClassIDJYL=" + ClassIDJYL;
+
+            var iDisplayStartFloat = parseFloat(iDisplayStart);
+            var iDisplayLengthFloat = parseFloat(iDisplayLength)
+            if (!iDisplayStartFloat)
+                iDisplayStartFloat = 0;
+            if (!iDisplayLengthFloat)
+                iDisplayLengthFloat = 10;
+
+            BindDataTable(url, iDisplayStartFloat, iDisplayLengthFloat);
+        }
+
+        function functionSearch() {
+            var ClassIDJYL = 1;
+            if ($("#ClassIDJYL").prop("checked") == false)
+                ClassIDJYL = 0;
+            location.href = "/EventRegister/TaskList/?iDisplayStart=0&iDisplayLength=10&startTime=" + $("#startTime").val() + "&endTime=" + $("#endTime").val() + "&Title=" + $("#Title").val() + "&LY=" + $("#LY").val() + "&ClassIDJYL=" + ClassIDJYL;
+        }
+
+        //获取审批任务列表数据
+        function BindDataTable(url, iDisplayStart, iDisplayLength) {
+            if (oTable != null) {
+                oTable.fnSettings().sAjaxSource = url;
+                oTable.fnDraw(true);
+            } else {
+                oTable = $('#zfsjTable').dataTable({
+                    sAjaxSource: url,
+                    iDisplayStart: iDisplayStart,
+                    iDisplayLength: iDisplayLength,
+                    aoColumns: [
+                        { "mDataProp": "SEQNO", "sClass": "center" },
+                        { "mDataProp": "EventTitle", "sClass": "left" },
+                        { "mDataProp": "REPORTPERSON", "sClass": "left" },
+                        { "mDataProp": "PHONE", "sClass": "left" },
+                        { "mDataProp": "EventSource", "sClass": "center" },
+                        {
+                            "mDataProp": function (data) {
+                                var CreateTime = "<span title='" + data.TitleTime + "'>" + data.CreateTime + "<span>";
+                                return CreateTime;
+                            }, "sClass": "center"
+                        },
+                        { "mDataProp": "CreateUserName", "sClass": "left" },
+                        {
+                            "mDataProp": function (data) {
+                                var OverTime = "<span title='" + data.OverTitleTime + "'>" + data.OverTime + "<span>";
+                                if ($.trim(data.WIID) != "" && data.EventSourceID != 8 && data.EventSourceID != 6 && data.SMSID == 1) {
+                                    OverTime = "<span title='" + data.OverTitleTime + "' style='color:red;'>" + data.OverTime + "<span>";
+                                } else if ($.trim(data.WIID) != "" && data.EventSourceID != 8 && data.EventSourceID != 6 && data.SMSID == 2) {
+                                    OverTime = "<span title='" + data.OverTitleTime + "' style='color:#FFA500;'>" + data.OverTime + "<span>";
+                                }
+                                return OverTime;
+                            }, "sClass": "center"
+                        },
+                        { "mDataProp": "ADName", "sClass": "left" },
+                        { "mDataProp": "USERNAME", "sClass": "left" },
+                        {
+                            "mDataProp": function (data) {
+                                //var deal = "<a  href='/EventRegister/GGFWWorkflowProcess?ID=" + data.ID + "&WIID=" + data.WIID + "'>查看</a>";
+                                var ClassIDJYL = 1;
+                                if ($("#ClassIDJYL").prop("checked") == false)
+                                    ClassIDJYL = 0;
+                                var deal = "<a  href='/EventRegister/GGFWWorkflowProcess?ID=" + data.ID + "&WIID=" + data.WIID + "&iDisplayStart=" + data.iDisplayStart + "&iDisplayLength=" + data.iDisplayLength + "&startTime=" + $("#startTime").val() + "&endTime=" + $("#endTime").val() + "&Title=" + escape($("#Title").val()) + "&LY=" + $("#LY").val() + "&tu=/EventRegister/TaskList/&ClassIDJYL=" + ClassIDJYL + "'>查看</a>";
+
+                                deal += "<a class='deleteggfw' WIID='" + data.WIID + "' eventid='" + data.ID + "' style='margin-left:5px' statue='" + data.STATUE + "'>删除</a>";
+                                if ($.trim(data.WIID) != "" && data.EventSourceID != 8 && data.EventSourceID != 6 && data.SMSID == 1) {
+                                    deal += "<a class='sendsms' eventid='" + data.ID + "' style='margin-left:5px;' statue='" + data.STATUE + "' wiid='" + data.WIID + "' EventShowTitle='" + data.EventTitle + "' EventShowSource='" + data.EventSource + "' EventShowStatus='" + data.ADName + "' EventShowEndTime='" + data.OverTime + "' EventShowCurrentUser='" + data.USERNAME + "'  >发送短信</a>";
+                                }
+                                return deal;
+                            }, "sClass": "center"
+                        }
+                    ],
+                    fnDrawCallback: function (oSettings) {
+                        var pagerIndex = oSettings._iDisplayStart / oSettings._iDisplayLength + 1;
+                        var $currentPager = $(".dataTables_paginate span a:contains('" + pagerIndex + "')");
+                        $currentPager.attr("style", "font-weight :bold;!important");
+                        $(".deleteggfw").click(function () {
+                            if (!confirm("您确定删除此条数据吗？")) {
+                                return false;
+                            }
+                            var statue = $(this).attr("statue");
+                            var WIID = $(this).attr("WIID");
+                            if (statue < 3 || statue==7 || statue == 8 || (statue == 6 && (WIID == null || WIID == "" || WIID == "null"))) {
+                                var id = $(this).attr("eventid");
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/EventRegister/GGFWWorkflowDeleteByID?ID=" + id + "",
+                                    cache: false,
+                                    async: false,
+                                    success: function (data) {
+                                        if (data > 0) {
+                                            alert("删除成功");
+                                            BindDataTable(url);
+                                        }
+                                        else {
+                                            alert("删除失败");
+                                        }
+                                    }
+                                });
+                            } else {
+                                alert("已经进入处理阶段或者处理结束无法删除");
+                            }
+                        });
+                        $(".sendsms").click(function () {
+                           
+                            $("#EventShowTitle").html($(this).attr("EventShowTitle"));
+                            $("#EventShowSource").html($(this).attr("EventShowSource"));
+                            $("#EventShowStatus").html($(this).attr("EventShowStatus"));
+                            $("#EventShowEndTime").html($(this).attr("EventShowEndTime"));
+                            $("#EventShowCurrentUser").html($(this).attr("EventShowCurrentUser"));
+                            $("#EventShowWIID").val($(this).attr("wiid"));
+
+                            $("#showDXContent").modal('show');
+                        });
+                    }
+                });
+            }
+        }
+
+        function function_confirmOK() {
+            if (!confirm("确定发送吗?")) {
+                return false;
+            }
+
+            $("#confirmOK").attr("disabled", true);
+
+            var dxContentTextarea = $("#dxContentTextarea").val();
+            var wiid = $("#EventShowWIID").val();
+            if (!wiid) {
+                alert("网络繁忙,请刷新页面重试!");
+                return false;
+            }
+            if (!dxContentTextarea) {
+                alert("请填写要发送的短信内容");
+                return false;
+            }
+            if (wiid && dxContentTextarea) {
+                $.ajax({
+                    type: "POST",
+                    data: ({ wiid: wiid, dxContentTextarea: dxContentTextarea }),
+                    cache: false,
+                    async: false,
+                    url: "/EventRegister/SendSMSByWIID",
+                    success: function (data) {
+                        $("#confirmOK").attr("disabled", false);
+                        if (data == 1) {
+                            alert("发送成功");
+
+                            $("#EventShowTitle").html("");
+                            $("#EventShowSource").html("");
+                            $("#EventShowStatus").html("");
+                            $("#EventShowEndTime").html("");
+                            $("#EventShowCurrentUser").html("");
+                            $("#EventShowWIID").val("");
+                            $("#dxContentTextarea").val("");
+
+                            $("#showDXContent").modal('hide');
+                        }
+                        else {
+                            alert("该环节处理人没有添加手机号码");
+                        }
+                    },
+                    error: function () {
+                        alert("网络繁忙,请刷新页面重试!");
+                    }
+                });
+            }
+        }
+
+        function function_backNO(){
+            if (!confirm("确定取消吗?"))
+                return false;
+
+            $("#EventShowTitle").html("");
+            $("#EventShowSource").html("");
+            $("#EventShowStatus").html("");
+            $("#EventShowEndTime").html("");
+            $("#EventShowCurrentUser").html("");
+            $("#EventShowWIID").val("");
+            $("#dxContentTextarea").val("");
+
+            $("#showDXContent").modal('hide');
+        }
+
+    </script>
+}
+
+@section BreadcrumbSection{
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li><a href="javascript:void(0)"><i class="icon-home"></i>公共服务</a></li>
+            <li>></li>
+            <li class="active">已办事件</li>
+        </ul>
+    </div>
+}
+<div class="row-fluid">
+    <div class="span12" id="tabledata">
+        <div class="box box-black" style="margin-top: 0px;">
+            <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+                <i class="icon-reorder" style="margin-right: 5px;"></i>事件列表
+            </div>
+            <div class="box-content" id="">
+                <label style="width: 70px; text-align: left; display: inline-block">开始时间</label>
+                <input type="text" id="startTime" style="margin-top:10px;width:150px" value="@string.Format("{0:yyyy-MM-dd}", DateTime.Now.AddMonths(-3))" class="datepicker" data-date-format="yyyy-mm-dd"/>
+                <label style="width: 70px; text-align: left; display: inline-block; margin-left: 10px;">结束时间</label>
+                <input type="text" id="endTime" style="margin-top:10px; width:150px" value="@string.Format("{0:yyyy-MM-dd}", DateTime.Now)"class="datepicker" data-date-format="yyyy-mm-dd"/>
+                <label style="width: 30px; text-align: left; display: inline-block; margin-left: 10px;">标题</label>
+                <input type="text" id="Title" style="margin-top: 10px; width: 150px" />
+                <label style="width: 30px; text-align: left; display: inline-block; margin-left: 10px;">来源</label>
+                @Html.DropDownList("LY", ViewBag.EventSource as IEnumerable<SelectListItem>)
+                <label style="width: 70px; text-align: left; display: inline-block; margin-left: 10px;">排除建议类</label>
+                <input type="checkbox" id="ClassIDJYL" style="margin-top: 10px;" value="1" checked="checked" />
+                <input id="btnQuery" type="button" class="btn btn-primary" title="查询" onclick="functionSearch()" value="查 询" style="margin-left: 10px;" />
+
+            </div>
+            <div class="box-content" style="min-height: 400px;">
+                <table class="table table-bordered table-striped table-hover fill-head" id="zfsjTable">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center; width: 40px;">序号</th>
+                            <th style="text-align: center;">事件标题</th>
+                            <th style="text-align: center; width: 50px;">当事人</th>
+                            <th style="text-align: center; width: 60px;">联系电话</th>
+                            <th style="text-align: center; width: 120px;">事件来源</th>
+                            <th style="text-align: center; width: 80px;">创建时间</th>
+                            <th style="text-align: center; width: 60px;">创建人</th>
+                            <th style="text-align: center; width: 80px;">到期时间</th>
+                            <th style="text-align: center; width: 70px;">当前状态</th>
+                            <th style="text-align: center; width: 70px;">当前处理人</th>
+                            <th style="text-align: center; width: 130px;">操作</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div style="clear: both"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="showDXContent" class="modal hide fade" style="width:400px;">
+    <div class="box box-black" style="margin-top: 0px;">
+        <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+            发送超时短信
+        </div>
+        <div class="box-content" style="padding-top: 0px; padding-left: 0px; padding-right: 0px;">
+            <div id="silverlightControlHost" style="width: 100%; padding-top:5px;padding-left:10px;">
+                <div>
+                    <span>事件标题：</span>
+                    <span id="EventShowTitle"></span>
+                </div>
+                <div>
+                    <span>事件来源：</span>
+                    <span id="EventShowSource"></span>
+                </div>
+                <div>
+                    <span>事件状态：</span>
+                    <span id="EventShowStatus"></span>
+                </div>
+                <div>
+                    <span>到期时间：</span>
+                    <span id="EventShowEndTime"></span>
+                </div>
+                <div>
+                    <span>当前处理人：</span>
+                    <span id="EventShowCurrentUser"></span>
+                </div>
+                <div>
+                    <span>短信内容：</span>
+                    <span><textarea rows="4" cols="40" id="dxContentTextarea" style="width:300px;"></textarea></span>
+                    <input type="hidden" id="EventShowWIID" value="" />
+                </div>
+            </div>
+            <div style="text-align: right; padding-top: 10px;">
+                <button id="confirmOK" class="btn btn-primary" onclick="function_confirmOK()">确定</button>
+                <button id="backNO" class="btn goback" style="margin-right: 5px;" onclick="function_backNO()">返回</button>
+            </div>
+        </div>
+    </div>
+</div>
+

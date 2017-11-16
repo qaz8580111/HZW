@@ -1,0 +1,69 @@
+﻿@model List<Taizhou.PLE.Model.CommonModel.CaseCount>
+@{
+    ViewBag.Title = "CaseCount";
+    Layout = "~/Views/AidDecisionMaking/_LayoutStatisticeManagement.cshtml";
+}
+
+@section BreadcrumbSection{
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li><a href="javascript:void(0)"><i class="icon-home"></i>辅助决策</a></li>
+            <li>></li>
+            <li><a href="javascript:void(0)">报表统计</a></li>
+            <li>></li>
+            <li class="active">简易案件统计</li>
+        </ul>
+    </div>
+}
+<div class="box box-black" style="margin: 5px;">
+    <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+        <i class="icon-reorder" style="margin-right: 5px;"></i>@DateTime.Now.Year.ToString()年简易案件统计
+    </div>
+    <div class="box-content" style="min-height: 400px;">
+         <div  style="height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+              <a class="btn btn-success" href="/Statistics/SimpleCaseChart">简易案件条形图统计<i style="margin-left: 10px;" class="m-icon-swapright m-icon-white"></i></a>
+    </div>
+        <table class="table table-bordered table-striped table-hover fill-head" id="dataTableList">
+            <thead>
+                <tr>
+                    <th style="text-align: center; width: 120px">中队名称</th>
+                    @{ 
+                        for (int i = 1; i < 13; i++)
+                        {
+                        <th style="text-align: center">@i.ToString()月份</th>
+                        }
+                    }
+                    <th style="text-align: center;">总数</th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <th style="text-align: center; width: 120px">@item.UNITNAME</th>
+                        <th style="text-align: center">@item.January</th>
+                        <th style="text-align: center">@item.February</th>
+                        <th style="text-align: center">@item.March</th>
+                        <th style="text-align: center">@item.April</th>
+                        <th style="text-align: center">@item.May</th>
+                        <th style="text-align: center">@item.June</th>
+                        <th style="text-align: center">@item.July</th>
+                        <th style="text-align: center">@item.August</th>
+                        <th style="text-align: center">@item.September</th>
+                        <th style="text-align: center">@item.October</th>
+                        <th style="text-align: center">@item.November</th>
+                        <th style="text-align: center">@item.December</th>
+                       @if (@item.Counts.ToString()!="")
+                        {
+                         <th style="text-align: center">@item.Counts</th>
+                        }else
+                        {
+                        <th style="text-align: center">0</th>
+                        }
+                       
+                    </tr>
+                }
+
+            </thead>
+        </table>
+        <div style="clear: both"></div>
+    </div>
+</div>

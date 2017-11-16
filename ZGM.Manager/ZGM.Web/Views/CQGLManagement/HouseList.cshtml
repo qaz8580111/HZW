@@ -1,0 +1,407 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>住宅拆迁列表</title>
+    <link href="/Scripts/assets/data-tables/demo_table.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/data-tables/DT_bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/css/OA.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-1.7.1.js"></script>
+    <script type="text/javascript" src="~/Scripts/js/select-ui.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/js/jquery.idTabs.min.js"></script>
+    <script src="~/Scripts/assets/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/assets/data-tables/jquery.datatables.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/assets/data-tables/DT_bootstrap.js"></script>
+    <script type="text/javascript" src="~/Scripts/assets/data-tables/PLE_DT_bootstrap.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-zh-CN.js"></script>
+
+    <script src="~/Scripts/js/PageNotBack.js"></script>
+    <link href="~/Scripts/layer/skin/layer.css" rel="stylesheet" />
+    <link href="~/Scripts/layer/skin/seaning/style.css" rel="stylesheet" />
+    <script src="~/Scripts/layer/layer.js"></script>
+    <style>
+        .black_overlay {
+            display: none;
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            z-index: 1001;
+            -moz-opacity: 0.8;
+            opacity: .80;
+            filter: alpha(opacity=80);
+        }
+        .white_content {
+            display: none;
+            position: absolute;
+            top: 20%;
+            left:35%;
+            width: 970px;
+            height: auto;
+            background-color: white;
+            z-index: 1002;
+            overflow: auto;
+        }
+        .addfilebtn{width: 40px;
+            height: 22px;
+            line-height: 22px;
+            display: inline-block;
+            margin-top: 6px;
+            color: rgb(255, 255, 255);
+            background: transparent url("/Images/images/btnbg1.png") repeat-x scroll 0% 0%;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 3px;
+            cursor: pointer;
+            text-align: center;
+        }
+    </style>
+    <script type="text/javascript">
+        layer.config({
+            skin: 'layer-ext-seaning',
+            offset: ['100px', '33%'],
+            title: '提示',
+            moveOut: true,
+            closeBtn: false,
+            extend: 'skin/seaning/style.css'
+        });
+
+        $(document).ready(function () {
+            $("#usual1 ul").idTabs();
+            $('.tablelist tbody tr:odd').addClass('odd');
+            $(".tiptop a").click(function () {
+                $("#tip1,#fade").fadeOut(200);
+                $("input[name='TERM']").val("");
+                $("input[name='MONEY']").val("");
+                $("input[name='PLACEAREA']").val("");
+                $("#showfile").html("<div id='AddAfterFile' class='addfilebtn' onclick='AddAfterFile();' style='float:left;'>添加</div>");
+            });            
+            
+            $("#STime").datepicker({ changeMonth: true, changeYear: true, showMonthAfterYear: true, showButtonPanel: true });
+            $("#ETime").datepicker({ changeMonth: true, changeYear: true, showMonthAfterYear: true, showButtonPanel: true });
+            $("input[name='STARTTIME']").datepicker({ changeMonth: true, changeYear: true, showMonthAfterYear: true, showButtonPanel: true });
+            GetDataTable();
+
+            $("input[name='TERM'],input[name='STANDARDMONEY']").change(function () {
+                if ($("input[name='TERM']").val() != "" && $("input[name='STANDARDMONEY']").val() != "") {
+                    var total = (parseFloat($("input[name='TERM']").val()) * parseFloat($("input[name='STANDARDMONEY']").val())).toFixed(2);
+                    $("input[name='MONEY']").eq(0).val(total);
+                } else
+                    $("input[name='MONEY']").eq(0).val("");
+            })
+
+        })
+
+        //后台回调js函数
+        function AddCallBack(flag) {
+            if (flag == 1) {
+                layer.alert("操作成功!", {
+                    icon: 1,
+                    skin: 'layer-ext-seaning'
+                }, function (index) {
+                    layer.close(index);
+                    location.href = "/CQGLManagement/HouseList";
+                });
+            }
+            if (flag == 2) {
+                layer.alert("操作失败!", {
+                    icon: 0,
+                    skin: 'layer-ext-seaning'
+                }, function (index) {
+                    layer.close(index);
+                    location.href = "/CQGLManagement/HouseList";
+                });
+            }
+        }
+
+        var oTable;
+        //填充住宅拆迁列表
+        function GetDataTable() {
+            oTable = $('#CQGLHouseTable').dataTable({
+                sAjaxSource: "/CQGLManagement/CQGLHouse_Grid",
+                fnServerParams: function (aoData) {
+                    aoData.push(
+                        { "name": "ProjectName", "value": $("#ProjectName option:selected").text() == "请选择" ? "" : $("#ProjectName option:selected").text() },
+                        { "name": "ProjectUser", "value": $("#ProjectUser").val() },
+                        { "name": "HouseHolder", "value": $("#HouseHolder").val() },
+                        { "name": "STime", "value": $("#STime").val() },
+                        { "name": "ETime", "value": $("#ETime").val() },
+                        { "name": "HouseStatus", "value": $("#HouseStatus option:selected").val()})
+                },
+                aoColumns: [
+                    {
+                        mDataProp: function (data) {
+                            var span = "<span title='" + data.ProjectName + "'>" + data.ProjectName + "</span>";
+                            return span;
+                        }
+                    },
+                    { mDataProp: "ProjectUser" },
+                    //{ mDataProp: "StartTime" },
+                    {
+                        mDataProp: function (data) {
+                            if (data.StartTime != null) {
+                                return new Date(parseInt(data.StartTime.replace("/Date(", "").replace(")/", ""))).toLocaleDateString();
+                            }
+                            else {
+                                return "";
+                            }
+                        }
+                    },
+                    //{ mDataProp: "EndTime", },
+                    {
+                        mDataProp: function (data) {
+                            if (data.EndTime != null) {
+                                return new Date(parseInt(data.EndTime.replace("/Date(", "").replace(")/", ""))).toLocaleDateString();
+                            }
+                            else {
+                                return "";
+                            }
+                        }
+                    },
+                    { mDataProp: "HouseHolder" },
+                    //{ mDataProp: "SignTime" },
+                    {mDataProp: function (data) {
+                        if (data.SignTime != null) {
+                            return new Date(parseInt(data.SignTime.replace("/Date(", "").replace(")/", ""))).toLocaleDateString();
+                        }
+                        else {
+                            return "";
+                        }
+                    }},
+                    { mDataProp: "HouseStatus" },
+                    {
+                        mDataProp: function (data) {
+                            var edit = "<a style='margin-left: -15px;' class='btn_ico_a_look' href='#' onclick=\"EditShow(" + data.HouseID + ")\"><img src='/Images/btnimage/look.png' class='btn_ico_image' />查看</a>";
+                            var replay = "<a class='btn_ico_a_dispose' href='#' onclick=\"Replay(" + data.HouseID + ")\"><img src='/Images/btnimage/pq.png' class='btn_ico_image' />过渡费</a>";
+                            if (data.StatusId > 2)
+                                return edit + "  " + replay;
+                            else
+                                return edit;
+                        }, "sClass": "center"
+                    }
+
+                ],
+                aoColumnDefs: [{ sDefaultContent: '', aTargets: ['_all'] }],
+                fnDrawCallback: function (oSettings) {
+                    var pagerIndex = oSettings._iDisplayStart / oSettings._iDisplayLength + 1;
+                    var $currentPager = $(".dataTables_paginate span a:contains('" + pagerIndex + "')");
+                    $currentPager.attr("style", "font-weight :bold;!important");
+                }
+            });
+        }
+
+        //查询
+        function Search() {
+            oTable.fnPageChange('first', true);
+            oTable.fnClearTable(false);
+        }
+
+        //获取url参数
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null)
+                return unescape(r[2]);
+            return null;
+        }
+
+        //验证表单
+        function validate_form(thisform) {
+            with (thisform) {
+                if (validate_required_float(TERM, "期限不能为空!", "期限格式不正确!") == false)
+                { TERM.focus(); return false }
+                if (validate_required_float(STANDARDMONEY, "每月过渡费初始标准不能为空!", "每月过渡费初始标准格式不正确!") == false)
+                { STANDARDMONEY.focus(); return false }
+                if (validate_required_float(MONEY, "过渡费不能为空!", "过渡费格式不正确!") == false)
+                { MONEY.focus(); return false }
+                if (validate_required_float(PLACEAREA, "不计发过渡费可安置面积不能为空!", "不计发过渡费可安置面积格式不正确!") == false)
+                { PLACEAREA.focus(); return false }
+            }
+        }
+
+        //验证是否为空
+        function validate_required(field, alerttxt) {
+            with (field) {
+                if (value == null || value == "")
+                { layer.alert(alerttxt); return false }
+                else { return true }
+            }
+        }
+
+        //验证是否为空并且为数字
+        function validate_required_float(field, alertnulltxt, alerterrortxt) {
+            var intregex = /^[0-9]+(.[0-9]{1,5})?$/;
+            with (field) {
+                if (value == null || value == "") {
+                    layer.alert(alertnulltxt, {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    });
+                    return false
+                }
+                if (value != null && value != "" && !intregex.test(value)) {
+                    layer.alert(alerterrortxt, {
+                        icon: 0,
+                        skin: 'layer-ext-seaning'
+                    });
+                    return false
+                }
+                if (value != null && value != "" && intregex.test(value))
+                { return true }
+            }
+        }
+
+        //添加文件按钮
+        function AddAfterFile() {
+            $("#AddAfterFile").after("<div style='margin: 20px 0px;text-align: left;'><input name='AddFile" + Math.random(10000, 99999) + "' type='file'  value='' /><b style='cursor:pointer;' onclick='DeleteFile(this);'>删除</b></div>");
+        }
+
+        //删除文件按钮
+        function DeleteFile(obj) {
+            $(obj).parent().remove();
+        }
+
+        //住宅编辑展示
+        function EditShow(id) {
+            location.href = "/CQGLManagement/AddHouse?EditHouseId="+id;
+        }
+        //住宅办理展示
+        function Replay(id) {
+            $.ajax({
+                type: "GET",
+                url: "/CQGLManagement/GetFirstTransitionInfo?HouseId=" + id,
+                success: function (data) {
+                    $("input[name='STANDARDMONEY']").val(data.list.STANDARDMONEY);
+                }
+            })
+            $("#tip1,#fade").fadeIn(200);
+            $("input[name='hidden-houseid']").val(id);
+        }
+        
+
+    </script>
+</head>
+<body>
+    
+
+    <div class="place">
+        <span>位置：</span>
+        <ul class="placeul">
+            <li>住宅拆迁列表</li>
+        </ul>
+    </div>
+
+    <div class="formbody">
+        <ul class="seachform">
+            <li>
+                <label>项目名称：</label>
+                @Html.DropDownList("ProjectName",ViewBag.project as IEnumerable<SelectListItem>,"请选择", new {@class="dfinputs", @style = "width: 180px;"})
+            </li>
+            <li>
+                <label>负责人：</label>
+                <input id="ProjectUser" type="text" class="dfinputs" style="width: 180px; height: 32px" />
+            </li>
+            <li>
+                <label>签协日期：</label>
+                <input id="STime" type="text" class="dfinputs" readonly="readonly" data-date-format="yyyy-mm-dd" value=""  style="width:180px;height:32px"/></td>
+            </li>         
+            <li><label style="width: 0px;margin-right: 10px;">至</label></li>
+            <li>                
+                <input id="ETime" type="text" class="dfinputs" readonly="readonly" data-date-format="yyyy-mm-dd" value=""  style="width:180px;height:32px"/>
+            </li>
+            <li>
+                <label>户主：</label>
+                <input id="HouseHolder" type="text" class="dfinputs" style="width: 180px; height: 32px" />
+            </li>
+            <li>
+                <label>状态：</label>
+                <select id="HouseStatus" class="dfinputs" style="width: 180px; height: 32px">
+                    <option value="0">请选择</option>
+                    <option value="1">丈量摸底阶段</option>
+                    <option value="2">签协阶段</option>
+                    <option value="3">过渡阶段</option>
+                    <option value="4">抽签安置阶段</option>
+                    <option value="5">结账阶段</option>
+                </select>
+            </li>
+            <li style="text-align:center;">
+                <input type="button" class="sure" value="查询" onclick="Search()" style="margin-top: 5px;" /></li>
+        </ul>
+
+        <div style="clear: both; margin-top: 10px;" class="tableListDiv">
+            <table class="tablelist" id="CQGLHouseTable" style="text-align: center">
+                <thead>
+                    <tr>
+                        <th style="text-align: center">项目名称</th>
+                        <th style="text-align: center">负责人</th>
+                        <th style="text-align: center;">项目启动时间</th>
+                        <th style="text-align: center;">项目完成时间</th>
+                        <th style="text-align: center;">户主</th>
+                        <th style="text-align: center;">签协日期</th>
+                        <th style="text-align: center;">状态</th>
+                        <th style="text-align: center;">操作</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+        <div id="fade" class="black_overlay"></div>
+        <div class="white_content" id="tip1" style="width:970px;height:auto;left:15%;">
+        <div class="tiptop"><span>增加过渡费</span><a></a></div>
+        <form method="post" enctype="multipart/form-data" action="/CQGLManagement/MultiTransCommit" target="hidden_frame" onsubmit="return validate_form(this)">            
+            <div id="tab1" class="tabson">
+                <table class="zdgc_table" style="margin-left: 50px;">
+                    <tr>
+                        <td style="width: 110px">过渡费发放时间</td>
+                        <td>
+                            <input name="STARTTIME" type="text" class="dfinputs" readonly="readonly" data-date-format="yyyy-mm-dd" value="@string.Format("{0:yyyy-MM-dd}", DateTime.Now)"  style="height:32px"/>
+                        <td style="width: 130px">本次发放期限(月数)</td>
+                        <td>
+                            <input name="TERM" type="text" class="dfinputs" placeholder="请输入本次发放期限" /></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 110px">本次过渡费初始标准</td>
+                        <td>
+                            <input name="STANDARDMONEY" type="text" class="dfinputs" placeholder="请输入本次过渡费初始标准" /></td>
+                        <td style="width: 110px">过渡费</td>
+                        <td colspan="2">
+                            <input name="MONEY" type="text" class="dfinputs" placeholder="请输入过渡费" readonly="readonly" /></td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 175px">不计发过渡费可安置面积</td>
+                        <td>
+                            <input name="PLACEAREA" type="text" class="dfinputs" placeholder="请输入面积" /></td>
+                    </tr>
+                    <tr>
+                        <td>上传附件</td>
+                        <td colspan="4">
+                            <div id="showfile" style="float:left;"><div id="AddAfterFile" class="addfilebtn" onclick="AddAfterFile();" style="float:left;">添加</div></div></td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <input id="SaveBtn" type="submit" class="sure" style="float: right;margin-right:20px;" value="保  存" />
+                            <input type="hidden" name="hidden-houseid" value="0" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            
+        </form>
+      </div>
+    </div>
+    <iframe name='hidden_frame' id="hidden_frame" style="display:none"></iframe> 
+
+</body>
+</html>

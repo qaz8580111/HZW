@@ -1,0 +1,384 @@
+﻿@model Web.ViewModels.VMStreeStore
+@{
+    Layout = "~/Views/SysManagement/BasicManagement/_LayoutStreeStore.cshtml";
+}
+
+
+@section HeadStyles{
+
+    <style type="text/css">
+        table th {
+            width: 80px;
+        }
+
+        table tr input.large {
+            width: 98%;
+        }
+
+        table tr input.small {
+            width: 94%;
+        }
+
+        .fontStyle * {
+            font-family: 宋体 !important;
+        }
+
+        #docItems {
+            display: table;
+        }
+
+            #docItems .grid {
+                margin: 5px;
+                width: 200px;
+                float: left;
+                cursor: pointer;
+                border: 1px solid #fff;
+            }
+
+                #docItems .grid .grid-content .c_avatar {
+                    width: 48px;
+                    float: left;
+                }
+
+                    #docItems .grid .grid-content .c_avatar img {
+                        height: 48px;
+                        width: auto;
+                        border: 0px;
+                    }
+
+                #docItems .grid .grid-content .conversation-info {
+                    float: left;
+                    margin-left: 8px;
+                    width: 122px;
+                    margin-top: 0px;
+                }
+
+                    #docItems .grid .grid-content .conversation-info .conversation-title {
+                        margin-left: 0px;
+                        margin-top: 0px;
+                        font-size: 12px;
+                        width: 122px;
+                        height: 30px;
+                        line-height: 15px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+
+                        #docItems .grid .grid-content .conversation-info .conversation-title SPAN {
+                            font-weight: normal;
+                        }
+
+                    #docItems .grid .grid-content .conversation-info .conversation-date-status {
+                        height: 14px;
+                        line-height: 14px;
+                        margin-top: 2px;
+                    }
+
+        .selectItem {
+            border-color: rgb(78,169,236) !important;
+            background-color: rgb(216,234,255);
+        }
+
+        #docItems .grid:hover {
+            border-color: rgb(185,215,252);
+            background-color: rgb(246,250,255);
+        }
+
+        .docBtn {
+            /*font-weight: bold;*/
+            font-size: 13px;
+            width: 150px;
+            margin: 5px 0px;
+            text-align: left;
+        }
+
+        .inf_link {
+            margin-left: -16px;
+            margin-top: -4px;
+        }
+
+        .ui-xbox-shadow {
+            overflow: hidden;
+            position: absolute;
+            visibility: visible;
+            left: 0px;
+            top: 0px;
+            z-index: 997;
+            filter: alpha(opacity=20);
+            background-image: none;
+            background-attachment: scroll;
+            background-repeat: repeat;
+            background-position-x: 0%;
+            background-position-y: 0%;
+            background-color: rgb(0,0,0);
+        }
+
+        .ui-xbox {
+            position: absolute;
+            z-index: 998;
+            width: 220px;
+            height: 100px;
+            visibility: visible;
+            text-align: center;
+        }
+
+        .leftbar-search {
+            width: 250px;
+            float: left;
+            border: 1px solid gray;
+        }
+
+        .content-search {
+            border: 1px solid gray;
+        }
+    </style>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //提交
+            $("form").submit(function () {
+
+                var SHOPNAME = $("#SHOPNAME ").val();
+                if (!SHOPNAME) {
+                    alert("请填写店铺名称");
+                    return false;
+                }
+                var ADDRESS = $("#ADDRESS").val();
+                if (!ADDRESS) {
+                    alert("请填写店铺地址");
+                    return false;
+                }
+
+                if ($("#ISMTZP1").prop("checked") == true) {
+                    $("#ISMTZP").val("1");
+                } else {
+                    $("#ISMTZP").val("0");
+                }
+                if ($("#ISGSWSXKZ1").prop("checked") == true) {
+                    $("#ISGSWSXKZ").val("1");
+                } else {
+                    $("#ISGSWSXKZ").val("0");
+                }
+                if ($("#ISPSXKZ1").prop("checked") == true) {
+                    $("#ISPSXKZ").val("1");
+                } else {
+                    $("#ISPSXKZ").val("0");
+                }
+                if ($("#ISHJPL1").prop("checked") == true) {
+                    $("#ISHJPL").val("1");
+                } else {
+                    $("#ISHJPL").val("0");
+                }
+
+                //大类为空
+                var DaLei = $("#DaLei").val();
+                if (!DaLei) {
+                    alert("请选择大类");
+                    return false;
+                } else {
+                    $("#STREESTORETYPEID").val(DaLei);
+                }
+                //中类为空取大类
+                var ZhongLei = $("#ZhongLei").val();
+                if (!ZhongLei) {
+                    alert("请选择中类");
+                    return false;
+                } else {
+                    $("#STREESTORETYPEID").val(ZhongLei);
+                }
+                //小类不为空取小类  
+                var XiaoLei = $("#XiaoLei").val();
+                if (!XiaoLei) {
+                    alert("请选择小类");
+                    return false;
+                } else {
+                    $("#STREESTORETYPEID").val(XiaoLei);
+                }
+            });
+
+            //获取大类
+            var s = "";
+            s += " <option value='null'>请选择大类</option>";
+            $.getJSON("../StreeStore/GetJsonDaLeiAll", {}, function (data) {
+                $.each(data, function (index, stree) {
+                    s += " <option value='" + stree.STREESTORETYPEID + "'>" + stree.TYPENAME + "</option>";
+                });
+                $("#DaLei").append("");
+                $("#DaLei").append(s);
+                $("#XiaoLei").append(" <option value='null'>请选择小类</option>");
+                $("#ZhongLei").append(" <option value='null'>请选择子类</option>");
+
+            });
+
+        });
+
+        //地图坐标点
+        function mapDraw(s) {
+            document.getElementById("hidMapLocation").value = s;
+            document.getElementById("GEOMETRY").value = s;
+        }
+
+        //获取中类
+        function DaLeichang() {
+            var DaLei = $('#DaLei').val();
+            var a = "";
+            //  a += " <option value='null'>请选择</option>";
+            $.getJSON("../StreeStore/GetJsonZhongLeiAll", { DaLei: DaLei }, function (data) {
+                $.each(data, function (index, stree) {
+                    a += " <option value='" + stree.STREESTORETYPEID + "'>" + stree.TYPENAME + "</option>";
+                });
+                $("#ZhongLei").append("");
+                $("#ZhongLei").append(a);
+            });
+        }
+
+        //获取小类
+
+        function ZhongLeichang() {
+            var ZhongLei = $('#ZhongLei').val();
+            if (ZhongLei == "" && ZhongLei == null) {
+                alert("请选择中队");
+                return false;
+            }
+            var c = "";
+            $.getJSON("../StreeStore/GetJsonXiaoLeiAll", { ZhongLei: ZhongLei }, function (data) {
+                // c += " <option value='null'>请选择</option>";
+                $.each(data, function (index, stree) {
+                    c += " <option value='" + stree.STREESTORETYPEID + "'>" + stree.TYPENAME + "</option>";
+                });
+                $("#XiaoLei").append("");
+                $("#XiaoLei").append(c);
+            });
+        }
+    </script>
+}
+
+@section FootScripts{
+
+}
+@section BreadcrumbSection{
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li><a href="javascript:void(0)"><i class="icon-home"></i>沿街店家</a></li>
+            <li>></li>
+            <li><a href="javascript:void(0)">添加店家</a></li>
+        </ul>
+    </div>
+}
+
+<div class="row-fluid">
+    <div class="span12" id="tabledata">
+        <div class="box box-black" style="margin-top: 0px;">
+            <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+                <i class="icon-reorder" style="margin-right: 5px;"></i>添加店家               
+            </div>
+            <div class="box-content">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="detail">
+                        <form id="AddStreeStore" name="AddStreeStore" class="validation-form form-horizontal form-bordered form-row-stripped" method="post" action="/StreeStore/Add" enctype="multipart/form-data">
+                            <table class="table table-bordered" style="width: 100%">
+                                <tr>
+                                    <th style="text-align: center; line-height: 30px;">店铺名称</th>
+                                    <td style="width: 40%; text-align: left;">
+                                        <input type="text" id="SHOPNAME" name="SHOPNAME" class="small" />
+                                    </td>
+                                    <th style="text-align: center; line-height: 30px;">店铺地址</th>
+                                    <td style="width: 40%; text-align: left;">
+                                        <input type="text" id="ADDRESS" name="ADDRESS" class="small" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center; line-height: 30px;">法人代表</th>
+                                    <td style="width: 40%; text-align: left;">
+                                        <input type="text" id="SHOPUSERNAME" name="SHOPUSERNAME" class="small" />
+                                    </td>
+                                    <th style="text-align: center; line-height: 30px;">联系方式</th>
+                                    <td style="width: 40%; text-align: left;">
+                                        <input type="text" id="SHOPPHONE" name="SHOPPHONE" class="small" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center; line-height: 30px;">相关许可</th>
+                                    <td style="width: 40%; text-align: left; vertical-align: central" colspan="3">
+                                        <input id="ISMTZP1" type="checkbox" style="width: 15px; float: left; margin-top: 10px;" />
+                                        <label class="control-label" style="width: 60px;">门头招牌</label>
+                                        <input name="ISMTZP" id="ISMTZP" type="hidden" />
+                                        <input id="ISGSWSXKZ1" type="checkbox" style="width: 15px; float: left; margin-top: 10px; margin-left: 88px;" />
+                                        <label class="control-label" style="width: 100px;">工商卫生许可证</label>
+                                        <input name="ISGSWSXKZ" id="ISGSWSXKZ" type="hidden" />
+                                        <input id="ISPSXKZ1" type="checkbox" style="width: 15px; float: left; margin-top: 10px; margin-left: 48px" />
+                                        <label class="control-label" style="width: 74px;">排水许可证</label>
+                                        <input name="ISPSXKZ" id="ISPSXKZ" type="hidden" />
+                                        <input id="ISHJPL1" type="checkbox" style="width: 15px; float: left; margin-top: 10px; margin-left: 84px" />
+                                        <label class="control-label" style="width: 60px;">有无环评</label>
+                                        <input name="ISHJPL" id="ISHJPL" type="hidden" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center; line-height: 30px;">从事行业</th>
+                                    <td style="width: 40%; text-align: left;" colspan="3">
+                                        <span>
+                                            <select id="DaLei" style="width: 150px; margin-bottom: 2px;" onchange="DaLeichang()">
+                                            </select></span>
+                                        <span style="margin-left: 10px;">
+                                            <select name="ZhongLei" id="ZhongLei" style="width: 150px; margin-bottom: 2px;" onchange="ZhongLeichang()">
+                                            </select></span>
+                                        <span style="margin-left: 10px;">
+                                            <select name="XiaoLei" id="XiaoLei" style="width: 150px; margin-bottom: 2px;">
+                                            </select></span>
+                                        <input type="hidden" name="STREESTORETYPEID" id="STREESTORETYPEID" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center; line-height: 30px;">地理位置</th>
+                                    <td style="width: 40%; text-align: left;" colspan="3">
+                                        <input type="hidden" name="GEOMETRY" id="GEOMETRY">
+                                        <div id="silverlightControlHost" style="width: 100%; height: 350px;">
+                                            <object id="mapCtrl" data="data:application/x-silverlight-2," type="application/x-silverlight-2" height="350px" width="100%">
+                                                <param name="source" value="/ClientBin/MapCtrl.xap" />
+                                                <param name="background" value="white" />
+                                                <param name="minRuntimeVersion" value="5.0.61118.0" />
+                                                <param name="autoUpgrade" value="true" />
+                                                <param id="initParams" name="initParams" value="IsGoogleMap=false,MapUrl=http://tmap.tzsjs.gov.cn/services/tilecache/chinaemap,X1=121.409266152472,Y1=28.6559834674633,X2=121.423424005508,Y2=28.6614766315258,Mode=2,PinUrl=./Images/pin.png,OffsetX=24,OffsetY=48" />
+                                                <a href="http://go.microsoft.com/fwlink/?LinkID=149156&v=5.0.61118.0" style="text-decoration: none">
+                                                    <img src="http://go.microsoft.com/fwlink/?LinkId=161376" alt="Get Microsoft Silverlight" style="border-style: none" />
+                                                </a>
+                                            </object>
+                                            <iframe id="_sl_historyFrame" style="visibility: hidden; height: 0px; width: 0px; border: 0px"></iframe>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr style="display: none">
+                                    <th style="text-align: center; line-height: 30px; width: 10%;">地图坐标</th>
+                                    <td style="width: 40%; text-align: left;" colspan="3">
+                                        <input class="small" style="width: 99%" type="text" id="hidMapLocation" value="" disabled="disabled" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center; line-height: 30px;">店家图片</th>
+                                    <td style="width: 40%; text-align: left;" colspan="3">
+                                        <div>
+                                            <input type="file" style="width: 314.5px;" name="picture1" id="picture1" class="input-xlarge">
+                                        </div>
+                                        <div style="margin-top: 3px;">
+                                            <input type="file" style="width: 314.5px;" name="picture2" id="picture2" class="input-xlarge">
+                                        </div>
+                                        <div style="margin-top: 3px;">
+                                            <input type="file" style="width: 314.5px;" name="picture3" id="picture3" class="input-xlarge">
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="form-group" style="margin-bottom: 5px; margin-left: 130px;">
+                                <div class="col-sm-9 col-lg-10">
+                                    <button type="submit" class="btn btn-success">提  交</button>
+                                    <a style=" margin-left:2px;" href="@Url.Content("~/StreeStore/Index")" class="btn">返  回</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

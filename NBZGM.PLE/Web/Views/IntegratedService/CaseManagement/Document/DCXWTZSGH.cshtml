@@ -1,0 +1,290 @@
+﻿@model Taizhou.PLE.Model.CaseDocModels.DCXWTZSGH
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("input[name=DCXWSJ]").datetimepicker();
+        $("input[name=FCRQ]").datepicker();
+        $("input[name=FASJ]").datetimepicker();
+        $("input[name=DSRSJRQ]").datepicker();
+
+        $("input[name=bulidDocType]").click(function () {
+            var buildDocType = $(this).val();
+            if (buildDocType == "1") {
+                $("table tr#uploadFile").hide();
+                $("table tr").not($("tr#uploadFile")).show();
+            }
+            else {
+                $("table tr").not($(".notHideTD")).hide();
+                $("table tr#uploadFile").show();
+            }
+        });
+    });
+
+    function ValidateDocForm() {
+        var flag = true;
+        $(".formErrorMsg").hide();
+        $(".formErrorMsg").html("");
+        if ($("input[name=bulidDocType]:checked").val() == "1") {
+            //文书编号
+            var docBH = escape($.trim($("#BH").val()));
+            if (docBH == "") {
+                flag = false;
+                $("#error_BH").show();
+                $("#error_BH").html("编号不能为空");
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: "/Document/ValidateWSBHDDID",
+                    data: "DDID=" + $("#DOCDDID").val() + "&DDID1=" + $("#DDID1").val() + "&WSBH=" + docBH + "",
+                    cache: false,
+                    async: false,
+                    success: function (data) {
+                        if (data != "True") {
+                            $("#error_BH").show();
+                            $("#error_BH").html("文书编号已存在");
+                            flag = false;
+                        }
+                    }
+                });
+            }
+        }
+        else {
+            $(".error").remove();
+            //验证上传的图片
+            var files = $(".file");
+
+            var AllImgExt = ".jpg|.jpeg|.gif|.bmp|.png";
+
+            var fileIsEmpty = true;
+
+            $.each(files, function (i, n) {
+                if (n.value != null && n.value != "") {
+                    fileIsEmpty = false;
+                    var filePath = n.value;
+
+                    //截取最后一个点之后的字符串
+                    var su = filePath.substring(filePath.lastIndexOf("."));
+
+                    if (AllImgExt.indexOf(su.toLowerCase()) == -1) {
+                        flag = false;
+                        $(n).parent().append($("<label class='error' style='margin-left:5px;display:inline-block;'>图片格式不正确.</label>"));
+                    }
+                }
+            });
+
+            if (fileIsEmpty) {
+                flag = false;
+                $(".uploadFileTD").append("<Label class='error' generated='true'>请至少选择一张图片.</Label>");
+            }
+        }
+        return flag;
+    }
+</script>
+<form method="post" class="docForm" action="/DocDCXWTZSGH/CommitDocumentDCXWTZSGH" style="margin-bottom: 30px;" enctype="multipart/form-data">
+    @Html.Hidden("DDID1", Taizhou.PLE.Common.DocDefinition.DCXWTZS)
+    @Html.Hidden("DOCDDID", Taizhou.PLE.Common.DocDefinition.DCXWTZSGH)
+    <div class="title">
+        调查询问通知书（规划）
+    </div>
+    <table class="workflow" border="0" cellspacing="0" cellpadding="0" style="width: 700px; border-collapse: collapse; margin: 0 auto; margin-top: 20px;">
+        <tr class="notHideTD">
+            <th colspan="1">新增<br />
+                方式</th>
+            <td colspan="10">
+                <label for="bdlr" style="display: inline-block; cursor: pointer;">
+                    <input type="radio" name="bulidDocType" value="1" checked="checked" id="bdlr" />表单录入
+                </label>
+                <label for="scsmj" style="display: inline-block; cursor: pointer;">
+                    <input type="radio" name="bulidDocType" value="2" id="scsmj" />上传扫描件
+                </label>
+            </td>
+        </tr>
+        <tr id="uploadFile" style="display: none;">
+            <th>上传<br />
+                文书
+            </th>
+            <td colspan="10" class="uploadFileTD">
+                <ul style="list-style: none; margin-left: 0px;">
+                    <li style="margin-top: 5px;">第1张：<input type="file" name="file1" style="width: 400px;" class="file" /></li>
+                    <li style="margin-top: 5px;">第2张：<input type="file" name="file2" style="width: 400px;" class="file" /></li>
+                    <li style="margin-top: 5px;">第3张：<input type="file" name="file3" style="width: 400px;" class="file" /></li>
+                    <li style="margin-top: 5px;">第4张：<input type="file" name="file4" style="width: 400px;" class="file" /></li>
+                    <li style="margin-top: 5px;">第5张：<input type="file" name="file5" style="width: 400px;" class="file" /></li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <th colspan="1">编号</th>
+            <td colspan="10">@Html.TextBoxFor(model => model.BH)
+                <label class="formErrorMsg" id="error_BH"></label>
+            </td>
+        </tr>
+        <tr>
+            <th colspan="1">当事人</th>
+            <td colspan="10">@Html.TextBoxFor(model => model.DSR)</td>
+        </tr>
+        <tr>
+            <th colspan="1">案发<br />
+                时间</th>
+            <td colspan="3">
+                @Html.TextBox("FASJ", string.IsNullOrWhiteSpace(Model.FASJ) == false ? Convert.ToDateTime(Model.FASJ).ToString("yyyy-MM-dd HH:mm") : "")
+            </td>
+            <th colspan="1">案发<br />
+                地点</th>
+            <td colspan="6">
+                @Html.TextBoxFor(model => model.FADD)
+            </td>
+        </tr>
+        <tr>
+            <th colspan="1">调查<br />
+                询问<br />
+                时间</th>
+            <td colspan="3">
+                @Html.TextBox("DCXWSJ", DateTime.Now.ToString("yyyy-MM-dd HH:mm"))
+            </td>
+            <th colspan="1">调查<br />
+                询问<br />
+                地点</th>
+            <td colspan="6">
+                @Html.TextBoxFor(model => model.DCXWDD)
+            </td>
+        </tr>
+        <tr>
+            <th colspan="1">违法<br />
+                行为</th>
+            <td colspan="10">
+                @Html.TextAreaFor(model => model.WFXW)
+            </td>
+        </tr>
+        <tr>
+            <th rowspan="7">当事<br />
+                人需<br />
+                提交<br />
+                的材<br />
+                料
+            </th>
+            <td colspan="10">
+                @Html.CheckBoxFor(model => model.DSRSFZM)
+                当事人身份证明:<br />
+                &nbsp;&nbsp;1、单位:《营业执照》正本及当年有效的《营业执照》副本复印件、《组织机构代码证》正本及当<br />
+                &nbsp;&nbsp;年有效的
+                  《组织机构代码证》副本复印件、法定代表人（负责人）的身份证明以及身份证原件与复<br />
+                &nbsp;&nbsp;印件；<br />
+                &nbsp;&nbsp;2、个人:身份证原件及复印件；            
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="10">
+                @Html.CheckBoxFor(model => model.WTTRBLD)
+                委托他人办理的还应提交《授权委托书》，并提交受托人身份证原件及复印件；
+            </td>
+        </tr>
+        <tr>
+            <td colspan="10">
+                @Html.CheckBoxFor(model => model.JSXMPZWJ)
+                建设项目批准文件；
+                @Html.CheckBoxFor(model => model.JSYDGHXKZ)
+                《建设用地规划许可证》及批准的规划用地红线图；
+            </td>
+        </tr>
+        <tr>
+            <td colspan="10">
+                @Html.CheckBoxFor(model => model.JSGCGHXKZ)
+                《建设工程规划许可证》及批准的规划总平面图；
+            </td>
+        </tr>
+        <tr>
+            <td colspan="10">
+                @Html.CheckBoxFor(model => model.JSYDXKZORJSYDPZS)
+                《建设用地许可证》或《建设用地批准书》复印件；
+            </td>
+        </tr>
+        <tr>
+            <td colspan="10">
+                @Html.CheckBoxFor(model => model.TDSYZFYJ)
+                土地使用证复印件；
+                @Html.CheckBoxFor(model => model.JGFHTYJ)
+                竣工复核图原件；
+                @Html.CheckBoxFor(model => model.FCCHCGYJ)
+                房产测绘成果原件；
+                @Html.CheckBoxFor(model => model.XGBMYJYJ)
+                相关部门意见原件；
+            </td>
+        </tr>
+        <tr>
+            <td colspan="10">
+                @Html.CheckBoxFor(model => model.YGXYHHT)
+                有关协议和合同；
+                @Html.CheckBoxFor(model => model.QT)
+                其他；
+            </td>
+        </tr>
+        <tr>
+            <th>地址</th>
+            <td colspan="10">
+                @Html.TextBoxFor(model => model.DZ)
+            </td>
+        </tr>
+
+        <tr>
+            <th>联系人</th>
+            <td colspan="2">
+                @Html.TextBoxFor(model => model.LXR)
+            </td>
+            <th class="auto-style3">电话</th>
+            <td colspan="2">
+                @Html.TextBoxFor(model => model.DH)
+            </td>
+            <th colspan="2">发出日期</th>
+            <td colspan="4">
+                @Html.TextBox("FCRQ", DateTime.Now.ToString("yyyy-MM-dd"))
+            </td>
+        </tr>
+
+        <tr>
+            <th>当事人<br />
+                收件签章</th>
+            <td colspan="2">
+                @Html.TextBoxFor(model => model.DSRSJQZ)
+            </td>
+            <th class="auto-style3">电话</th>
+            <td colspan="2">
+                @Html.TextBoxFor(model => model.DSRDH)
+            </td>
+            <th colspan="2">收件签章日期</th>
+            <td colspan="4">
+                @Html.TextBox("DSRSJRQ", DateTime.Now.ToString("yyyy-MM-dd"))
+            </td>
+        </tr>
+        <tr class="notHideTD">
+            <td style="width: 42px; border: none;"></td>
+            <td colspan="10" style="border: none; padding-top: 10px;">
+                <input id="btnDocFormSubmit" type="button" class="btn btn-success" value="保   存" />
+            </td>
+        </tr>
+        <tr class="notHideTD">
+            <td style="width: 42px; border: none;"></td>
+            <td style="width: 42px; border: none;"></td>
+            <td style="width: 42px; border: none;"></td>
+            <td style="width: 22px; border: none;"></td>
+            <td style="width: 42px; border: none;"></td>
+            <td style="width: 72px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 52px; border: none;"></td>
+            <td style="width: 42px; border: none;"></td>
+            <td style="width: 42px; border: none;"></td>
+            <td style="border: none;">&nbsp;</td>
+        </tr>
+    </table>
+    @Html.Hidden("WIID")
+    @Html.Hidden("DDID")
+    @Html.Hidden("AIID")
+    @Html.Hidden("ADID")
+    @Html.Hidden("WICode")
+    @Html.Hidden("DocID")
+</form>
+
+
+
+

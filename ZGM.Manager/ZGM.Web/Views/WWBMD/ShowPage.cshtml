@@ -1,0 +1,606 @@
+﻿@{
+    Layout = null;
+}
+@model ZGM.Model.WWBMDModels.WWBMDModel
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>白名单详情</title>
+    <link href="~/Content/css/OA.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/Scripts/assets/bootstrap/bootstrap.min.css" />
+    <script src="~/Scripts/jquery-1.7.1.js"></script>
+    <script type="text/javascript" src="~/Scripts/js/select-ui.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/js/jquery.idTabs.min.js"></script>
+
+    <script src="~/Scripts/assets/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-addon.js"></script>
+    <script src="~/Scripts/assets/timepicker/jquery-ui-timepicker-zh-CN.js"></script>
+    <script src="~/Scripts/js/PageNotBack.js"></script>
+
+    <style type="text/css">
+        table tr input.large {
+            /*width: 98%;*/
+            height: 30px;
+        }
+
+        table tr input.small {
+            /*width: 94%;*/
+            height: 30px;
+        }
+
+        .fontStyle * {
+            font-family: 宋体 !important;
+        }
+
+        .docBtn {
+            /*font-weight: bold;*/
+            font-size: 13px;
+            width: 150px;
+            margin: 5px 0px;
+            text-align: left;
+        }
+
+        .inf_link {
+            margin-left: -16px;
+            margin-top: -4px;
+        }
+
+        .ui-xbox {
+            position: absolute;
+            z-index: 998;
+            width: 220px;
+            height: 100px;
+            visibility: visible;
+            text-align: center;
+        }
+
+        .leftbar-search {
+            width: 250px;
+            float: left;
+            border: 1px solid gray;
+        }
+
+        .content-search {
+            border: 1px solid gray;
+        }
+
+        .mapspanstyle {
+            border:none;
+            margin-right: 20px;
+            background:white;
+        }
+        #EventReport tr th {
+            vertical-align:middle;
+        }
+        a, a:focus {
+            text-decoration:none;
+            color:#000;
+        }
+    </style>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var PICPATH = $("#FILEPATH").val();
+            var Path = $("#Path").val();
+
+            var picPath = "/Images/bmd.bmp";
+
+            if (PICPATH != "" && PICPATH != undefined) {
+
+                picPath = "/GetPictureFile.ashx?PicPath=" + Path + "" + PICPATH + "";
+            }
+            $("#ShowMapBtn").val("隐藏地图");
+            $("#ShowMapBtn").attr("onclick", "GetShowOrHide(this,'hide')");
+            
+            if ($("a[name=ADDRESSNAME]").length > 0) {
+                setTimeout(function () {
+                    $("a[name=ADDRESSNAME]:eq(0)").click();
+                    $("a[name=ADDRESSNAME]:eq(0)").parent().css("background", "rgb(237, 236, 222) none repeat scroll 0%").click();
+                },1000)
+            }            
+            var htmlStr = "<img src=" + picPath + " id='preview' style='width: 100%; height: 200px; margin-top: 5px; margin-bottom: 5px' />";
+            $("#DIVimg").html(htmlStr);
+        });
+
+        function goback() {
+            window.location.href = '/WWBMD/Index/?flag=0';
+        }
+
+        //显示隐藏地图
+        function GetShowOrHide(o, otype) {
+            if (otype == "show") {
+                setTimeout(function () {
+                    $("a[value='" + $("#GEOMETRY").val() + "']").click();
+                    $("a[value='" + $("#GEOMETRY").val() + "']").parent().css("background", "rgb(237, 236, 222) none repeat scroll 0%");
+                }, 1000)
+                o.value = "隐藏地图";
+                o.setAttribute("onclick", "GetShowOrHide(this,'hide')");
+                document.getElementById("ShowOrHide").style.display = 'block';
+
+            } else if (otype == 'hide') {
+                o.value = "显示地图";
+                o.setAttribute("onclick", "GetShowOrHide(this,'show')");
+                document.getElementById("ShowOrHide").style.display = 'none';
+            }
+        }
+
+        //初始化地图
+        function mapInited(obj) {
+            $(".mapspanstyle").css("background", "white");
+            $(obj).parent().css("background", "rgb(237, 236, 222) none repeat scroll 0%");
+            setTimeout(function () {
+                var DTMD = $(obj).attr("value");
+                if (DTMD) {
+                    var mapCtrl = document.getElementById("mapCtrl").content.MapCtrl;
+                    mapCtrl.Clears();
+                    mapCtrl.AddPolygon("Green", DTMD);
+                    $("#GEOMETRY").val(DTMD);
+                }
+            }, 1000)
+        }
+
+        $(function () {
+            $("a[name=ADDRESSNAME]").click(function () {
+
+            })
+        })
+
+    </script>
+</head>
+
+<body>
+    <div class="place" style="background-image: url(/Images/images/righttop.gif)">
+        <span>位置：</span>
+        <ul class="placeul">
+            <li><a href="/WWBMD/Index">白名单列表</a></li>
+            <li>白名单详情</li>
+        </ul>
+    </div>
+    <div class="formbody">
+        <div style="margin: 20px">
+            <h6 style="font-size: 32px; text-align: center">白名单详情</h6>
+        </div>
+        <form method="post" enctype="multipart/form-data" action="/WWBMD/Commit" onsubmit="return validate_form(this)" id="EventReport">
+            <div>
+                <table class="table table-bordered" style="font-size: 13px; margin-bottom: 0; border-bottom-left-radius: 0; border-bottom-right-radius: 0">
+
+
+                    <tr>
+                        <th style="text-align: center; line-height: 20px; width: 11%">矫正单位 </th>
+                        <td style="width: 15%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <label class="lablestyle">@Model.CORRECTUNIT</label>
+                                    @*@Html.LabelFor(t => Model.CORRECTUNIT, new { @class = "lablestyle", @readonly = true })*@
+                                </div>
+                            </div>
+                        </td>
+                        <th style="text-align: center; line-height: 20px;">编号
+                        </th>
+                        <td style="line-height: 20px; width: 15%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <label class="lablestyle">@Model.NUMBER</label>
+                                    @*@Html.LabelFor(t => Model.NUMBER, new { @class = "lablestyle", @readonly = true })*@
+                                </div>
+                            </div>
+                        </td>
+                        <th style="text-align: center; line-height: 20px;">入矫日期
+                        </th>
+                        <td style="line-height: 20px; width: 15%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <label class="lablestyle">@ViewBag.CORRECTDATE</label>
+                                    @*@Html.LabelFor(t => Model.CORRECTDATE, new { @class = "lablestyle", @readonly = true })*@
+                                </div>
+                            </div>
+                        </td>
+                        <td rowspan="5" style="line-height: 20px; width: 15%">
+                            <div class="form-group" style="width: 98%">
+                                <div class="col-sm-9 col-lg-10 controls" style="width: 98%; height: 100%; text-align: center">
+                                    @Html.HiddenFor(t => Model.FILEPATH)
+                                    <div id="DIVimg"></div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th style="text-align: center; line-height: 20px;">姓名
+                        </th>
+                        <td style="width: 15%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <label class="lablestyle">@Model.NAME</label>
+                                    @*@Html.LabelFor(t => Model.NAME, new { @class = "lablestyle", @readonly = true })*@
+                                </div>
+                            </div>
+                        </td>
+                        <th style="text-align: center; line-height: 20px;">别名
+                        </th>
+                        <td style="line-height: 20px; width: 15%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <label class="lablestyle">@Model.OTHERNAME</label>
+                                    @*@Html.LabelFor(t => Model.OTHERNAME, new { @class = "lablestyle", @readonly = true })*@
+                                </div>
+                            </div>
+                        </td>
+                        <th style="text-align: center; line-height: 20px;">性别
+                        </th>
+                        <td style="line-height: 20px; width: 15%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    @if (Model.SEX == 0)
+                                    {
+                                        <label class="lablestyle">男</label>
+@*<input type="text" name="SEX" value="男" class="large" readonly="true" />*@
+                                    }
+                                    else if (Model.SEX == 1)
+                                    {
+                                        <label class="lablestyle">女</label>
+@*<input type="text" name="SEX" value="女" class="large" readonly="true" />*@
+                                    }
+                                    else
+                                    {
+                                        
+                                        <input type="text" name="SEX" class="large" readonly="true" />
+                                    }
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th style="text-align: center; line-height: 20px;">民族 </th>
+                        <td style="width: 15%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <label class="lablestyle">@Model.NATION</label>
+                                    @*@Html.LabelFor(t => Model.NATION, new { @class = "lablestyle", @readonly = true })*@
+                                </div>
+                            </div>
+                        </td>
+                        <th style="text-align: center; line-height: 20px;">出生日期
+                        </th>
+                        <td style="line-height: 20px; width: 15%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <label class="lablestyle">@ViewBag.BIRTHDAY </label>
+                                    @*@Html.LabelFor(t => Model.BIRTHDAY, new { @class = "lablestyle", @readonly = true })*@
+                                </div>
+                            </div>
+                        </td>
+                        <th style="text-align: center; line-height: 20px;">文化程度
+                        </th>
+                        <td style="line-height: 20px; width: 15%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <label class="lablestyle">@Model.EDU</label>
+                                    @*@Html.LabelFor(t => Model.EDU, new { @class = "lablestyle", @readonly = true })*@
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th style="text-align: center; line-height: 20px;">职业 </th>
+                        <td style="width: 15%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <label class="lablestyle">@Model.JOB</label>
+                                    @*@Html.LabelFor(t => Model.JOB, new { @class = "lablestyle", @readonly = true })*@
+                                </div>
+                            </div>
+                        </td>
+                        <th style="text-align: center; line-height: 20px;">原政治面貌
+                        </th>
+                        <td style="line-height: 20px; width: 15%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <label class="lablestyle">@Model.POLITICAL</label>
+                                    @*@Html.LabelFor(t => Model.POLITICAL, new { @class = "lablestyle", @readonly = true })*@
+                                </div>
+                            </div>
+                        </td>
+                        <th style="text-align: center; line-height: 20px;">类型
+                        </th>
+                        <td style="line-height: 20px; width: 15%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <label class="lablestyle">@ViewBag.TypeName</label>
+                                    @*<input type="text" value="@ViewBag.TypeName" class="large" readonly=true/>*@
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th style="text-align: center; line-height: 20px;">身份证号 </th>
+                        <td style="width: 15%" colspan="1">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <label class="lablestyle">@Model.IDCARD</label>
+                                    @*@Html.LabelFor(t => Model.IDCARD, new { @class = "lablestyle", @readonly = true })*@
+                                </div>
+                            </div>
+                        </td>
+                        <th style="text-align: center; line-height: 20px;">婚姻状况
+                        </th>
+                        <td style="line-height: 20px; width: 15%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    @if (Model.MARRIAGE == 1)
+                                    {
+                                        <label class="lablestyle">已婚</label>
+@*<input type="text" name="MARRIAGE" value="已婚" class="large" readonly="true" />*@
+                                    }
+                                    else if (Model.MARRIAGE == 2)
+                                    {
+                                        <label class="lablestyle">未婚</label>
+@*<input type="text" name="MARRIAGE" value="未婚" class="large" readonly="true" />*@
+                                    }
+                                    else
+                                    {
+                                        <input type="text" name="MARRIAGE" class="large" readonly="true" />
+                                    }
+                                </div>
+                            </div>
+                        </td>
+                        <th style="text-align: center; line-height: 20px;">籍贯
+                        </th>
+                        <td style="line-height: 20px; width: 15%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <label class="lablestyle">@Model.BIRTHPLACE</label>
+                                    @*@Html.LabelFor(t => Model.BIRTHPLACE, new { @class = "lablestyle", @readonly = true })*@
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th style="text-align: center; line-height: 20px;">户籍所在地 </th>
+                        <td style="width: 15%" colspan="6">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <label class="lablestyle">@Model.DOMICILEPLACE</label>
+                                    @*@Html.LabelFor(t => Model.DOMICILEPLACE, new { @class = "lablestyle", @style = "width: 98%", @readonly = true })*@
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th style="text-align: center; line-height: 20px;">固定居住地 </th>
+                        <td style="width: 15%" colspan="6">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <label class="lablestyle">@Model.FIXEDPLACE</label>
+                                    @*@Html.LabelFor(t => Model.FIXEDPLACE, new { @class = "lablestyle", @style = "width: 98%", @readonly = true })*@
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    @* <tr>
+                        <th style="text-align: center; line-height: 20px;">常用居住地 </th>
+                        <td style="width: 15%" colspan="6">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                    <label class="lablestyle">@Model.COMMONPLACE</label>
+                                   @Html.LabelFor(t => Model.COMMONPLACE, new { @class = "lablestyle", @style = "width: 98%", @readonly = true })
+                                </div>
+                            </div>
+                        </td>
+                    </tr>*@
+
+                    <tr>
+                        <th style="text-align: center; line-height: 30px">常用居住地
+                        </th>
+                        <td colspan="6">
+                            <input type="button" id="ShowMapBtn" style="margin-left: 20px; margin-right: 20px;" value="显示地图" onclick="GetShowOrHide(this, 'show')" />
+                            <label id="MapTable" style="display: -moz-inline-box;">
+                                @foreach (var item in ViewBag.MapList)
+                                {
+                                    <span class="mapspanstyle"><a style="margin-right:15px; font-size:14px;" name="ADDRESSNAME" value="@item.GEOMETRY" onclick="javascript:mapInited(this)">@item.ADDRESSNAME</a></span>
+                                }
+                            </label>
+                            <div class="form-group" id="ShowOrHide" style="margin-bottom: 5px;">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                </div>
+                                @if (ViewBag.MapList.Count!=0)
+                                {
+                                     <input type="hidden" id="GEOMETRY" value="@ViewBag.MapList[0].GEOMETRY" />
+                                }
+                               
+                                <div id="silverlightControlHost" style="width: 100%; height: 350px;">
+                                    <object id="mapCtrl" data="data:application/x-silverlight-2," type="application/x-silverlight-2" height="350px" width="100%">
+                                        <param name="source" value="/ClientBin/MapCtrl.xap" />
+                                        <param name="background" value="white" />
+                                        <param name="minRuntimeVersion" value="5.0.61118.0" />
+                                        <param name="autoUpgrade" value="true" />
+                                         <param id="initParams" name="initParams" value="IsGoogleMap=false,MapUrl=@ZGM.Web.ConfigManager.MapUrl,X1=@ZGM.Web.ConfigManager.MapLonX1,Y1=@ZGM.Web.ConfigManager.MapLatY1,X2=@ZGM.Web.ConfigManager.MapLonX2,Y2=@ZGM.Web.ConfigManager.MapLatY2,Mode=1,PinUrl=./Images/pin.png,OffsetX=24,OffsetY=48,fileUrl=" />
+                                        <a href="http://go.microsoft.com/fwlink/?LinkID=149156&v=5.0.61118.0" style="text-decoration: none">
+                                            <img src="http://go.microsoft.com/fwlink/?LinkId=161376" alt="Get Microsoft Silverlight" style="border-style: none" />
+                                        </a>
+                                    </object>
+                                    <iframe id="_sl_historyFrame" style="visibility: hidden; height: 0px; width: 0px; border: 0px"></iframe>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                </table>
+
+                <table class="table table-bordered" style="font-size: 13px; border-top: 0; border-top-left-radius: 0; border-top-right-radius: 0">
+                    <tr>
+                        <th style="text-align: center; line-height: 20px; width: 11%">判决书号 </th>
+                        <td style="width: 20%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                      <label class="lablestyle">@Model.SENTENCENUMBER</label>
+                                    @*@Html.LabelFor(t => Model.SENTENCENUMBER, new { @class = "lablestyle", @style = "width: 93.5%", @readonly = true })*@
+                                </div>
+                            </div>
+                        </td>
+                        <th style="text-align: center; line-height: 20px;">判决机关
+                        </th>
+                        <td style="line-height: 20px; width: 20%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                       <label class="lablestyle">@Model.SENTENCEUNIT</label>
+                                    @*@Html.LabelFor(t => Model.SENTENCEUNIT, new { @class = "lablestyle", @style = "width: 93.5%", @readonly = true })*@
+                                </div>
+                            </div>
+                        </td>
+                        <th style="text-align: center; line-height: 20px;">判决时间
+                        </th>
+                        <td style="line-height: 20px; width: 20%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                     <label class="lablestyle">@ViewBag.SENTENCEDATE</label>
+                                    @*@Html.LabelFor(t => Model.SENTENCEDATE, new { @class = "lablestyle", @style = "width: 90.5%", @readonly = true })*@
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th style="text-align: center; line-height: 20px;">罪名 </th>
+                        <td style="width: 15%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                      <label class="lablestyle">@Model.CHARGE</label>
+                                    @*@Html.LabelFor(t => Model.CHARGE, new { @class = "lablestyle", @style = "width: 93.5%", @readonly = true })*@
+                                </div>
+                            </div>
+                        </td>
+                        <th style="text-align: center; line-height: 20px;">原判刑期
+                        </th>
+                        <td style="line-height: 20px; width: 15%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                      <label class="lablestyle">@Model.SENTENCETERM</label>
+                                    @*@Html.LabelFor(t => Model.SENTENCETERM, new { @class = "lablestyle", @style = "width: 93.5%", @readonly = true })*@
+                                </div>
+                            </div>
+                        </td>
+                        <th style="text-align: center; line-height: 20px;">附加刑
+                        </th>
+                        <td style="line-height: 20px; width: 15%">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                       <label class="lablestyle">@Model.SENTENCEADD</label>
+                                    @*@Html.LabelFor(t => Model.SENTENCEADD, new { @class = "lablestyle", @style = "width: 90.5%", @readonly = true })*@
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th style="text-align: center; line-height: 20px;">刑期起始 </th>
+                        <th style="text-align: center; line-height: 20px;">开始时间 </th>
+                        <td style="width: 15%" colspan="2">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                      <label class="lablestyle">@ViewBag.SENTENCESTATRTIME</label>
+                                    @*@Html.LabelFor(t => Model.SENTENCESTATRTIME, new { @class = "lablestyle", @style = "width: 97%", @readonly = true })*@
+                                </div>
+                            </div>
+                        </td>
+                        <th style="text-align: center; line-height: 20px;">结束时间 </th>
+                        <td style="width: 15%" colspan="2">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                        <label class="lablestyle">@ViewBag.SENTENCEENDTIME</label>
+                                    @*@Html.LabelFor(t => Model.SENTENCEENDTIME, new { @class = "lablestyle", @style = "width: 90.5%", @readonly = true })*@
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th style="text-align: center; line-height: 20px;">刑期变动情况 </th>
+                        <td style="width: 15%" colspan="6">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                       <label class="lablestyle">@Model.SENTENCECHANG</label>
+                                    @*@Html.LabelFor(t => Model.SENTENCECHANG, new { @class = "lablestyle", @style = "width: 98%", @readonly = true })*@
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th style="text-align: center; line-height: 20px;">奖罚情况 </th>
+                        <td style="width: 15%" colspan="6">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                         <label class="lablestyle">@Model.REWARD</label>
+                                    @*@Html.LabelFor(t => Model.REWARD, new { @class = "lablestyle", @style = "width: 98%", @readonly = true })*@
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th style="text-align: center; line-height: 20px;" rowspan="2">社区矫正期限 </th>
+                        <th style="text-align: center; line-height: 20px;">开始时间 </th>
+                        <td style="width: 15%" colspan="2">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                         <label class="lablestyle">@ViewBag.CORRECTSTARTTIME</label>
+                                    @*@Html.LabelFor(t => Model.CORRECTSTARTTIME, new { @class = "lablestyle", @style = "width: 97%", @readonly = true })*@
+                                </div>
+                            </div>
+                        </td>
+                        <th style="text-align: center; line-height: 20px;">结束时间 </th>
+                        <td style="width: 15%" colspan="2">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                       <label class="lablestyle">@ViewBag.CORRECTENDTIME</label>
+                                    @*@Html.LabelFor(t => Model.CORRECTENDTIME, new { @class = "lablestyle", @style = "width: 90.5%", @readonly = true })*@
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th style="text-align: center; line-height: 20px;">刑法执行类别 </th>
+                        <td style="width: 15%" colspan="4">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                       <label class="lablestyle">@Model.SENTENCETYPE</label>
+                                    @*@Html.LabelFor(t => Model.SENTENCETYPE, new { @class = "lablestyle", @style = "width: 97.5%", @readonly = true })*@
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th style="text-align: center; line-height: 20px;">主要犯罪事实 </th>
+                        <td style="width: 15%;" colspan="6">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                       <label class="lablestyle">@Model.CONTENT</label>
+                                    @*@Html.LabelFor(t => Model.CONTENT, new { @class = "lablestyle", @style = "width: 98%", @readonly = true })*@
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <div class="form-group" style="margin-bottom: 5px; margin-left: 130px;">
+                    <div class="col-sm-9 col-lg-10 controls">
+                        <input type="button" class="btn btn-success" value="返　回" onclick="goback();">
+                    </div>
+                    <input type="hidden" value="@ViewBag.Path" id="Path"/>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

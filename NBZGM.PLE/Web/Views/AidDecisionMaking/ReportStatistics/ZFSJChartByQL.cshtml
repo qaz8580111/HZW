@@ -1,0 +1,140 @@
+﻿@model List<Taizhou.PLE.Model.CommonModel.CaseCount>
+@{
+    ViewBag.Title = "ZFSJChartByQL";
+    Layout = "~/Views/AidDecisionMaking/_LayoutStatisticeManagement.cshtml";
+}
+@section BreadcrumbSection{
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li><a href="javascript:void(0)"><i class="icon-home"></i>辅助决策</a></li>
+            <li>></li>
+            <li><a href="javascript:void(0)">报表统计</a></li>
+            <li>></li>
+            <li class="active">根据大类统计</li>
+        </ul>
+    </div>
+
+}
+
+<script src="~/Scripts/Highcharts-4.0.3/js/highcharts.src.js"></script>
+<div class="box box-black" style="margin: 5px;">
+    <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+        <i class="icon-reorder" style="margin-right: 5px;"></i>根据大类统计
+    </div>
+    <div class="box-content" style="min-height: 400px;">
+        <div style="height: 60px; line-height: 60px; padding-bottom: 0px; padding-top: 0px;">
+            <table>
+                <tr>
+                    <td style="line-height: 25px; width: 40%">
+                      <button type="button" class="btn btn-primary" onclick="TBSJ()">同步数据</button>    
+                    </td>
+                </tr>
+                <tr>
+                    <td style="line-height: 25px; width: 40%">
+                        <div class="form-group" style="margin-bottom: 5px;">
+                            <div class="col-sm-9 col-lg-10 controls">
+                                @Html.DropDownList("QuestionDLID", ViewBag.QuestionDL as IEnumerable<SelectListItem>)
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="container" style="min-width: 700px; height: 400px"></div>
+        <div style="clear: both"></div>
+    </div>
+</div>
+<input type="hidden" value="@ViewBag.SBMES" id="zfsjChartByQL" />
+<script type="text/javascript">
+
+    //点击同步数据按钮
+    function TBSJ()
+    {
+        $.ajax({
+            type: "POST",
+            url: "/Statistics/InsertZFSJChartByQL",
+            cache: false,
+            success: function (data) {
+            }
+        });
+        
+    }
+
+    $("#QuestionDLID").change(function () {
+        var QuestionDLID = $('#QuestionDLID').val();
+        $.ajax({
+            type: "POST",
+            url: "/Statistics/ZFSJCHARTTBYQL",
+            data: { DDID: QuestionDLID },
+            cache: false,
+            success: function (data) {
+                chushi(data)
+            }
+        });
+
+    });
+
+    //页面初始加载
+    $(function () {
+        var QuestionDLID = $('#QuestionDLID').val();
+        $.ajax({
+            type: "POST",
+            url: "/Statistics/ZFSJCHARTTBYQL",
+            data: { DDID: QuestionDLID },
+            cache: false,
+            success: function (data) {
+                chushi(data)
+            }
+        });
+    })
+
+    function chushi(data) {
+        var tt = data.split("_");
+        var data1 = eval('(' + tt[0] + ')');
+        var data2 = eval('(' + tt[1] + ')');
+        var data3 = eval('(' + tt[2] + ')');
+
+        $('#container').highcharts({
+            chart: {
+                type: 'line'
+            },
+            title: {
+                text: '根据大类统计图'
+            },
+
+            xAxis: {
+                categories: data1
+            },
+            yAxis: {
+                title: {
+                    text: ''
+                }
+            },
+            tooltip: {
+                enabled: false,
+                formatter: function () {
+                    return '<b>' + this.series.name + '</b><br>' + this.x + ': ' + this.y + '°C';
+                }
+            },
+            plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: true
+                    },
+                    enableMouseTracking: false
+                }
+            },
+            series:
+            [
+            {
+                name: '执法事件数据',
+                data: data2
+            }, {
+                name: '96310数据',
+                data: data3
+            }
+            ]
+        });
+    }
+
+</script>

@@ -1,0 +1,170 @@
+﻿@{
+    Layout = "~/Views/IntegratedService/CaseManagement/_LayoutCaseManagement.cshtml";
+}
+
+@section HeadStyles_CaseManage{
+    <link href="~/Scripts/assets/bootstrap-timepicker/compiled/timepicker.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" />
+    <style>
+        .table td.left {
+            text-align: left;
+        }
+
+        .table td.center {
+            text-align: center;
+        }
+
+        .table td.right {
+            text-align: right;
+        }
+    </style>
+}
+
+@section FootScripts_CaseManage{
+    <script src="~/Scripts/assets/bootstrap-datepicker/js/bootstrap-datepicker-zh_CN.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //设置选中菜单样式
+            $("#menuCase").addClass("active");
+            $("#GeneralCase").css("display", "block");
+
+            //绑定日历控件(已处理案件)
+            $("#txtStartDate").datepicker();
+            $("#txtEndDate").datepicker();
+
+            var oTable = null;
+
+            //定义 datatable 数据加载函数
+            function BindDataTable(url) {
+                if (oTable != null) {
+                    oTable.fnSettings().sAjaxSource = url;
+                    oTable.fnDraw(true);
+                } else {
+                    oTable = $("#ProcessTable").dataTable({
+                        sAjaxSource: url,
+                        aoColumns: [
+                            {
+                                //这是页面显示数据字段
+                                mDataProp: "WICode", sClass: "center", sWidth: "130px"
+                            },
+                            {
+                                mDataProp: "WIName"
+                            },
+                            {
+                                mDataProp: function (data) {
+                                    if (data.WorkflowStausID == 4) {
+                                        return data.ADName + "已结案";
+                                    } else {
+                                        return data.ADName;
+                                    }
+                                }, sClass: "left", sWidth: "130px"
+                            },
+                            {
+                                mDataProp: "UserName", sClass: "center", sWidth: "80px"
+                            },
+                            {
+                                mDataProp: function (data) {
+                                    var operate = "<a href='/WorkFlow/WorkflowView?WIID=" + data.WIID + "&AIID=" + data.AIID + "' title='查看详情'> 详情 </a>";
+                                    return operate;
+                                }, "sClass": "center", sWidth: "50px"
+                            }
+                        ],
+                        fnDrawCallback: function (oSettings) {
+                            var pagerIndex = oSettings._iDisplayStart / oSettings._iDisplayLength + 1;
+                            var $currentPager = $(".dataTables_paginate span a:contains('" + pagerIndex + "')");
+                            $currentPager.attr("style", "font-weight :bold;!important");
+                        }
+                    });
+                }
+            }
+
+            //绑定搜索按钮点击事件
+            $("#btnQuery").click(function () {
+                var url = "/GeneralCase/GetProcessCases";
+                var startDate = $("#txtStartDate").val();
+                var endDate = $("#txtEndDate").val();
+                //案件编号、案由条件查询
+                var CaseCode = $("#txtCaseCode").val();
+                var Anyou = $("#txtAnyou").val();
+
+                url += "?StartDate=" + startDate;
+                url += "&EndDate=" + endDate;
+
+                url += "&CaseCode=" + CaseCode;
+                url += "&Anyou=" + Anyou;
+
+                BindDataTable(url);
+            });
+
+            $("#btnQuery").click();
+        });
+    </script>
+}
+
+@section BreadcrumbSection{
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li><a href="#"><i class="icon-home"></i>综合业务</a></li>
+            <li>></li>
+            <li><a href="IllegalManagement">案件管理</a></li>
+            <li>></li>
+            <li>一般案件</li>
+            <li>></li>
+            <li class="active" id="aaa">已处理案件</li>
+            <li id="FunctionInfo"></li>
+        </ul>
+    </div>
+}
+
+<div class="box box-black" style="margin: 5px;">
+    <div class="box-title" style="color: white; height: 36px; line-height: 36px; padding-bottom: 0px; padding-top: 0px;">
+        <i class="icon-table" style="margin-right: 5px;"></i>已处理案件
+    </div>
+    <div class="box-content" style="min-height: 400px;">
+        <div class="query">
+            <table>
+                <tr>
+                    <td style="width: 80px">
+                        <label style="vertical-align: bottom; margin-top: 5px; margin-bottom: 2px; float: left;">开始日期:</label></td>
+                    <td style="width: 250px">
+                        <input id="txtStartDate" type="text" style="margin-top:5px;margin-bottom:0px;float:left;" value="@(string.Format("{0:yyyy-MM-dd}", DateTime.Now.AddDays(-6)))" class="datepicker" data-date-format="yyyy-mm-dd"></td>
+                    <td style="width: 80px">
+                        <label style="vertical-align: bottom; margin-top: 5px; margin-bottom: 2px;">结束日期: </label>
+                    </td>
+                    <td style="width: 250px">
+                        <input id="txtEndDate" type="text" style="margin-top:5px;margin-bottom:0px;" value="@(string.Format("{0:yyyy-MM-dd}", DateTime.Now))" class="datepicker" data-date-format="yyyy-mm-dd">
+                    </td>
+                    <tr />
+                <br />
+                <tr>
+                    <td style="width: 80px">
+                        <label style="vertical-align: bottom; margin-top: 5px; margin-bottom: 2px; float: left;">案件编号:</label></td>
+                    <td style="width: 250px">
+                        <input id="txtCaseCode" type="text" style="margin-top: 5px; margin-bottom: 0px; float: left;" />
+                    </td>
+                    <td style="width: 80px">
+                        <label style="vertical-align: bottom; margin-top: 5px; margin-bottom: 2px; float: left;">案由:</label></td>
+                    <td style="width: 250px">
+                        <input id="txtAnyou" type="text" style="margin-top: 5px; margin-bottom: 0px; float: left;" />
+                    </td>
+                    <td>
+                        <input id="btnQuery" type="button" style="margin-top: 5px; margin-bottom: 0px;" class="btn btn-info" title="查询" value="查 询">
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <hr />
+        <table class="table table-bordered table-striped table-hover fill-head" id="ProcessTable">
+            <thead>
+                <tr>
+                    <th style="text-align: center">流程编号</th>
+                    <th style="text-align: center">案由</th>
+                    <th style="text-align: center">当前环节</th>
+                    <th style="text-align: center">当前处理人</th>
+                    <th style="text-align: center">操作</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>

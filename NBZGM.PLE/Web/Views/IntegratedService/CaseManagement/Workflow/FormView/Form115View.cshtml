@@ -1,0 +1,55 @@
+﻿@{
+    Taizhou.PLE.Model.CaseWorkflowModels.TotalForm wmCaseForm = ViewBag.TotalForm;
+    Taizhou.PLE.Model.CaseWorkflowModels.Form101 wmForm1 = wmCaseForm.Form101;
+    Taizhou.PLE.Model.CaseWorkflowModels.Form115 wmForm15 = wmCaseForm.Form115;
+}
+
+<div class="form">
+    <div class="title">
+        当事人意见反馈 
+    </div>
+    <table class="workflow" border="0" cellspacing="0" cellpadding="0" style="width: 700px; border-collapse: collapse; margin: 0 auto; margin-top: 20px;">
+        <tr>
+            <th colspan="2">当事人意见反馈</th>
+            <td colspan="9">
+                @Html.TextArea("fknr", wmForm15.FKNR, new { disabled = "disabled" })
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">当事人意见</th>
+            <td colspan="9">
+                <input type="radio" name="DSRYJ" value="0" dsryjname="放弃陈述申辩或听证" checked="true" />放弃陈述申辩或听证
+                    <input type="radio" name="DSRYJ" value="1" dsryjname="要求陈述申辩" />要求陈述申辩
+                    <input type="radio" name="DSRYJ" value="2" dsryjname="符合听证条件，当事人提出听证申请" />符合听证条件，当事人提出听证申请
+                @Html.Hidden("DSRYJID", 0)
+                @Html.Hidden("DSRYJName", "放弃陈述申辩或听证")
+            </td>
+        </tr>
+        <tr>
+            <th>处理人</th>
+            <td colspan="4">@Html.TextBox("clr", wmForm15.ProcessUser.UserName, new { disabled = "disabled" })</td>
+            <th colspan="2">处理时间</th>
+            <td colspan="4">@Html.TextBox("clsj", wmForm15.ProcessTime != null ? wmForm15.ProcessTime.Value.ToString("yyyy-MM-dd HH:mm:ss") : "", new { disabled = "disabled" })</td>
+        </tr>
+        <tr style="height: 0px; line-height: 0px;">
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="width: 92px; border: none; padding: 0px;"></td>
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="width: 72px; border: none; padding: 0px;"></td>
+            <td style="width: 52px; border: none; padding: 0px;"></td>
+            <td style="width: 52px; border: none; padding: 0px;"></td>
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="width: 42px; border: none; padding: 0px;"></td>
+            <td style="border: none; padding: 0px;">&nbsp;</td>
+        </tr>
+    </table>
+    <div class="clear"></div>
+</div>
+
+
+
+
+
+

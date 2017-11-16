@@ -1,0 +1,623 @@
+﻿@{
+    Layout = null;
+}
+@using ZGM.Model
+@using ZGM.Common
+@using ZGM.BLL.WORKFLOWManagerBLLs
+@using ZGM.BLL.UserBLLs
+@model ZGM.Model.GCGL_SIMPLES
+<!DOCTYPE html>
+
+<html>
+<head id="headcss">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>全部工程详情</title>
+    <link href="~/Content/css/OA.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <link href="/Scripts/assets/data-tables/demo_table.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/data-tables/DT_bootstrap.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/Scripts/assets/bootstrap/bootstrap.min.css" />
+    <script type="text/javascript" src="~/Scripts/jquery-1.7.1.js"></script>
+    <script type="text/javascript" src="~/Scripts/assets/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/js/jquery.idTabs.min.js"></script>
+    <script src="~/Scripts/assets/lodop/LodopFuncs.js"></script>
+
+    <script type="text/javascript" src="~/Scripts/js/PageNotBack.js"></script>
+    <link href="~/Scripts/layer/skin/layer.css" rel="stylesheet" />
+    <link href="/Scripts/layer/skin/seaning/style.css" rel="stylesheet" />
+    <script src="~/Scripts/layer/layer.js"></script>
+    <script type="text/javascript">
+        layer.config({
+            skin: 'layer-ext-seaning',
+            offset: ['100px', '33%'],
+            title: '提示',
+            moveOut: true,
+            closeBtn: false,
+            extend: 'skin/seaning/style.css'
+        });
+
+        //后台回调js函数
+        function AddCallBack(flag) {
+            $("#silverlightControlHost").css("visibility", "hidden");
+            if (flag == 1) {
+                layer.alert("操作成功!", {
+                    icon: 1,
+                    skin: 'layer-ext-seaning'
+                }, function (index) {
+                    layer.close(index);
+                    location.href = "/GCGL/UnFinishList";
+                });
+            }
+            if (flag == 2) {
+                layer.alert("操作失败!", {
+                    icon: 0,
+                    skin: 'layer-ext-seaning'
+                }, function (index) {
+                    layer.close(index);
+                    location.href = "/GCGL/UnFinishList";
+                });
+            }
+        }
+    </script>
+    <style type="text/css">
+        .addfilebtn {
+            width: 40px;
+            height: 22px;
+            line-height: 22px;
+            display: inline-block;
+            margin-top: 6px;
+            color: rgb(255, 255, 255);
+            background: transparent url("/Images/images/btnbg1.png") repeat-x scroll 0% 0%;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 3px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .table th {
+            width: 170px;
+            text-align: center;
+            line-height: 30px;
+        }
+
+        .btn_ico_a_delete {
+            margin-left: -10px;
+        }
+        a, a:focus {
+            text-decoration: none;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="place" style="background-image: url(/Images/images/righttop.gif)">
+        <span>位置：</span>
+        <ul class="placeul">
+            <li><a href="/GCGL/FinishList">简易工程全部列表</a></li>
+            <li style="display:none;"><a href="/GCGL/UnFinishList">简易工程待办列表</a></li>
+            <li>简易工程详情</li>
+        </ul>
+    </div>
+    <div class="formbody">
+        <div style="margin-bottom: 10px">
+            <h6 style="font-size: 32px; text-align: center; margin-bottom: 20px; margin-top: 10px;">全部工程详情</h6>
+        </div>
+        <div id="usual1" class="usual">
+            <div class="itab">
+                <ul>
+                    <li><a href="#tab1" class="selected">工程基本信息</a></li>
+                    <li><a href="#tab2">历史记录</a></li>
+                </ul>
+            </div>
+            <div id="tab1" class="tabson">
+                <div>
+                    <table style="margin-bottom: 20px;" class="table table-bordered">
+                        <tr>
+                            <th>工程编号 </th>
+                            <td>
+                                <label class="lablestyle">@ViewBag.GCNUMBER</label>
+                            </td>
+                            <th>工程名称 </th>
+                            <td>
+                                <label class="lablestyle">@ViewBag.GCNAME</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>计划开工日期 </th>
+                            <td>
+                                <label class="lablestyle">@ViewBag.STARTTIME </label>
+                            </td>
+                            <th>计划竣工日期 </th>
+                            <td>
+                                <label class="lablestyle">@ViewBag.ENDTIME</label>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>工作计划 </th>
+                            <td>
+                                <label class="lablestyle">@ViewBag.WORKPLAN </label>
+                            </td>
+                            <th>预算资金 </th>
+                            <td>
+                                <label class="lablestyle">@ViewBag.MONEY</label>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>工程内容 </th>
+                            <td colspan="3">
+                                <label class="lablestyle">@ViewBag.CONTENT</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>地图位置 </th>
+                            <td colspan="3" class="form-group" id="ShowOrHide" style="margin-bottom: 5px;">
+                                <div class="col-sm-9 col-lg-10 controls">
+                                </div>
+                                @Html.HiddenFor(model => model.GEOMETRY, new { @name = "GEOMETRY", @id = "GEOMETRY", @Value = @ViewBag.GEOMETRY })
+                                <div class="form-group" style="width: 100%; height: 350px;">
+                                    <div id="silverlightControlHost" style="height: 340px;">
+                                        <object id="mapCtrl" data="data:application/x-silverlight-2," type="application/x-silverlight-2" height="100%" width="100%">
+                                            <param name="source" value="/ClientBin/MapCtrl.xap" />
+                                            <param name="background" value="white" />
+                                            <param name="minRuntimeVersion" value="5.0.61118.0" />
+                                            <param name="autoUpgrade" value="true" />
+                                            <param id="initParams" name="initParams" value="IsGoogleMap=false,MapUrl=@ZGM.Web.ConfigManager.MapUrl,X1=@ZGM.Web.ConfigManager.MapLonX1,Y1=@ZGM.Web.ConfigManager.MapLatY1,X2=@ZGM.Web.ConfigManager.MapLonX2,Y2=@ZGM.Web.ConfigManager.MapLatY2,Mode=1,PinUrl=./Images/pin.png,OffsetX=24,OffsetY=48,fileUrl=" />
+                                            <a href="http://go.microsoft.com/fwlink/?LinkID=149156&v=5.0.61118.0" style="text-decoration: none">
+                                                <img src="http://go.microsoft.com/fwlink/?LinkId=161376" alt="Get Microsoft Silverlight" style="border-style: none" />
+                                            </a>
+                                        </object>
+                                        <iframe id="_sl_historyFrame" style="visibility: hidden; height: 0px; width: 0px; border: 0px"></iframe>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th id="HiddenTD">工程附件</th>
+                        </tr>
+                    </table>
+
+                    <div style="clear: both"></div>
+                    <form method="post" enctype="multipart/form-data" action="/GCGL/ExamineCommit" target="hidden_frame">
+                        <div id="FinishAction" style="margin-top: 10px; width: 100%;" class="tabson">
+                            @if (ViewBag.WFDID != "20160922160010001")
+                            {
+                                <table class="table table-bordered" style="">
+                                    <tr>
+                                        <th>是否同意</th>
+                                        <td style="padding-left: 20px;">
+                                            <span id="agreespan">@Html.RadioButton("ISAGREE", 1, true, new { @onclick = "AgreeBtn();" }) 同意</span>
+                                            <span id="refusespan">@Html.RadioButton("ISAGREE", 2, new { @onclick = "RefuseBtn();" }) 不同意</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>审核意见</th>
+                                        <td style="padding-left: 20px;">
+                                            <textarea id="OPINION" name="OPINION" class="dtablefinputs" style="height: 96px; width: 95%;" placeholder="请输入审核意见"></textarea></td>
+                                    </tr>
+                                    <tr id="nextuserid">
+                                        <th>下一步审核人</th>
+                                        <td style="padding-left: 20px;">
+                                            @Html.DropDownList("SelectUserIds", ViewBag.userlist as IEnumerable<SelectListItem>, new { @class = "dfinputs", @style = "width:100px;border-radius:4px;" })
+                                        </td>
+                                    </tr>
+                                    <tr id="backupload">
+                                        <th>上传附件</th>
+                                        <td colspan="4" style="padding-left: 20px;">
+                                            <div id="showfile" style="float: left;">
+                                                <div id="AddAfterFile" class="addfilebtn" onclick="AddAfterFile();" style="float: left;">添加</div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            }
+
+                        </div>
+                        <div style="margin-top: 20px; margin-left: 5%;">
+                            @if (ViewBag.WFDID != "20160922160010001")
+                            {
+                                <input id="SaveBtn" type="submit" class="btn btn-success" value="办  理" />
+                            }
+                            else
+                            {
+                                <input type="button" class="btn btn-success" onclick="Cancel();" value="作  废" />
+                            }
+                            <input type="button" class="btn btn-success" onclick="goback();" value="返　回" />
+                            <input type="hidden" name="hidden-simpleid" value="@ViewBag.SimpleId" />
+                            <input type="hidden" id="hidden-wfdid" name="hidden-wfdid" value="@ViewBag.WFDID" />
+                            <input type="hidden" name="hidden-wfsid" value="@ViewBag.WFSID" />
+                            <input type="hidden" name="hidden-wfsaid" value="@ViewBag.WFSAID" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div id="tab2" class="tabson">
+                @{
+                    IList<WF_WORKFLOWSPECIFICACTIVITYS> list = (IList<WF_WORKFLOWSPECIFICACTIVITYS>)ViewBag.WFSAList;
+                    if (list != null)
+                    {
+                        list = list.ToList();
+                        List<GCGL_SIMPLEFILES> flist = (List<GCGL_SIMPLEFILES>)ViewBag.SEList;
+                        int fcount = flist.ToList().Count();
+                        int fj = 0;
+                        int count = list.Count();
+                        int countLast = count - 1;
+                        if (list != null && count > 0)
+                        {
+                            for (int i = 0; i < count; i++)
+                            {
+
+                                string WFDName = list[i].WF_WORKFLOWDETAILS.WFDNAME;
+                                if (i < count - 1 && decimal.Parse(list[i].WF_WORKFLOWDETAILS.WFDID) > decimal.Parse(list[i + 1].WF_WORKFLOWDETAILS.WFDID))
+                                {
+                                    WFDName += "退回";
+                                }
+                    <table style="margin-bottom: 20px" class="table table-bordered">
+                        @*  <tr>
+                            <th colspan="4">@WFDName</th>
+                        </tr>*@
+                        @{
+                                
+                                string WFSAID = list[i].WFSAID;
+
+                                List<WF_WORKFLOWSPECIFICUSERS> wfsuList = new WF_WORKFLOWSPECIFICUSERSBLL()
+                                    .GetList(WFSAID).ToList();
+
+                                WF_WORKFLOWSPECIFICUSERS wfsu = wfsuList
+                                    .Where(a => a.USERID == list[i].DEALUSERID).FirstOrDefault();
+                                int remark = 0;//处理期限
+                                string contentMes = "";
+                                string DealUserNama = "";//结案时的处理人
+                                SYS_USERS overmodel = UserBLL.GetUserByUserID(Convert.ToDecimal(list[i].DEALUSERID));
+                                if (overmodel != null)
+                                {
+                                    DealUserNama = overmodel.USERNAME;
+                                }
+                                DateTime dtOVer = DateTime.Now;
+                                SYS_USERS sysUser = new SYS_USERS();
+                                if (wfsu != null)
+                                {
+                                    int.TryParse(wfsu.REMARK, out remark);
+                                    contentMes = wfsu.CONTENT;
+                                    dtOVer = Convert.ToDateTime(list[i].DEALTIME);
+                                }
+                                //上报工程
+                                if (list[i].WFDID == "20160922160010001" && i == 0)
+                                {
+                            <tr>
+                                <th colspan="4">@WFDName</th>
+                            </tr>                        
+                            <tr>
+                                <th>上报人 </th>
+                                <td>
+                                    <label class="lablestyle">@DealUserNama</label>
+                                </td>
+                                <th>上报时间 </th>
+                                <td>
+                                    <label class="lablestyle">@dtOVer.ToString("yyyy-MM-dd HH:mm:ss")</label>
+                                </td>
+                            </tr>
+                            <tr id="HiddenInfo" style="display: none;">
+                                <td colspan="3">
+                                    @if (!string.IsNullOrEmpty(flist[fj].ATTRACHNAME) && fj < fcount)
+                                    {
+                                        string[] filestring = flist[fj].ATTRACHNAME.Split('|');
+                                        string[] filepath = flist[fj].ATTRACHPATH.Split('|');
+                                        for (var j = 0; j < filestring.Length; j++)
+                                        {
+                                        <div class="lablestyle"><a href='/DownFile/DownLoadOAWorkFlow?path=@System.Configuration.ConfigurationManager.AppSettings["SimpleEngineeringPath"].Replace("\\", "/")@filepath[j]&&fileName=@filestring[j]'>@filestring[j]</a></div>
+                                        }
+
+                                        fj++;
+                                    }
+                                    else
+                                    {
+                                        fj++;
+                                    }
+                                </td>
+                            </tr>                                   
+                                    
+                                }
+                                //科长审核
+                                if (list[i].WFDID == "20160922160010002")
+                                {<tr>
+                                    <th colspan="4">@WFDName</th>
+                                </tr>
+                            <tr>
+                                <th>审核人</th>
+                                <td>
+                                    <label class="lablestyle">@DealUserNama</label>
+                                </td>
+                                <th>审核时间 </th>
+                                <td>
+                                    <label class="lablestyle">@dtOVer.ToString("yyyy-MM-dd HH:mm:ss")</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>审核意见</th>
+                                <td colspan="3">
+                                    <label class="lablestyle">@contentMes</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>审核附件</th>
+                                <td colspan="3">
+                                    @if (!string.IsNullOrEmpty(flist[fj].ATTRACHNAME) && fj < fcount)
+                                    {
+                                        string[] filestring = flist[i].ATTRACHNAME.Split('|');
+                                        string[] filepath = flist[i].ATTRACHPATH.Split('|');
+                                        for (var j = 0; j < filestring.Length; j++)
+                                        {
+                                        <div class="lablestyle"><a href='/DownFile/DownLoadOAWorkFlow?path=@System.Configuration.ConfigurationManager.AppSettings["SimpleEngineeringPath"].Replace("\\", "/")@filepath[j]&&fileName=@filestring[j]'>@filestring[j]</a></div>
+                                        }
+                                        fj++;
+                                    }
+                                    else
+                                    {
+                                        fj++;
+                                    }
+                                </td>
+                            </tr>
+
+                                }
+                                //分管主任审核
+                                if (list[i].WFDID == "20160922160010003")
+                                {
+                            <tr>
+                                <th colspan="4">@WFDName</th>
+                            </tr>
+                            <tr>
+                                <th>审核人</th>
+                                <td>
+                                    <label class="lablestyle">@DealUserNama</label>
+                                </td>
+                                <th>审核时间 </th>
+                                <td>
+                                    <label class="lablestyle">@dtOVer.ToString("yyyy-MM-dd HH:mm:ss")</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>审核意见</th>
+                                <td colspan="3">
+                                    <label class="lablestyle">@contentMes</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>审核附件</th>
+                                <td colspan="3">
+                                    @if (!string.IsNullOrEmpty(flist[fj].ATTRACHNAME) && fj < fcount)
+                                    {
+                                        string[] filestring = flist[fj].ATTRACHNAME.Split('|');
+                                        string[] filepath = flist[fj].ATTRACHPATH.Split('|');
+                                        for (var j = 0; j < filestring.Length; j++)
+                                        {
+                                        <div class="lablestyle"><a href='/DownFile/DownLoadOAWorkFlow?path=@System.Configuration.ConfigurationManager.AppSettings["SimpleEngineeringPath"].Replace("\\", "/")@filepath[j]&&fileName=@filestring[j]'>@filestring[j]</a></div>
+                                        }
+                                        fj++;
+                                    }
+                                    else
+                                    {
+                                        fj++;
+                                    }
+                                </td>
+                            </tr>
+                                }
+                                //街道主任审核
+                                if (list[i].WFDID == "20160922160010004")
+                                {
+                            <tr>
+                                <th colspan="4">@WFDName</th>
+                            </tr>
+                            <tr>
+                                <th>审核人</th>
+                                <td>
+                                    <label class="lablestyle">@DealUserNama</label>
+                                </td>
+                                <th>审核时间 </th>
+                                <td>
+                                    <label class="lablestyle">@dtOVer.ToString("yyyy-MM-dd HH:mm:ss")</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>审核意见</th>
+                                <td colspan="3">
+                                    <label class="lablestyle">@contentMes</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>审核附件</th>
+                                <td colspan="3">
+                                    @if (!string.IsNullOrEmpty(flist[fj].ATTRACHNAME) && fj < fcount)
+                                    {
+                                        string[] filestring = flist[fj].ATTRACHNAME.Split('|');
+                                        string[] filepath = flist[fj].ATTRACHPATH.Split('|');
+                                        for (var j = 0; j < filestring.Length; j++)
+                                        {
+                                        <div class="lablestyle"><a href='/DownFile/DownLoadOAWorkFlow?path=@System.Configuration.ConfigurationManager.AppSettings["SimpleEngineeringPath"].Replace("\\", "/")@filepath[j]&&fileName=@filestring[j]'>@filestring[j]</a></div>
+                                        }
+                                        fj++;
+                                    }
+                                    else
+                                    {
+                                        fj++;
+                                    }
+                                </td>
+                            </tr>                       
+                                }
+                                //工程完结
+                                if (list[i].WFDID == "20160922160010005")
+                                {
+                            <tr>
+                                <th colspan="4">@WFDName</th>
+                            </tr>
+                            <tr>
+                                <th>完结人</th>
+                                <td>
+                                    <label class="lablestyle">@DealUserNama</label>
+                                </td>
+                                <th>完结时间 </th>
+                                <td>
+                                    <label class="lablestyle">@list[i].DEALTIME.Value.ToString("yyyy-MM-dd HH:mm:ss")</label>
+                                </td>
+                            </tr>
+                                }
+                                //工程作废
+                                if (list[i].WFDID == "20160922160010006")
+                                {
+                            <tr>
+                                <th colspan="4">@WFDName</th>
+                            </tr>
+                            <tr>
+                                <th>作废人</th>
+                                <td>
+                                    <label class="lablestyle">@DealUserNama</label>
+                                </td>
+                                <th>作废时间 </th>
+                                <td>
+                                    <label class="lablestyle">@list[i].DEALTIME.Value.ToString("yyyy-MM-dd HH:mm:ss")</label>
+                                </td>
+                            </tr>
+                                }
+                        }
+                    </table>
+                            }
+                        }
+                    }
+                }
+            </div>
+        </div>
+
+
+
+
+    </div>
+    <iframe name='hidden_frame' id="hidden_frame" style="display: none"></iframe>
+
+    <script type="text/javascript">
+        $("#usual1 ul").idTabs();
+        var str = window.location.href.split("PageType=")[1];
+        if (str == "1")
+        {
+            $(".placeul li:eq(0)").hide();
+            $("#FinishAction,#SaveBtn,.placeul li:eq(1)").show();            
+        }
+        if (str == "2")
+            $("#FinishAction,#SaveBtn").hide();
+        $("#HiddenTD").after($("#HiddenInfo").html());
+        function mapInited() {
+            setTimeout(function () {
+                var mapCtrl = document.getElementById("mapCtrl").content.MapCtrl;
+                var Geometry = $("#GEOMETRY").val();
+                mapCtrl.AddPolygon("Green", Geometry);
+            }, 1000)
+        }
+        $(document).ready(function () {
+            var wfdidval = $("#hidden-wfdid").val();
+            if (wfdidval == "20160922160010003") {
+                document.getElementById("OPINION").innerHTML = "拟同意,报主任审批";
+            }
+            else {
+                document.getElementById("OPINION").innerHTML = "同意";
+            }
+            if (wfdidval == "20160922160010004")
+                $("#nextuserid").hide();
+            if (wfdidval == "20160922160010001")
+                $("#refusespan").hide();
+        })
+        function mapDraw(s) {
+            var a = $("#GEOMETRY").val();
+            a = s;
+            $("#GEOMETRY").val(a);
+        }
+
+        function mapClear() {
+            var a = "";
+            $("#GEOMETRY").val(a);
+        }
+
+        function goback() {
+            var str = window.location.href.split("PageType=")[1];
+            if (str == "1")
+                location.href = '/GCGL/UnFinishList';
+            if (str == "2")
+                location.href = '/GCGL/FinishList';
+        }
+
+        //添加审核文件
+        function AddAfterFile() {
+            $("#AddAfterFile").after("<div><input name='AddFile" + Math.random(10000, 99999) + "' type='file'  value='' /><b style='cursor:pointer;color:black;' onclick='DeleteFile(this);'>删除</b></div>");
+        }
+
+        //删除审核文件
+        function DeleteFile(obj) {
+            $(obj).parent().remove();
+        }
+
+        //同意按钮
+        function AgreeBtn() {
+            $("#nextuserid,#backupload").show();
+            var wfdidval = $("#hidden-wfdid").val();
+            if (wfdidval == "20160922160010003") {
+                document.getElementById("OPINION").innerHTML = "拟同意,报主任审批";
+            }
+            else {
+                document.getElementById("OPINION").innerHTML = "同意";
+            }
+            if (wfdidval == "20160922160010004")
+                $("#nextuserid").hide();
+            if (wfdidval == "20160922160010001")
+                $("#refusespan").hide();
+        }
+
+        //不同意按钮
+        function RefuseBtn() {
+            $("#nextuserid,#backupload").hide();
+            document.getElementById("OPINION").innerHTML = "不同意";
+        }
+        //审核作废
+        function Cancel() {
+            $("#silverlightControlHost").css("visibility", "hidden");
+            layer.confirm("是否作废？", {
+                btn: ['是', '否'],
+                icon: 4,
+            }, function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/GCGL/CancelSimpleGC",
+                    data: {
+                        SimpleId: $("input[name='hidden-simpleid']").val(),
+                        WFDID: $("input[name='hidden-wfdid']").val(),
+                        WFSID: $("input[name='hidden-wfsid']").val(),
+                        WFSAID: $("input[name='hidden-wfsaid']").val()
+                    },
+                    success: function (data) {
+                        if (data == "操作成功") {
+                            layer.alert(data, {
+                                icon: 1,
+                                skin: 'layer-ext-seaning'
+                            }, function (index) {
+                                layer.close(index);
+                                location.href = "/GCGL/UnFinishList";
+                            });
+                        } else {
+                            layer.alert(data, {
+                                icon: 0,
+                                skin: 'layer-ext-seaning'
+                            }, function (index) {
+                                layer.close(index);
+                            });
+                        }
+                    }
+                });
+            }, function () {
+                layer.close();
+                $("#silverlightControlHost").css("visibility", "inherit");
+            });
+        }
+    </script>
+</body>
+</html>
