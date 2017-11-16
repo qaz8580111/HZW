@@ -1,0 +1,440 @@
+﻿/*菜单栏面板*/
+.menuPanel {
+    background: #0c1b2b;
+    border: 2px solid #145ff9;
+}
+
+.Panelbg {
+    width: 100%;
+    height: 100%;
+    background-color: #0c1b2b;
+}
+
+/*边角样式*/
+.topleftcorner {
+    width: 8px;
+    height: 8px;
+    position: absolute;
+    left: -2px;
+    top: -2px;
+    background-image: url(../Image/border.png);
+}
+
+.toprightcorner {
+    width: 8px;
+    height: 8px;
+    position: absolute;
+    right: -2px;
+    top: -2px;
+    background-image: url(../Image/border.png);
+    transform: rotateZ(90deg);
+}
+
+.bottomleftcorner {
+    width: 8px;
+    height: 8px;
+    position: absolute;
+    left: -2px;
+    bottom: -2px;
+    background-image: url(../Image/border.png);
+    transform: rotateZ(-90deg);
+}
+
+.bottomrightcorner {
+    width: 8px;
+    height: 8px;
+    position: absolute;
+    right: -2px;
+    bottom: -2px;
+    background-image: url(../Image/border.png);
+    transform: rotateZ(180deg);
+}
+
+/*菜单栏面板顶部标题样式*/
+.menuPanelMagin {
+    width: 230px;
+    left: 5px;
+    right: 5px;
+    text-align: center;
+    color: white;
+    position: absolute;
+}
+/*Icon图标*/
+.Panel_Icon {
+    width: 14px;
+    height: 14px;
+    position: absolute;
+    left: 2px;
+    top: 4px;
+}
+    /*沿街店家*/
+    .Panel_Icon.yjdj {
+        background-image: url(../Image/ejectIco/01x14.png);
+        top:6px;
+    }
+    /*案件*/
+    .Panel_Icon.aj {
+        background-image: url(../Image/ejectIco/02x14.png);
+    }
+    /*监控*/
+    .Panel_Icon.jk {
+        background-image: url(../Image/ejectIco/03x14.png);
+    }
+    /*户外广告*/
+    .Panel_Icon.hwgg {
+        background-image: url(../Image/ejectIco/04x14.png);
+    }
+    /*无人机*/
+    .Panel_Icon.wrj {
+        background-image: url(../Image/ejectIco/05x14.png);
+    }
+    /*感知设备*/
+    .Panel_Icon.gzsb {
+        background-image: url(../Image/ejectIco/06x14.png);
+    }
+    /*人员车辆*/
+    .Panel_Icon.rycl {
+        background-image: url(../Image/ejectIco/renche.png);
+    }
+    /*车辆*/
+    .Panel_Icon.cl {
+        background-image: url(../Image/ejectIco/07x14.png);
+    }
+    /*部件*/
+    .Panel_Icon.bj {
+        background-image: url(../Image/ejectIco/08x14.png);
+    }
+    /*人员*/
+    .Panel_Icon.ry {
+        background-image: url(../Image/ejectIco/ry.png);
+    }
+/*主标题样式*/
+.menucenterTitle {
+    position: absolute;
+    left: 0px;
+    top: 5px;
+    width: 230px;
+    height: 25px;
+    text-align: center;
+    color: white;
+    font-size: 14px;
+    font-family: "Microsoft Yahei", "微软雅黑", "宋体", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+/*最小化*/
+.rightminimize {
+    width: 14px;
+    height: 14px;
+    position: absolute;
+    cursor: pointer;
+    color: white;
+    position: absolute;
+    right: 20px;
+    top: 3px;
+}
+
+    .rightminimize:hover {
+        background-image: url(../Image/minimizebg.png);
+        background-repeat: no-repeat;
+    }
+
+    .rightminimize.content {
+        background-image: url(../Image/minimize.png);
+        background-repeat: no-repeat;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        right: -2px;
+        background-size: 8px 8px;
+        background-position-x: 1px;
+    }
+/*关闭*/
+.rightClose {
+    width: 14px;
+    height: 14px;
+    position: absolute;
+    cursor: pointer;
+    color: white;
+    right: 5px;
+    top: 3px;
+}
+
+    .rightClose:hover {
+        background-image: url(../Image/closebg.png);
+        background-repeat: no-repeat;
+    }
+
+    .rightClose.content {
+        background-image: url(../Image/close.png);
+        background-repeat: no-repeat;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        right: -3px;
+        background-size: 8px 8px;
+    }
+/*分割线*/
+.splitline {
+    width: 220px;
+    position: absolute;
+    top: 30px;
+    height: 0.8px;
+    background-color: white;
+}
+/*中间内容部分*/
+.data_list_content {
+    width: 230px;
+    height: 265px;
+    position: absolute;
+    top: 65px;
+}
+
+    .data_list_content table {
+        width: 95%;
+        text-align: left;
+        font-family: "Microsoft Yahei", "微软雅黑", "宋体", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        border-collapse: collapse;
+    }
+
+        .data_list_content table thead tr td {
+            font-size: 13px;
+        }
+
+        .data_list_content table tbody tr {
+            height: 21px;
+        }
+
+            .data_list_content table tbody tr:nth-child(odd) {
+                background: #0C1F3E;
+            }
+
+            .data_list_content table tbody tr:hover {
+                background-color: #294F84;
+                cursor: pointer;
+            }
+
+            .data_list_content table tbody tr td {
+                font-size: 12px;
+            }
+
+
+/*详情面板*/
+.DelitsPanel {
+    background: #0c1b2b;
+    border: 2px solid #145ff9;
+}
+.myaddreamrk {
+    font-size:12px;
+    background-color:#0c1b2b;
+}
+.delitsContent {
+    width:calc(100% - 50px);
+    height:75%;
+    margin:25px 0px 0px 25px;
+    overflow:auto;
+}
+    .delitsContent table {
+         color: white;
+         font-size: 12px;
+         width:100%;
+    }
+        .delitsContent table tr td radio {
+             cursor: pointer;
+        }
+
+    .delitsContent div {
+        font-size:12px;
+        color:white;
+        line-height:23px;
+    }
+
+.btn_sure {
+    float: right;
+    background: -webkit-linear-gradient(#0A8AAE, #0A3C44); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(#0A8AAE, #0A3C44); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(#0A8AAE, #0A3C44); /* Firefox 3.6 - 15 */
+    background: linear-gradient(#0A8AAE, #0A3C44); /* 标准的语法 */
+    border: 1px solid #0A506E;
+    margin-right: 10px;
+    color: white;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.detailstableshow tr td {
+    font-size: 12px;
+    color: white;
+    padding-left: 20px;
+}
+
+.detailstableshow tr {
+    height: 20px;
+}
+
+    .detailstableshow tr td:nth-child(odd) {
+        color: #4286B7;
+    }
+
+    .detailstableshow tr td a {
+        margin-bottom: 1px;
+    }
+
+        .detailstableshow tr td a:hover {
+            text-decoration: underline;
+        }
+
+.fileImageSize {
+    width: 40px;
+    height: 40px;
+}
+
+.imgPhotoSize {
+    width: 80px;
+    height: 80px;
+    margin-left:5px;
+}
+
+.imgPhotoSizeDetails{
+    width:100%;
+    height:97%;
+}
+
+.Delits_Bottom {
+    position: absolute;
+    width: 100%;
+    height: 20px;
+    bottom: 10px;
+}
+
+/*概要面板*/
+.outline {
+    background: #0c1b2b;
+    border: 2px solid #145ff9;
+}
+
+.outlinebottomIcon {
+    position: absolute;
+    bottom: 5px;
+    margin-left: 5px;
+    width: 200px;
+    height: 16px;
+    cursor: pointer;
+}
+
+    .outlinebottomIcon img {
+        margin-left: 3px;
+    }
+
+.outlinetitle {
+    position: absolute;
+    top: 2px;
+    left: 17px;
+    color: #fff;
+    font-size: 14px;
+    width: 87%;
+    height: 20px;
+    text-align: left;
+    font-family: "Microsoft Yahei", "微软雅黑", "宋体", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.outlinetitletable {
+    position: absolute;
+    top: 30px;
+    left: 10px;
+    font-size: 12px;
+    color: white;
+    font-family: "Microsoft Yahei", "微软雅黑", "宋体", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.outlinetitletable img{
+    width:80px;
+    height:70px;
+}
+    .outlinetitletable tr td:nth-child(odd) {
+        color: #3E7FAF;
+    }
+
+    .outlinetitletable tr td:nth-child(even) {
+        color: #fff;
+    }
+
+.status {
+    width: 16px;
+    height: 16px;
+}
+    /*在线*/
+    .status.online {
+        background-image: url(../Image/03x16.png);
+    }
+    /*离线*/
+    .status.level {
+        background-image: url(../Image/04x16.png);
+    }
+
+.loading {
+    width: 70px;
+    height: 45px;
+    position: absolute;
+    top: 80px;
+    left: 33%;
+    display: none;
+}
+
+    .loading img {
+        width: 25px;
+        height: 25px;
+    }
+
+    .loading span {
+        font-size: 9px;
+    }
+
+.touchbarPanel {
+    width: 450px;
+    height: 40px;
+    position: absolute;
+    bottom: 200px;
+    right: 0px;
+    background-color: #0A1C26;
+    border: 2px solid #145FF9;
+}
+    .touchbarPanel img {
+        margin-left:12px;
+    }
+        .touchbarPanel img:hover {
+            cursor:pointer;
+        }
+
+.device{
+    width:10px;
+    height:10px;
+    border-radius:10px;
+}
+.device.green{
+    background-color:#20EE42;
+}
+
+.device.yellow{
+    background-color:#F0E116;
+}
+
+.device.red{
+    background-color:#F3462F;
+}
+.devicegreen{
+    width:10px;
+    height:10px;
+    border-radius:10px;
+    background-color:#20EE42;
+}
+
+.deviceyellow{
+    width:10px;
+    height:10px;
+    border-radius:10px;
+    background-color:#F0E116;
+}
+.devicered{
+    width:10px;
+    height:10px;
+    border-radius:10px;
+    background-color:#F3462F;
+}

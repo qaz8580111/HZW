@@ -1,0 +1,11 @@
+﻿.cameraAreatable{
+    width:100%;
+
+}
+.cameraAreatable tr td{
+    border:0px;
+}
+.cameraAreatable tr:hover{
+    cursor:pointer;
+    background-color:#294F84;
+}

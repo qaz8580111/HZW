@@ -1,0 +1,94 @@
+﻿
+body {
+	background: #032e61;
+	font-size: 12px;
+}
+
+.title {
+	width: 574px;
+	height: 32px;
+	position: absolute;
+	right: -32%;
+    top: -15%;
+}
+
+.login_center {
+	width: 547px;
+	height: 289px;
+	background: url(/Images/login_bg.png) no-repeat;
+	position: fixed;
+	top: 18%;
+	left: 30%;
+}
+
+.login_p {
+	position: absolute;
+	top: 80px;
+	left: 225px;
+	width: 240px;
+}
+
+	.login_p p {
+		margin-top: 12px;
+		float: left;
+	}
+
+		.login_p p label {
+			border: 1px solid #2e8cca;
+			line-height: 29px;
+			font-size: 12px;
+			color: #95dbff;
+			float: left;
+			width: 60px;
+			background: #146696;
+			text-align: center;
+			border-radius: 5px 0 0 5px;
+		}
+
+	.login_p .login_text {
+		color: #EEEEEE;
+		border: 1px solid #2e8cca;
+		height: 27px;
+		background: #2094c5;
+		border-radius: 0 5px 5px 0;
+		width: 160px;
+	}
+
+
+.login_m {
+	position: absolute;
+	left: 255px;
+	bottom: 48px;
+}
+
+.login_footer {
+	position: absolute;
+	left: 2%;
+	bottom: 0px;
+	color: #FFF;
+}
+
+.login_submitok, .login_submit {
+	background: url(/Images/login_btn_bg.png) no-repeat;
+	border: 0 none;
+	color: #fff;
+	cursor: pointer;
+	display: inline-block;
+	font-size: 12px;
+	height: 30px;
+	overflow: hidden;
+	width: 81px;
+}
+
+.login_submit {
+	background-position: 0 -30px;
+}
+a:link {
+text-decoration:underline;
+color:white;
+}
+a:hover {
+    color:red;
+    text-decoration:none;
+}
+

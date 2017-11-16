@@ -1,0 +1,2389 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link rel='icon' href='Image/faviconico.ico' type='image/x-ico' />
+    <style type="text/css">
+        @import url(../Css/Main.css);
+        @import url(../Css/Panel.css);
+        @import url(../Css/Bottom.css);
+        @import url(../Css/goodPager.css);
+        @import url(../Css/searchbutton.css);
+        @import url(../Css/CameraPanel.css);
+        @import url(../Css/TreeClass.css);
+        @import url(../Css/cameraforArea.css);
+        @import url(../Scripts/2DMap/css/2dMap.css);
+    </style>
+    <link href="Css/bootstrap.css" rel="stylesheet" />
+    <link href="Scripts/Tree/css/bootstrap-treeview.css" rel="stylesheet" />
+    <link href="Scripts/2DMap/css/ol.css" rel="stylesheet" />
+    <link href="Scripts/2DMap/css/popup.css" rel="stylesheet" />
+    <script src="Scripts/configs.js"></script>
+    <script src="Scripts/jquery-3.0.0.js"></script>
+    <script src="Scripts/jquery.rotate.min.js"></script>
+    <script src="Scripts/jsScrool/jquery.nicescroll.js"></script>
+    <script src="Scripts/Tree/bootstrap-treeview.js"></script>
+    <script src="Scripts/2DMap/bootstrap.min.js"></script>
+    <script src="Scripts/2DMap/ol.js"></script>
+    <script src="Scripts/Index/getTimes.js"></script>
+    <script src="Scripts/Index/Main.js"></script>
+    <script src="Scripts/echarts/echarts.js"></script>
+    <script src="Scripts/css3-mediaqueries.js"></script>
+    <script src="Scripts/html5.js"></script>
+    <script src="Scripts/Map/cm7.js"></script>
+    <script src="Scripts/Map/cm7_sample_util.js"></script>
+    <script src="Scripts/Map/initMap.js"></script>
+    <script src="Scripts/number/jquery.animateNumber.min.js"></script>
+    <script src="Scripts/Particles/canvas-particle.js"></script>
+    <script src="Scripts/Pager/goodPage.js"></script>
+    <script src="Scripts/Index/drogMove.js"></script>
+    <script src="Scripts/bottom/bj/assemblyunit.js"></script>
+    <script src="Scripts/bottom/yjdj/yjdjcount.js"></script>
+    <script src="Scripts/bottom/hwgg/hwggbestnew.js"></script>
+    <script src="Scripts/bottom/hwgg/hwggpastdue.js"></script>
+    <script src="Scripts/bottom/hwgg/daoqiguanggao.js"></script>
+    <script src="Scripts/bottom/aj/ajtable.js"></script>
+    <script src="Scripts/bottom/rycl/UserTypeTable.js"></script>
+    <script src="Scripts/bottom/gzsb/gzsbbottom.js"></script>
+    <script type="text/javascript">
+        //$(function () {
+        //    var getcookie = document.cookie;
+        //    if (getcookie) {
+        //        var userName = getcookie.split(';')[1].split('=')[1];
+        //        $("#userName").text(decodeURI(userName));
+        //    } else {
+        //        resetlogin();
+        //    }
+        //});
+
+        //function resetlogin() {
+        //    document.cookie = null;
+        //    location.href = config.WebManagerUrl;
+        //}
+        $(document).ready(function () {
+            var obj = document.getElementById("jkscroll");
+            showScrool(obj);
+            hideNicescroll(obj);
+            loadtab();
+            hideAllBottom();
+            document.getElementById("syContent").style.visibility = "visible";
+            daoqiguanggao(config.WebApi + configajaxurl.huwaiguanggaopastdue);
+            getcaseLegend(config.WebApi + configajaxurl.caseLineLegend);
+            getcaseLine(config.WebApi + configajaxurl.caseLineData);
+            inityjdjLegend(config.WebApi + configajaxurl.caseLineLegend);
+            inityjdjdata(config.WebApi + configajaxurl.caseforstreet);
+        });
+        function loadtab() {
+            var tabs = document.getElementById("hexagonMenu").getElementsByTagName("li");
+            hexagonMenuChange(tabs);
+            var config = {
+                vx: 4,
+                vy: 4,
+                height: 2,
+                width: 2,
+                count: 100,
+                color: "121, 162, 185",
+                stroke: "100,200,180",
+                dist: 6000,
+                e_dist: 20000,
+                max_conn: 10
+            }
+            CanvasParticle(config);
+        }
+        //六边形菜单切换
+        function hexagonMenuChange(tabs) {
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].onclick = function () { tabChanges(this); }
+            }
+            function tabChanges(any) {
+                for (var i = 0; i < tabs.length; i++) {
+                    $(tabs[i]).addClass("bottomImgUp_selected");
+                    if (tabs[i] == any) {
+                        hideAllBottom();
+                        if (tabs[i].tabIndex == 1) {
+                            document.getElementById("syContent").style.visibility = "visible";
+                            daoqiguanggao(config.WebApi + configajaxurl.huwaiguanggaopastdue);
+                            getcaseLegend(config.WebApi + configajaxurl.caseLineLegend);
+                            getcaseLine(config.WebApi + configajaxurl.caseLineData);
+                            inityjdjLegend(config.WebApi + configajaxurl.caseLineLegend);
+                            inityjdjdata(config.WebApi + configajaxurl.caseforstreet);
+                        }
+                        if (tabs[i].tabIndex == 2) {
+                            document.getElementById("yjdjContent").style.visibility = "visible";
+                            showDelitsPanel(430, 250, configtype.yanjiedianjiaIcon, "沿街店家", configtype.yanjiedianjia);
+                            getyjdjpiedata(config.WebApi + configajaxurl.shopsalongthepiedata);
+                            yjdjcount(config.WebApi + configajaxurl.shopsalongtheStreetcount);
+                            inityjdjLegend(config.WebApi + configajaxurl.caseLineLegend);
+                            inityjdjdata(config.WebApi + configajaxurl.caseforstreet);
+                        }
+                        if (tabs[i].tabIndex == 3) {
+                            document.getElementById("ajContent").style.visibility = "visible";
+                            showDelitsPanel(430, 250, configtype.anjianIcon, "案件来源", configtype.anjian);
+                            getajtable(config.WebApi + configajaxurl.casefour);
+                            getcaseLegend(config.WebApi + configajaxurl.caseLineLegend);
+                            getcaseLine(config.WebApi + configajaxurl.caseLineData);
+                            casebarLegend(config.WebApi + configajaxurl.casebarLegend);
+                            casebardata(config.WebApi + configajaxurl.casebardata);
+                        }
+                        if (tabs[i].tabIndex == 4) {
+                            document.getElementById("jkContent").style.visibility = "visible";
+
+                            showmenuPanel("监控抢机列表", "监控树", config.WebApi + configajaxurl.cameraTreeData, config.WebApi + configajaxurl.cameraPage, 1, config.pageSize, configtype.jiankongIcon, configtype.jiankong, 0);
+                            getjkhisgramsName(config.WebApi + configajaxurl.cameraregionName);
+                            getjkhisgrams(config.WebApi + configajaxurl.cameraregionValue);
+                            getCameraGrid(config.WebApi + configajaxurl.cameraGridData);
+                            var obj1 = document.getElementById("treeCameraScroll");
+                            showNicescroll(obj1);
+                            var obj2 = document.getElementById("jkscroll");
+                            showNicescroll(obj2);
+                            getcameracount(config.WebApi + configajaxurl.cameraTypeCount);
+                            cameraPieData(config.WebApi + configajaxurl.cameraPieData);
+                        }
+                        if (tabs[i].tabIndex == 5) {
+                            document.getElementById("hwggContent").style.visibility = "visible";
+                            showDelitsPanel(430, 250, configtype.huwaiguanggaoIcon, "户外广告", configtype.huwaiguanggao);
+                            gethwggcount(config.WebApi + configajaxurl.huwaiguanggaocount);
+                            gethwggtypebypie(config.WebApi + configajaxurl.huwaiguanggaotypepie);
+                            gethwggbestnew(config.WebApi + configajaxurl.huwaiguanggaobestnew);
+                            hwggpastdue(config.WebApi + configajaxurl.huwaiguanggaopastdue);
+                        }
+                        if (tabs[i].tabIndex == 6) {
+                            document.getElementById("wrjContent").style.visibility = "visible";
+                            showmenuPanel("无人机列表", "无人机名称", config.WebApi + configajaxurl.wrjlist, config.WebApi + configajaxurl.wrjlistPage, 1, config.pageSize, configtype.wurenjiIcon, configtype.wurenji, 0);
+                        }
+                        if (tabs[i].tabIndex == 7) {
+                            document.getElementById("gzsbContent").style.visibility = "visible";
+                            showDelitsPanel(450, 250, configtype.ganzhishebeiIcon, "感知设备类型", configtype.ganzhishebei);
+                            getcenterDevice(config.WebApi + configajaxurl.DevicetypeList);
+                            getDeviceRight(config.WebApi + configajaxurl.DeviceTableData);
+                            getDeviceNumber(config.WebApi + configajaxurl.DeviceNumber);
+                        }
+                        if (tabs[i].tabIndex == 8) {
+                            document.getElementById("ryclContent").style.visibility = "visible";
+                            showDelitsPanel(360, 190, configtype.renyuancheliangIcon, "人员车辆", configtype.renyuancheliang);
+                            getusertypeTable(config.WebApi + configajaxurl.userTypetable);
+                            UpdatePeopleCount(config.WebApi + configajaxurl.TodatePeopleCount);
+                        }
+                        if (tabs[i].tabIndex == 9) {
+                            document.getElementById("bjContent").style.visibility = "visible";
+                            assemblyunit(config.WebApi + configajaxurl.assemblyunitbottom);
+                            showDelitsPanel(430, 250, configtype.bujianIcon, "部件", configtype.bujian);
+                            var obj = document.getElementById("delitsContent");
+                            showNicescroll(obj);
+                        }
+                    } else if (i % 2 == 0) {
+                        tabs[i].className = "bottomImgUp bottomImgDown";
+                    } else {
+                        tabs[i].className = "bottomImgUp";
+                    }
+                }
+            }
+        }
+
+        //隐藏所有底部内容
+        function hideAllBottom() {
+            hideImgPanelDetails();
+            document.getElementById("syContent").style.visibility = "hidden";
+            document.getElementById("yjdjContent").style.visibility = "hidden";
+            document.getElementById("jkContent").style.visibility = "hidden";
+            document.getElementById("hwggContent").style.visibility = "hidden";
+            document.getElementById("ajContent").style.visibility = "hidden";
+            document.getElementById("wrjContent").style.visibility = "hidden";
+            document.getElementById("gzsbContent").style.visibility = "hidden";
+            document.getElementById("ryclContent").style.visibility = "hidden";
+            document.getElementById("bjContent").style.visibility = "hidden";
+            var obj = document.getElementById("jkscroll");
+            hideNicescroll(obj);
+            var obj1 = document.getElementById("delitsContent");
+            hideNicescroll(obj1);
+            clearMulch();
+        }
+
+        //显示菜单面板
+        function showmenuPanel(title, titleArray, ajaxurl, ajaxurlPage, pageIndex, pageSize, clsName, type, radioval) {
+            hidemenuPanel();
+            hideoutline();
+            hideDelitsPanel();
+            showmenu(clsName, title, titleArray);
+            $("#menuAjaxUrl").val(ajaxurl);
+            $("#menuAjaxUrlPage").val(ajaxurlPage);
+            $("#radiovals").val(radioval);
+            $("#configtypes").val(type);
+            $("#clsName").val(clsName);
+            var searchpanelhtml = "<input type='search' id='searchtext' placeholder='请输入关键词搜索' /><button onclick='search(\"" + type + "\")'>搜索</button>";
+            $("#searchpanel").html(searchpanelhtml);
+            if (type == configtype.jiankong) {
+                $(".page").hide();
+            } else {
+                $(".page").show();
+                getDataPageCount(ajaxurlPage, pageSize, null, type, radioval);
+            }
+            getMenuData(ajaxurl, pageIndex, pageSize, type, clsName, null, radioval);
+        }
+
+        //回调页面PageIndex
+        function ajaxData() {
+            var p = $("#thisPageIndex").val();
+            var pageSize = config.pageSize;
+            var ajaxurl = $("#menuAjaxUrl").val();
+            var searchKey = $("#searchtext").val();
+            var typeval = $("#radiovals").val();
+            var type = $("#configtypes").val();
+            var clsName = $("#clsName").val();
+            getMenuData(ajaxurl, p, pageSize, type, clsName, searchKey, typeval);
+        }
+
+        //获取菜单栏数据
+        function getMenuData(ajaxurl, pageIndex, pageSize, type, clsName, searchKey, radioval) {
+            $("#menutable").hide();
+            $(".loading").show();
+            var url;
+            if (type == configtype.renyuan) {
+                if (searchKey != null) {
+                    url = ajaxurl + "?filter=" + searchKey + "&pageIndex=" + pageIndex + "&pageSize=" + pageSize + "";
+                } else {
+                    url = ajaxurl + "?filter=&pageIndex=" + pageIndex + "&pageSize=" + pageSize + "";
+                }
+            }
+            if (type == configtype.yanjiedianjia) {
+                if (searchKey != null) {
+                    url = ajaxurl + "?name=" + searchKey + "&type=" + radioval + "&start=" + pageIndex + "&limit=" + pageSize + "";
+                } else {
+                    url = ajaxurl + "?type=" + radioval + "&start=" + pageIndex + "&limit=" + pageSize + "";
+                }
+            }
+            if (type == configtype.huwaiguanggao) {
+                if (searchKey != null) {
+                    url = ajaxurl + "?name=" + searchKey + "&type=" + radioval + "&start=" + pageIndex + "&limit=" + pageSize + "";
+                } else {
+                    url = ajaxurl + "?type=" + radioval + "&start=" + pageIndex + "&limit=" + pageSize + "";
+                }
+            }
+            if (type == configtype.jiankong) {
+                if (searchKey != null) {
+                    url = ajaxurl + "?name=" + searchKey;
+                } else {
+                    url = ajaxurl + "?name=";
+                }
+            }
+            if (type == configtype.bujian) {
+                if (searchKey != null) {
+                    url = ajaxurl + "?filterName=" + searchKey + "&gslx_type=" + radioval + "&pagesize=" + pageSize + "&pageindex=" + pageIndex;
+                } else {
+                    url = ajaxurl + "?filterName=&gslx_type=" + radioval + "&pagesize=" + pageSize + "&pageindex=" + pageIndex;
+                }
+            }
+            if (type == configtype.anjian) {
+                if (searchKey != null) {
+                    url = ajaxurl + "?caseSourceId=" + radioval + "&filterName=" + searchKey + "&pageindex=" + pageIndex + "&pageSize=" + pageSize;
+                } else {
+                    url = ajaxurl + "?caseSourceId=" + radioval + "&filterName=&pageindex=" + pageIndex + "&pageSize=" + pageSize;
+                }
+            }
+            if (type == configtype.wurenji) {
+                $("#treeCamera").children().remove();
+                if (searchKey != null) {
+                    url = ajaxurl + "?filter=" + searchKey + "&pageIndex=" + pageIndex + "&pageSize=" + pageSize;
+                } else {
+                    url = ajaxurl + "?filter=&pageindex=" + pageIndex + "&pageSize=" + pageSize;
+                }
+            }
+            if (type == configtype.ganzhishebei) {
+                if (searchKey != null) {
+                    url = ajaxurl + "?projectid=" + radioval + "&msgid=" + searchKey + "&flag=" + searchKey + "&start=" + pageIndex + "&limit=" + pageSize;
+                } else {
+                    url = ajaxurl + "?projectid=" + radioval + "&start=" + pageIndex + "&limit=" + pageSize;
+                }
+            }
+            $.ajax({
+                url: url,
+                type: "get",
+                async: true,
+                timeout: 10000,    //超时时间
+                dataType: "json",
+                success: function (data, textStatus, jqxhr) {
+                    var html = null;
+                    if (type == configtype.wurenji) {
+                        $.each(data, function (i, n) {
+                            html += "<tr onclick='palyvideo(" + n.cameraId + ")'><td>" + n.text + "</td></tr>";
+                        })
+                    }
+                    if (type == configtype.renyuan) {
+                        $.each(data, function (i, n) {
+                            html += "<tr onclick='showoutline(" + n.useId + ",\"" + type + "\",\"" + clsName + "\")'><td>" + checkstatus(n.Status) + "</td><td>" + n.userName + "</td></tr>";
+                        })
+                    }
+                    $.each(data["Items"], function (i, n) {
+                        if (type == configtype.yanjiedianjia) {
+                            html += "<tr onclick='showoutline(" + n.storeid + ",\"" + type + "\",\"" + clsName + "\")'><td>" + substr(n.storename) + "</td></tr>";
+                        }
+                        if (type == configtype.huwaiguanggao) {
+                            html += "<tr onclick='showoutline(" + n.ID + ",\"" + type + "\",\"" + clsName + "\")'><td>" + checkstatus(n.Status) + "</td><td>" + substr(n.AdName) + "</td></tr>";
+                        }
+                    });
+
+                    if (type == configtype.bujian) {
+                        $.each(data, function (i, n) {
+                            html += "<tr onclick='showoutline(" + n.jcsj_id + ",\"" + type + "\",\"" + clsName + "\")'><td>" + substr(n.jcsj_name) + "</td></tr>";
+                        });
+                    }
+                    if (type == configtype.jiankong) {
+                        var obj = document.getElementById("treeCameraScroll");
+                        showScrool(obj);
+                        obj.style.display = "block";
+
+                        $('#treeCamera').treeview({
+                            data: data,
+                            expandIcon: "tree_arrows_right",
+                            collapseIcon: "tree_arrows_down",
+                            emptyIcon: "tree_arrows_camera",
+                            levels: 3,
+                            onhoverColor: "#E8E8E8",
+                            showBorder: false,
+                            showTags: true,
+                            highlightSelected: true,
+                            highlightSearchResults: false,
+                            selectedBackColor: "#8D9CAA",
+                            onNodeSelected: function (event, data) {
+                                if (data.cameraId != null) {
+                                    showoutline(data.cameraId, type, clsName);
+                                }
+                            }
+                        });
+                    }
+                    if (type == configtype.ganzhishebei) {
+                        $.each(data["Items"], function (i, n) {
+                            var outlinehtml = "";
+                            switch (n.projectId) {
+                                case "01":
+                                    var deviceName = n.nodeState == 0 ? "水压设备" : "倾倒设备";
+                                    var wgdyStatus = n.gatewayVoltageState == 0 ? "正常" : "电量偏低";
+                                    var htmlDevice = "";
+                                    if (n.nodeState == 0) {
+                                        htmlDevice += "<tr><td>水压值</td><td>" + n.waterPressure + "</td></tr>";
+                                    } else {
+                                        var qdztstr = n.dumpingState == 0 ? "正常" : "倾倒";
+                                        htmlDevice += "<tr><td>倾倒状态</td><td>" + qdztstr + "</td></tr>";
+                                    }
+                                    outlinehtml += "<tr><td>设备编号</td><td>" + n.msgId + "</td></tr><tr><td>设备名称</td><td>" + deviceName + "</td></tr><tr><td>网管电压状态</td><td>" + wgdyStatus + "</td></tr><tr><td>项目名称</td><td>智慧消防栓监测</td></tr>" + htmlDevice;
+                                    datajson = [
+                                        {
+                                            name: '设备编号',
+                                            value: n.msgId
+                                        },
+                                        {
+                                            name: '设备名称',
+                                            value: deviceName
+                                        },
+                                        {
+                                            name: '网管电压状态',
+                                            value: wgdyStatus
+                                        },
+                                        {
+                                            name: '项目名称',
+                                            value: '智慧消防栓监测'
+                                        },
+                                    ]
+                                    if (n.nodeState == 0) {
+                                        var one = { name: '水压值', value: n.waterPressure };
+                                        datajson.push(one);
+                                    } else {
+                                        var qdztstr = n.dumpingState == 0 ? "正常" : "倾倒";
+                                        var two = { name: '倾倒状态', value: qdztstr };
+                                        datajson.push(two);
+                                    }
+                                    break;
+                                case "03":
+                                    var jgOpenStatus = n.data0 == 1 ? "开" : "关";
+                                    outlinehtml += "<tr><td>设备编号</td><td>" + n.msgId + "</td></tr><tr><td>项目名称</td><td>窨井盖监测</td></tr><tr><td>窨井盖开关状态</td><td>" + jgOpenStatus + "</td></tr>";
+                                    datajson = [
+                                        {
+                                            name: '设备编号',
+                                            value: n.msgId
+                                        },
+                                        {
+                                            name: '项目名称',
+                                            value: '窨井盖监测'
+                                        },
+                                        {
+                                            name: '窨井盖开关状态',
+                                            value: jgOpenStatus
+                                        }
+                                    ]
+
+                                    break;
+                                case "04":
+                                    if (n.flag == 1) {
+                                        outlinehtml += "<tr><td>设备编号</td><td>" + n.msgId + "</td></tr><tr><td>项目名称</td><td>PM2.5粉尘温湿度监测</td></tr><tr><td>温度℃</td><td>" + n.templ + "</td></tr><tr><td>湿度%RH</td><td>" + n.damp + "</td></tr><tr><td>pm25</td><td>" + n.pm25 + "</td></tr><tr><td>状态</td><td><div class=devicegreen></div></td></tr>";
+                                        datajson = [
+                                            {
+                                                name: '设备编号',
+                                                value: n.msgId
+                                            },
+                                            {
+                                                name: '项目名称',
+                                                value: 'PM2.5粉尘温湿度监测'
+                                            },
+                                            {
+                                                name: '温度℃',
+                                                value: n.templ
+                                            },
+                                            {
+                                                name: '湿度%RH',
+                                                value: n.damp
+                                            },
+                                            {
+                                                name: 'pm25',
+                                                value: n.pm25
+                                            },
+                                            {
+                                                name: '状态',
+                                                value: '正常中'
+                                            }
+                                        ]
+
+                                    }
+                                  else  if (n.flag == 2) {
+                                        outlinehtml += "<tr><td>设备编号</td><td>" + n.msgId + "</td></tr><tr><td>项目名称</td><td>PM2.5粉尘温湿度监测</td></tr><tr><td>温度℃</td><td>" + n.templ + "</td></tr><tr><td>湿度%RH</td><td>" + n.damp + "</td></tr><tr><td>pm25</td><td>" + n.pm25 + "</td></tr><tr><td>状态</td><td><div class=devicered></div></td></tr>";
+
+                                        datajson = [
+                                            {
+                                                name: '设备编号',
+                                                value: n.msgId
+                                            },
+                                            {
+                                                name: '项目名称',
+                                                value: 'PM2.5粉尘温湿度监测'
+                                            },
+                                            {
+                                                name: '温度℃',
+                                                value: n.templ
+                                            },
+                                            {
+                                                name: '湿度%RH',
+                                                value: n.damp
+                                            },
+                                            {
+                                                name: 'pm25',
+                                                value: n.pm25
+                                            },
+                                            {
+                                                name: '状态',
+                                                value: '报警中'
+                                            }
+                                        ]
+                                    }
+                                    else  {
+                                        outlinehtml += "<tr><td>设备编号</td><td>" + n.msgId + "</td></tr><tr><td>项目名称</td><td>PM2.5粉尘温湿度监测</td></tr><tr><td>温度℃</td><td>" + n.templ + "</td></tr><tr><td>湿度%RH</td><td>" + n.damp + "</td></tr><tr><td>pm25</td><td>" + n.pm25 + "</td></tr><tr><td>状态</td><td><div class=eviceyellow></div></td></tr>";
+                                        datajson = [
+                                            {
+                                                name: '设备编号',
+                                                value: n.msgId
+                                            },
+                                            {
+                                                name: '项目名称',
+                                                value: 'PM2.5粉尘温湿度监测'
+                                            },
+                                            {
+                                                name: '温度℃',
+                                                value: n.templ
+                                            },
+                                            {
+                                                name: '湿度%RH',
+                                                value: n.damp
+                                            },
+                                            {
+                                                name: 'pm25',
+                                                value: n.pm25
+                                            },
+                                            {
+                                                name: '状态',
+                                                value: '预警中'
+                                            }
+                                        ]
+                                    }
+                                    break;
+                            }
+
+                            html += "<tr onclick='showDeviceoutline(\"" + outlinehtml + "\",\"" + n.x + "\",\"" + n.y + "\"," + JSON.stringify(datajson) + ")'><td>" + checkDeviceStatus(n.flag) + "</td><td>" + n.msgId + "</td></tr>";
+                        });
+                    }
+                    if (type == configtype.anjian) {
+                        $.each(data, function (i, n) {
+                            html += "<tr onclick='showoutline(" + n.recid + ",\"" + type + "\",\"" + clsName + "\")'><td>" + n.tasknum + "</td><td>" + substr(n.address) + "</td></tr>";
+                        });
+                    }
+                    $("#MenuContent").html(html);
+                    $("#menutable").show();
+                    $(".loading").hide();
+                }
+                , error: function (xhr, textStatus) {
+                    console.log(textStatus);
+
+                }
+            });
+        }
+
+        function checkDeviceStatus(val) {
+            var html = "";
+            switch (val) {
+                case 1:
+                    html += '<div class=\'device green\'></div>';
+                    break;
+                case 2:
+                    html += '<div class=\'device red\'></div>';
+                    break;
+                case 3:
+                    html += '<div class=\'device yellow\'></div>';
+                    break;
+            }
+            return html;
+        }
+
+        function showDeviceoutline(html, x, y, datajsonnew) {
+            var rownum = datajson.length; 
+            $("#outlinebottomShowdetail").html("");
+            showoutvisble("设备概要", configtype.ganzhishebeiIcon, html);
+            clearMulch();
+            var imgPath = "Image/gzsb/压力传感器.png";
+            addMark(1, x, y, imgPath, 1);
+            var grometry = x + "," + y;
+            var titleName = "感知设备概要";
+            var rownumber = datajson.length;
+            datajson = "";
+            this.datajson = datajsonnew;
+
+            iconPath = imgPath;
+            rembx = x;
+            remby = y
+            rembIcon = iconPath;
+            moveto(grometry, titleName, rownumber, 2, 150, 250);
+
+        }
+
+        //获取菜单栏数据菜单总页数
+        function getDataPageCount(ajaxurl, pageSize, searchKey, type, radioval) {
+            var url;
+            if (type == configtype.renyuan) {
+                if (searchKey != null) {
+                    url = ajaxurl + "?filter=" + searchKey + "&pageSize=" + pageSize + "";
+                } else {
+                    url = ajaxurl + "?filter=&pageSize=" + pageSize + "";
+                }
+            }
+            if (type == configtype.yanjiedianjia) {
+                if (searchKey != null) {
+                    url = ajaxurl + "?name=" + searchKey + "&type=" + radioval + "&limit=" + pageSize + "";
+                } else {
+                    url = ajaxurl + "?type=" + radioval + "&limit=" + pageSize + "";
+                }
+            }
+            if (type == configtype.huwaiguanggao) {
+                if (searchKey != null) {
+                    url = ajaxurl + "?name=" + searchKey + "&type=" + radioval + "&limit=" + pageSize + "";
+                } else {
+                    url = ajaxurl + "?type=" + radioval + "&limit=" + pageSize + "";
+                }
+            }
+            if (type == configtype.jiankong) {
+                if (searchKey != null) {
+                    url = ajaxurl + "?pagesize=" + pageSize + "&filtrateName=" + searchKey;
+                } else {
+                    url = ajaxurl + "?pagesize=" + pageSize + "&filtrateName=" + searchKey;
+                }
+            }
+            if (type == configtype.bujian) {
+                if (searchKey != null) {
+                    url = ajaxurl + "?filterName=" + searchKey + "&gslx_type=" + radioval + "&pagesize=" + pageSize;
+                } else {
+                    url = ajaxurl + "?filterName=&gslx_type=" + radioval + "&pagesize=" + pageSize;
+                }
+            }
+            if (type == configtype.anjian) {
+                if (searchKey != null) {
+                    url = ajaxurl + "?caseSourceId=" + radioval + "&filterName=" + searchKey + "&pageSize=" + pageSize;
+                } else {
+                    url = ajaxurl + "?caseSourceId=" + radioval + "&filterName=&pageSize=" + pageSize;
+                }
+            }
+
+            if (type == configtype.wurenji) {
+                if (searchKey != null) {
+                    url = ajaxurl + "?filter=" + searchKey + "&pageSize=" + pageSize;
+                } else {
+                    url = ajaxurl + "?&filter=&pageSize=" + pageSize;
+                }
+            }
+            if (type == configtype.ganzhishebei) {
+                if (searchKey != null) {
+                    url = ajaxurl + "?projectid=" + radioval + "&msgid" + searchKey + "&flag=" + searchKey + "&limit=" + pageSize;
+                } else {
+                    url = ajaxurl + "?projectid=" + radioval + "&limit=" + pageSize;
+                }
+            }
+            $.ajax({
+                url: url,
+                type: "get",
+                async: true,
+                timeout: 10000,    //超时时间
+                dataType: "json",
+                success: function (data, textStatus, jqxhr) {
+                    initPager($(".page"), data);
+                }
+                , error: function (xhr, textStatus) {
+                    console.log(textStatus);
+                }
+            });
+        }
+
+        //菜单栏搜索框
+        function search(type) {
+            var searchvalue = $("#searchtext").val();
+            var pageajaxurl = $("#menuAjaxUrlPage").val();
+            var contentajaxurl = $("#menuAjaxUrl").val();
+            var radioval = $("#radiovals").val();
+            var clsName;
+            if (type == configtype.renyuan) {
+                clsName = configtype.renyuanIcon;
+                getDataPageCount(pageajaxurl, config.pageSize, searchvalue, type, 0);
+            }
+            if (type == configtype.yanjiedianjia) {
+                clsName = configtype.yanjiedianjiaIcon;
+                getDataPageCount(pageajaxurl, config.pageSize, searchvalue, type, radioval);
+            }
+            if (type == configtype.huwaiguanggao) {
+                clsName = configtype.huwaiguanggaoIcon;
+                getDataPageCount(pageajaxurl, config.pageSize, searchvalue, type, radioval);
+            }
+            if (type == configtype.jiankong) {
+                clsName = configtype.jiankongIcon;
+                getDataPageCount(pageajaxurl, config.pageSize, searchvalue, type, 0);
+            }
+            if (type == configtype.bujian) {
+                clsName = configtype.bujianIcon;
+                getDataPageCount(pageajaxurl, config.pageSize, searchvalue, type, radioval);
+            }
+            if (type == configtype.anjian) {
+                clsName = configtype.bujianIcon;
+                getDataPageCount(pageajaxurl, config.pageSize, searchvalue, type, radioval);
+            }
+            if (type == configtype.ganzhishebei) {
+                clsName = configtype.ganzhishebeiIcon;
+                getDataPageCount(pageajaxurl, config.pageSize, searchvalue, type, radioval);
+            }
+            getMenuData(contentajaxurl, 1, config.pageSize, type, clsName, searchvalue, radioval);
+        }
+
+        //检查状态
+        function checkstatus(val) {
+            if (val == 1) {
+                return "<div class='status online'></div>";
+            } else {
+                return "<div class='status level'></div>";
+            }
+        }
+
+        //菜单参数化
+        function showmenu(clsName, title, titleArray) {
+            $("#lefttitleIco").removeClass();
+            $("#lefttitleIco").addClass(clsName);
+            $("#centertopTitle").text(title);
+            var clounmtitle = titleArray.split(",");
+            var html = "<tr>";
+            for (var i = 0; i < clounmtitle.length; i++) {
+                html += "<td>" + clounmtitle[i] + "</td>";
+            }
+            html += "</tr>";
+            $("#Menutitle").html(html);
+            document.getElementById("menuPanel").style.visibility = "visible";
+        }
+
+        //隐藏菜单
+        function hidemenuPanel() {
+            document.getElementById("menuPanel").style.visibility = "hidden";
+            var obj = document.getElementById("treeCameraScroll");
+            hideNicescroll(obj);
+        }
+
+        //显示概要
+        function showoutline(val, type, clsName) {
+            $("#outlinebottomShowdetail").html("");
+            if (type == configtype.renyuan) {
+                getsortDelits(config.WebApi + configajaxurl.getallUserdetalis + "?userid=" + val, clsName, type);
+            }
+            if (type == configtype.yanjiedianjia) {
+                getsortDelits(config.WebApi + configajaxurl.shopsalongtheStreetdetail + "?ID=" + val, clsName, type);
+            }
+            if (type == configtype.huwaiguanggao) {
+                getsortDelits(config.WebApi + configajaxurl.huwaiguanggaodetail + "?ID=" + val, clsName, type);
+            }
+
+            if (type == configtype.jiankong) {
+                getsortDelits(config.WebApi + configajaxurl.cameradetails + "?id=" + val, clsName, type);
+            }
+            if (type == configtype.bujian) {
+                getsortDelits(config.WebApi + configajaxurl.PartsDelits + "?jcsj_id=" + val, clsName, type);
+            }
+            if (type == configtype.anjian) {
+                getsortDelits(config.WebApi + configajaxurl.caseDetils + "?recid=" + val, clsName, type);
+            }
+        }
+
+        var datajson = null;
+        //概要请求
+        function getsortDelits(ajaxurl, clsName, type) {
+            $.ajax({
+                url: ajaxurl,
+                type: "get",
+                async: true,
+                timeout: 10000,    //超时时间
+                dataType: "json",
+                success: function (data, textStatus, jqxhr) {
+                    var html = null;
+                    if (type == configtype.renyuan) {
+                        html += "<tr><td>头像</td><td><img src=" + data.photourl + "/></td></tr><tr><td>编号</td><td>" + data.usercode + "</td></tr><tr><td>姓名</td><td>" + data.userName + "</td></tr><tr><td>电话</td><td>" + data.phone + "</td></tr>";
+                        var grometry = data.coordinatex + "," + data.coordinatey;
+                        datajson = [
+                          {
+                              name: '姓名',
+                              value: data.userName,
+                          },
+                          {
+                              name: '编号',
+                              value: data.usercode
+                          },
+                          {
+                              name: '电话',
+                              value: data.phone,
+                          }
+                        ]
+                        iconPath = 'Image/peopleCar/人员.png';
+                        showout(clsName, data.userName, html, type, grometry, null, null, null, data.useId);
+                    }
+                    if (type == configtype.yanjiedianjia) {
+                        //编号
+                        var number = "000000";
+                        var sublenght = data.storeid.toString().length;
+                        number = number.substring(sublenght);
+                        html += "<tr><td>编号</td><td>" + data.idtype + number + data.storeid + "</td></tr><tr><td>类型</td><td>" + data.typename + "</td></tr><tr><td>地址</td><td>" + data.address + "</td></tr>";
+                        //修改
+                        var htmldetail = "<table class=detailstableshow><tr><td>编号</td><td>" + data.typename + number + data.storeid + "</td><td>类型</td><td>" + data.typename + "</td></tr><tr><td>注册号</td><td>" + data.registnum + "</td><td>注册人姓名</td><td>" + data.registname + "</td></tr><tr><td>联系方式</td><td>" + data.businesscontact + "</td><td>实际经营者姓名</td><td>" + data.businessperson + "</td></tr><tr><td>门前三包责任人</td><td>" + data.mqsbperson + "</td><td>网格号</td><td>" + data.gridnum + "</td></tr><tr><td>负责人</td><td>" + data.person + "</td><td>地址</td><td>" + data.address + "</td></tr><tr><td>备注</td><td colspan=3>" + subStringvalue(data.remark2, 15) + "</td></tr></table>";
+                        datajson = [
+                            {
+                                name: "名称",
+                                value: data.storename
+                            },
+                            {
+                                name: "编号",
+                                value: data.idtype + number + data.storeid
+                            },
+                            {
+                                name: "类型",
+                                value: data.typename
+                            },
+                            {
+                                name: "地址",
+                                value: data.address
+                            }
+                        ];
+                        var grometry = data.grometry;
+                        showout(clsName, data.storename, html, type, grometry, htmldetail, "周边监控", null);
+                    }
+                    if (type == configtype.huwaiguanggao) {
+                        //编号
+                        var number = "000000";
+                        var sublenght = data.ID.toString().length;
+                        number = number.substring(sublenght);
+                        var path = config.PathAshx + 'GetPictureFile.ashx?PicPath=';
+                        var filePath = config.PathAshx + 'FileDownLoad.ashx';
+                        var imgsrc1
+                        var imgsrc2;
+                        var imgsrc3;
+                        var imgsrc4;
+                        var Files;
+                        var FileNames;
+                        var Fileimgsrc;
+                        if (data.Photo1 != null) {
+                            imgsrc1 = path + "\\" + config.AdverFile + "\\" + data.Photo1;
+                        } else {
+                            imgsrc1 = "../Image/no-images.png";
+                        }
+                        if (data.Photo2 != null) {
+                            imgsrc2 = path + "\\" + config.AdverFile + "\\" + data.Photo2;
+                        } else {
+                            imgsrc2 = "../Image/no-images.png";
+                        }
+                        if (data.Photo3 != null) {
+                            imgsrc3 = path + "\\" + config.AdverFile + "\\" + data.Photo3;
+                        } else {
+                            imgsrc3 = "../Image/no-images.png";
+                        }
+                        if (data.Photo4 != null) {
+                            imgsrc4 = path + "\\" + config.AdverFile + "\\" + data.Photo4;
+                        } else {
+                            imgsrc4 = "../Image/no-images.png";
+                        }
+                        if (data.FilePath1 != null) {
+                            FileNames = data.FileName1;
+                            Files = filePath + "?FilePath=" + config.AdverFile + "\\" + data.FilePath1 + "&FileName=" + FileNames;
+                            Fileimgsrc = "../Image/hasFiles.png";
+                        } else {
+                            Files = null;
+                            FileNames = '暂无';
+                            Fileimgsrc = "../Image/noFiles.png";
+                        }
+                        html += "<tr><td>编号</td><td>" + data.IDType + number + data.ID + "</td></tr><tr><td>类型</td><td>" + data.TypeName + "</td></tr><tr><td>地址</td><td>" + data.Address + "</td></tr>";
+                        var htmldetail = "<table><tr><td>编号</td><td>" + data.IDType + number + data.ID + "</td><td>类型</td><td>" + data.TypeName + "</td></tr><tr><td>所属企业</td><td>" + data.UnitName + "</td><td>制作商</td><td>" + data.Producers + "</td></tr><tr><td>审批日期</td><td>" + data.ExamDate.toString().substring(0, data.ExamDate.toString().indexOf(":") - 2) + "</td><td>审核单位</td><td>" + data.ExamUnit + "</td></tr><tr><td>开始日期</td><td>" + data.StartDate.toString().substring(0, data.StartDate.toString().indexOf(":") - 2) + "</td><td>结束日期</td><td>" + data.EndDate.toString().substring(0, data.EndDate.toString().indexOf(":") - 2) + "</td></tr><tr><td>状态</td><td>" + data.statusName + "</td></tr><tr><td>地址</td><td>" + data.Address + "</td></tr><tr><td>照片</td><td colspan=3><img src=" + imgsrc1 + " class=imgPhotoSize /><img src=" + imgsrc2 + " class=imgPhotoSize /><img src=" + imgsrc3 + " class=imgPhotoSize /></td></tr><tr><td>预期效果</td><td><img src=" + imgsrc4 + " class=imgPhotoSize /></td></tr><tr><td>审批文件</td><td colspan=3><a href=" + Files + "><img src=" + Fileimgsrc + " class=fileImageSize />" + FileNames + "</a></td></tr></table><div><span>&nbsp;广告备注</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<lable>" + data.Remark + "</lable></div>";
+                        var grometry = data.Grometry;
+                        datajson = [
+                            {
+                                name: "广告名称",
+                                value: data.UnitName + "广告"
+                            },
+                            {
+                                name: "编号",
+                                value: data.IDType + number + data.ID
+                            },
+                            {
+                                name: "类型",
+                                value: data.TypeName
+                            },
+                            {
+                                name: "地址",
+                                value: data.Address
+                            }
+                        ];
+                        var detailtitle = data.UnitName + "广告";
+                        showout(clsName, "户外广告概要", html, type, grometry, htmldetail, detailtitle);
+                    }
+
+                    if (type == configtype.jiankong) {
+                        html += "<tr><td>编号</td><td>" + data.index_code + "</td></tr><tr><td>类型</td><td>枪机</td></tr><tr><td>位置</td><td>路面</td></tr><tr><td>位置</td><td>" + data.name + "</td></tr>";
+                        var grometry = data.longitude + "," + data.latitude;
+                        datajson = [
+                            {
+                                name: "名称",
+                                value: "监控"
+                            },
+                            {
+                                name: "编号",
+                                value: data.index_code
+                            },
+                            {
+                                name: "类型",
+                                value: "枪机"
+                            },
+                            {
+                                name: "位置",
+                                value: "路面"
+                            },
+                            {
+                                name: "地址",
+                                value: data.name
+                            }
+                        ];
+                        showout(clsName, data.name, html, type, grometry, null, data.name, data.camera_id);
+                    }
+
+                    if (type == configtype.bujian) {
+                        html += "<tr><td>标识</td><td>" + data.jcsj_id + "</td></tr><tr><td>类型编号</td><td>" + data.gslx_type + "</td></tr><tr><td>名称</td><td>" + data.jcsj_name + "</td></tr><tr><td>归属</td><td>" + data.deptname1 + "</td></tr>";
+                        var grometry = data.zxdxzb + "," + data.zxdyzb;
+                        datajson = [
+                           {
+                               name: '标识',
+                               value: data.jcsj_id,
+                           },
+                           {
+                               name: '类型编号',
+                               value: data.gslx_type
+                           },
+                           {
+                               name: '名称',
+                               value: data.jcsj_name,
+                           },
+                           {
+                               name: '归属',
+                               value: data.deptname1,
+                           }
+                        ]
+                        showout(clsName, data.jcsj_name, html, type, grometry, null, data.jcsj_name, null);
+                    }
+
+                    if (type == configtype.anjian) {
+                        var reportImg = "";
+                        var managementImg = "";
+                        var imgSource = data["listMedias"];
+                        for (var i = 0; i < imgSource.length; ++i) {
+                            if (imgSource[i].mediausage == "上报") {
+                                reportImg += "<img src=" + imgSource[i].mediaurl + " class=imgPhotoSize />";
+                            }
+                            if (imgSource[i].mediausage == "处置") {
+                                managementImg += "<img src=" + imgSource[i].mediaurl + " class=imgPhotoSize />";
+                            }
+                        }
+
+                        html += "<tr><td>案件标识</td><td>" + data.recid + "</td></tr><tr><td>任务号</td><td>" + data.tasknum + "</td></tr><tr><td>问题来源</td><td>" + data.eventsrcname + "</td></tr><tr><td>问题大类</td><td>" + data.maintypename + "</td></tr><tr><td>问题小类</td><td>" + data.subtypename + "</td></tr>";
+                        var htmldetail = "<table><tr><td>案件标识</td><td>" + data.recid + "</td><td>任务号</td><td>" + data.tasknum + "</td></tr><tr><td>问题来源</td><td>" + data.eventsrcname + "</td><td>问题类型</td><td>" + data.eventtypename + "</td></tr><tr><td>问题大类</td><td>" + data.maintypename + "</td><td>问题小类</td><td>" + data.subtypename + "</td></tr><tr><td>发生地址</td><td colspan=" + 3 + ">" + data.address + "</td></tr><tr><td>所在区域</td><td>" + data.districtname + "</td><td>所在街道</td><td>" + data.streetname + "</td></tr><tr><td>所在社区</td><td>" + data.communityname + "</td><td>巡查员</td><td>" + data.patrolname + "</td></tr><tr><td>巡查员部门</td><td>" + data.patrolunitname + "</td><td>上报时间</td><td>" + data.createtime + "</td></tr><tr><td>上报</td><td colspan=3>" + reportImg + "</td></tr><tr><td>处置</td><td colspan=3>" + managementImg + "</td></tr></table>";
+
+
+                        var grometry = data.coordinatex + "," + data.coordinatey;
+                        datajson = [
+                          {
+                              name: '案件标识',
+                              value: data.recid,
+                          },
+                          {
+                              name: '任务号',
+                              value: data.tasknum
+                          },
+                          {
+                              name: '问题来源',
+                              value: data.eventsrcname
+                          },
+                          {
+                              name: '问题大类',
+                              value: data.maintypename
+                          },
+                          {
+                              name: '问题小类',
+                              value: data.subtypename
+                          }
+
+                        ]
+                        showout(clsName, data.tasknum, html, type, grometry, htmldetail, data.tasknum, null);
+                    }
+
+                }, error: function (xhr, textStatus) {
+                    alert(textStatus);
+                    console.log(textStatus);
+                }
+            });
+        }
+
+        //显示概要
+        function showout(clsName, title, html, type, grometry, htmldetail, detailtitle, cameraid, userId) {
+            if (type == configtype.renyuan) {
+                showoutvisble(title, clsName, html);
+                appendIconoutline(type, grometry, clsName, htmldetail, detailtitle, null, title, 3, 2, 80, 200, userId);
+            }
+            if (type == configtype.yanjiedianjia) {
+                showoutvisble(title, clsName, html);
+                appendIconoutline(type, grometry, clsName, htmldetail, detailtitle, null, title, 4, 2, 80, 250);
+            }
+            if (type == configtype.huwaiguanggao) {
+                showoutvisble(title, clsName, html);
+                appendIconoutline(type, grometry, clsName, htmldetail, detailtitle, null, detailtitle, 4, 2, 80, 200);
+            }
+            if (type == configtype.jiankong) {
+                showoutvisble(title, clsName, html);
+                appendIconoutline(type, grometry, clsName, htmldetail, detailtitle, cameraid, title, 5, 2, 80, 270);
+            }
+            if (type == configtype.bujian) {
+                showoutvisble(title, clsName, html);
+                appendIconoutline(type, grometry, clsName, htmldetail, detailtitle, null, title, 4, 2, 80, 320);
+            }
+            if (type == configtype.anjian) {
+                showoutvisble(title, clsName, html);
+                appendIconoutline(type, grometry, clsName, htmldetail, detailtitle, null, title, 5, 2, 80, 320);
+            }
+            if (type == configtype.zbjkcameraId) {
+
+            }
+        }
+        function showoutvisble(title, clsName, html) {
+            $("#outlineIcon").removeClass();
+            $("#outlinetitle").text(title);
+            $("#outlineIcon").addClass(clsName);
+            $("#outlinetitletable").html(html);
+            document.getElementById("outline").style.visibility = "visible";
+        }
+
+        //隐藏概要
+        function hideoutline() {
+            document.getElementById("outline").style.visibility = "hidden";
+        }
+
+        //今日在岗人员数
+        function UpdatePeopleCount(ajaxurl) {
+            $.ajax({
+                url: ajaxurl,
+                type: 'get',
+                async: true,
+                timeout: 10000,
+                dataType: 'json',
+                success: function (data, jqxhr, textStatus) {
+                    $("#todayOnlinePeople").text(data);
+                }
+            });
+        }
+
+
+
+
+        //显示筛选详情
+        function showDelitsPanel(panelwidth, panelheight, IconClass, title, type) {
+            if (type == configtype.renyuancheliang) {
+                var html = "<table class='tablemargin'><tr><td><input type='radio' value='人员' name='checkradio' id='ry' /><label for='ry' >人员</label></td><td><input type='radio' value='车辆' name='checkradio' id='cl' /><label for='cl' >车辆</label></td></tr></table><input type='hidden' id='radioValue' />";
+                $("#delitsContent").html(html);
+                appendButton(type);
+            }
+            if (type == configtype.yanjiedianjia) {
+                appendButton(type);
+                getstreetType(type);
+            }
+            if (type == configtype.huwaiguanggao) {
+                appendButton(type);
+                getstreetType(type);
+            }
+            if (type == configtype.bujian) {
+                appendButton(type);
+                getstreetType(type);
+            }
+            if (type == configtype.anjian) {
+                appendButton(type);
+                getstreetType(type);
+            }
+            if (type == configtype.ganzhishebei) {
+                appendButton(type);
+                getstreetType(type);
+            }
+            hideoutline();
+            showdelits(panelwidth, panelheight, IconClass, title);
+        }
+
+        //全局变量获取当前无缝切换对象
+        var rembx, remby, rembGrometry, rembrownumber, rembcolnum, rembcolwidth1, rembcolwidth2, rembtitleName, rembIcon, rembDataJson;
+        function appendIconoutline(type, grometry, clsName, htmldetail, detailtitle, cameraid, titleName, rownum, colnum, colwidth1, colwidth2, userId) {
+            //获取当前地图状态
+            var thisMapStatus = document.getElementById("nowMapStatus").value;
+            var html = null;
+            var htmlone = "<img src='../Image/05x16.png' title='详情显示' onclick='showdetails(\"" + type + "\",\"" + clsName + "\",\"" + htmldetail + "\",\"" + detailtitle + "\",true)' /><img src='../Image/02x16.png' title='周边监控' onclick='showwebCam(\"" + grometry + "\")'/>";
+            var htmltwo = "<img src='../Image/01x16.png' title='视频播放' onclick='palyvideo(\"" + cameraid + "\")' />";
+            var htmlthree = "<img src='../Image/02x16.png' title='周边监控' onclick='showwebCam(\"" + grometry + "\")'/>";
+            var htmlfour = "<img src='../Image/05x16.png' title='详情显示' onclick='showdetails(\"" + type + "\",\"" + clsName + "\",\"" + htmldetail + "\",\"" + detailtitle + "\",true)'/>";
+            var htmlfive = "<img src='../Image/location.png' title='定位' onclick='moveto(\"" + grometry + "\",\"" + titleName + "\",\"" + rownum + "\",\"" + colnum + "\",\"" + colwidth1 + "\",\"" + colwidth2 + "\",\"" + type + "\")'/>";
+            var htmlsix = "<img src='../Image/TrackPlay/trackplay.png' title='轨迹回放' onclick='palyBack(\"" + userId + "\")'/>";
+            if (type == configtype.renyuan) {
+                if (thisMapStatus == 1) {
+                    //$("#outlinebottomShowdetail").html(htmlfive);
+                } else {
+                    $("#outlinebottomShowdetail").html(htmlsix);
+                }
+                var latlng = grometry.split(',');
+                var x = parseFloat(latlng[0]);
+                var y = parseFloat(latlng[1]);
+                rembx = x;
+                remby = y;
+                rembIcon = iconPath;
+                try{
+                    moveto(grometry, titleName, rownum, colnum, colwidth1, colwidth2);
+                    clearMulch();
+                    addMark(1, x, y, iconPath, 1);
+                } catch (e) {
+                    console.log(e.toString());
+                }
+             
+            }
+            if (type == configtype.yanjiedianjia) {
+                $("#outlinebottomShowdetail").html(htmlone);
+                var latlng = grometry.split(',');
+                var x = parseFloat(latlng[0]);
+                var y = parseFloat(latlng[1]);
+                rembx = x;
+                remby = y;
+                rembIcon = iconPath;
+                try {
+                    moveto(grometry, titleName, rownum, colnum, colwidth1, colwidth2);
+                    clearMulch();
+                    addMark(1, x, y, iconPath, 1);
+                } catch (e) {
+                    console.log(e.toString());
+                }
+            }
+            if (type == configtype.huwaiguanggao) {
+                $("#outlinebottomShowdetail").html(htmlfour);
+                var latlng = grometry.split(',');
+                var x = parseFloat(latlng[0]);
+                var y = parseFloat(latlng[1]);
+                rembx = x;
+                remby = y;
+                rembIcon = iconPath;
+                try {
+                    moveto(grometry, titleName, rownum, colnum, colwidth1, colwidth2);
+                    clearMulch();
+                    addMark(1, x, y, iconPath, 1);
+                } catch (e) {
+                    console.log(e.toString());
+                }
+            }
+            if (type == configtype.jiankong) {
+                $("#outlinebottomShowdetail").html(htmltwo);
+                var latlng = grometry.split(',');
+                var x = parseFloat(latlng[0]);
+                var y = parseFloat(latlng[1]);
+                rembx = x;
+                remby = y;
+                rembIcon = "Image/camera/监控.png";
+                try {
+                    moveto(grometry, titleName, rownum, colnum, colwidth1, colwidth2);
+                    clearMulch();
+                    addMark(1, x, y, iconPath, 1);
+                } catch (e) {
+                    console.log(e.toString());
+                }
+            }
+            if (type == configtype.bujian) {
+                var latlng = grometry.split(',');
+                var x = parseFloat(latlng[0]);
+                var y = parseFloat(latlng[1]);
+                rembx = x;
+                remby = y;
+                rembIcon = iconPath;
+                $("#outlinebottomShowdetail").html(htmlfive);
+            }
+            if (type == configtype.anjian) {
+                $("#outlinebottomShowdetail").html(htmlone);
+                var latlng = grometry.split(',');
+                var x = parseFloat(latlng[0]);
+                var y = parseFloat(latlng[1]);
+                rembx = x;
+                remby = y;
+                rembIcon = "Image/case/案件.png";
+                try {
+                    moveto(grometry, titleName, rownum, colnum, colwidth1, colwidth2);
+                    clearMulch();
+                    addMark(1, x, y, iconPath, 1);
+                } catch (e) {
+                    console.log(e.toString());
+                }
+            }
+        }
+
+        //轨迹回放
+        function palyBack(userId) {
+            var url = config.WebApi + configajaxurl.peopleTrack + "?userid=" + userId;
+            var thisMapStatus = document.getElementById("nowMapStatus").value;
+            if (thisMapStatus == 1) {
+                return;
+            } else {
+                $.ajax({
+                    url: url,
+                    type: 'get',
+                    async: true,
+                    timeout: 10000,
+                    dataType: 'json',
+                    success: function (data, jqxhr, textStatus) {
+                        clearMulch();
+                        var longpointlist = data;
+                        playTrack(longpointlist, 'rgba(0,59,137,1)', 10, 'Image/peopleCar/人员.png', 'rgba(240,244,249,1)', 10, 5, 9, 200);
+                    }, error: function (xhr, textStatus) {
+                        console.log(textStatus);
+                    }
+                })
+            }
+        }
+
+        //周边监控列表
+        function showwebCam(grometry) {
+            showdetails(configtype.zbjkcameraId, configtype.jiankongIcon, null, "周边监控", true, grometry);
+        }
+
+        //播放视频
+        function palyvideo(cameraid) {
+            var iframesrc = "camera.html?cameraid=" + cameraid;
+            myWindow = window.open(iframesrc, '', 'width=940,height=500, top=100, left=200');
+            myWindow.focus();
+        }
+
+        //显示详情
+        function showdetails(type, IconClass, htmldetail, detailtitle, isshowbtn, grometry) {
+            var title;
+            var panelwidth;
+            var panelheight;
+            if (type == configtype.yanjiedianjia) {
+                title = "店家详情";
+                panelwidth = 500;
+                panelheight = 225;
+                $("#delitsContent").html(htmldetail);
+            }
+            if (type == configtype.huwaiguanggao) {
+                title = detailtitle;
+                panelwidth = 500;
+                panelheight = 430;
+                $("#delitsContent").html(htmldetail);
+                var obj = $(".imgPhotoSize");
+                for (var i = 0; i < obj.length; i++) {
+                    obj[i].onclick = function () { showeveryImg(this); }
+                }
+            }
+            if (type == configtype.anjian) {
+                title = detailtitle;
+                panelwidth = 500;
+                panelheight = 300;
+                $("#delitsContent").html(htmldetail);
+                var obj = $(".imgPhotoSize");
+                for (var i = 0; i < obj.length; i++) {
+                    obj[i].onclick = function () { showeveryImg(this); }
+                }
+            }
+            if (type == configtype.zbjkcameraId) {
+                var centerPoint = [];
+                var html = null;
+                if (grometry != null && grometry != 'undefind') {
+                    var latlng = grometry.split(',');
+                    var x = parseFloat(latlng[0]);
+                    var y = parseFloat(latlng[1]);
+                    centerPoint.push(x);
+                    centerPoint.push(y);
+                    if (x != null && y != null && x != 'undefind' && y != 'undefind') {
+                        getcameraByArea(config.WebApi + configajaxurl.zbAreaCamera + "?lon=" + x + "&lat=" + y + "&r=" + 200, centerPoint);
+                    }
+                }
+                $("#delitsContent").html(html);
+                title = detailtitle;
+                panelwidth = 500;
+                panelheight = 300;
+
+            }
+            showdelits(panelwidth, panelheight, IconClass, title, isshowbtn);
+        }
+
+        function getcameraByArea(ajaxurl, centerPoint) {
+            var html = "<table class='cameraAreatable' cellspacing=0>";
+            $.ajax({
+                url: ajaxurl,
+                type: 'get',
+                ayync: true,
+                timeout: 10000,
+                dataType: 'json',
+                success: function (data, jqxhr, textStatus) {
+                    clearMulch();
+                    addDrawCircle(1, 'circle', centerPoint, 200, 'rgba(240,19,23,0.7)', 'red', 2);
+                    $.each(data, function (i, n) {
+                        html += "<tr onclick='palyvideo(" + n.camera_id + ")'><td>监控名称<td><td>" + n.name + "</td><td>监控编号</td><td>" + n.index_code + "</td></tr>";
+                        var x = parseFloat(n.longitude);
+                        var y = parseFloat(n.latitude);
+                        if (x != 0 && y != 0) {
+                            addMark(i, x, y, 'Image/camera/监控.png', 1);
+                        }
+                    })
+                    var centerX = centerPoint[0];
+                    var centerY = centerPoint[1];
+                    addMark(1, centerX, centerY, iconPath, 1);
+                    html += "</table>";
+                    $("#delitsContent").html(html);
+                }, error: function (xhr, textStatus) {
+                    console.log(textStatus);
+                }
+            })
+        }
+
+
+        //获取类型
+        function getstreetType(type) {
+            var inithtml = null;
+            $("#delitsContent").html(inithtml);
+            var url;
+            if (type == configtype.yanjiedianjia) {
+                url = config.WebApi + configajaxurl.shopsalongtheStreettype;
+            }
+            if (type == configtype.huwaiguanggao) {
+                url = config.WebApi + configajaxurl.huwaiganggaotype;
+            }
+            if (type == configtype.bujian) {
+                url = config.WebApi + configajaxurl.PartsType;
+            }
+            if (type == configtype.anjian) {
+                url = config.WebApi + configajaxurl.caseType;
+            }
+            if (type == configtype.ganzhishebei) {
+                var html = "<table id='getcontent'>";
+
+                html += "<tr><td><input type='radio' name='gzsb' value='01' /><lable>智慧消防栓监测</lable></td><td><input type='radio' name='gzsb' value='03' /><lable>窨井盖监测</lable></td><td><input type='radio' name='gzsb' value='04' /><lable>PM25粉尘温湿度</lable></td></tr></table><input type='hidden' id='radioValue' />";
+                $("#delitsContent").html(html);
+                return;
+            }
+            $.ajax({
+                url: url,
+                type: "get",
+                async: true,
+                timeout: 10000,
+                dataType: "json",
+                success: function (data, textStatus, jqxhr) {
+                    var rownumber = 1;
+                    var html = "<table id='getcontent'><tr>";
+                    if (type != configtype.bujian) {
+                        html = "<table id='getcontent'><tr>";
+                    }
+                    var selresult;
+                    $.each(data, function (i, n) {
+                        if (type == configtype.yanjiedianjia) {
+                            if (isInteger((rownumber / 3))) {
+                                html += "<td><input type='radio' name='yjdj' for=" + n.type_id + " value=" + n.type_id + " id=" + n.type_id + "><lable>" + n.type_name + "</lable><lable style='display:none'>" + n.icon + "</lable></td></tr>";
+                            } else {
+                                html += "<td><input type='radio' name='yjdj' for=" + n.type_id + " value=" + n.type_id + " id=" + n.type_id + "><lable>" + n.type_name + "</lable><lable style='display:none'>" + n.icon + "</lable></td>";
+                            }
+                            selresult = "yjdj";
+                            rownumber++;
+                        }
+                        if (type == configtype.huwaiguanggao) {
+                            if (isInteger((rownumber / 3))) {
+                                html += "<td><input type='radio' name='radiohwgg' for=" + n.ID + " value=" + n.ID + " id=" + n.ID + "><lable>" + n.Name + "</lable><lable style='display:none'>" + n.icon + "</lable></td></tr>";
+                            } else {
+                                html += "<td><input type='radio' name='radiohwgg' for=" + n.ID + " value=" + n.ID + " id=" + n.ID + "><lable>" + n.Name + "</lable><lable style='display:none'>" + n.icon + "</lable></td>";
+                            }
+                            rownumber++;
+                            selresult = "radiohwgg";
+                        }
+                        if (type == configtype.bujian) {
+                            if (isInteger(rownumber / 3)) {
+                                html += "<td><input type='radio' name='radiobj' value=" + n.zd_bh + "><lable>" + n.zd_name + "</lable><lable style='display:none'>" + n.icon + "</lable></td></tr>";
+                            } else {
+                                html += "<td><input type='radio' name='radiobj' value=" + n.zd_bh + "><lable>" + n.zd_name + "</lable><lable style='display:none'>" + n.icon + "</lable></td>";
+                            }
+                            rownumber++;
+                            selresult = "radiobj";
+                        }
+                        if (type == configtype.anjian) {
+                            if (isInteger((rownumber / 3))) {
+                                html += "<td><input type='radio' name='aj' value=" + n.eventsrcid + " id=" + n.eventsrcid + "><lable>" + n.eventsrcname + "</lable></td></tr>";
+                            } else {
+                                html += "<td><input type='radio' name='aj' value=" + n.eventsrcid + " id=" + n.eventsrcid + "><lable>" + n.eventsrcname + "</lable></td>";
+                            }
+                            selresult = "aj";
+                            rownumber++;
+                        }
+                    });
+                    html += "</tr></table><input type='hidden' id='radioValue' />";
+                    $("#delitsContent").html(html);
+                    var obj = document.getElementById("delitsContent");
+                    showScrool(obj);
+                }, error: function (xhr, textStatus) {
+                    console.log(textStatus);
+                }
+            });
+        }
+
+        //判断是否为整数
+        function isInteger(obj) {
+            return obj % 1 === 0
+        }
+
+        function showdelits(panelwidth, panelheight, IconClass, title, isshowbtn) {
+            if (isshowbtn == true) {
+                $("#btn_sure").hide();
+            } else {
+                $("#btn_sure").show();
+            }
+            $("#delitsIcon").removeClass();
+            $("#DelitsPanel").width(panelwidth);
+            $("#DelitsPanel").height(panelheight);
+            $("#delitsIcon").addClass(IconClass);
+            $("#delitstitle").text(title);
+            document.getElementById("DelitsPanel").style.visibility = "visible";
+        }
+
+        //隐藏详情
+        function hideDelitsPanel() {
+            document.getElementById("DelitsPanel").style.visibility = "hidden";
+            var obj = document.getElementById("delitsContent");
+            hideNicescroll(obj);
+        }
+
+        //隐藏图片面板
+        function hideImgPanelDetails() {
+            document.getElementById("imgPanleDetails").style.visibility = "hidden";
+        }
+
+        //显示图片面板
+        function showImgPanelDetails() {
+            document.getElementById("imgPanleDetails").style.visibility = "visible";
+        }
+
+        //显示图片
+        function showeveryImg(obj) {
+            showImgPanelDetails();
+            var html = "<img src=" + obj.src + " class=imgPhotoSizeDetails />";
+            $("#showImgSourceContent").html(html);
+        }
+
+        //最小化
+        function minimizeMenuPanel(obj) {
+            if (obj.tabIndex == 1) {
+                $("#menuPanel").height(30);
+                $("#data_list_content").hide();
+                $("#searchMenuPanel").hide();
+                $("#treeCameraScroll").hide();
+                $("#Page").hide();
+                obj.tabIndex = 2;
+                var objs = document.getElementById("jkscroll");
+                hideNicescroll(objs);
+            } else {
+                $("#menuPanel").height(330);
+                $("#searchMenuPanel").show();
+                $("#data_list_content").show();
+                $("#treeCameraScroll").show();
+                $("#Page").show();
+                obj.tabIndex = 1;
+                var objs = document.getElementById("jkscroll");
+                showNicescroll(objs);
+            }
+        }
+
+        //追加筛选面板确定按钮
+        function appendButton(type) {
+            var html = "<input type='button' value='确定' class='btn_sure' id='btn_sure' onclick='btn_sure_Click(\"" + type + "\")' />'";
+            $(".Delits_Bottom").html(html);
+        }
+        //确定按钮搜索
+        function btn_sure_Click(type) {
+            var obj = document.getElementById("treeCameraScroll");
+            hideNicescroll(obj);
+            var obj1 = document.getElementById("delitsContent");
+            hideNicescroll(obj1);
+            $("#treeCamera").children().remove();
+            if (type == configtype.renyuancheliang) {
+                var val = $('input:radio[name="checkradio"]:checked').val();
+                if (val == null) {
+                    alert("请选择一项!");
+                    return false;
+                } else {
+                    $("#radioValue").val(val);
+                }
+                getradioValue(type);
+            }
+            if (type == configtype.yanjiedianjia) {
+                var val = $('input:radio[name="yjdj"]:checked').val();
+                var title = $('input:radio[name="yjdj"]:checked + lable').text();
+                var element = document.getElementsByName("yjdj");
+                for (var i = 0; i < element.length; ++i) {
+                    if (element[i].checked) {
+                        iconPath = element[i].nextSibling.nextSibling.innerText;
+                    }
+                }
+                if (val == null) {
+                    alert("请选择一项!");
+                    return false;
+                } else {
+                    $("#radioValue").val(val);
+                }
+                getradioValue(type, title + "列表");
+            }
+            if (type == configtype.huwaiguanggao) {
+                var val = $('input:radio[name="radiohwgg"]:checked').val();
+                var title = $('input:radio[name="radiohwgg"]:checked + lable').text();
+                var element = document.getElementsByName("radiohwgg");
+                for (var i = 0; i < element.length; ++i) {
+                    if (element[i].checked) {
+                        iconPath = element[i].nextSibling.nextSibling.innerText;
+                    }
+                }
+                if (val == null) {
+                    alert("请选择一项!");
+                    return false;
+                } else {
+                    $("#radioValue").val(val);
+                }
+                getradioValue(type, title + "列表");
+            }
+            if (type == configtype.bujian) {
+                var val = $('input:radio[name="radiobj"]:checked').val();
+                var title = $('input:radio[name="radiobj"]:checked + lable').text();
+                var element = document.getElementsByName("radiobj");
+                for (var i = 0; i < element.length; ++i) {
+                    if (element[i].checked) {
+                        iconPath = element[i].nextSibling.nextSibling.innerText;
+                    }
+                }
+
+                if (val == null) {
+                    alert("请选择一项!");
+                    return false;
+                } else {
+                    $("#radioValue").val(val);
+                }
+                getradioValue(type, title + "列表");
+            }
+            if (type == configtype.anjian) {
+                var val = $('input:radio[name="aj"]:checked').val();
+                var title = $('input:radio[name="aj"]:checked + lable').text();
+                if (val == null) {
+                    alert("请选择一项!");
+                    return false;
+                } else {
+                    $("#radioValue").val(val);
+                }
+                getradioValue(type, title + "列表");
+            }
+            if (type == configtype.ganzhishebei) {
+                var val = $('input:radio[name="gzsb"]:checked').val();
+                var title = $('input:radio[name="gzsb"]:checked + lable').text();
+                if (val == null) {
+                    alert("请选择一项!");
+                    return false;
+                } else {
+                    $("#radioValue").val(val);
+                }
+                getradioValue(type, title + "列表");
+            }
+        }
+
+        var iconPath;
+        //获取单选框值
+        function getradioValue(type, titles) {
+            if (type == configtype.renyuancheliang) {
+                var val = $("#radioValue").val();
+                hideDelitsPanel();
+                if (val == "人员") {
+                    showmenuPanel("人员列表", "状态,队员名称", config.WebApi + configajaxurl.userurl, config.WebApi + configajaxurl.userurlPage, 1, config.pageSize, configtype.renyuanIcon, configtype.renyuan);
+                }
+                if (val == "车辆") {
+                    showmenuPanel("车辆列表", "状态,车牌号", config.WebApi + configajaxurl.userurl, config.WebApi + configajaxurl.userurlPage, 1, config.pageSize, configtype.cheliangIcon, configtype.cheliang);
+                }
+            }
+            if (type == configtype.yanjiedianjia) {
+                var val = $("#radioValue").val();
+                hideDelitsPanel();
+                showmenuPanel(titles, "店家名称", config.WebApi + configajaxurl.shopsalongtheStreetlist, config.WebApi + configajaxurl.shopsalongtheStreetPage, 1, config.pageSize, configtype.yanjiedianjiaIcon, configtype.yanjiedianjia, val);
+            }
+            if (type == configtype.huwaiguanggao) {
+                var val = $("#radioValue").val();
+                hideDelitsPanel();
+                showmenuPanel(titles, "状态,广告名称", config.WebApi + configajaxurl.huwaiguanggaourllist, config.WebApi + configajaxurl.huwaiguanggaoPage, 1, config.pageSize, configtype.huwaiguanggaoIcon, configtype.huwaiguanggao, val);
+            }
+            if (type == configtype.bujian) {
+                var val = $("#radioValue").val();
+                hideDelitsPanel();
+                showmenuPanel(titles, "部件名称", config.WebApi + configajaxurl.PartsList, config.WebApi + configajaxurl.PartsPageIndex, 1, config.pageSize, configtype.bujianIcon, configtype.bujian, val);
+            }
+            if (type == configtype.anjian) {
+                var val = $("#radioValue").val();
+                hideDelitsPanel();
+                showmenuPanel(titles, "任务号,地址", config.WebApi + configajaxurl.caseList, config.WebApi + configajaxurl.casePageIndex, 1, config.pageSize, configtype.anjianIcon, configtype.anjian, val);
+            }
+            if (type == configtype.ganzhishebei) {
+                var val = $("#radioValue").val();
+                hideDelitsPanel();
+                showmenuPanel(titles, "状态,编号", config.WebApi + configajaxurl.DeviceList, config.WebApi + configajaxurl.DeviceListPageIndex, 1, config.pageSize, configtype.ganzhishebeiIcon, configtype.ganzhishebei, val);
+            }
+        }
+
+        function moveto(grometry, titleName, rownum, colnum, colwidth1, colwidth2, type) {
+            rembGrometry = grometry;
+            rembtitleName = titleName;
+            rembrownumber = rownum;
+            rembcolnum = colnum;
+            rembcolwidth1 = colwidth1;
+            rembcolwidth2 = colwidth2;
+            rembDataJson = datajson;
+            //获取当前地图状态
+            var thisMapStatus = document.getElementById("nowMapStatus").value;
+            var array = grometry.split(",");
+            if (thisMapStatus == 1) {
+                flytoPonitShowTemplate(titleName, rownum, colnum, colwidth1, colwidth2, array[0], array[1], 0.00, datajson);
+            } else {
+                if (type != null && type != 'undefind' && type == configtype.bujian) {
+                    var array = grometry.split(",");
+                    var x = parseFloat(array[0]);
+                    var y = parseFloat(array[1]);
+                    clearMulch();
+                    addMark(1, x, y, iconPath, 1);
+                }
+            }
+        }
+
+        function substr(val) {
+            if (val != null) {
+                if (val.length > 10) {
+                    return val.substring(0, 15) + "...";
+                } else {
+                    return val;
+                }
+            }
+        }
+
+        //二三维切换
+        function changeMaps() {
+            clearMulch();
+            clearTrack();
+            var obj = document.getElementById("nowMapStatus");
+            var nowMapStatus = obj.value;
+            if (nowMapStatus == 1) {
+                document.getElementById("__g").style.visibility = "hidden";
+                document.getElementById("map").style.visibility = "visible";
+                obj.value = 2;
+                addMark(1, rembx, remby, rembIcon, 1);
+            } else {
+                document.getElementById("map").style.visibility = "hidden";
+                document.getElementById("__g").style.visibility = "visible";
+                obj.value = 1;
+                moveto(rembGrometry, rembtitleName, rembrownumber, rembcolnum, rembcolwidth1, rembcolwidth2, "");
+            }
+        }
+    </script>
+</head>
+<body id="deviceresolution">
+    <!--顶部-->
+    <div class="Mainhead">
+        <div class="MainheadFloat" id="Particles">
+            <div class="MainheadTitle">
+                <div class="topleftTitleImg">
+                    <img src="Image/LOGO.png" />
+                </div>
+            </div>
+            <div class="MainheadCenterTime">
+                <div id="time" style="font-family: 'digitalTableFont'"></div>
+                <div id="yearMonthday"></div>
+            </div>
+            <div class="MainheadRight">
+                <label id="userName"></label>
+                &nbsp;<a href="#" id="element" onclick="resetlogin()">注销</a>
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" id="nowMapStatus" value="1" />
+
+    <!-- 三维地图-->
+    <object id="__g" class="MainMapCenter" type="application/x-cm-3d">
+        <param name="wmode" value="opaque" />
+    </object>
+
+
+    <!--二维地图-->
+    <div id="map" class="MainMapCenter"></div>
+    <div id="container" class="container"></div>
+    <div id="css_animation"></div>
+    <div id="mytemplate" class="my-template">
+        <table>
+            <tr>
+                <td>编号</td>
+                <td>
+                    <label id="eventId"></label>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <!--工具栏面板-->
+    <div class="touchbarPanel">
+        <div class="topleftcorner"></div>
+        <div class="toprightcorner"></div>
+        <div class="bottomleftcorner"></div>
+        <div class="bottomrightcorner"></div>
+        <img src="Image/Toolsbar/2D3D.png" title="二维三维切换" onclick="changeMaps()" />
+        <img src="Image/Toolsbar/point.png" title="拾取坐标" onclick="Coordinate()" />
+        <img src="Image/Toolsbar/linearranging.png" title="直线测距" onclick="AerialDistance()" />
+        <img src="Image/Toolsbar/levelranging.png" title="水平测距" onclick="HorizontalDistance()" />
+        <img src="Image/Toolsbar/modelselection.png" title="模型选取" onclick="Select()" />
+        <img src="Image/Toolsbar/verticalranging.png" title="垂直测距" onclick="VerticalDistance()" />
+        <img src="Image/Toolsbar/flytoword.png" title="回到中心点" onclick="screentoword(328672.20,3358725.40)" />
+        <img src="Image/Toolsbar/clear.png" title="清除" onclick="StopCheck()" />
+    </div>
+
+    <!--菜单栏面板-->
+    <div class="menuPanel" id="menuPanel" style="visibility: hidden; width: 230px; height: 330px; left: 20px; top: 95px; position: absolute;" onmousedown="move(this,event)">
+        <div class="Panelbg">
+            <div class="topleftcorner"></div>
+            <div class="toprightcorner"></div>
+            <div class="bottomleftcorner"></div>
+            <div class="bottomrightcorner"></div>
+            <div class="menuPanelMagin">
+                <div class="Panel_Icon wrj" id="lefttitleIco" style="top: 7px"></div>
+                <div id="centertopTitle" class="menucenterTitle"></div>
+                <div id="rightminimize" class="rightminimize" tabindex="1" onclick="minimizeMenuPanel(this)">
+                    <div class="rightminimize content"></div>
+                </div>
+                <div id="rightClose" class="rightClose" onclick="hidemenuPanel()">
+                    <div class="rightClose content"></div>
+                </div>
+                <div class="splitline"></div>
+                <div style="width: 220px; height: 30px; position: absolute; top: 40px;" id="searchMenuPanel">
+                    <section class="webdesigntuts-workshop" id="searchpanel"></section>
+                    <input type="hidden" id="menuAjaxUrl" />
+                    <input type="hidden" id="menuAjaxUrlPage" />
+                    <input type="hidden" id="radiovals" />
+                    <input type="hidden" id="configtypes" />
+                    <input type="hidden" id="clsName" />
+                </div>
+                <!--引子-->
+                <div class="data_list_content" id="data_list_content">
+                    <div class="loading">
+                        <img src="../Image/loading.gif" />
+                        <br />
+                        <span>正在努力加载...</span>
+                    </div>
+                    <table id="menutable">
+                        <thead id="Menutitle">
+                        </thead>
+                        <tbody id="MenuContent"></tbody>
+                    </table>
+                    <div style="width: 98%; height: 238px; overflow: auto" id="treeCameraScroll">
+                        <div id="treeCamera" class="tree"></div>
+                    </div>
+                </div>
+                <div id="Page" class="page" style="width: 225px; height: 20px; position: absolute; top: 300px; left: 0px; text-align: left"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 概要面板-->
+    <div class="outline" id="outline" style="visibility: hidden; width: 300px; height: 200px; left: 270px; top: 95px; position: absolute;" onmousedown="move(this,event)">
+        <div class="topleftcorner"></div>
+        <div class="toprightcorner"></div>
+        <div class="bottomleftcorner"></div>
+        <div class="bottomrightcorner"></div>
+        <div id="outlineclose" class="rightClose" onclick="hideoutline()">
+            <div class="rightClose content"></div>
+        </div>
+        <div class="Panel_Icon wrj" id="outlineIcon"></div>
+        <div class="outlinetitle" id="outlinetitle">EWG-II-01</div>
+        <table class="outlinetitletable" id="outlinetitletable">
+            <tr>
+                <td>编号</td>
+                <td>EWG-II-01</td>
+            </tr>
+            <tr>
+                <td>目标</td>
+                <td>世纪城</td>
+            </tr>
+            <tr>
+                <td>状态</td>
+                <td>行驶中</td>
+            </tr>
+        </table>
+        <div class="outlinebottomIcon" id="outlinebottomShowdetail">
+        </div>
+    </div>
+
+    <!--详情或者筛选面板-->
+    <div class="DelitsPanel" id="DelitsPanel" style="visibility: hidden; width: 500px; height: 330px; position: absolute; left: 500px; top: 95px;" onmousedown="move(this,event)">
+        <div class="topleftcorner"></div>
+        <div class="toprightcorner"></div>
+        <div class="bottomleftcorner"></div>
+        <div class="bottomrightcorner"></div>
+        <div id="delitsClose" class="rightClose" onclick="hideDelitsPanel()">
+            <div class="rightClose content"></div>
+        </div>
+        <div id="delitsIcon" class="Panel_Icon wrj"></div>
+        <div id="delitstitle" class="outlinetitle"></div>
+        <div class="delitsContent" id="delitsContent">
+        </div>
+        <div class="Delits_Bottom">
+        </div>
+    </div>
+
+    <!--图片面板-->
+    <div class="DelitsPanel" style="width: 300px; height: 250px; position: absolute; left: 1010px; top: 95px;" id="imgPanleDetails" onmousedown="move(this,event)">
+        <div class="topleftcorner"></div>
+        <div class="toprightcorner"></div>
+        <div class="bottomleftcorner"></div>
+        <div class="bottomrightcorner"></div>
+        <div id="delitsClose" class="rightClose" onclick="hideImgPanelDetails()">
+            <div class="rightClose content"></div>
+        </div>
+        <div class="delitsContent" id="showImgSourceContent">
+        </div>
+    </div>
+
+    <!-- 底部-->
+    <div class="bottom" id="bottomContent">
+        <!-- 滚动动画效果-->
+        <div style="width: 40px; height: 41px; position: absolute; bottom: 143px; left: 5%;">
+            <img src="../Image/earth.png" id="earth" />
+        </div>
+        <div style="width: 49px; height: 49px; position: absolute; bottom: 139px; right: 5%;">
+            <img src="../Image/setUp.png" id="setUp" />
+        </div>
+
+        <!-- 底部六边形菜单栏-->
+        <div class="centerMenu" id="hexagonMenu">
+            <ul>
+                <li class="bottomImgUp bottomImgDown" tabindex="5">
+                    <div class="buttonControl topFont Margin Paleblue">
+                        <p id="hwgg"></p>
+                    </div>
+                    <div class="buttonControl CenterFont">
+                        户外广告
+                    </div>
+                    <div class="buttonControl smallhwggIcon">
+                    </div>
+                </li>
+                <li class="bottomImgUp" tabindex="2">
+                    <div class="buttonControl topFont Margin  orange">
+                        <p id="yjdj"></p>
+                    </div>
+                    <div class="buttonControl CenterFont">
+                        沿街店家
+                    </div>
+                    <div class="buttonControl smalldjIcon">
+                    </div>
+                </li>
+                <li class="bottomImgUp bottomImgDown" tabindex="3">
+                    <div class="buttonControl topFont Margin green">
+                        <p id="aj"></p>
+                    </div>
+                    <div class="buttonControl CenterFont">
+                        案件
+                    </div>
+                    <div class="buttonControl smallajIcon">
+                    </div>
+                </li>
+                <li class="bottomImgUp" tabindex="4">
+                    <div class="buttonControl topFont Margin Palered">
+                        <p id="jk"></p>
+                    </div>
+                    <div class="buttonControl CenterFont">
+                        监控
+                    </div>
+                    <div class="buttonControl smalljkIcon">
+                    </div>
+                </li>
+                <li class="bottomImgUp bottomImgDown" tabindex="1">
+                    <div class="buttonControl topFont Margin Paleblue">
+                        <p id=""></p>
+                    </div>
+                    <div class="buttonControl CenterFont">
+                        首页
+                    </div>
+                    <div class="">
+                    </div>
+                </li>
+                <li class="bottomImgUp" tabindex="6">
+                    <div class="buttonControl topFont Margin Palepink">
+                        <p id="wrj"></p>
+                    </div>
+                    <div class="buttonControl CenterFont">
+                        无人机
+                    </div>
+                    <div class="buttonControl smallwrjIcon">
+                    </div>
+                </li>
+                <li class="bottomImgUp bottomImgDown" tabindex="7">
+                    <div class="buttonControl topFont Margin Palecolour">
+                        <p id="gzsb"></p>
+                    </div>
+                    <div class="buttonControl CenterFont">
+                        感知设备
+                    </div>
+                    <div class="buttonControl smallgzsbIcon">
+                    </div>
+                </li>
+                <li class="bottomImgUp" tabindex="8">
+                    <div class="buttonControl topFont Margin Navyblue">
+                        <p id="rycl"></p>
+                    </div>
+                    <div class="buttonControl CenterFont">
+                        人员车辆
+                    </div>
+                    <div class="buttonControl smallryclIcon">
+                    </div>
+                </li>
+                <li class="bottomImgUp bottomImgDown" tabindex="9">
+                    <div class="buttonControl topFont Margin Lavender">
+                        <p id="bj"></p>
+                    </div>
+                    <div class="buttonControl CenterFont">
+                        部件
+                    </div>
+                    <div class="buttonControl smallbjIcon">
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!--首页-->
+        <div id="syContent" style="visibility: hidden">
+            <div class="bottomSmallShowImg one">
+                <div class="divSeizeASeat"></div>
+                案件
+                <br />
+                趋势图
+            </div>
+            <div class="lefthistogram" id="rightTrendchartaj">
+            </div>
+            <div class="bottomSmallShowImg two">
+                <div class="smalldivSeizeASeat"></div>
+                <br />
+                店家
+                <br />
+                趋势图
+            </div>
+            <div class="ajContentSeizeAseat" id="shouyeyjdjaj" style="height: 150px">
+            </div>
+            <div class="bottomSmallShowImg three">
+                <div class="smalldivSeizeASeat"></div>
+                <br />
+                到期
+                <br />
+                广告
+            </div>
+            <div class="righthistogram">
+                <table class="righttabClass" cellpadding="4" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <td>广告名称</td>
+                            <td>地址</td>
+                            <td>到期日期</td>
+                        </tr>
+                    </thead>
+                    <tbody id="daoqiguanggao"></tbody>
+                </table>
+            </div>
+        </div>
+        <!-- 沿街店家-->
+        <div id="yjdjContent" style="visibility: visible">
+            <div class="bottomSmallShowImg one">
+                <div class="divSeizeASeat"></div>
+                店家
+                <br />
+                趋势图
+            </div>
+            <div class="lefthistogram" id="yjdjaj">
+            </div>
+            <div class="bottomSmallShowImg two">
+                <div class="smalldivSeizeASeat"></div>
+                <br />
+                店家
+                <br />
+                <span id="yjdjcount"></span>
+            </div>
+            <table class="tabCenter" id="yjdjtype"></table>
+            <div class="bottomSmallShowImg three">
+                <div class="smalldivSeizeASeat"></div>
+                <br />
+                类型
+                <br />
+                分布图
+            </div>
+            <div class="rightTrendchart">
+                <div class="piecharts" id="yjdjpie"></div>
+            </div>
+        </div>
+        <!--监控-->
+        <div id="jkContent" style="visibility: hidden">
+            <div class="bottomSmallShowImg one">
+                <div class="divSeizeASeat"></div>
+                监控
+                <br />
+                区域
+            </div>
+            <div class="lefthistogram">
+                <table class="lefttabCenter" id="camaraGridData"></table>
+            </div>
+            <div class="bottomSmallShowImg two">
+                <div class="smalldivSeizeASeat"></div>
+                <br />
+                监控
+                <br />
+                类型
+            </div>
+            <div class="centerPieSeizeAseat" id="jkPiecharts">
+            </div>
+            <div class="centerrightTypeDelits">
+                <table class="centerrightTab" style="margin: 10px 0px 0px 5px" id="centerrightTabCamera"></table>
+            </div>
+            <div class="bottomSmallShowImg three">
+                <div class="smalldivSeizeASeat"></div>
+                <br />
+                监控
+                <br />
+                分布
+            </div>
+            <div class="righthistogram" style="overflow-x: auto" id="jkscroll">
+                <!--修改处  原值width: 800px-->
+                <div style="width: 480px; height: 100%; float: left;" id="jkhistogram">
+                </div>
+            </div>
+        </div>
+        <!--户外广告-->
+        <div id="hwggContent" style="visibility: hidden">
+            <div class="bottomSmallShowImg one">
+                <div class="divSeizeASeat"></div>
+                最新
+                <br />
+                广告
+            </div>
+            <div class="lefthistogram">
+                <table class="lefttabClass" cellpadding="4" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <td>广告名称</td>
+                            <td>地址</td>
+                            <td>到期日期</td>
+                        </tr>
+                    </thead>
+                    <tbody id="hwggbestnew"></tbody>
+                </table>
+            </div>
+            <div class="bottomSmallShowImg two">
+                <div class="smalldivSeizeASeat"></div>
+                <br />
+                广告
+                <br />
+                类型
+            </div>
+            <!--   <div class="centerPieSeizeAseatFont">200</div>-->
+            <div class="centerPieSeizeAseat" id="hwggPie">
+            </div>
+            <div class="centerrightTypeDelits">
+                <table class="tabMargin" id="tabhwggtype"></table>
+            </div>
+            <div class="bottomSmallShowImg three">
+                <div class="smalldivSeizeASeat"></div>
+                <br />
+                到期
+                <br />
+                广告
+            </div>
+            <div class="righthistogram">
+                <table class="righttabClass" cellpadding="4" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <td>广告名称</td>
+                            <td>地址</td>
+                            <td>到期日期</td>
+                        </tr>
+                    </thead>
+                    <tbody id="hwggpastdue"></tbody>
+                </table>
+            </div>
+        </div>
+        <!--  案件-->
+        <div id="ajContent" style="visibility: hidden">
+            <div class="bottomSmallShowImg one">
+                <div class="divSeizeASeat"></div>
+                案件
+                <br />
+                趋势图
+            </div>
+            <div class="lefthistogram" id="rightTrendchart">
+            </div>
+            <div class="bottomSmallShowImg two">
+                <div class="smalldivSeizeASeat"></div>
+                <br />
+                案件
+                <br />
+                排名
+            </div>
+            <div class="ajContentSeizeAseat" id="ajthistogram">
+            </div>
+            <div class="bottomSmallShowImg three">
+                <div class="smalldivSeizeASeat"></div>
+                <br />
+                最新
+                <br />
+                案件
+            </div>
+            <div class="righthistogram">
+                <table class="righttabClass" cellpadding="4" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <td>任务号</td>
+                            <td>地址</td>
+                            <td>案发日期</td>
+                        </tr>
+                    </thead>
+                    <tbody id="ajtable"></tbody>
+                </table>
+            </div>
+        </div>
+        <!-- 无人机-->
+        <div style="visibility: hidden" id="wrjContent">
+            <div class="lefthistogram">
+                <div class="wrjleftcontent">
+                    <table>
+                        <tr>
+                            <td>
+                                <img src="../Image/aircrafttime.png" />
+                            </td>
+                            <td class="tdFontSizeColor">今日飞行总时长</td>
+                            <td>&nbsp;</td>
+                            <td class="centerrightTabTd orangeColor">0.5</td>
+                            <td>&nbsp;</td>
+                            <td class="tdFontSizeColor">小时</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="Image/aircraftnumber.png" />
+                            </td>
+                            <td class="tdFontSizeColor">今日飞行总数量</td>
+                            <td>&nbsp;</td>
+                            <td class="centerrightTabTd orangeColor">1</td>
+                            <td>&nbsp;</td>
+                            <td class="tdFontSizeColor">架次</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="bottomSmallShowImg two">
+                <div class="middledivSeizeASeat"></div>
+                <p>类型</p>
+            </div>
+            <div class="centerEllipse">
+                <table>
+                    <tr>
+                        <td class="tdFontSizeColor">UAV-MA40008A</td>
+                    </tr>
+                    <tr>
+                        <td class="tdFontSizeColor">定制</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="bottomSmallShowImg three">
+                <div class="smalldivSeizeASeat"></div>
+                <br />
+                无人机
+                <br />
+                状态
+            </div>
+            <div class="rightTrendchart">
+                <!--<div class="rightPieCenterfont">
+                        155
+                    </div>-->
+                <div class="rightPiebg" id="wrjPiecharts">
+                </div>
+                <div class="rightPanel">
+                    <div class="rightPanelborder"></div>
+                    <div style="width: 100%; height: 70px; background: #0C0C0E">
+                        <table>
+                            <tr>
+                                <td class="tdFontSizeColor">行驶中</td>
+                                <td class="centerrightTabTd GreenColor">0</td>
+                            </tr>
+                            <tr>
+                                <td class="tdFontSizeColor">轮休中</td>
+                                <td class="centerrightTabTd orangeColor">1</td>
+                            </tr>
+                            <tr>
+                                <td class="tdFontSizeColor">检修中</td>
+                                <td class="centerrightTabTd blue">1</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="rightPanelborder"></div>
+                </div>
+            </div>
+        </div>
+        <!--  感知设备-->
+        <div id="gzsbContent" style="visibility: hidden">
+            <div class="lefthistogram">
+                <div class="gzsbleftcontent">
+                    <table>
+                        <tr>
+                            <td>
+                                <img src="../Image/sbcount.png" />
+                            </td>
+                            <td class="tdFontSizeColor">设备总量</td>
+                            <td>&nbsp;</td>
+                            <td class="centerrightTabTd orangeColor" id="DeviceCount"></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="../Image/zhengchang.png" />
+                            </td>
+                            <td class="tdFontSizeColor">正常运行</td>
+                            <td>&nbsp;</td>
+                            <td class="centerrightTabTd orangeColor" id="normalDevice"></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="../Image/badcount.png" />
+                            </td>
+                            <td class="tdFontSizeColor">不正常运行</td>
+                            <td>&nbsp;</td>
+                            <td class="centerrightTabTd orangeColor" id="nonormalDevice"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="bottomSmallShowImg two">
+                <div class="smalldivSeizeASeat"></div>
+                <br />
+                设备
+                <br />
+                类型
+            </div>
+            <div class="gzsbCentercontent">
+                <table class="gazsbTab">
+                    <tr>
+                        <td class="tdFontSizeColor">智慧消防栓监测系统</td>
+                        <td class="centerrightTabTd GreenColor" id="zhxfjc"></td>
+                        <td class="smalltitleShow" id="zhxfjcOnline"></td>
+                        <td>&nbsp;</td>
+                        <td class="tdFontSizeColor">窨井盖监测系统</td>
+                        <td class="centerrightTabTd GreenColor" id="djgjc"></td>
+                        <td class="smalltitleShow" id="djgjcOnline"></td>
+                    </tr>
+                    <tr>
+                        <td class="tdFontSizeColor">PM2.5粉尘温湿度监测系统</td>
+                        <td class="centerrightTabTd GreenColor" id="pmfcjc"></td>
+                        <td class="smalltitleShow" id="pmfcjcOnline"></td>
+                        <td>&nbsp;</td>
+                        <td style="color: white; font-size: 12px;">水位检测</td>
+                        <td class="centerrightTabTd GreenColor">50</td>
+                        <td class="smalltitleShow">(0)</td>
+                    </tr>
+                    <tr>
+                        <td class="tdFontSizeColor">排污检测</td>
+                        <td class="centerrightTabTd GreenColor">50</td>
+                        <td class="smalltitleShow">(0)</td>
+                        <td>&nbsp;</td>
+                        <td class="tdFontSizeColor">水质检测</td>
+                        <td class="centerrightTabTd GreenColor">50</td>
+                        <td class="smalltitleShow">(0)</td>
+                    </tr>
+                    <tr>
+                        <td class="tdFontSizeColor">地道检测</td>
+                        <td class="centerrightTabTd GreenColor">50</td>
+                        <td class="smalltitleShow">(0)</td>
+                        <td>&nbsp;</td>
+                        <td class="tdFontSizeColor">亮灯检测</td>
+                        <td class="centerrightTabTd GreenColor">50</td>
+                        <td class="smalltitleShow">(0)</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="bottomSmallShowImg three">
+                <div class="middledivSeizeASeat"></div>
+                <br />
+                报警
+            </div>
+            <div class="rightTrendchart">
+                <table class="righttabClass" cellpadding="4" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <td>设备编号</td>
+                            <td>设备类型</td>
+                            <td>报警时间</td>
+                        </tr>
+                    </thead>
+                    <tbody id="gzsbtableData"></tbody>
+                </table>
+            </div>
+        </div>
+        <!-- 人员车辆-->
+        <div id="ryclContent" style="visibility: hidden">
+            <div class="ryclleftbg"></div>
+            <div class="ryclSeizeASeat left">
+                <div class="rycltodayOnlinepeople">今日在岗人数</div>
+                <div class="ryclShowContent">
+                    <div class="smalldivSeizeASeat"></div>
+                    <br />
+                    <span id="todayOnlinePeople">100</span>
+                </div>
+            </div>
+            <div class="ryclcenterbg left"></div>
+            <div class="ryclSeizeASeat center">
+                <div class="rycltodayOnlinepeople">今日在岗车辆</div>
+                <div class="ryclShowContent">
+                    <div class="smalldivSeizeASeat"></div>
+                    <br />
+                    <span id="todayOnlineCar">100</span>
+                </div>
+            </div>
+            <div class="ryclcenterbg right"></div>
+            <div class="bottomSmallShowImg three">
+                <div class="smalldivSeizeASeat"></div>
+                <br />
+                人员
+                <br />
+                类型
+            </div>
+            <div class="ryclrightContent"></div>
+            <div class="ryclrightContent">
+                <table class="rycltabMargin" id="rytypedate"></table>
+            </div>
+        </div>
+        <!--部件-->
+        <div id="bjContent" style="visibility: hidden">
+            <div class="bottomSmallShowImg one">
+                <div class="middledivSeizeASeat"></div>
+                <p>部件</p>
+            </div>
+            <div class="publiHeight deviceWidth leftcontent">
+                <table>
+                    <tbody id="bjlefttable"></tbody>
+                </table>
+            </div>
+            <div class="bottomSmallShowImg two">
+                <div class="middledivSeizeASeat"></div>
+                <p>设施</p>
+            </div>
+            <div class="publiHeight deviceWidth left">
+                <table>
+                    <tbody id="bjrighttable"></tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    <script src="Scripts/echarts/Index/indexHistogram.js"></script>
+    <script src="Scripts/echarts/Index/Trendchart.js"></script>
+    <script src="Scripts/echarts/yjdj/yjdjaj.js"></script>
+    <script src="Scripts/echarts/yjdj/yjdjpie.js"></script>
+    <script src="Scripts/echarts/jk/jkhistogram.js"></script>
+    <script src="Scripts/echarts/jk/cameraGrid.js"></script>
+    <script src="Scripts/echarts/hwgg/pieggType.js"></script>
+    <script src="Scripts/echarts/jk/jkPiecharts.js"></script>
+    <script src="Scripts/echarts/wrj/wrjPiecharts.js"></script>
+    <!--二维地图-->
+    <script src="Scripts/2DMap/2DMap.js"></script>
+    <!--<script src="Scripts/echarts/aj/ajHistogram.js"></script>-->
+    <script src="Scripts/jsScrool/ShowScrool.js"></script>
+    <script type="text/javascript">
+        var yjdjvalue, ajvalue, jkvalue, hwggvalue, wrjvalue, gzsbvalue, ryclvalue, bjvalue;
+        $(document).ready(function () {
+            loadanyCount();
+            $('#yjdj').prop('number', 0).animateNumber({ number: yjdjvalue }, 5500);
+            $('#aj').prop('number', 0).animateNumber({ number: ajvalue }, 5500);
+            $('#jk').prop('number', 0).animateNumber({ number: jkvalue }, 5500);
+            $('#hwgg').prop('number', 0).animateNumber({ number: hwggvalue }, 5500);
+            $('#wrj').prop('number', 0).animateNumber({ number: wrjvalue }, 5500);
+            $('#gzsb').prop('number', 0).animateNumber({ number: gzsbvalue }, 5500);
+            $('#rycl').prop('number', 0).animateNumber({ number: ryclvalue }, 5500);
+            $('#bj').prop('number', 0).animateNumber({ number: bjvalue }, 5500);
+        })
+
+        function loadanyCount() {
+            $.ajax({
+                url: config.WebApi + configajaxurl.hexagoncount,
+                type: 'get',
+                async: false,
+                timeout: 10000,
+                dataType: 'json',
+                success: function (data, jqxhr, textStatus) {
+                    $.each(data, function (i, n) {
+                        switch (n.type) {
+                            case "yjdj":
+                                yjdjvalue = n.value;
+                                break;
+                            case "aj":
+                                ajvalue = n.value;
+                                break;
+                            case "jk":
+                                jkvalue = n.value;
+                                break;
+                            case "hwgg":
+                                hwggvalue = n.value;
+                            case "wrj":
+                                wrjvalue = n.value;
+                                break;
+                            case "gzsb":
+                                gzsbvalue = n.value;
+                                break;
+                            case "rycl":
+                                ryclvalue = n.value;
+                                break;
+                            case "bj":
+                                bjvalue = n.value;
+                                break;
+                        }
+                    })
+                }, error: function (xhr, textStatus) {
+                    console.log(textStatus);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

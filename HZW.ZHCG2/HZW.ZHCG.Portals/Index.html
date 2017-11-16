@@ -1,0 +1,513 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <title>杭州湾门户</title>
+    <link rel='icon' href='/Images/faviconico.ico' type='image/x-ico' />
+    <link href="Css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../Css/styleindex.css" rel="stylesheet" />
+    <link href="../Css/topStyle.css" rel="stylesheet" />
+    <link href="../Css/lrtk.css" rel="stylesheet" />
+    <script src="Scripts/jquery-3.0.0.js"></script>
+    <script src="../Scripts/configs.js"></script>
+    <script src="../Scripts/lrtk.js"></script>
+    <script src="Scripts/ImageUpload/binaryajax.js"></script>
+    <script src="Scripts/ImageUpload/exif.js"></script>
+    <script src="Scripts/ImageUpload/megapix-image.js"></script>   
+    <script src="Scripts/ImageUpload/jquery.make-thumb.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("form").attr("action", config.WebApi + "Event/AddEvent?r=" + Math.random());
+            var url = config.WebApi + "/Categors/GetmhcateGorsByParentId?parentId=9&takeNumber=6";
+            $.ajax({
+                url: url,
+                type: "get",
+                async: true,
+                timeout: 5000,    //超时时间
+                dataType: "json",
+                success: function (data, textStatus, jqxhr) {
+                    $.each(data, function (i, n) {
+                        var html = "<li><a href='/Views/News/TeamBilding.html?categoryID=" + n.ID + "' class='a" + (i + 1) + "'><i class='i" + (i + 1) + "'></i>" + n.Name + "</a></li>";
+                        $("#zt_fl").append(html);
+
+                    });
+                }
+                , error: function (xhr, textStatus) {
+                    console.log(textStatus);
+                }
+            });
+            var obj = $("#rightNews");
+            var objtitle = document.getElementById("zwtitle");
+            var objwork = $("#zxwork");
+            var objtjMessage = $("#tjMessage");
+            var objcgMessage = $("#cgMessage");
+            var objbmserver = $("#bmserver")
+            getHotTitle(1, 1, objtitle);
+            getGovernmentpublic(1, 5, obj, "Views/News/GovernmentAffairs.html", 25, 25);
+            getGovernmentpublic(3, 5, objwork, "Views/News/ThematicWork.html", 15, 15);
+            getGovernmentpublic(4, 5, objtjMessage, "Views/News/StatisticalBulletin.html", 32, 32);
+            getGovernmentpublic(6, 5, objcgMessage, "Views/News/ThePublicAPP.html", 32, 32);
+            getGovernmentpublic(8, 5, objbmserver, "Views/News/ConvenienceServices.html");
+            var tabsone = document.getElementById("Messagetab").getElementsByTagName("span");
+            var showContentone = $("#tjMessage");
+            var tabstwo = document.getElementById("cgMessagetab").getElementsByTagName("span");
+            var showContenttwo = $("#cgMessage");
+            var a1 = document.getElementById("tab1");
+            var a2 = document.getElementById("tab2");
+            //统计通报曝光台
+            GetTabsChange(tabsone, showContentone, 4, 2, "Views/News/StatisticalBulletin.html", "Views/News/Exposuretable.html", a1);
+
+            //城管城管APP
+            GetTabsChange(tabstwo, showContenttwo, 6, 7, "Views/News/ThePublicAPP.html", "Views/News/WeChat.html", a2);
+            //加载图片轮播
+            loadingsilderJson(7);
+        });
+
+        //选项卡切换
+        function GetTabsChange(tabs, showContent, type1, type2, type1url, type2url, tabsMoreA) {
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].onclick = function () { tabChanges(this); }
+            }
+
+            function tabChanges(any) {
+                for (var i = 0; i < tabs.length; i++) {
+                    if (tabs[i] == any) {
+                        tabs[i].className = "new_h_3_span_seleted";
+                        if (tabs[i].tabIndex == 1) {
+                            var url = getsliderUrl(type1);
+                            tabsMoreA.href = url;
+                            getGovernmentpublic(type1, 5, showContent, type1url, 32, 32);
+                        }
+                        if (tabs[i].tabIndex == 2) {
+                            var url = getsliderUrl(type2);
+                            tabsMoreA.href = url;
+                            getGovernmentpublic(type2, 5, showContent, type2url, 32, 32);
+                        }
+                    } else {
+                        tabs[i].className = "";
+                    }
+                }
+            }
+        }
+
+        //公用查询数据方法
+        function getGovernmentpublic(bigId, number, obj, redirectUrl, titlelength, sublength) {
+            var url = config.WebApi + "/News/GetNewsByBigId?bigId=" + bigId + "&number=" + number + "";
+            $.ajax({
+                url: url,
+                type: "get",
+                async: true,
+                timeout: 5000,
+                dataType: "json",
+                success: function (data, textStatus, jqxhr) {
+                    var html = "";
+                    $.each(data, function (i, n) {
+                        if (bigId == 1 || bigId == 8) {
+                            if (n.title.length > titlelength) {
+                                html += "<li><span>" + n.createdTime.substring(0, 10) + "</span><a title=" + n.title + " href=" + redirectUrl + "?categoryID=" + n.categoryID + "&articleID=" + n.articleID + ">" + n.title.substring(0, sublength) + "..." + "</a></li>";
+                            } else {
+                                html += "<li><span>" + n.createdTime.substring(0, 10) + "</span><a title=" + n.title + " href=" + redirectUrl + "?categoryID=" + n.categoryID + "&articleID=" + n.articleID + ">" + n.title + "</a></li>";
+                            }
+                        } else {
+                            if (n.title.length > titlelength) {
+                                html += "<li><a title=" + n.title + " href=" + redirectUrl + "?categoryID=" + n.categoryID + "&articleID=" + n.articleID + ">" + n.title.substring(0, sublength) + "..." + "</a></li>";
+                            } else {
+                                html += "<li><a title=" + n.title + " href=" + redirectUrl + "?categoryID=" + n.categoryID + "&articleID=" + n.articleID + ">" + n.title + "</a></li>";
+                            }
+                        }
+                    });
+                    obj.html(html);
+                }, error: function (xhr, textStatus) {
+                    console.log(textStatus);
+                }
+            });
+        }
+
+        //获取热门标题
+        function getHotTitle(bigId, number, obj) {
+            var url = config.WebApi + "/News/GetNewsByBigId?bigId=" + bigId + "&number=" + number + "";
+            $.ajax({
+                url: url,
+                type: "get",
+                async: true,
+                timeout: 5000,
+                dataType: "json",
+                success: function (data, textStatus, jqxhr) {
+                    $.each(data, function (i, n) {
+                        if (n.title.length > 17) {
+                            obj.innerHTML = "<a style='color: #FF0000' href='/Views/News/GovernmentAffairs.html?categoryID=" + n.categoryID + "&articleID=" + n.articleID + "'>" + n.title.substring(0, 17) + "..." + "</a>";
+                        } else {
+                            obj.innerHTML = "<a style='color: #FF0000' href='/Views/News/GovernmentAffairs.html?categoryID=" + n.categoryID + "&articleID=" + n.articleID + "'>" + n.title + "</a>";
+                        }
+
+                        obj.href = "/Views/News/GovernmentAffairs.html?categoryID=" + n.categoryID + "&articleID=" + n.articleID + "";
+                    });
+                }, error: function (xhr, textStatus) {
+                    console.log(textStatus);
+                }
+            });
+        }
+
+
+        function fileUpload(fileid, imgid) {
+            $(imgid).val($(fileid).val());
+        }
+
+        function validate_form() {
+            if ($("input[name='Title']").val() == "") {
+                alert("标题不能为空!");
+                return false;
+            }
+            if ($("textarea[name='Content']").val() == "") {
+                alert("内容不能为空!");
+                return false;
+            }
+            if ($("input[name='ContactPerson']").val() == "") {
+                alert("联系人不能为空!");
+                return false;
+            }
+            if ($("input[name='ContactPhone']").val() == "") {
+                alert("联系方式不能为空!");
+                return false;
+            }
+            if (checkPhone($("input[name='ContactPhone']").val()) == "1") {
+                alert("请填正确电话联系方式!");
+                return false;
+            }
+            if ($("#material1Base64").val() == "") {
+                alert("请上传一张图片!");
+                return false;
+            } else {
+                document.getElementById("submitdata").disabled = true;
+                var url = config.WebApi + "/Event/AddEvent";
+                var parms = { title: $("input[name='Title']").val(), content: $("textarea[name='Content']").val(), reportperson: $("input[name='ContactPerson']").val(), contact: $("input[name='ContactPhone']").val(), photo1: $("#fileSuffix").val(), photofile1: $("#material1Base64").val() }
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    data: parms,
+                    datatype: "json",
+                    success: function (rt) {
+                        if (rt == "success") {
+                            document.getElementById("Title").value = null;
+                            document.getElementById("Content").value = null;
+                            document.getElementById("ContactPerson").value = null;
+                            document.getElementById("ContactPhone").value = null;
+                            document.getElementById("fileSuffix").value = null;
+                            document.getElementById("material1Base64").value = null;
+                            document.getElementById("img1").value = null;
+                            alert("上报成功!");
+                            document.getElementById("submitdata").disabled = false;
+                        }
+                    }, error: function (xhr, textStatus) {
+                        console.log(textStatus);
+                    }
+                });
+            }
+        }
+
+        //验证联系方式
+        function checkPhone(phone) {
+            if (!(/^1[34578]\d{9}$/.test(phone))) {
+                return "1";
+            }
+        }
+
+        var data = {
+            id: '',
+            client: '',
+            desc: ''
+        };
+        function loadingsilderJson(takeNumber) {
+            var url = config.WebApi + "/News/GetHotNews?takeNumber=" + takeNumber + "";
+            $.ajax({
+                url: url,
+                type: "get",
+                async: true,
+                timeout: 5000,
+                dataType: "json",
+                success: function (data, textStatus, jqxhr) {
+                    var html = "";
+                    var dataone = [];
+                    var path = config.PathAshx + '/GetPictureFile.ashx?PicPath=';
+                    $.each(data, function (i, n) {
+                        dataone.push({ id: 'slide-img-' + (i + 1), client: n.title, desc: '' });
+                        html += "<a href=" + getsliderUrl(n.categoryid_bid) + "?categoryID=" + n.categoryID + "&articleID=" + n.articleID + "><img id='slide-img-" + (i + 1) + "' src='" + path + config.NewPath + n.filePath + "' class='slide' alt='' /></a>";
+                    });
+                    $("#slide-runner").prepend(html);
+                    slider.data = dataone;
+                    slider.init();
+                }, error: function (xhr, textStatus) {
+                    console.log(textStatus);
+                }
+            });
+        }
+
+        //获取链接
+        function getsliderUrl(categoryid_bid) {
+            var url;
+            switch (categoryid_bid) {
+                case 1:
+                    url = "/Views/News/GovernmentAffairs.html";
+                    break;
+                case 2:
+                    url = "/Views/News/Exposuretable.html";
+                    break;
+                case 3:
+                    url = "/Views/News/ThematicWork.html";
+                case 4:
+                    url = "/Views/News/StatisticalBulletin.html";
+                    break;
+                case 6:
+                    url = "/Views/News/ThePublicAPP.html";
+                    break;
+                case 7:
+                    url = "/Views/News/WeChat.html";
+                    break;
+                case 8:
+                    url = "/Views/News/ConvenienceServices.html";
+                    break;
+                case 9:
+                    url = "/Views/News/TeamBilding.html";
+                    break;
+            }
+            return url;
+        }
+
+    </script>
+
+    <script>
+        $(function () {
+            var $file = $('#material1');
+
+            $file.makeThumb({
+                width: 800,
+                height: 400,
+                done: function (dataURL, blob, tSize, file, sSize, fEvt) { //success
+                    // 可以得到图片名, 高度等信息, 用来做一些判断, 比如图片大小是否符合要求等..
+                    // console.log(fEvt.target, file.name, sSize, sSize.width, sSize.height);
+                    // console.log(file.name, sSize.width +'->'+ tSize.width, sSize.height +'->'+ tSize.height);
+
+                    var thumb = new Image();
+                    thumb.src = dataURL;
+                    // var title = file.name +', '+ sSize.width +'->'+ tSize.width +', '+ sSize.height +'->'+ tSize.height;
+                    var title = file.name;
+                    var suffix = getfileSuffix(title);
+                    if (suffix == '.bmp' || suffix == '.jpg' || suffix == ".jif" || suffix == ".tiff" || suffix == ".pcx" || suffix == ".tga" || suffix == ".exif" || suffix == ".fpx" || suffix == ".svg" || suffix == ".psd" || suffix == ".cdr" || suffix == ".pcd" || suffix == ".dxf" || suffix == ".ufo" || suffix == ".eps" || suffix == ".ai" || suffix == ".raw" || suffix == ".WMF" || suffix == ".png" || suffix == ".jpeg" || suffix == ".gif") {
+                        document.getElementById("material1Base64").value = dataURL;
+                        document.getElementById("fileSuffix").value = suffix;
+                    } else {
+                        document.getElementById("material1Base64").value = "";
+                        document.getElementById("img1").value = "";
+                        alert("上传图片格式不正确,请上传一张正确格式的图片");
+                    }
+                },
+                fail: function (file, fEvt) { //error
+                    console.log(file, fEvt);
+                },
+                always: function () {
+                    $status.hide();
+                }
+            });
+        });
+        //根据文件名获取后缀
+        function getfileSuffix(fileName) {
+            var result = /\.[^\.]+/.exec(fileName);
+            return result;
+        }
+    </script>
+</head>
+<body>
+    <input type="hidden" id="sliderjson" />
+    <!--头部目前样式-->
+    <div class="top">
+        <div class="topleft">
+            <img src="../Images/head/LOGO.png" />
+        </div>
+    </div>
+    <div class="topMenu">
+        <ul>
+            <li><a href="Index.html">首页</a></li>
+            <li><a href="Views/News/GovernmentAffairs.html">政务公开</a></li>
+            <li><a href="Views/News/Exposuretable.html">曝光台</a></li>
+            <li><a href="Views/News/ThematicWork.html">专题工作</a></li>
+            <li><a href="Views/News/StatisticalBulletin.html">统计通报</a></li>
+            <li><a href="Views/News/OnlineReporting.html">网上申报</a></li>
+            <li><a href="Views/News/ThePublicAPP.html">城管APP</a></li>
+            <li><a href="Views/News/WeChat.html">城管微信</a></li>
+            <li><a href="Views/News/ConvenienceServices.html">便民服务</a></li>
+            <li><a href="Views/News/TeamBilding.html">团队建设</a></li>
+        </ul>
+    </div>
+    <div class="tophr"></div>
+
+    <div class="center">
+        <!--中间12月1日-->
+        <div class="ztindex_left">
+            <div class="news_h_3" style="margin-top: 5px; width: 98%"><span class="news_h_3_select">团队建设</span></div>
+            <!--分类-->
+            <div class="zt_fl" id="zt_fl">
+            </div>
+        </div>
+
+        <div class="ztindex_right">
+            <div class="AdvertisementImg">
+                <div id="header">
+                    <div class="wrap">
+                        <div id="slide-holder">
+                            <div id="slide-runner">
+                                <div id="slide-controls">
+                                    <p id="slide-client" class="text"><strong></strong><span></span></p>
+                                    <p id="slide-desc" class="text"></p>
+                                    <p id="slide-nav"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rightNews">
+                <div class="news_h1_li">
+                    <div style="background: url(images/head/tbts.png); height: 53px"><a href="" style="margin-top: 22px; float: left; margin-left: 80px; font-size: 19px; color: #ff6c2b;"><span id="zwtitle"></span></a></div>
+                    <div class="news_div"><span>政务公开</span><em><a href="/Views/News/GovernmentAffairs.html?categoryID=16">更多>></a></em></div>
+                    <div class="news_li">
+                        <ul id="rightNews">
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="center">
+        <div class="NewsModularThreeLeft">
+            <div class="nr">
+                <div class="news_h_3"><span class="news_h_3_select">走进新区</span></div>
+                <div class="news_li">
+                    <marquee direction="up" scrollamount="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;宁波杭州湾新区位于慈溪市域北部，北与嘉兴市隔海相望，位居上海、杭州、宁波三大都市几何中心[1]  。到上海车程2小时，到宁波市区车程1小时，距慈溪市约20公里，通过兴慈五路、胜新线、历崔线、芦庵公路等连通余慈地区。与横向的329国道、中横线、杭州湾大通道共同构成新区外围交通网络。全区现有公交线路25条，将建设成为“宁波北翼国际化新城区”、“现代产业转型新基地”、“东方奥兰多”。</marquee>
+                </div>
+            </div>
+        </div>
+        <div class="NewsModularThree">
+            <div class="nr">
+                <div class="news_h_3" id="Messagetab"><span class="new_h_3_span_seleted" tabindex="1">统计通报</span><span tabindex="2">曝光台</span><em><a href="/Views/News/StatisticalBulletin.html" id="tab1">更多>></a></em></div>
+                <div class="news_li">
+                    <ul id="tjMessage">
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div style="width: 280px; height: 440px; float: right; text-align: left">
+            <a href="/Views/News/OnlineReporting.html">
+                <img src="images/wssb.png" /></a>
+            <div class="nr" style="margin-top: 5px;">
+                <div class="news_h_3"><span class="news_h_3_select">网上申报</span></div>
+            </div>
+            <div style="width: 100%; height: 300px;">
+                <div style="width: 100%; height: 5px;"></div>
+                <table style="width: 98%; " onsubmit="submitonce(this)">
+                    <tr>
+                        <td>标题:</td>
+                        <td colspan="2">
+                            <input type="text" name="Title" id="Title" value="" class="form-control controltext" style="height: 28px;" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="vertical-align: top">内容:</td>
+                        <td colspan="2">
+                            <textarea class="form-control controltext" id="Content" name="Content" style="height: 100px; resize: none"></textarea></td>
+                    </tr>
+
+                    <tr>
+                        <td>联系人:</td>
+                        <td colspan="2">
+                            <input type="text" value="" name="ContactPerson" id="ContactPerson" class="form-control controltext" style="height: 28px;" /></td>
+                    </tr>
+
+                    <tr>
+                        <td>手机号码:</td>
+                        <td colspan="2">
+                            <input type="text" value="" name="ContactPhone" id="ContactPhone" class="form-control controltext" style="height: 28px;" /></td>
+                    </tr>
+
+                    <tr>
+                        <td>附件:</td>
+                        <td>
+                            <input id="img1" class="form-control" style="height: 28px; width: 120px;" readonly="true" /></td>
+                        <td>
+
+                            <a href="javascript:void(0)" class="file" style="color: #1E88C7; height: 28px;">选择图片
+                                                        <input type="file" name="material1" id="material1" onchange="fileUpload('#material1','#img1')" /><input type="hidden" id="material1Base64" /><input type="hidden" id="fileSuffix" /></a></td>
+
+
+                    </tr>
+                    <tr style="text-align: right">
+                        <td colspan="3">
+                            <input type="submit" id="submitdata" class="btn btn-primary" style="height: 25px; line-height: 10px;" value="提交" onclick="return validate_form()" /></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="NewsModularThreeLeft">
+            <div class="nr">
+                <div class="news_h_3" style="margin-top: 10px;"><span class="news_h_3_select">专题工作</span><em><a href="/Views/News/ThematicWork.html?categoryID=10">更多>></a></em></div>
+                <div class="news_li">
+                    <ul id="zxwork">
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="NewsModularThree">
+            <div class="nr">
+                <div class="news_h_3" id="cgMessagetab" style="margin-top: 10px;"><span class="new_h_3_span_seleted" tabindex="1">城管APP</span><span tabindex="2">城管微信</span><em><a href="/Views/News/ThePublicAPP.html" id="tab2">更多>></a></em></div>
+                <div class="news_li">
+                    <ul id="cgMessage">
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="centerbg">
+            <img src="../images/770x85.jpg" />
+        </div>
+        <div class="centerNews">
+            <div class="nr">
+                <div class="news_div" id="bmBuild"><span>便民服务</span><em><a href="/Views/News/ConvenienceServices.html?categoryID=36">更多>></a></em></div>
+                <div class="news_li">
+                    <ul id="bmserver">
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="center" >
+        <div class="friendlink">
+        <!--友情链接-->
+        <span class="title" style="width:70px">友情链接</span>
+        <div class="list">
+        <a href="javascript:void(0);" onclick="window.open('http://www.hzwxq.com/zw/');">政务频道-宁波杭州湾新区</a>
+        <a href="javascript:void(0);" onclick="window.open('http://zfxxgk.hzw.gov.cn/');">宁波杭州湾新区管委会</a>
+        <a href="javascript:void(0);" onclick="window.open('http://www.hzwggzy.com/');">宁波杭州湾新区公共资源交易网</a>
+        <a href="javascript:void(0);" onclick="window.open('http://hzw.nb-n-tax.gov.cn/');">宁波杭州湾新区国家税务局</a>
+        <a href="javascript:void(0);" onclick="window.open('http://www.nbaic.gov.cn/col/col207/index.html');">宁波市市场监督管理局 杭州湾新区分局</a>
+        <a href="javascript:void(0);" onclick="window.open('http://gtog.ningbo.gov.cn/');">宁波政府</a>
+        <a href="javascript:void(0);" onclick="window.open('http://www.cixi.gov.cn/');">慈溪政府</a>
+        <a href="javascript:void(0);" onclick="window.open('http://www.nbcg.gov.cn/');">宁波城管</a>
+        <a href="javascript:void(0);" onclick="window.open('http://www.96310.gov.cn/');">宁波智慧城管</a>
+        <a href="javascript:void(0);" onclick="window.open('http://www.zjzwfw.gov.cn/');">浙江政务服务网</a>
+        <div class="clr"></div>
+        </div>
+        </div>
+    </div>
+    <div style="background-color: #326c91; height: 2px;" class="center"></div>
+    <div class="center" style="height: 55px; text-align: center; background: linear-gradient(#fff, #E0E0E0);">
+        <span>&copy;版权所有:宁波杭州湾新区城市管理综合执法大队</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>技术支持:浙江宝兴智慧城市建设有限公司</span>
+        <br />
+        <span>地址:&nbsp;&nbsp;&nbsp;浙江省宁波杭州湾新区越和路7号</span>&nbsp;&nbsp;&nbsp;&nbsp;
+        <br />
+        <span>电话:&nbsp;&nbsp;&nbsp;0574-63071002</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>传真:0574-63071000</span>
+    </div>
+</body>
+</html>

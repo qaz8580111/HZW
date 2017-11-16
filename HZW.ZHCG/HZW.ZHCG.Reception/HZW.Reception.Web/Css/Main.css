@@ -1,0 +1,164 @@
+﻿body {
+    margin: 0px;
+    padding: 0px;
+    overflow-x: hidden;
+    height: 100%;
+}
+/*顶部样式*/
+.Mainhead {
+    width: 100%;
+    height: 50px;
+    background: rgb(27,38,50);
+    background: -webkit-linear-gradient(left top, rgb(51,69,83), rgb(19,27,38)); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(bottom right, rgb(51,69,83), rgb(19,27,38)); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(bottom right, rgb(51,69,83), rgb(19,27,38)); /* Firefox 3.6 - 15 */
+    background: linear-gradient(to bottom right, rgb(51,69,83), rgb(19,27,38)); /* 标准的语法（必须放在最后） */
+}
+
+.MainheadTitle {
+    width: 260px;
+    height: 50px;
+    float: left;
+}
+
+.MianheadCenter {
+    width: 170px;
+    height: 80px;
+    background: -webkit-linear-gradient(left top, rgb(51,69,83), rgb(19,27,38)); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(bottom right, rgb(51,69,83), rgb(19,27,38)); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(bottom right, rgb(51,69,83), rgb(19,27,38)); /* Firefox 3.6 - 15 */
+    background: linear-gradient(to bottom right, rgb(51,69,83), rgb(19,27,38)); /* 标准的语法（必须放在最后） */
+    position: absolute;
+    top: 0px;
+    left: 43%;
+    border-bottom-left-radius: 80px;
+    border-bottom-right-radius: 80px;
+    border: 0px solid;
+    text-align: center;
+    color: orange;
+}
+
+.MainheadRight {
+    width: 170px;
+    height: 50px;
+    position: absolute;
+    right: 10px;
+    font-size: 12px;
+    color: white;
+    line-height: 50px;
+}
+
+    .MainheadRight a {
+        color: white;
+        font-size: 12px;
+        text-decoration: none;
+    }
+
+        .MainheadRight a:hover {
+            color: white;
+            font-size: 12px;
+            text-decoration: underline;
+        }
+/*地图样式*/
+.MainMapCenter {
+    width: 100%;
+    position: absolute;
+    top: 50px;
+    background:#28C3FA;
+}
+/*底部样式*/
+.MainBottom {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    height: 160px;
+    background: rgb(51,69,83);
+}
+
+.layout1 {
+    width: 33%;
+    height: 160px;
+    float: left;
+}
+
+.layout2 {
+    width: 34%;
+    height: 160px;
+    float: left;
+}
+
+.layout3 {
+    width: 33%;
+    height: 160px;
+    float: left;
+}
+
+.leftimgshow {
+    width: 20%;
+    height: 160px;
+    float: left;
+}
+
+.lefthistogram {
+    width: 80%;
+    height: 160px;
+    float: left;
+}
+
+.centerimgshow {
+    width: 20%;
+    height: 160px;
+    float: left;
+}
+
+.centertable {
+    width: 80%;
+    height: 160px;
+    float: left;
+}
+
+.rightimgshow {
+    width: 20%;
+    height: 160px;
+    float: left;
+}
+
+.rightTrendchart {
+    width: 80%;
+    height: 160px;
+    float: left;
+}
+
+.tabClass {
+    width: auto;
+    text-align: center;
+    position:absolute;
+    bottom:0px;
+}
+
+    .tabClass thead tr td {
+        font-size: 15px;
+        font-family: '微软雅黑';
+        color: white;
+        border-bottom: 3px solid #28C3FA;
+    }
+
+    .tabClass tbody tr:hover {
+        background: gray;
+        cursor: pointer;
+    }
+
+    .tabClass tbody tr td {
+        font-size: 12px;
+        font-family: '微软雅黑';
+        color: white;
+    }
+     .topleftTitleImg {
+            width: auto;
+            height: auto;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            padding-top: 10px;
+        }

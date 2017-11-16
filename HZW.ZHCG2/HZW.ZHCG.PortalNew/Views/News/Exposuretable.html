@@ -1,0 +1,261 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <title>杭州湾门户</title>
+    <link rel='icon' href='/Images/faviconico.ico' type='image/x-ico' />
+    <link href="../../Css/styleindex.css" rel="stylesheet" />
+    <link href="../../Css/topStyle.css" rel="stylesheet" />
+    <link href="../../Css/Testlanmu.css" rel="stylesheet" />
+    <link href="../../Css/comm.css" rel="stylesheet" />
+
+    <script src="../../Scripts/configs.js"></script>
+    <script src="../../Scripts/jquery-3.0.0.js"></script>
+    <script src="../../Scripts/jquery.page.js"></script>
+</head>
+<body>
+    <!--头部目前样式-->
+    <div class="top">
+        <div class="topleft">
+            <img src="../../Images/head/LOGO.png" />
+        </div>
+       <!-- <div class="toptile">
+            <div class="seizeaseat"></div>
+            杭州湾智慧城管门户网站
+            <br />
+            <label class="fontsize">Hangzhou Bay wisdom Urban Management Portal</label>
+        </div>-->
+    </div>
+    <div class="topMenu">
+        <ul>
+             <li><a href="../../Index.html">首页</a></li>
+            <li><a href="GovernmentAffairs.html">政务公开</a></li>
+            <li class="selected"><a href="Exposuretable.html">曝光台</a></li>
+            <li><a href="ThematicWork.html">专题工作</a></li>
+            <li><a href="StatisticalBulletin.html">统计通报</a></li>
+            <li><a href="OnlineReporting.html">网上申报</a></li>
+            <li><a href="ThePublicAPP.html">城管APP</a></li>
+            <li><a href="WeChat.html">城管微信</a></li>
+            <li ><a href="ConvenienceServices.html">便民服务</a></li>
+            <li><a href="TeamBilding.html">团队建设</a></li>
+        </ul>
+    </div>
+    <div class="tophr"></div>
+    <div class="page_style lanmupage">
+        <div class="lanmu_box_style2">
+            <div class="lanmu_box_style1">
+                <div class="lanmu_box_style1_left">
+                    <div class="module_title1"><span class="module_sign1">曝光台分类</span><span class="module_more"></span></div>
+                    <div class="news_li" style="min-height: 420px; border-width: 0 0 0 0; margin-top: 50px">
+                        <ul id="rootul_105" style="padding-left: 40px">
+                        </ul>
+                    </div>
+                </div>
+                <div class="lanmu_box_style1_right">
+                    <div id="current_location" class="current_location current_location_519" style="display: block;">
+                        <ul>
+                            <li style="padding-left: 10px; padding-top: 5px;">当前位置：
+            <a href="Exposuretable.html">曝光台&gt;</a>
+                                <span id="title"></span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div id="sublanmu_box" class="sublanmu_box sublanmu_box_519" style="min-height: 420px; border-width: 0 0 0 0;">
+                        <div class="sublanmu_content sublanmu_content_article">
+                            <ul class="article" id="NewsCommon">
+                            </ul>
+                            <div id="pagetools">
+                                <div class="tcdPageCode">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="clear"></div>
+            </div>
+              <div style="background-color: #326c91; height: 2px;" class="center"></div>
+            <div class="center" style="height: 55px; text-align: center; background: linear-gradient(#fff, #E0E0E0);">
+               <span>&copy;版权所有:宁波杭州湾新区城市管理综合执法大队</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>技术支持:浙江宝兴智慧城市建设有限公司</span>
+        <br />
+        <span>地址:&nbsp;&nbsp;&nbsp;浙江省宁波杭州湾新区越和路7号</span>&nbsp;&nbsp;&nbsp;&nbsp;
+        <br />
+        <span>电话:&nbsp;&nbsp;&nbsp;0574-63071002</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>传真:0574-63071000</span>
+                <input type="hidden" id="smallClass" />
+            </div>
+
+
+        </div>
+
+
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var categoryID = GetQueryString("categoryID");
+            var articleID = GetQueryString("articleID");
+
+            var url = config.WebApi + "/Categors/GetmhcateGorsByParentId?parentId=2&takeNumber=0";
+            $.ajax({
+                url: url,
+                type: "get",
+                async: true,
+                timeout: 5000,    //超时时间
+                dataType: "json",
+                success: function (data, textStatus, jqxhr) {
+                    var smallClass = data[0].ID;
+                    var html = "";
+                    $.each(data, function (i, n) {
+                        html += "<li class='articleCategory'><a class='sla519' id=" + n.ID + " tabIndex=" + n.ID + " style='line-height: 30px; cursor:pointer;' onclick='GetA(this)'>" + n.Name + "</a></li>";
+                    });
+                    $("#rootul_105").html(html);
+                    if (categoryID != null && articleID != null) {
+                        document.getElementById(categoryID).style = "text-decoration:underline";
+                        $("#title").text(document.getElementById(categoryID).innerText);
+                        aDetailsSingle(articleID);
+                    } else {
+                        //默认第一个标签选中
+                        $("#title").text(data[0].Name);
+                        $("#rootul_105 a")[0].style = "text-decoration:underline";
+                        $("#smallClass").val(smallClass);
+                        GetPageCount(smallClass);
+                        GetCloums(smallClass, 1);
+                    }
+
+                }
+                , error: function (xhr, textStatus) {
+                    console.log(textStatus);
+                }
+            });
+        });
+
+        //获取地址栏参数值
+        function GetQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+        }
+
+        function GetA(n) {
+            $("#rootul_105 a").each(function () {
+                this.style = "text-decoration:none";
+            });
+            var smallClass = $(n).attr("id");
+            $("#smallClass").val(smallClass);
+            var text = $(n).text();
+            $("#title").text(text);
+            n.style = "text-decoration:underline";
+            GetPageCount(smallClass);
+            GetCloums(smallClass, 1);
+        }
+
+        //获取页数
+        function GetPageCount(smallClass) {
+            smallClass = $("#smallClass").val();
+            var urlcloumsPage = config.WebApi + "/News/GetNewsListCount?categoryid=" + smallClass + "&limit=10";
+            $.ajax({
+                url: urlcloumsPage,
+                type: "get",
+                async: true,
+                timeout: 5000,    //超时时间
+                dataType: "json",
+                success: function (data, textStatus, jqxhr) {
+                    CreatePages(data, smallClass);
+                }, error: function (xhr, textStatus) {
+                    console.log(textStatus);
+                }
+            })
+        }
+
+        function CreatePages(pageCount, smallClass) {
+            $(".tcdPageCode").remove();
+            var html = "<div class='tcdPageCode'></div>";
+            $("#pagetools").html(html);
+            $(".tcdPageCode").createPage({
+                pageCount: pageCount,
+                current: 1,
+                backFn: function (p) {
+                    GetCloums(smallClass, p);
+                }
+            });
+        }
+
+        //获取列表
+        function GetCloums(smallClass, p) {
+            smallClass = $("#smallClass").val();
+            $(".tcdPageCode").show();
+            var urlcloums = config.WebApi + "/News/GetNewsListByID?categoryid=" + smallClass + "&start=" + p + "&limit=10";
+            $.ajax({
+                url: urlcloums,
+                type: "get",
+                async: true,
+                timeout: 5000,    //超时时间
+                dataType: "json",
+                success: function (data, textStatus, jqxhr) {
+                    var html = "";
+                    $.each(data["Items"], function (i, n) {
+                        html += "<li style='height: 20px;' class='articleContent' articleid='567'><span class='title' style='width: 82%'><a title=" + n.title + " style='cursor:pointer;' tabIndex=" + n.articleID + " onclick='aDetails(this)'>" + n.title + "</a></span><span class='date' style='width: 15%'>" + n.createdTime.replace('T', ' ') + "</span> </li>";
+                    });
+                    $("#NewsCommon").html(html);
+                }, error: function (xhr, textStatus) {
+                    console.log(textStatus);
+                }
+            });
+        }
+
+        //内容详情
+        function aDetails(a) {
+            $(".tcdPageCode").hide();
+            var articleID = $(a).attr("tabIndex");
+            var url = config.WebApi + "/News/GetNewsModelByID?articleID=" + articleID;
+            $.ajax({
+                url: url,
+                type: "get",
+                async: true,
+                timeout: 5000,    //超时时间
+                dataType: "json",
+                success: function (data, textStatus, jqxhr) {
+                    var html;
+                    if (!data.refilePath || !data.refileName) {
+                        html = "<div class='sublanmu_content sublanmu_content_article'><div style='text-align: center; color: #333333; font-size: 18px; font-weight: bold; line-height: 150%;'>" + data.title + "</div> <div style='text-align: center; font-size: 12px; line-height: 150%'><span style='color: #666666'>上传时间:" + data.createdTime.replace('T', ' ') + "&nbsp;&nbsp;" + data.createUserName + "</span></div><br><div id='show'>" + data.content + "</div>";
+                    }
+                    else {
+                        html = "<div class='sublanmu_content sublanmu_content_article'><div style='text-align: center; color: #333333; font-size: 18px; font-weight: bold; line-height: 150%;'>" + data.title + "</div> <div style='text-align: center; font-size: 12px; line-height: 150%'><span style='color: #666666'>上传时间:" + data.createdTime.replace('T', ' ') + "&nbsp;&nbsp;" + data.createUserName + "</span></div><br><div id='show'>" + data.content + "</div><div class='divlink'><a href=" + config.WebApi + "/News/DownFile?path=" + data.refilePath + "&filename=" + data.refileName + ">下载附件</a></div>";
+                    }
+                    $("#NewsCommon").html(html);
+                    $("#show img").attr("onload", "if(this.width >= 730){this.width = 730}");
+                }, error: function (xhr, textStatus) {
+                    console.log(textStatus);
+                }
+            });
+        }
+
+        //内容详情
+        function aDetailsSingle(articleID) {
+            var url = config.WebApi + "/News/GetNewsModelByID?articleID=" + articleID;
+            $.ajax({
+                url: url,
+                type: "get",
+                async: true,
+                timeout: 5000,    //超时时间
+                dataType: "json",
+                success: function (data, textStatus, jqxhr) {
+                    var html;
+                    if (!data.refilePath || !data.refileName) {
+                        html = "<div class='sublanmu_content sublanmu_content_article'><div style='text-align: center; color: #333333; font-size: 18px; font-weight: bold; line-height: 150%;'>" + data.title + "</div> <div style='text-align: center; font-size: 12px; line-height: 150%'><span style='color: #666666'>上传时间:" + data.createdTime.replace('T', ' ') + "&nbsp;&nbsp;" + data.createUserName + "</span></div><br><div id='show'>" + data.content + "</div>";
+                    }
+                    else {
+                        html = "<div class='sublanmu_content sublanmu_content_article'><div style='text-align: center; color: #333333; font-size: 18px; font-weight: bold; line-height: 150%;'>" + data.title + "</div> <div style='text-align: center; font-size: 12px; line-height: 150%'><span style='color: #666666'>上传时间:" + data.createdTime.replace('T', ' ') + "&nbsp;&nbsp;" + data.createUserName + "</span></div><br><div id='show'>" + data.content + "</div><div class='divlink'><a href=" + config.WebApi + "/News/DownFile?path=" + data.refilePath + "&filename=" + data.refileName + ">下载附件</a></div>";
+                    }
+                    $("#NewsCommon").html(html);
+                    $("#show img").attr("onload", "if(this.width >= 730){this.width = 730}");
+                }, error: function (xhr, textStatus) {
+                    console.log(textStatus);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

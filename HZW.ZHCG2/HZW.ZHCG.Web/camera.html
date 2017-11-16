@@ -1,0 +1,317 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>实时监控</title>
+    <style type="text/css">
+        html, body {
+            margin: 0px;
+            padding: 0px;
+            overflow: hidden;
+        }
+
+        .cameraToolbox {
+            height: 500px;
+        }
+
+            .cameraToolbox.camera {
+                width: 700px;
+                float: left;
+            }
+
+            .cameraToolbox.cameraleft {
+                width: 230px;
+                background-color:#434448;
+                float:left;
+            }
+                .cameraToolbox.cameraleft img:hover {
+                    cursor:pointer;
+                }
+
+                .cameraToolbox.cameraleft table {
+                    margin-top:50px;
+                    margin-left:22%;
+                }
+
+        .img {
+            width:15px;
+            height:15px;
+        }
+    </style>
+
+    <script src="Scripts/jquery-3.0.0.js"></script>
+    <script src="Scripts/configs.js"></script>
+    <script type="text/javascript">
+        /*****实时预览******/
+        function StartPlayView() {
+            var OCXobj = document.getElementById("PlayViewOCX");
+            var previewXml = document.getElementById("configxml").value;
+            var ret = OCXobj.StartTask_Preview_InWnd(previewXml, 0);
+        }
+        /*****指定窗口实时预览******/
+        function StartPlayView_InWnd() {
+            var OCXobj = document.getElementById("PlayViewOCX");
+            var previewXml = document.getElementById("configxml").value;
+            var wndNum = document.getElementById("SelectWnd").value;
+            OCXobj.SelWindow(parseInt(wndNum))
+            var ret = OCXobj.StartTask_Preview_InWnd(previewXml, 0);
+        }
+        /*****空闲窗口实时预览******/
+        function StartPlayView_Free() {
+            var OCXobj = document.getElementById("PlayViewOCX");
+            var previewXml = document.getElementById("configxml").value;
+            OCXobj.StartTask_Preview_FreeWnd(previewXml);
+        }
+        /*****停止所有预览******/
+        function StopPlayView() {
+            var OCXobj = document.getElementById("PlayViewOCX");
+            OCXobj.StopAllPreview();
+        }
+        /*****设置抓图格式为JPG******/
+        function CatchPicJPG() {
+            var OCXobj = document.getElementById("PlayViewOCX");
+            OCXobj.SetCapturParam("C:\\pic", 0);
+        }
+        /*****设置抓图格式为BMP******/
+        function CatchPicBMP() {
+            var OCXobj = document.getElementById("PlayViewOCX");
+            OCXobj.SetCapturParam("C:\\pic", 1);
+        }
+        /*****云台：左上******/
+        function PTZLeftUp() {
+            var OCXobj = document.getElementById("PlayViewOCX");
+            OCXobj.StartTask_PTZ(25, 3);
+        }
+        /*****云台：上******/
+        function PTZUp() {
+            var OCXobj = document.getElementById("PlayViewOCX");
+            OCXobj.StartTask_PTZ(21, 3);
+        }
+        /*****云台：右上******/
+        function PTZRightUp() {
+            var OCXobj = document.getElementById("PlayViewOCX");
+            OCXobj.StartTask_PTZ(26, 3);
+        }
+        /*****云台：左******/
+        function PTZLeft() {
+            var OCXobj = document.getElementById("PlayViewOCX");
+            OCXobj.StartTask_PTZ(23, 3);
+        }
+        /*****云台：自转******/
+        function PTZAuto() {
+            var OCXobj = document.getElementById("PlayViewOCX");
+            OCXobj.StartTask_PTZ(29, 3);
+        }
+        /*****云台：右******/
+        function PTZRight() {
+            var OCXobj = document.getElementById("PlayViewOCX");
+            OCXobj.StartTask_PTZ(24, 3);
+        }
+        /*****云台：左下******/
+        function PTZLeftDown() {
+            var OCXobj = document.getElementById("PlayViewOCX");
+            OCXobj.StartTask_PTZ(27, 3);
+        }
+        /*****云台：下******/
+        function PTZDown() {
+            var OCXobj = document.getElementById("PlayViewOCX");
+            OCXobj.StartTask_PTZ(22, 3);
+        }
+        /*****云台：右下******/
+        function PTZRightDown() {
+            var OCXobj = document.getElementById("PlayViewOCX");
+            OCXobj.StartTask_PTZ(28, 3);
+        }
+        /*****云台：停止******/
+        function PTZStop() {
+            var OCXobj = document.getElementById("PlayViewOCX");
+            OCXobj.StartTask_PTZ(-21, 3);
+        }
+        /*****云台：焦距+******/
+        function PTZAddTimes() {
+            var OCXobj = document.getElementById("PlayViewOCX");
+            OCXobj.StartTask_PTZ(11, 3);
+        }
+        /*****云台：焦距-******/
+        function PTZMinusTimes() {
+            var OCXobj = document.getElementById("PlayViewOCX");
+            OCXobj.StartTask_PTZ(12, 3);
+        }
+        /*****云台：焦点+******/
+        function PTZFarFocus() {
+            var OCXobj = document.getElementById("PlayViewOCX");
+            OCXobj.StartTask_PTZ(13, 3);
+        }
+        /*****云台：焦点-******/
+        function PTZNearFocus() {
+            var OCXobj = document.getElementById("PlayViewOCX");
+            OCXobj.StartTask_PTZ(14, 3);
+        }
+        /*****云台：光圈+******/
+        function PTZLargeAperture() {
+            var OCXobj = document.getElementById("PlayViewOCX");
+            OCXobj.StartTask_PTZ(15, 3);
+        }
+        /*****云台：光圈-******/
+        function PTZSmallAperture() {
+            var OCXobj = document.getElementById("PlayViewOCX");
+            OCXobj.StartTask_PTZ(16, 3);
+        }
+        /*****云台：调用预置点******/
+        function GetPt() {
+            var OCXobj = document.getElementById("PlayViewOCX");
+            ptNum = document.getElementById("SelectGetpt").value;
+            var ret = OCXobj.PTZCtrlGotoPreset(ptNum);
+
+        }
+        /*****云台：设置预置点******/
+        function SetPt() {
+            var OCXobj = document.getElementById("PlayViewOCX");
+            ptNum = document.getElementById("SelectSetpt").value;
+            var ret = OCXobj.PTZCtrlSetPreset(parseInt(ptNum));
+        }
+
+        function init() {
+            var paramevalue = GetQueryString("cameraid");
+            var url = config.WebApi + configajaxurl.cameradetails + "?id=" + paramevalue;
+            $.ajax({
+                url: url,
+                type: 'get',
+                async: true,
+                timeout: 10000,    //超时时间
+                dataType: "json",
+                success: function (data, textStatus, jqxhr) {
+                    $("#configxml").val(data.parameter);
+                    var OCXobj = document.getElementById("PlayViewOCX");
+                    OCXobj.SetOcxMode(0);
+                    OCXobj.SetWndNum(1);
+                    StartPlayView();
+                }, error: function (xhr, textStatus) {
+                    console.log(textStatus);
+                }
+            });
+        }
+
+        function GetQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+        }
+    </script>
+
+    <!-- 以下是事件触发函数接口 -->
+    <script language="javascript" for="PlayViewOCX" event="FireWindowsNumber(iSel)">
+        szMsg = "窗口分割消息,窗口数" + iSel;
+    </script>
+
+    <script language="javascript" for="PlayViewOCX" event="FireSelectWindow(iSel)">
+        szMsg = "窗口选择消息,窗口" + iSel;
+
+    </script>
+
+    <script language="javascript" for="PlayViewOCX" event="FireStartRealPlay(iSel)">
+        szMsg = "开始预览消息" + iSel;
+
+    </script>
+
+    <script language="javascript" for="PlayViewOCX" event="FireStopRealPlay(iSel)">
+        szMsg = "停止预览消息" + iSel;
+
+    </script>
+
+    <script language="javascript" for="PlayViewOCX" event="FireStopPreviewAll()">
+        szMsg = "停止所有预览消息";
+
+    </script>
+
+    <script language="javascript" for="PlayViewOCX" event="FireOpenSound(iSel)">
+        szMsg = "打开声音消息";
+
+    </script>
+
+    <script language="javascript" for="PlayViewOCX" event="FireCloseSound(iSel)">
+        szMsg = "关闭声音消息";
+
+    </script>
+
+    <script language="javascript" for="PlayViewOCX" event="FireChangeWindow(iFrom,iTo)">
+        szMsg = "互换窗口消息" + "从" + iFrom + "到" + iTo;
+
+    </script>
+
+    <script language="javascript" for="PlayViewOCX" event="FirePTZCtrl(iWindowID,iCtrlID,iSpeed)">
+        szMsg = "云台控制消息:" + "窗口:" + iWindowID + "控制:" + iCtrlID + "速度:" + iSpeed;
+
+    </script>
+
+    <script language="javascript" for="PlayViewOCX" event="FireStartRecord(iWindowID)">
+        szMsg = "开始录像" + iWindowID;
+
+    </script>
+
+    <script language="javascript" for="PlayViewOCX" event="FireStopRecord(iWindowID)">
+        szMsg = "停止录像" + iWindowID;
+
+    </script>
+
+    <script language="javascript" for="PlayViewOCX" event="FireCatchPic(szPath,iWindowID)">
+        szMsg = "抓图" + "路径" + szPath + "窗口" + iWindowID;
+
+    </script>
+
+    <script language="javascript" for="PlayViewOCX" event="FireStartPlayBack(lWindowID)">  
+
+    </script>
+
+    <script language="javascript" for="PlayViewOCX" event="FireStopPlayBack(lWindowID)">  
+
+    </script>
+</head>
+<body onload="init();">
+    <input type="hidden" id="configxml" value="<?xml version='1.0' encoding='UTF-8'?><Message>  <Camera>    <Id>1</Id>    <IndexCode>00000000001310015724</IndexCode>    <Name>庵东镇实验小学</Name>    <ChanNo>0</ChanNo>    <Matrix Code='0' Id='0' />  </Camera>  <Dev regtype='0' devtype='10011'>    <Id>1</Id>    <IndexCode>0000000000035522200</IndexCode>    <Addr IP='192.168.10.100' Port='8000' />    <Auth User='admin' Pwd='admin123' />  </Dev>  <Vag IP='192.168.20.10' Port='7302' />  <Voice>    <Encode>2</Encode>  </Voice>  <Media Protocol='0' Stream='0'>    <Vtdu IP='192.168.20.10' Port='554' />    <NetZoneId id='100001' />    <pag IP='192.168.20.10' Port='7302' />  </Media>  <Privilege Priority='50' Code='31' />  <Option>    <Talk>1</Talk>    <PreviewType>0</PreviewType>  </Option></Message>" />
+    <div class="cameraToolbox cameraleft">
+       <table>
+           <tr>
+               <td><img src="Image/cameraiconwhilte/左上.png" title="左上" onclick="PTZLeftUp()"/></td>
+               <td><img src="Image/cameraiconwhilte/上.png" title="上"  onclick="PTZUp()" /></td>
+               <td><img src="Image/cameraiconwhilte/右上.png" title="右上" onclick="PTZRightUp()" /></td>
+           </tr>
+           <tr>
+               <td><img src="Image/cameraiconwhilte/向左.png" title="左" onclick="PTZLeft()" /></td>
+               <td><img src="Image/cameraiconwhilte/自转.png" title="自转" onclick="PTZAuto()" /></td>
+               <td><img src="Image/cameraiconwhilte/向右.png" title="右" onclick="PTZRightUp()" /></td>
+               <td><img src="Image/cameraiconwhilte/停止.png" title="停止" onclick="PTZStop()" /></td>
+           </tr>
+           <tr>
+               <td><img src="Image/cameraiconwhilte/左下.png" title="左下" onclick="PTZRightDown()" /></td>
+               <td><img src="Image/cameraiconwhilte/下.png" title="下" onclick="PTZDown()" /></td>
+               <td><img src="Image/cameraiconwhilte/右下.png" title="右下" onclick="PTZRightDown()" /></td>
+           </tr>
+       </table>
+
+
+        <table>
+            <tr>
+                <td><img src="Image/cameraiconwhilte/焦距调节.png" title="焦距调节" class="img" /></td>
+                <td><img src="Image/cameraiconwhilte/加号.png" title="加" onclick="PTZAddTimes()" /></td>
+                <td><img src="Image/cameraiconwhilte/减号.png" title="减" onclick="PTZMinusTimes()" /></td>
+            </tr>
+            <tr>
+                <td><img src="Image/cameraiconwhilte/焦点.png" title="焦点调节" class="img" /></td>
+                <td><img src="Image/cameraiconwhilte/加号.png" title="加" onclick="PTZFarFocus()" /></td>
+                <td><img src="Image/cameraiconwhilte/减号.png" title="减" onclick="PTZNearFocus()" /></td>
+            </tr>
+            <tr>
+                <td><img src="Image/cameraiconwhilte/光圈.png" title="光圈调节" class="img" /></td>
+                <td><img src="Image/cameraiconwhilte/加号.png" title="加" onclick="PTZLargeAperture()" /></td>
+                <td><img src="Image/cameraiconwhilte/减号.png" title="减" onclick="PTZSmallAperture()" /></td>
+            </tr>
+        </table>
+    </div>
+    <div class="cameraToolbox camera">
+        <object classid="clsid:04DE0049-8359-486e-9BE7-1144BA270F6A" id="PlayViewOCX" class="cameraToolbox camera"></object>
+    </div>
+</body>
+</html>
+
+

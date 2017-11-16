@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A643F023-ADE6-4A2B-9FDB-B238A0CA9403}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HZW.ZHCG.DAL</RootNamespace>
+    <AssemblyName>HZW.ZHCG.DAL</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ad_classes.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ad_outadverts.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Enum\IsDelete.cs" />
+    <Compile Include="event_zfsjs.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HZW.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HZW.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HZW.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HZW.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HZW.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="mh_categors.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mh_news.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="store_bases.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="store_bases_DAL.cs" />
+    <Compile Include="store_classes.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sys_roles.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sys_rolesDAL.cs" />
+    <Compile Include="sys_units.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sys_unittypes.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sys_userpositions.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sys_userroles.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sys_users.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UnitDAL.cs" />
+    <Compile Include="UnitTypeDAL.cs" />
+    <Compile Include="UserDAL.cs" />
+    <Compile Include="UserPositionDAL.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <EntityDeploy Include="HZW.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>HZW.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="HZW.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>HZW.edmx</DependentUpon>
+      <LastGenOutput>HZW.Context.cs</LastGenOutput>
+    </None>
+    <None Include="HZW.edmx.diagram">
+      <DependentUpon>HZW.edmx</DependentUpon>
+    </None>
+    <None Include="HZW.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>HZW.edmx</DependentUpon>
+      <LastGenOutput>HZW.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HZW.ZHCG.Model\HZW.ZHCG.Model.csproj">
+      <Project>{82363c27-e8cd-4375-b64e-697aca0bbc8d}</Project>
+      <Name>HZW.ZHCG.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

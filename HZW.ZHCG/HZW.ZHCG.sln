@@ -1,0 +1,65 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HZW.ZHCG.DAL", "HZW.ZHCG.DAL\HZW.ZHCG.DAL.csproj", "{A643F023-ADE6-4A2B-9FDB-B238A0CA9403}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HZW.ZHCG.BLL", "HZW.ZHCG.BLL\HZW.ZHCG.BLL.csproj", "{AC5D7267-FF55-4528-8852-68C2BD0BC6B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HZW.ZHCG.Utility", "HZW.ZHCG.Utility\HZW.ZHCG.Utility.csproj", "{8431DFD1-BD16-4CFD-91F4-03E5856EED4E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HZW.ZHCG.WebAPI", "HZW.ZHCG.WebAPI\HZW.ZHCG.WebAPI.csproj", "{55B1C0C4-85D7-4D6D-906C-DAF3B1305646}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HZW.ZHCG.Model", "HZW.ZHCG.Model\HZW.ZHCG.Model.csproj", "{82363C27-E8CD-4375-B64E-697ACA0BBC8D}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 6
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://218.108.93.243:8080/tfs/year2016
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = HZW.ZHCG.BLL\\HZW.ZHCG.BLL.csproj
+		SccProjectName1 = HZW.ZHCG.BLL
+		SccLocalPath1 = HZW.ZHCG.BLL
+		SccProjectUniqueName2 = HZW.ZHCG.DAL\\HZW.ZHCG.DAL.csproj
+		SccProjectName2 = HZW.ZHCG.DAL
+		SccLocalPath2 = HZW.ZHCG.DAL
+		SccProjectUniqueName3 = HZW.ZHCG.Utility\\HZW.ZHCG.Utility.csproj
+		SccProjectName3 = HZW.ZHCG.Utility
+		SccLocalPath3 = HZW.ZHCG.Utility
+		SccProjectUniqueName4 = HZW.ZHCG.WebAPI\\HZW.ZHCG.WebAPI.csproj
+		SccProjectName4 = HZW.ZHCG.WebAPI
+		SccLocalPath4 = HZW.ZHCG.WebAPI
+		SccProjectUniqueName5 = HZW.ZHCG.Model\\HZW.ZHCG.Model.csproj
+		SccProjectName5 = HZW.ZHCG.Model
+		SccLocalPath5 = HZW.ZHCG.Model
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A643F023-ADE6-4A2B-9FDB-B238A0CA9403}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A643F023-ADE6-4A2B-9FDB-B238A0CA9403}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A643F023-ADE6-4A2B-9FDB-B238A0CA9403}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A643F023-ADE6-4A2B-9FDB-B238A0CA9403}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC5D7267-FF55-4528-8852-68C2BD0BC6B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC5D7267-FF55-4528-8852-68C2BD0BC6B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC5D7267-FF55-4528-8852-68C2BD0BC6B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC5D7267-FF55-4528-8852-68C2BD0BC6B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8431DFD1-BD16-4CFD-91F4-03E5856EED4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8431DFD1-BD16-4CFD-91F4-03E5856EED4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8431DFD1-BD16-4CFD-91F4-03E5856EED4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8431DFD1-BD16-4CFD-91F4-03E5856EED4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55B1C0C4-85D7-4D6D-906C-DAF3B1305646}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55B1C0C4-85D7-4D6D-906C-DAF3B1305646}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55B1C0C4-85D7-4D6D-906C-DAF3B1305646}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55B1C0C4-85D7-4D6D-906C-DAF3B1305646}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82363C27-E8CD-4375-B64E-697ACA0BBC8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82363C27-E8CD-4375-B64E-697ACA0BBC8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82363C27-E8CD-4375-B64E-697ACA0BBC8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82363C27-E8CD-4375-B64E-697ACA0BBC8D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

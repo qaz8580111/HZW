@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="../Css/Main.css" rel="stylesheet" />
+    <link href="../Content/dist/custombox.min.css" rel="stylesheet" />
+    <script src="../Scripts/jquery-1.7.1.js"></script>
+    <script src="../Scripts/Index/getTimes.js"></script>
+    <script src="../Scripts/Index/Main.js"></script>
+    <script src="../Scripts/echarts/echarts.js"></script>
+    <script src="../Content/dist/custombox.min.js"></script>
+    <script src="../Content/dist/legacy.min.js"></script>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('element').addEventListener('click', function (e) {
+                Custombox.open({
+                    target: '#modal',
+                    effect: 'fadein'
+                });
+                e.preventDefault();
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="Mainhead">
+        <div class="MainheadTitle">
+            <div class="topleftTitleImg">
+                <label>杭州湾智慧城管管理系统</label>
+            </div>
+        </div>
+        <div class="MainheadRight">
+            <label>您好,管理员</label>&nbsp;<a href="#" id="element">注销</a>&nbsp;<a href="#">修改密码</a>
+        </div>
+        <div class="MainMapCenter" id="container">
+        </div>
+        <div class="MianheadCenter">
+            <div style="width: 150px; height: 50px; margin-left: 10px;">
+                <div id="time"></div>
+                <div id="yearMonthday"></div>
+            </div>
+        </div>
+        <div class="MainBottom" id="MainBottom">
+            <div id="layout1" class="layout1">
+                <div class="leftimgshow">
+                </div>
+                <div class="lefthistogram" id="lefthistogram">
+                </div>
+            </div>
+            <div id="layout2" class="layout2">
+                <div class="centerimgshow">
+                </div>
+                <div class="centertable" id="centertable">
+                    <table class="tabClass" cellpadding="4" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <td>广告名称</td>
+                                <td>地址</td>
+                                <td>到期日期</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>百事可乐广告</td>
+                                <td>解放路与西湖路交叉口</td>
+                                <td>2016-10-20</td>
+                            </tr>
+                            <tr>
+                                <td>百事可乐广告</td>
+                                <td>解放路与西湖路交叉口</td>
+                                <td>2016-10-20</td>
+                            </tr>
+                            <tr>
+                                <td>百事可乐广告</td>
+                                <td>解放路与西湖路交叉口</td>
+                                <td>2016-10-20</td>
+                            </tr>
+                            <tr>
+                                <td>百事可乐广告</td>
+                                <td>解放路与西湖路交叉口</td>
+                                <td>2016-10-20</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="layout3" class="layout3">
+                <div class="rightimgshow">
+                </div>
+                <div class="rightTrendchart" id="rightTrendchart">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../Scripts/echarts/Index/indexHistogram.js"></script>
+    <script src="../Scripts/echarts/Index/Trendchart.js"></script>
+</body>
+</html>

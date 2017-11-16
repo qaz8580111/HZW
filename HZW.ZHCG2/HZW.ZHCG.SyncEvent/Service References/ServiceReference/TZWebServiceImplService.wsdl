@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://tzsynchronous.service.com.cn/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="TZWebServiceImplService" targetNamespace="http://tzsynchronous.service.com.cn/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types />
+  <wsdl:message name="getHumanInfoResponse">
+    <wsdl:part name="return" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getRegionInfo" />
+  <wsdl:message name="getUserCellRelation" />
+  <wsdl:message name="getDutyCellInfoResponse">
+    <wsdl:part name="return" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getHumanInfo" />
+  <wsdl:message name="getDutyCellInfo" />
+  <wsdl:message name="getRegionInfoResponse">
+    <wsdl:part name="return" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getRecInfoResponse">
+    <wsdl:part name="return" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getRecInfo">
+    <wsdl:part name="startDate" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getUnitInfoResponse">
+    <wsdl:part name="return" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getUnitInfo" />
+  <wsdl:message name="getUserCellRelationResponse">
+    <wsdl:part name="return" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:portType name="TZWebService">
+    <wsdl:operation name="getUnitInfo">
+      <wsdl:input name="getUnitInfo" message="tns:getUnitInfo" />
+      <wsdl:output name="getUnitInfoResponse" message="tns:getUnitInfoResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getRecInfo">
+      <wsdl:input name="getRecInfo" message="tns:getRecInfo" />
+      <wsdl:output name="getRecInfoResponse" message="tns:getRecInfoResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getUserCellRelation">
+      <wsdl:input name="getUserCellRelation" message="tns:getUserCellRelation" />
+      <wsdl:output name="getUserCellRelationResponse" message="tns:getUserCellRelationResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getRegionInfo">
+      <wsdl:input name="getRegionInfo" message="tns:getRegionInfo" />
+      <wsdl:output name="getRegionInfoResponse" message="tns:getRegionInfoResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getDutyCellInfo">
+      <wsdl:input name="getDutyCellInfo" message="tns:getDutyCellInfo" />
+      <wsdl:output name="getDutyCellInfoResponse" message="tns:getDutyCellInfoResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getHumanInfo">
+      <wsdl:input name="getHumanInfo" message="tns:getHumanInfo" />
+      <wsdl:output name="getHumanInfoResponse" message="tns:getHumanInfoResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="TZWebServiceImplServiceSoapBinding" type="tns:TZWebService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />
+    <wsdl:operation name="getUnitInfo">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="getUnitInfo">
+        <soap:body use="literal" namespace="http://tzsynchronous.service.com.cn/" />
+      </wsdl:input>
+      <wsdl:output name="getUnitInfoResponse">
+        <soap:body use="literal" namespace="http://tzsynchronous.service.com.cn/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRecInfo">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="getRecInfo">
+        <soap:body use="literal" namespace="http://tzsynchronous.service.com.cn/" />
+      </wsdl:input>
+      <wsdl:output name="getRecInfoResponse">
+        <soap:body use="literal" namespace="http://tzsynchronous.service.com.cn/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUserCellRelation">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="getUserCellRelation">
+        <soap:body use="literal" namespace="http://tzsynchronous.service.com.cn/" />
+      </wsdl:input>
+      <wsdl:output name="getUserCellRelationResponse">
+        <soap:body use="literal" namespace="http://tzsynchronous.service.com.cn/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRegionInfo">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="getRegionInfo">
+        <soap:body use="literal" namespace="http://tzsynchronous.service.com.cn/" />
+      </wsdl:input>
+      <wsdl:output name="getRegionInfoResponse">
+        <soap:body use="literal" namespace="http://tzsynchronous.service.com.cn/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDutyCellInfo">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="getDutyCellInfo">
+        <soap:body use="literal" namespace="http://tzsynchronous.service.com.cn/" />
+      </wsdl:input>
+      <wsdl:output name="getDutyCellInfoResponse">
+        <soap:body use="literal" namespace="http://tzsynchronous.service.com.cn/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getHumanInfo">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="getHumanInfo">
+        <soap:body use="literal" namespace="http://tzsynchronous.service.com.cn/" />
+      </wsdl:input>
+      <wsdl:output name="getHumanInfoResponse">
+        <soap:body use="literal" namespace="http://tzsynchronous.service.com.cn/" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="TZWebServiceImplService">
+    <wsdl:port name="TZWebServiceImplPort" binding="tns:TZWebServiceImplServiceSoapBinding">
+      <soap:address location="http://183.136.153.51:8181/eUrbanMIS/ws/tzsyn" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

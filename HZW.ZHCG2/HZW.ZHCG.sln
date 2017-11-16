@@ -1,0 +1,119 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HZW.ZHCG.DAL", "HZW.ZHCG.DAL\HZW.ZHCG.DAL.csproj", "{A643F023-ADE6-4A2B-9FDB-B238A0CA9403}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HZW.ZHCG.BLL", "HZW.ZHCG.BLL\HZW.ZHCG.BLL.csproj", "{AC5D7267-FF55-4528-8852-68C2BD0BC6B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HZW.ZHCG.Utility", "HZW.ZHCG.Utility\HZW.ZHCG.Utility.csproj", "{8431DFD1-BD16-4CFD-91F4-03E5856EED4E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HZW.ZHCG.WebAPI", "HZW.ZHCG.WebAPI\HZW.ZHCG.WebAPI.csproj", "{55B1C0C4-85D7-4D6D-906C-DAF3B1305646}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HZW.ZHCG.Model", "HZW.ZHCG.Model\HZW.ZHCG.Model.csproj", "{82363C27-E8CD-4375-B64E-697ACA0BBC8D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HZW.ZHCG.Portal", "HZW.ZHCG.Portals\HZW.ZHCG.Portal.csproj", "{EDF303E5-E154-446D-90BB-ECD2B3D791BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HZW.ZHCG.Web", "HZW.ZHCG.Web\HZW.ZHCG.Web.csproj", "{4393F7E5-41FF-469F-AB5A-12C35FF72342}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HZW.ZHCG.SyncEvent", "HZW.ZHCG.SyncEvent\HZW.ZHCG.SyncEvent.csproj", "{863C81A1-2F0F-44D8-99E7-89475401D5EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HZW.ZHCG.Camera", "HZW.ZHCG.Camera\HZW.ZHCG.Camera.csproj", "{F0C0D50A-52E5-49D2-9036-6D8D92DD6651}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HZW.ZHCG.PortalNew", "HZW.ZHCG.PortalNew\HZW.ZHCG.PortalNew.csproj", "{24FB1C96-F3B1-42E3-9327-6188E5A1BED8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HZW.ZHCG.PerceptionDevice", "HZW.ZHCG.PerceptionDevice\HZW.ZHCG.PerceptionDevice.csproj", "{B645C8AE-FB1A-4E04-8DE2-C48107CACC53}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 12
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://218.108.93.243:8080/tfs/year2016
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = HZW.ZHCG.BLL\\HZW.ZHCG.BLL.csproj
+		SccProjectName1 = HZW.ZHCG.BLL
+		SccLocalPath1 = HZW.ZHCG.BLL
+		SccProjectUniqueName2 = HZW.ZHCG.DAL\\HZW.ZHCG.DAL.csproj
+		SccProjectName2 = HZW.ZHCG.DAL
+		SccLocalPath2 = HZW.ZHCG.DAL
+		SccProjectUniqueName3 = HZW.ZHCG.Utility\\HZW.ZHCG.Utility.csproj
+		SccProjectName3 = HZW.ZHCG.Utility
+		SccLocalPath3 = HZW.ZHCG.Utility
+		SccProjectUniqueName4 = HZW.ZHCG.WebAPI\\HZW.ZHCG.WebAPI.csproj
+		SccProjectName4 = HZW.ZHCG.WebAPI
+		SccLocalPath4 = HZW.ZHCG.WebAPI
+		SccProjectUniqueName5 = HZW.ZHCG.Model\\HZW.ZHCG.Model.csproj
+		SccProjectName5 = HZW.ZHCG.Model
+		SccLocalPath5 = HZW.ZHCG.Model
+		SccProjectUniqueName6 = HZW.ZHCG.Portals\\HZW.ZHCG.Portal.csproj
+		SccProjectName6 = HZW.ZHCG.Portals
+		SccLocalPath6 = HZW.ZHCG.Portals
+		SccProjectUniqueName7 = HZW.ZHCG.Web\\HZW.ZHCG.Web.csproj
+		SccProjectName7 = HZW.ZHCG.Web
+		SccLocalPath7 = HZW.ZHCG.Web
+		SccProjectUniqueName8 = HZW.ZHCG.SyncEvent\\HZW.ZHCG.SyncEvent.csproj
+		SccProjectName8 = HZW.ZHCG.SyncEvent
+		SccLocalPath8 = HZW.ZHCG.SyncEvent
+		SccProjectUniqueName9 = HZW.ZHCG.Camera\\HZW.ZHCG.Camera.csproj
+		SccProjectName9 = HZW.ZHCG.Camera
+		SccLocalPath9 = HZW.ZHCG.Camera
+		SccProjectUniqueName10 = HZW.ZHCG.PortalNew\\HZW.ZHCG.PortalNew.csproj
+		SccProjectName10 = HZW.ZHCG.PortalNew
+		SccLocalPath10 = HZW.ZHCG.PortalNew
+		SccProjectUniqueName11 = HZW.ZHCG.PerceptionDevice\\HZW.ZHCG.PerceptionDevice.csproj
+		SccProjectName11 = HZW.ZHCG.PerceptionDevice
+		SccLocalPath11 = HZW.ZHCG.PerceptionDevice
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A643F023-ADE6-4A2B-9FDB-B238A0CA9403}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A643F023-ADE6-4A2B-9FDB-B238A0CA9403}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A643F023-ADE6-4A2B-9FDB-B238A0CA9403}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A643F023-ADE6-4A2B-9FDB-B238A0CA9403}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC5D7267-FF55-4528-8852-68C2BD0BC6B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC5D7267-FF55-4528-8852-68C2BD0BC6B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC5D7267-FF55-4528-8852-68C2BD0BC6B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC5D7267-FF55-4528-8852-68C2BD0BC6B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8431DFD1-BD16-4CFD-91F4-03E5856EED4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8431DFD1-BD16-4CFD-91F4-03E5856EED4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8431DFD1-BD16-4CFD-91F4-03E5856EED4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8431DFD1-BD16-4CFD-91F4-03E5856EED4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55B1C0C4-85D7-4D6D-906C-DAF3B1305646}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55B1C0C4-85D7-4D6D-906C-DAF3B1305646}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55B1C0C4-85D7-4D6D-906C-DAF3B1305646}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55B1C0C4-85D7-4D6D-906C-DAF3B1305646}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82363C27-E8CD-4375-B64E-697ACA0BBC8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82363C27-E8CD-4375-B64E-697ACA0BBC8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82363C27-E8CD-4375-B64E-697ACA0BBC8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82363C27-E8CD-4375-B64E-697ACA0BBC8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDF303E5-E154-446D-90BB-ECD2B3D791BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDF303E5-E154-446D-90BB-ECD2B3D791BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDF303E5-E154-446D-90BB-ECD2B3D791BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDF303E5-E154-446D-90BB-ECD2B3D791BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4393F7E5-41FF-469F-AB5A-12C35FF72342}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4393F7E5-41FF-469F-AB5A-12C35FF72342}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4393F7E5-41FF-469F-AB5A-12C35FF72342}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4393F7E5-41FF-469F-AB5A-12C35FF72342}.Release|Any CPU.Build.0 = Release|Any CPU
+		{863C81A1-2F0F-44D8-99E7-89475401D5EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{863C81A1-2F0F-44D8-99E7-89475401D5EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{863C81A1-2F0F-44D8-99E7-89475401D5EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{863C81A1-2F0F-44D8-99E7-89475401D5EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0C0D50A-52E5-49D2-9036-6D8D92DD6651}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0C0D50A-52E5-49D2-9036-6D8D92DD6651}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0C0D50A-52E5-49D2-9036-6D8D92DD6651}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0C0D50A-52E5-49D2-9036-6D8D92DD6651}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24FB1C96-F3B1-42E3-9327-6188E5A1BED8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24FB1C96-F3B1-42E3-9327-6188E5A1BED8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24FB1C96-F3B1-42E3-9327-6188E5A1BED8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24FB1C96-F3B1-42E3-9327-6188E5A1BED8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B645C8AE-FB1A-4E04-8DE2-C48107CACC53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B645C8AE-FB1A-4E04-8DE2-C48107CACC53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B645C8AE-FB1A-4E04-8DE2-C48107CACC53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B645C8AE-FB1A-4E04-8DE2-C48107CACC53}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

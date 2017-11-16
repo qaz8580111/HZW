@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="02386869171743a78d4038739e084b6b" Name="关系图1">
+        <EntityTypeShape EntityType="hzwModel.ad_classes" Width="1.5" PointX="4.7378301344522411" PointY="25.268102568233434" />
+        <EntityTypeShape EntityType="hzwModel.ad_outadverts" Width="1.5" PointX="1.8303391420423703" PointY="22.816705058709115" />
+        <EntityTypeShape EntityType="hzwModel.base_menus" Width="1.5" PointX="4.5091541914777613" PointY="4.6286772958136524" />
+        <EntityTypeShape EntityType="hzwModel.base_permissionmenus" Width="1.5" PointX="3.1882127650027221" PointY="1.8403360256181731" />
+        <EntityTypeShape EntityType="hzwModel.base_permissions" Width="1.5" PointX="11.300648605125327" PointY="16.441429563072244" />
+        <EntityTypeShape EntityType="hzwModel.base_rolepermissions" Width="1.5" PointX="11.991213826458536" PointY="26.250233736937044" />
+        <EntityTypeShape EntityType="hzwModel.base_roles" Width="1.5" PointX="0.71325963210000642" PointY="3.26936677250516" />
+        <EntityTypeShape EntityType="hzwModel.base_units" Width="1.5" PointX="11.804831664918378" PointY="2.0766142616405219" />
+        <EntityTypeShape EntityType="hzwModel.base_unittypes" Width="1.5" PointX="7.0720288227647679" PointY="19.555989825891327" />
+        <EntityTypeShape EntityType="hzwModel.base_userroles" Width="1.5" PointX="9.2540262924758849" PointY="10.619973008809598" />
+        <EntityTypeShape EntityType="hzwModel.base_users" Width="1.5" PointX="6.956962614765839" PointY="1.5930928893355154" />
+        <EntityTypeShape EntityType="hzwModel.base_usertypes" Width="1.5" PointX="0.45588358326623385" PointY="20.148795062745361" />
+        <EntityTypeShape EntityType="hzwModel.bd_jcbjxx" Width="1.5" PointX="6.9275167709810272" PointY="17.462401726032795" />
+        <EntityTypeShape EntityType="hzwModel.event_zfsjs" Width="1.5" PointX="11.963141569850567" PointY="6.3396767556386422" />
+        <EntityTypeShape EntityType="hzwModel.fi_camera_dev" Width="1.5" PointX="1.5355139456389071" PointY="8.9250354659394517" />
+        <EntityTypeShape EntityType="hzwModel.fi_camera_info" Width="1.5" PointX="0.91328063090950284" PointY="26.660333139198055" />
+        <EntityTypeShape EntityType="hzwModel.fi_camera_item" Width="1.5" PointX="9.7633829981849445" PointY="22.98720557567999" />
+        <EntityTypeShape EntityType="hzwModel.fi_camera_regions" Width="1.5" PointX="3.079249074253835" PointY="5.1462722146633419" />
+        <EntityTypeShape EntityType="hzwModel.fi_camera_theme" Width="1.5" PointX="6.7959028197433344" PointY="15.542627058710263" />
+        <EntityTypeShape EntityType="hzwModel.fi_camera_unit" Width="1.5" PointX="4.6468689165296357" PointY="16.207567550338602" />
+        <EntityTypeShape EntityType="hzwModel.fi_cardevicetypes" Width="1.5" PointX="4.8926053237601206" PointY="20.831680292650908" />
+        <EntityTypeShape EntityType="hzwModel.fi_carusagetypes" Width="1.5" PointX="2.458455893424552" PointY="19.768147552277963" />
+        <EntityTypeShape EntityType="hzwModel.fi_tchumans" Width="1.5" PointX="0.68940946864402364" PointY="31.818660765801866" />
+        <EntityTypeShape EntityType="hzwModel.fi_tcpatrols" Width="1.5" PointX="8.1481298674587777" PointY="9.0886987043026366" />
+        <EntityTypeShape EntityType="hzwModel.fi_tcunits" Width="1.5" PointX="3.5152569690324631" PointY="8.368309695445145" />
+        <EntityTypeShape EntityType="hzwModel.fi_tdeventsrcs" Width="1.5" PointX="9.9516559494434187" PointY="7.2479441199674941" />
+        <EntityTypeShape EntityType="hzwModel.fi_topatrollatestpos" Width="1.5" PointX="0.90532902111547475" PointY="11.782240679386185" />
+        <EntityTypeShape EntityType="hzwModel.fi_topatrollogons" Width="1.5" PointX="10.716030114663779" PointY="11.04112080253713" />
+        <EntityTypeShape EntityType="hzwModel.fi_topatrolpos" Width="1.5" PointX="9.019654879821303" PointY="16.732109316034293" />
+        <EntityTypeShape EntityType="hzwModel.fi_torecmedias" Width="1.5" PointX="1.628747626034891" PointY="26.562009451241238" />
+        <EntityTypeShape EntityType="hzwModel.fi_torecprocess" Width="1.5" PointX="1.7726124160795531" PointY="2.1622239510352834" />
+        <EntityTypeShape EntityType="hzwModel.fi_torecs" Width="1.5" PointX="11.154612063967907" PointY="21.21002748106142" />
+        <EntityTypeShape EntityType="hzwModel.fi_tzcarlatestpositions" Width="1.5" PointX="5.2522554552425893" PointY="5.3162370646913706" />
+        <EntityTypeShape EntityType="hzwModel.fi_tzcars" Width="1.5" PointX="0.0804546531664462" PointY="10.914820109920028" />
+        <EntityTypeShape EntityType="hzwModel.mapelementcoord" Width="1.5" PointX="10.1467634654356" PointY="26.333278891785667" />
+        <EntityTypeShape EntityType="hzwModel.mapelement" Width="1.5" PointX="5.9828275283718613" PointY="3.3161164686624502" />
+        <EntityTypeShape EntityType="hzwModel.mh_categors" Width="1.5" PointX="2.6866272681796119" PointY="8.4698358962637545" />
+        <EntityTypeShape EntityType="hzwModel.mh_news" Width="1.5" PointX="11.089884554543479" PointY="29.72022001339133" />
+        <EntityTypeShape EntityType="hzwModel.project01" Width="1.5" PointX="10.138953940076267" PointY="13.447542003098661" />
+        <EntityTypeShape EntityType="hzwModel.project02" Width="1.5" PointX="6.8663886798854872" PointY="18.654717290147541" />
+        <EntityTypeShape EntityType="hzwModel.project03" Width="1.5" PointX="10.40027077980352" PointY="22.813012148632207" />
+        <EntityTypeShape EntityType="hzwModel.store_bases" Width="1.5" PointX="10.862121814332028" PointY="27.726394159591941" />
+        <EntityTypeShape EntityType="hzwModel.store_classes" Width="1.5" PointX="5.3952323502838766" PointY="27.187470895791179" />
+        <EntityTypeShape EntityType="hzwModel.sys_positions" Width="1.5" PointX="9.0922959060837965" PointY="14.25344731577367" />
+        <EntityTypeShape EntityType="hzwModel.sys_regions" Width="1.5" PointX="9.904171976216217" PointY="29.170210062139766" />
+        <EntityTypeShape EntityType="hzwModel.sys_zd" Width="1.5" PointX="4.91019720067745" PointY="1.3902982032812659" />
+        <AssociationConnector Association="hzwModel.FK_Reference_7" />
+        <AssociationConnector Association="hzwModel.FK_Reference_8" />
+        <AssociationConnector Association="hzwModel.FK_Reference_6" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

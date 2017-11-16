@@ -1,9 +1,0 @@
-﻿@{
-    ViewBag.Title = "Index";
-}
-
-@section css{
-}
-
-@section scripts{
-}

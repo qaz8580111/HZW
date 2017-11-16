@@ -1,0 +1,343 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>杭州湾门户</title>
+    <link rel='icon' href='/Images/faviconico.ico' type='image/x-ico' />
+    <link href="../../Css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../Css/styleindex.css" rel="stylesheet" />
+    <link href="../../Css/topStyle.css" rel="stylesheet" />
+    <link href="../../Css/Testlanmu.css" rel="stylesheet" />
+    <link href="../../Css/comm.css" rel="stylesheet" />
+    <script src="../../Scripts/jquery-3.0.0.js"></script>
+    <script src="../../Scripts/configs.js"></script>
+    <style type="text/css">
+        #table {
+            width: auto;
+            text-align: left;
+            font-size: 12px;
+            font-family: 'Microsoft Yahei", "微软雅黑", "宋体", "Helvetica Neue", Helvetica, Arial, sans-serif';
+            color: #333;
+        }
+
+            #table tr {
+                border: 0px;
+                display: block;
+                margin-bottom: -5px;
+            }
+
+                #table tr td {
+                    line-height: 35px;
+                    border: 0px;
+                }
+
+        td input {
+            width: 650px;
+            height: 25px;
+        }
+
+        td textarea {
+            width: 650px;
+        }
+
+        .imgDiv {
+            display: inline-block;
+            position: relative;
+        }
+
+        .file {
+            position: relative;
+            display: inline-block;
+            background: #D0EEFF;
+            border: 1px solid #99D3F5;
+            border-radius: 4px;
+            padding: 4px 12px;
+            overflow: hidden;
+            text-decoration: none;
+            text-indent: 0;
+            line-height: 25px;
+            margin-left: 20px;
+            top: -10px;
+        }
+
+            .file input {
+                position: absolute;
+                font-size: 100px;
+                right: 0;
+                top: 0;
+                opacity: 0;
+            }
+
+        .delete {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            width: 20px;
+            height: 20px;
+            display: none;
+        }
+
+        .btn {
+            text-align: center;
+            margin-left: 350px;
+        }
+
+        .btn-primary {
+            width: 80px;
+            height: 30px;
+            background: #428bca;
+            color: white;
+            border-radius: 4px;
+            border-color: #357ebd;
+            cursor: pointer;
+        }
+
+        .imginput {
+            width: 550px;
+            top: -10px;
+            position: relative;
+            background: white;
+            border: 1px solid #c3bdbd;
+            float: left;
+        }
+    </style>
+    <script type="text/javascript">
+        function fileUpload(fileid, imgid, files,typeid) {
+            $(imgid).val($(fileid).val());
+
+            var postfix= files[0].name.substring(files[0].name.lastIndexOf("."),files[0].name.length);
+            var names=files[0].name.replace(postfix,"").length>8?files[0].name.replace(postfix,"").substring(0,8)+"...":files[0].name.replace(postfix,"");
+            $(typeid).val(postfix);
+            if(files.length)  
+            {  
+                var file = files[0];  
+                var reader = new FileReader(); 
+                reader.onloadend = function()
+                {
+                    $(fileid).text(this.result);
+                };       
+            	reader.readAsDataURL(file);  
+            }
+        }
+
+        function validate_form() {
+            if ($("input[name='Title']").val() == "") {
+                alert("标题不能为空!");
+                return false;
+            }
+            if ($("textarea[name='Content']").val() == "") {
+                alert("内容不能为空!");
+                return false;
+            }
+            if ($("input[name='ContactPerson']").val() == "") {
+                alert("联系人不能为空!");
+                return false;
+            }
+            if ($("input[name='ContactPhone']").val() == "") {
+                alert("联系方式不能为空!");
+                return false;
+            }
+            if (checkPhone($("input[name='ContactPhone']").val()) == "1") {
+                alert("请填正确电话联系方式!");
+                return false;
+            }
+            if ($("input[name='material1']").val() == "" && $("input[name='material2']").val() == "" && $("input[name='material3']").val() == "") {
+                alert("请至少上传一张图片!");
+                return false;
+            }
+            if (CheckImageExt($("input[name='phototype1']").val()) == false || CheckImageExt($("input[name='phototype2']").val()) == false || CheckImageExt($("input[name='phototype3']").val()) == false) {
+                console.log(CheckImageExt($("input[name='phototype2']").val()));
+                alert("上传图片格式不正确,请上传一张正确格式的图片!");
+                return false;
+            }
+            else {
+                document.getElementById("submitdata").disabled = true;
+                $.ajax({
+                    type: "POST",
+                    url: config.WebApi + "Event/AddEvent?r=" + Math.random(),
+                    data:
+                    {
+                        title: $("input[name='Title']").val(),
+                        content: $("textarea[name='Content']").val(),
+                        reportperson: $("input[name='ContactPerson']").val(),
+                        contact: $("input[name='ContactPhone']").val(),
+                        photo1: $("input[name='phototype1']").val(),
+                        photofile1: $("input[name='material1']").text(),
+                        photo2: $("input[name='phototype2']").val(),
+                        photofile2: $("input[name='material2']").text(),
+                        photo3: $("input[name='phototype3']").val(),
+                        photofile3: $("input[name='material3']").text(),
+                    },
+                    success: function (data) {
+                        if (data == "success")
+                        {
+                            alert("添加成功!");
+                            document.getElementById("submitdata").disabled = false;
+                            window.location.href = location.href;
+                        } else
+                            alert("添加失败!");
+                        document.getElementById("submitdata").disabled = false;
+                        return true;
+                    }
+                })
+            }
+        }
+
+        //验证联系方式
+        function checkPhone(phone) {
+            if (!(/^1[34578]\d{9}$/.test(phone))) {
+                return "1";
+            }
+        }
+
+        //验证图片后缀
+        function CheckImageExt(suffix) {
+            suffix = suffix.toLowerCase();            
+            if (suffix == '.bmp' || suffix == '.jpg' || suffix == ".jif" || suffix == ".tiff" || suffix == ".pcx" || suffix == ".tga" || suffix == ".exif" || suffix == ".fpx" || suffix == ".svg" || suffix == ".psd" || suffix == ".cdr" || suffix == ".pcd" || suffix == ".dxf" || suffix == ".ufo" || suffix == ".eps" || suffix == ".ai" || suffix == ".raw" || suffix == ".WMF" || suffix == ".png" || suffix == ".jpeg" || suffix == ".gif") {
+                return true;
+            }else if(suffix =="" || suffix ==null){                
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+    </script>
+</head>
+<body>
+    <!--头部目前样式-->
+    <div class="top">
+        <div class="topleft">
+            <img src="../../Images/head/LOGO.png" />
+        </div>
+        <!-- <div class="toptile">
+            <div class="seizeaseat"></div>
+            杭州湾智慧城管门户网站
+            <br />
+            <label class="fontsize">Hangzhou Bay wisdom Urban Management Portal</label>
+        </div>-->
+    </div>
+    <div class="topMenu">
+        <ul>
+            <li><a href="../../Index.html">首页</a></li>
+            <li><a href="GovernmentAffairs.html">政务公开</a></li>
+            <li><a href="Exposuretable.html">曝光台</a></li>
+            <li><a href="ThematicWork.html">专题工作</a></li>
+            <li><a href="StatisticalBulletin.html">统计通报</a></li>
+            <li class="selected"><a href="OnlineReporting.html">网上申报</a></li>
+            <li><a href="ThePublicAPP.html">城管APP</a></li>
+            <li><a href="WeChat.html">城管微信</a></li>
+            <li><a href="ConvenienceServices.html">便民服务</a></li>
+            <li><a href="TeamBilding.html">团队建设</a></li>
+        </ul>
+    </div>
+    <div class="tophr"></div>
+    <div class="page_style lanmupage">
+        <div class="lanmu_box_style2">
+            <div class="lanmu_box_style1">
+                <div class="lanmu_box_style1_left">
+                    <div class="module_title1"><span class="module_sign1">网上申报</span><span class="module_more"></span></div>
+                    <div class="news_li" style="min-height: 420px; border-width: 0 0 0 0; margin-top: 50px">
+                        <ul id="rootul_105" style="padding-left: 40px">
+                            <li class="articleCategory"><a class="sla519" id="29" tabindex="29" style="line-height: 30px; cursor: pointer; text-decoration:underline">网上申报</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="lanmu_box_style1_right">
+                    <div id="current_location" class="current_location current_location_519" style="display: block;">
+                        <ul>
+                            <li style="padding-left: 10px; padding-top: 5px;">当前位置：
+            <a href="OnlineReporting.html">网上申报&gt;</a>
+
+                                <a href="#">网上申报</a>
+
+                            </li>
+                        </ul>
+                    </div>
+
+                        <div style="margin: 20px 0 0 0px;">
+                            <table class="table" id="table" onsubmit="submitonce(this)">
+                                <tr>
+                                    <td>标题:</td>
+                                    <td>
+                                        <input type="text" name="Title" class="form-control" style="margin-left: 20px; width: 650px;" /></td>
+                                </tr>
+                                <tr>
+                                    <td>内容:</td>
+                                    <td>
+                                        <textarea class="form-control" name="Content" style="height: 150px; margin-left: 20px; width: 650px; resize: none;"></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td>联系人:</td>
+                                    <td>
+                                        <input type="text" name="ContactPerson" class="form-control" style="margin-left: 10px; width: 650px;" /></td>
+                                </tr>
+                                <tr>
+                                    <td>手机号码:</td>
+                                    <td>
+                                        <input type="text" name="ContactPhone" class="form-control" style="width: 650px;" /></td>
+                                </tr>
+
+                                <tr>
+                                    <td style="top: -10px; position: relative;">附件上传</td>
+                                    <td style="line-height: 30px;" colspan="3">
+
+                                        <table style="clear: both; table-layout: fixed;">
+                                            <tr>
+                                                <td>
+                                                    <input id="img1" class="form-control imginput" readonly="true" style="background-color: white;" />
+                                                    <a href="javascript:void(0)" class="file" style="color: #1E88C7;">选择图片
+                                                        <input type="file" name="material1" id="material1" onchange="fileUpload('#material1','#img1',this.files,'#phototype1')" />
+                                                        <input type="hidden" name="phototype1" id="phototype1" />
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input id="img2" class="form-control imginput" readonly="true" style="background-color: white;" />
+                                                    <a href="javascript:void(0)" class="file" style="color: #1E88C7;">选择图片
+                                                        <input type="file" name="material2" id="material2" onchange="fileUpload('#material2','#img2',this.files,'#phototype2')" />
+                                                        <input type="hidden" name="phototype2" id="phototype2" />
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input id="img3" class="form-control imginput" readonly="true" style="background-color: white;" />
+                                                    <a href="javascript:void(0)" class="file" style="color: #1E88C7;">选择图片
+                                                        <input type="file" name="material3" id="material3" onchange="fileUpload('#material3','#img3',this.files,'#phototype3')" />
+                                                        <input type="hidden" name="phototype3" id="phototype3" />
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="2">
+                                        <input type="button" id="submitdata" class="btn btn-primary" value="提交" onclick="return validate_form()" /></td>
+                                </tr>
+                            </table>
+                        </div>
+
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <div style="background-color: #326c91; height: 2px;" class="center"></div>
+        <div class="center" style="height: 55px; text-align: center; background: linear-gradient(#fff, #E0E0E0);">
+            <span>&copy;版权所有:宁波杭州湾新区城市管理综合执法大队</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>技术支持:浙江宝兴智慧城市建设有限公司</span>
+            <br />
+            <span>地址:&nbsp;&nbsp;&nbsp;浙江省宁波杭州湾新区越和路7号</span>&nbsp;&nbsp;&nbsp;&nbsp;
+        <br />
+            <span>电话:&nbsp;&nbsp;&nbsp;0574-63071002</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>传真:0574-63071000</span>
+        </div>
+    </div>
+</body>
+</html>

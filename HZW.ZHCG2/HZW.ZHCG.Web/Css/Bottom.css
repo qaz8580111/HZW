@@ -1,0 +1,376 @@
+﻿/*占位div*/
+.divSeizeASeat {
+    width: 100%;
+    height: 20px;
+}
+
+.smalldivSeizeASeat {
+    width: 100%;
+    height: 5px;
+}
+
+.middledivSeizeASeat {
+    width: 100%;
+    height: 15px;
+}
+
+.piecharts {
+    width: 70%;
+    height: 150px;
+}
+
+.tabCenter {
+    width: auto;
+    position: absolute;
+    left: 40%;
+    bottom: 0px;
+    height: 120px;
+    margin-left: 1%;
+}
+
+.tdFontSizeColor {
+    font-size: 12px;
+    color: white;
+}
+
+.tdFontSizeFamily {
+    font-size: 17px;
+    font-family: 'digitalTableFont';
+}
+
+    .tdFontSizeFamily.tdColor {
+        color: #1CD952;
+    }
+
+.lefttabCenter {
+    position: absolute;
+    left: 0px;
+    bottom: 30px;
+}
+    .lefttabCenter tr td {
+        padding-left:10px;
+    }
+        .lefttabCenter tr td span {
+            padding-left:5px;
+        }
+
+.lefttabTd {
+    font-size: 17px;
+    font-family: 'digitalTableFont';
+    color: #1ECB51;
+}
+
+.centerPiebg {
+    width: 110px;
+    height: 109px;
+    margin-left: 20%;
+    margin-top: 5%;
+    text-align: center;
+}
+
+    .centerPiebg.bgone {
+        background-image: url(../Image/2.png);
+    }
+
+    .centerPiebg.bgtwo {
+        background-image: url(../Image/hwguangg.png);
+    }
+
+.ajContentSeizeAseat {
+    width: 27%;
+    height: 120px;
+    position: absolute;
+    bottom: 0px;
+    left: 40%;
+}
+
+.centerPieSeizeAseat {
+    width: 13%;
+    height: 120px;
+    position: absolute;
+    bottom: 0px;
+    left: 40%;
+}
+.centerPieSeizeAseatFont {
+    width:60px; height:30px; position:absolute; left:44.45%; bottom:45px; text-align:center; font-family:'digitalTableFont'; font-size:25px; color:white
+}
+
+.centerPieFont {
+    color: white;
+    font-size: 25px;
+    font-family: 'digitalTableFont';
+}
+
+.centerdivSeizeAseat {
+    width: 100%;
+    height: 35%;
+}
+
+.centerrightTypeDelits {
+    width: 13%;
+    height: 120px;
+    position: absolute;
+    bottom: 0px;
+    left: 53%;
+}
+
+.centerrightTab {
+    margin-top: 20%;
+}
+
+.centerrightTabTd {
+    font-size: 17px;
+    font-family: 'digitalTableFont';
+}
+
+    .centerrightTabTd.orangeColor {
+        color: #FE7225;
+    }
+
+    .centerrightTabTd.GreenColor {
+        color: #20EE5B;
+    }
+
+    .centerrightTabTd.Violet {
+        color: #AE55F3;
+    }
+
+    .centerrightTabTd.OxbloodRed {
+        color: #DF5149;
+    }
+
+    .centerrightTabTd.white {
+        color: white;
+    }
+    .centerrightTabTd.blue {
+        color:#1EEDF8;
+    }
+
+.righthistogram {
+    width: 25%;
+    height: 170px;
+    position: absolute;
+    bottom: 0px;
+    right: 10px;
+}
+
+.tabMargin {
+    margin-top: 10%;
+}
+
+.wrjleftcontent {
+    width: 100%;
+    height: 68px;
+    position: absolute;
+    bottom: 10px;
+}
+
+    .wrjleftcontent img {
+        width: 17px;
+        height: 17px;
+    }
+
+.centerEllipse {
+    width: 26%;
+    height: 68px;
+    background-color: #1C2637;
+    opacity: 0.9;
+    border-radius: 5px;
+    position: absolute;
+    left: 41%;
+    bottom: 15px;
+}
+
+.rightPiebg {
+    width: 110px;
+    height: 120px;
+    position: absolute;
+    bottom: 2px;
+    left: 5%;
+}
+
+.rightPieCenterfont {
+    width: 70px;
+    height: 30px;
+    text-align: center;
+    font-family: 'digitalTableFont';
+    font-size: 25px;
+    color: white;
+    position:absolute;
+    left:9%;
+    bottom:45px;
+}
+
+.rightPanel {
+    width: 80px;
+    height: 100px;
+    position: absolute;
+    left: 40%;
+    bottom: 10px;
+}
+
+.rightPanelborder {
+    width: 100%;
+    height: 15px;
+    background: #192030;
+}
+
+.gzsbleftcontent {
+    width: 100%;
+    height: 85px;
+    position: absolute;
+    bottom: 5px;
+}
+
+    .gzsbleftcontent img {
+        width: 17px;
+        height: 17px;
+    }
+
+.gzsbCentercontent {
+    width: 28%;
+    height: 110px;
+    position: absolute;
+    left: 40%;
+    bottom: 0px;
+}
+
+.gazsbTab {
+    position: absolute;
+    left: 10%;
+    bottom: 2px;
+}
+
+.smalltitleShow {
+    color: orange;
+    font-size: 12px;
+}
+
+.ryclleftbg {
+    width: 11%;
+    height: 120px;
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    opacity: 0.7;
+}
+
+.ryclSeizeASeat {
+    width: 8%;
+    height: 114px;
+    position: absolute;
+    bottom: 0px;
+}
+
+    .ryclSeizeASeat.left {
+        left: 11%;
+    }
+
+    .ryclSeizeASeat.center {
+        left: 39%;
+    }
+
+.rycltodayOnlinepeople {
+    width: auto;
+    height: 30px;
+    text-align: center;
+    color: #25AE95;
+}
+
+.ryclShowContent {
+    width: 80px;
+    height: 80px;
+    background-image: url(../Image/navigationIco/hexagon.png);
+    position: absolute;
+    bottom: 5px;
+    color: #25AE95;
+    text-align: center;
+    font-family: 'digitalTableFont';
+    font-size: 20px;
+    background-repeat: no-repeat;
+    background-size: 80px 80px;
+    left: 20%;
+}
+
+.ryclcenterbg {
+    width: 20%;
+    height: 120px;
+    opacity: 0.7;
+    position: absolute;
+    bottom: 0px;
+}
+
+    .ryclcenterbg.left {
+        left: 19%;
+    }
+
+    .ryclcenterbg.right {
+        left: 47%;
+    }
+
+.ryclrightContent {
+    width: 24%;
+    height: 120px;
+    bottom: 0px;
+    right: 5px;
+    position: absolute;
+}
+
+    .ryclrightContent.bg {
+        background: #0A0B0F;
+        opacity: 0.7;
+    }
+
+.ryclFontSizeColor {
+    font-size: 14px;
+    color: white;
+}
+
+.rycltabMargin {
+    width:80%;
+    height:40%;
+    margin-top: 10%;
+}
+
+.publiHeight {
+    height: 120px;
+}
+
+    .publiHeight.deviceWidth {
+        width: 26%;
+    }
+
+    .publiHeight.deviceWidth.leftcontent{
+        position: absolute;
+        left: 8%;
+        bottom: 0px;
+    }
+
+    .publiHeight.deviceWidth.left {
+        position: absolute;
+        left: 40%;
+        bottom: 0px;
+        width:60%;
+    }
+
+        .publiHeight.deviceWidth.leftcontent table {
+            width:98%;
+            margin-top:25px;
+            color:white;
+            font-family:'digitalTableFont';
+        }
+        .publiHeight.deviceWidth.leftcontent table tr td:nth-child(2n+0){
+            color:orange;
+            font-size:20px;
+        }
+        .publiHeight.deviceWidth.left table {
+            width:95%;
+            margin-top:25px;
+            color:white;
+            font-family:'digitalTableFont';
+        }
+            .publiHeight.deviceWidth.left table tr td:nth-child(2n+0) {
+                color:orange;
+                font-size:20px;
+            }
+

@@ -1,0 +1,277 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A643F023-ADE6-4A2B-9FDB-B238A0CA9403}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HZW.ZHCG.DAL</RootNamespace>
+    <AssemblyName>HZW.ZHCG.DAL</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdvertDAL.cs" />
+    <Compile Include="ad_classes.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ad_outadverts.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="base_menus.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="base_permissionmenus.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="base_permissions.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="base_rolepermissions.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="base_roles.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="base_units.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="base_unittypes.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="base_userroles.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="base_users.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="base_usertypes.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="bd_jcbjxx.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CameraDAL.cs" />
+    <Compile Include="CategorsDAL.cs" />
+    <Compile Include="Class1.cs" />
+    <Compile Include="CoordinateDAL.cs" />
+    <Compile Include="Enum\cameraType.cs" />
+    <Compile Include="Enum\IsDelete.cs" />
+    <Compile Include="Enum\IsOnline.cs" />
+    <Compile Include="Enum\Judge.cs" />
+    <Compile Include="Enum\NewsColumn.cs" />
+    <Compile Include="Enum\userType.cs" />
+    <Compile Include="EventDAL.cs" />
+    <Compile Include="event_zfsjs.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="fi_camera_dev.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="fi_camera_info.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="fi_camera_item.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="fi_camera_regions.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="fi_camera_theme.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="fi_camera_unit.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="fi_cardevicetypes.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="fi_carusagetypes.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="fi_tchumans.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="fi_tcpatrols.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="fi_tcunits.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="fi_tdeventsrcs.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="fi_tdeventsrcsDALcs.cs" />
+    <Compile Include="fi_topatrollatestpos.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="fi_topatrollogons.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="fi_topatrolpos.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="fi_torecmedias.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="fi_torecprocess.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="fi_torecs.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="fi_torecsDAL.cs" />
+    <Compile Include="fi_tzcarlatestpositions.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="fi_tzcars.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HZW.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HZW.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HZW.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HZW.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HZW.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="mapelement.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mapelementcoord.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MenuDAL.cs" />
+    <Compile Include="mh_categors.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="mh_news.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NewsDAL.cs" />
+    <Compile Include="PartsFacilitiesDAL.cs" />
+    <Compile Include="PerceptionDeviceDAL.cs" />
+    <Compile Include="PermissionDAL.cs" />
+    <Compile Include="project01.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="project02.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="project03.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProjectDevDAL.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="statisticsTypeDAL.cs" />
+    <Compile Include="StoreClassesDAL.cs" />
+    <Compile Include="StoreBasesDAL.cs" />
+    <Compile Include="store_bases.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="store_classes.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SyncEventDAL.cs" />
+    <Compile Include="SysRolesDAL.cs" />
+    <Compile Include="sys_positions.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sys_regions.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sys_zd.cs">
+      <DependentUpon>HZW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UnitDAL.cs" />
+    <Compile Include="UnitTypeDAL.cs" />
+    <Compile Include="UserDAL.cs" />
+    <Compile Include="UserTypeDAL.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="HZW.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>HZW.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="HZW.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>HZW.edmx</DependentUpon>
+      <LastGenOutput>HZW.Context.cs</LastGenOutput>
+    </None>
+    <None Include="HZW.edmx.diagram">
+      <DependentUpon>HZW.edmx</DependentUpon>
+    </None>
+    <None Include="HZW.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>HZW.edmx</DependentUpon>
+      <LastGenOutput>HZW.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HZW.ZHCG.Model\HZW.ZHCG.Model.csproj">
+      <Project>{82363c27-e8cd-4375-b64e-697aca0bbc8d}</Project>
+      <Name>HZW.ZHCG.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

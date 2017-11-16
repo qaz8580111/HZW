@@ -1,0 +1,86 @@
+/* 懒人图库 搜集整理 www.lanrentuku.com */
+a img {
+    border: 0;
+}
+
+div#nav ul li {
+    float: left;
+    height: 52px;
+}
+/*1*/
+div#header div#slide-holder div#slide-runner {
+    width:303px;
+    height: 280px;
+    overflow: hidden;
+    position: absolute;
+}
+/*2*/
+#slide-runner img {
+    height: 280px;
+}
+
+div#header div#slide-holder img {
+    margin: 0;
+    display: none;
+    position: absolute;
+}
+/*3*/
+div#header div#slide-holder div#slide-controls {
+    width:303px;
+    left: 0;
+    bottom: 0px;
+    height: 45px;
+    display: none;
+    position: absolute;
+    background: url(../images/silder/slide-bg.png) 0 0;
+}
+
+    div#header div#slide-holder div#slide-controls p.text {
+        float: left;
+        color: #fff;
+        display: inline;
+        font-size: 10px;
+        line-height: 16px;
+        margin: 0 0 0 20px;
+        text-transform: uppercase;
+    }
+
+#slide-nav {
+    position: absolute;
+    bottom: 0px;
+    right: 2px;
+}
+
+div#header div#slide-holder div#slide-controls p#slide-nav {
+    height: 24px;
+    display: inline;
+    margin: 0px 15px 0 0;
+}
+
+    div#header div#slide-holder div#slide-controls p#slide-nav a {
+        float: left;
+        width: 24px;
+        height: 24px;
+        display: inline;
+        font-size: 11px;
+        margin: 0px 2px 0 0;
+        line-height: 24px;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        background-position: 0 0;
+        background-repeat: no-repeat;
+        color:white;
+    }
+
+        div#header div#slide-holder div#slide-controls p#slide-nav a.on {
+            background-position: 0 -24px;
+        }
+
+    div#header div#slide-holder div#slide-controls p#slide-nav a {
+        background-image: url(../images/silder/silde-nav.png);
+    }
+
+div#nav ul li a {
+    background: url(../images/silder/nav.png) no-repeat;
+}

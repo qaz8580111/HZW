@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>杭州湾智慧城管管理系统</title>
+    <link href="Css/login.css" rel="stylesheet" />
+    <script src="Scripts/jquery-3.0.0.js"></script>
+    <script src="Scripts/jquery.cookie.js"></script>
+    <script src="Scripts/configs.js"></script>
+    <script src="Scripts/functions.js"></script>
+    
+    <script type="text/javascript">
+        document.onkeydown = function (event_e) {
+            if (window.event) {
+                event_e = window.event;
+            }
+
+            var int_keycode = event_e.charCode || event_e.keyCode;
+            if (int_keycode == '13') {
+                login();
+                return false;
+            }
+        }
+
+        function login() {
+            var account = $("#account").val().trim();
+            var password = $("#password").val().trim();
+
+            PostAjax({
+                url: 'api/User/Login',
+                data: { "LoginName": account, "LoginPwd": password },
+                complete: function (jqXHR, textStatus, errorThrown) {
+                    if (textStatus == "success") {
+                        var result = jQuery.parseJSON(jqXHR.responseText);
+
+                        if (typeof (result) == "object") {  //登陆成功
+                            $.cookie("USER_ID", result.USER_ID);
+                            $.cookie("USER_NAME", result.USER_NAME);
+                            $.cookie("UNIT_ID", result.UNIT_ID);
+
+                            location.href = "Index.html";
+                        } else if (result == 2) {
+                            alert("帐号不存在！");
+                        } else if (result == 3) {
+                            alert("帐号或密码输入错误！");
+                        } else {
+                            alert("登陆失败！");
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</head>
+
+<body style="position: relative">
+
+    <div class="login_center">
+        <div class="title" style="font-size: 28px; color: white;">
+            <img src="Images/logo.png" />
+        </div>
+        <form>
+            <div class="login_p">
+                <p>
+                    <label>账 号：</label>
+                    <input type="text" id="account" class="login_text" />
+                </p>
+                <p>
+                    <label>密 码：</label>
+                    <input type="password" id="password" class="login_text" />
+                </p>
+            </div>
+            <div class="login_m">
+                <input type="button" value="登录" id="btnLogin" onclick="login()" class="login_submitok" />
+                <input type="reset" value="重 置" class="login_submit" />
+            </div>
+        </form>
+        <div class="login_footer">
+            <div>
+                <div>请使用IE10及以上或360极速浏览器</div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

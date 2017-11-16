@@ -1,0 +1,422 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4393F7E5-41FF-469F-AB5A-12C35FF72342}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HZW.ZHCG.Web</RootNamespace>
+    <AssemblyName>HZW.ZHCG.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Css\bootstrap.css" />
+    <Content Include="Css\bootstrap.min.css" />
+    <Content Include="Css\cameraforArea.css" />
+    <Content Include="Css\goodPager.css" />
+    <Content Include="Css\login.css" />
+    <Content Include="Css\Main.css" />
+    <Content Include="Css\Panel.css" />
+    <Content Include="Css\Bottom.css" />
+    <Content Include="Css\searchbutton.css" />
+    <Content Include="Css\TreeClass.css" />
+    <Content Include="Images\skybox\00_BK.jpg" />
+    <Content Include="Images\skybox\00_DN.jpg" />
+    <Content Include="Images\skybox\00_FR%28128%29.bmp" />
+    <Content Include="Images\skybox\00_FR.jpg" />
+    <Content Include="Images\skybox\00_LF.jpg" />
+    <Content Include="Images\skybox\00_RT.jpg" />
+    <Content Include="Images\skybox\00_UP.jpg" />
+    <Content Include="Images\skybox\04_BK.jpg" />
+    <Content Include="Images\skybox\04_DN.jpg" />
+    <Content Include="Images\skybox\04_FR.jpg" />
+    <Content Include="Images\skybox\04_LF.jpg" />
+    <Content Include="Images\skybox\04_RT%28128%29.bmp" />
+    <Content Include="Images\skybox\04_RT.jpg" />
+    <Content Include="Images\skybox\04_UP.jpg" />
+    <Content Include="Images\skybox\100_BK.jpg" />
+    <Content Include="Images\skybox\100_DN.jpg" />
+    <Content Include="Images\skybox\100_FR%28128%29.bmp" />
+    <Content Include="Images\skybox\100_FR.jpg" />
+    <Content Include="Images\skybox\100_LF.jpg" />
+    <Content Include="Images\skybox\100_RT.jpg" />
+    <Content Include="Images\skybox\100_UP.jpg" />
+    <Content Include="Images\skybox\10_BK%28128%29.bmp" />
+    <Content Include="Images\skybox\10_BK.jpg" />
+    <Content Include="Images\skybox\10_DN.jpg" />
+    <Content Include="Images\skybox\10_FR.jpg" />
+    <Content Include="Images\skybox\10_LF.jpg" />
+    <Content Include="Images\skybox\10_RT.jpg" />
+    <Content Include="Images\skybox\10_UP.jpg" />
+    <Content Include="Images\skybox\11_BK.jpg" />
+    <Content Include="Images\skybox\11_DN.jpg" />
+    <Content Include="Images\skybox\11_FR.jpg" />
+    <Content Include="Images\skybox\11_LF.jpg" />
+    <Content Include="Images\skybox\11_RT%28128%29.bmp" />
+    <Content Include="Images\skybox\11_RT.jpg" />
+    <Content Include="Images\skybox\11_UP.jpg" />
+    <Content Include="Images\skybox\120_BK.jpg" />
+    <Content Include="Images\skybox\120_DN.jpg" />
+    <Content Include="Images\skybox\120_FR.jpg" />
+    <Content Include="Images\skybox\120_LF.jpg" />
+    <Content Include="Images\skybox\120_RT.jpg" />
+    <Content Include="Images\skybox\120_UP%28128%29.bmp" />
+    <Content Include="Images\skybox\120_UP.jpg" />
+    <Content Include="Images\skybox\12_BK.jpg" />
+    <Content Include="Images\skybox\12_DN.jpg" />
+    <Content Include="Images\skybox\12_FR.jpg" />
+    <Content Include="Images\skybox\12_LF.jpg" />
+    <Content Include="Images\skybox\12_RT%28128%29.bmp" />
+    <Content Include="Images\skybox\12_RT.jpg" />
+    <Content Include="Images\skybox\12_UP.jpg" />
+    <Content Include="Images\skybox\130_BK.jpg" />
+    <Content Include="Images\skybox\130_DN.jpg" />
+    <Content Include="Images\skybox\130_FR.jpg" />
+    <Content Include="Images\skybox\130_LF.jpg" />
+    <Content Include="Images\skybox\130_RT.jpg" />
+    <Content Include="Images\skybox\130_UP%28128%29.bmp" />
+    <Content Include="Images\skybox\130_UP.jpg" />
+    <Content Include="Images\skybox\13_BK.jpg" />
+    <Content Include="Images\skybox\13_DN.jpg" />
+    <Content Include="Images\skybox\13_FR.jpg" />
+    <Content Include="Images\skybox\13_LF.jpg" />
+    <Content Include="Images\skybox\13_RT.jpg" />
+    <Content Include="Images\skybox\13_UP%28128%29.bmp" />
+    <Content Include="Images\skybox\13_UP.jpg" />
+    <Content Include="Images\skybox\1_BK.jpg" />
+    <Content Include="Images\skybox\1_DN.jpg" />
+    <Content Include="Images\skybox\1_FR%28128%29.bmp" />
+    <Content Include="Images\skybox\1_FR.jpg" />
+    <Content Include="Images\skybox\1_LF.jpg" />
+    <Content Include="Images\skybox\1_RT.jpg" />
+    <Content Include="Images\skybox\1_UP.jpg" />
+    <Content Include="Images\skybox\22_BK.jpg" />
+    <Content Include="Images\skybox\22_DN.jpg" />
+    <Content Include="Images\skybox\22_FR.jpg" />
+    <Content Include="Images\skybox\22_LF.jpg" />
+    <Content Include="Images\skybox\22_RT.jpg" />
+    <Content Include="Images\skybox\22_UP%28128%29.bmp" />
+    <Content Include="Images\skybox\22_UP.jpg" />
+    <Content Include="Images\skybox\2_BK.jpg" />
+    <Content Include="Images\skybox\2_DN.jpg" />
+    <Content Include="Images\skybox\2_FR%28128%29.bmp" />
+    <Content Include="Images\skybox\2_FR.jpg" />
+    <Content Include="Images\skybox\2_LF.jpg" />
+    <Content Include="Images\skybox\2_RT.jpg" />
+    <Content Include="Images\skybox\2_UP.jpg" />
+    <Content Include="Images\skybox\44_BK%28128%29.bmp" />
+    <Content Include="Images\skybox\44_BK.jpg" />
+    <Content Include="Images\skybox\44_DN.jpg" />
+    <Content Include="Images\skybox\44_FR.jpg" />
+    <Content Include="Images\skybox\44_LF.jpg" />
+    <Content Include="Images\skybox\44_RT.jpg" />
+    <Content Include="Images\skybox\44_UP.jpg" />
+    <Content Include="Images\skybox\7_BK.jpg" />
+    <Content Include="Images\skybox\7_DN.jpg" />
+    <Content Include="Images\skybox\7_FR%28128%29.bmp" />
+    <Content Include="Images\skybox\7_FR.jpg" />
+    <Content Include="Images\skybox\7_LF.jpg" />
+    <Content Include="Images\skybox\7_RT.jpg" />
+    <Content Include="Images\skybox\7_UP.jpg" />
+    <Content Include="Images\skybox\99_BK%28128%29.bmp" />
+    <Content Include="Images\skybox\99_BK.jpg" />
+    <Content Include="Images\skybox\99_DN.jpg" />
+    <Content Include="Images\skybox\99_FR.jpg" />
+    <Content Include="Images\skybox\99_LF.jpg" />
+    <Content Include="Images\skybox\99_RT.jpg" />
+    <Content Include="Images\skybox\99_UP.jpg" />
+    <Content Include="Images\skybox\9_BK.jpg" />
+    <Content Include="Images\skybox\9_DN.jpg" />
+    <Content Include="Images\skybox\9_FR%28128%29.bmp" />
+    <Content Include="Images\skybox\9_FR.jpg" />
+    <Content Include="Images\skybox\9_LF.jpg" />
+    <Content Include="Images\skybox\9_RT.jpg" />
+    <Content Include="Images\skybox\9_UP.jpg" />
+    <Content Include="Images\skybox\SkyBox.xml" />
+    <Content Include="Image\05x16.png" />
+    <Content Include="Image\bj\井盖.png" />
+    <Content Include="Image\bj\公交站.png" />
+    <Content Include="Image\bj\公共设施.png" />
+    <Content Include="Image\bj\其它设施.png" />
+    <Content Include="Image\bj\园林绿化.png" />
+    <Content Include="Image\bj\地灯.png" />
+    <Content Include="Image\bj\宣传栏.png" />
+    <Content Include="Image\bj\市容环境.png" />
+    <Content Include="Image\bj\护栏.png" />
+    <Content Include="Image\bj\指示牌.png" />
+    <Content Include="Image\bj\监控.png" />
+    <Content Include="Image\bj\盲道.png" />
+    <Content Include="Image\bj\立杆.png" />
+    <Content Include="Image\bj\路灯.png" />
+    <Content Include="Image\bj\道路交通.png" />
+    <Content Include="Image\cameraiconwhilte\上.png" />
+    <Content Include="Image\cameraiconwhilte\下.png" />
+    <Content Include="Image\cameraiconwhilte\停止.png" />
+    <Content Include="Image\cameraiconwhilte\光圈.png" />
+    <Content Include="Image\cameraiconwhilte\减号.png" />
+    <Content Include="Image\cameraiconwhilte\加号.png" />
+    <Content Include="Image\cameraiconwhilte\右上.png" />
+    <Content Include="Image\cameraiconwhilte\右下.png" />
+    <Content Include="Image\cameraiconwhilte\向右.png" />
+    <Content Include="Image\cameraiconwhilte\向左.png" />
+    <Content Include="Image\cameraiconwhilte\左上.png" />
+    <Content Include="Image\cameraiconwhilte\左下.png" />
+    <Content Include="Image\cameraiconwhilte\焦点.png" />
+    <Content Include="Image\cameraiconwhilte\焦距调节.png" />
+    <Content Include="Image\cameraiconwhilte\自转.png" />
+    <Content Include="Image\ejectIco\renche.png" />
+    <Content Include="Image\ejectIco\ry.png" />
+    <Content Include="Image\firstPage.png" />
+    <Content Include="Image\hasFiles.png" />
+    <Content Include="Image\lastPage.png" />
+    <Content Include="Image\loading.gif" />
+    <Content Include="Image\minimize.png" />
+    <Content Include="Image\close.png" />
+    <Content Include="Image\01x16.png" />
+    <Content Include="Image\02x16.png" />
+    <Content Include="Image\03x16.png" />
+    <Content Include="Image\04x16.png" />
+    <Content Include="Image\2.png" />
+    <Content Include="Image\badcount.png" />
+    <Content Include="Image\border.png" />
+    <Content Include="Image\bg.png" />
+    <Content Include="Image\bottom.png" />
+    <Content Include="Image\button.png" />
+    <Content Include="Image\closebg.png" />
+    <Content Include="Image\ejectIco\01x14.png" />
+    <Content Include="Image\ejectIco\02x14.png" />
+    <Content Include="Image\ejectIco\03x14.png" />
+    <Content Include="Image\ejectIco\04x14.png" />
+    <Content Include="Image\ejectIco\05x14.png" />
+    <Content Include="Image\ejectIco\06x14.png" />
+    <Content Include="Image\ejectIco\07x14.png" />
+    <Content Include="Image\ejectIco\08x14.png" />
+    <Content Include="Image\faviconico.ico" />
+    <Content Include="Image\hwguangg.png" />
+    <Content Include="Image\left.png" />
+    <Content Include="Image\LOGO.png" />
+    <Content Include="Image\minimizebg.png" />
+    <Content Include="Image\navigationIco\01X100.png" />
+    <Content Include="Image\navigationIco\01x14.png" />
+    <Content Include="Image\navigationIco\02X100.png" />
+    <Content Include="Image\navigationIco\02x14.png" />
+    <Content Include="Image\navigationIco\03x14.png" />
+    <Content Include="Image\navigationIco\04x14.png" />
+    <Content Include="Image\navigationIco\05x14.png" />
+    <Content Include="Image\navigationIco\06x14.png" />
+    <Content Include="Image\navigationIco\07x14.png" />
+    <Content Include="Image\navigationIco\08x14.png" />
+    <Content Include="Image\navigationIco\hexagon.png" />
+    <Content Include="Image\nextPage.png" />
+    <Content Include="Image\no-images.png" />
+    <Content Include="Image\noFiles.png" />
+    <Content Include="Image\right.png" />
+    <Content Include="Image\sbcount.png" />
+    <Content Include="Image\Shadowe.png" />
+    <Content Include="Image\slide-bg.png" />
+    <Content Include="Image\testbg.jpg" />
+    <Content Include="Image\Toolsbar\2D3D.png" />
+    <Content Include="Image\Toolsbar\clear.png" />
+    <Content Include="Image\Toolsbar\verticalranging.png" />
+    <Content Include="Image\Toolsbar\point.png" />
+    <Content Include="Image\Toolsbar\modelselection.png" />
+    <Content Include="Image\Toolsbar\levelranging.png" />
+    <Content Include="Image\Toolsbar\linearranging.png" />
+    <Content Include="Image\Toolsbar\flytoword.png" />
+    <Content Include="Image\top.png" />
+    <Content Include="Image\earth.png" />
+    <Content Include="Image\setUp.png" />
+    <Content Include="Image\Menu.png" />
+    <Content Include="Image\aircraftnumber.png" />
+    <Content Include="Image\aircrafttime.png" />
+    <Content Include="Image\Circulargraph.png" />
+    <Content Include="Image\TrackPlay\trackplay.png" />
+    <Content Include="Image\Tree\camera.png" />
+    <Content Include="Image\Tree\down.png" />
+    <Content Include="Image\Tree\right.png" />
+    <Content Include="Image\yzq2-low.jpg" />
+    <Content Include="Image\zhengchang.png" />
+    <Content Include="Image\location.png" />
+    <Content Include="Image\peopleCar\人员.png" />
+    <Content Include="Image\peopleCar\车辆.png" />
+    <Content Include="Image\gzsb\Pm2.5.png" />
+    <Content Include="Image\gzsb\井盖.png" />
+    <Content Include="Image\gzsb\压力传感器.png" />
+    <Content Include="Image\hwgg\其他.png" />
+    <Content Include="Image\hwgg\墙面广告.png" />
+    <Content Include="Image\hwgg\实物造型.png" />
+    <Content Include="Image\hwgg\屋顶广告.png" />
+    <Content Include="Image\hwgg\展示牌.png" />
+    <Content Include="Image\hwgg\底座.png" />
+    <Content Include="Image\hwgg\店招广告.png" />
+    <Content Include="Image\hwgg\报刊宣传栏.png" />
+    <Content Include="Image\hwgg\支架.png" />
+    <Content Include="Image\hwgg\立杆.png" />
+    <Content Include="Image\hwgg\高立柱.png" />
+    <Content Include="Image\case\案件.png" />
+    <Content Include="Image\yjdj\其他.png" />
+    <Content Include="Image\yjdj\旅店客房.png" />
+    <Content Include="Image\yjdj\服务类.png" />
+    <Content Include="Image\yjdj\百货类.png" />
+    <Content Include="Image\yjdj\餐饮类.png" />
+    <Content Include="Image\camera\监控.png" />
+    <Content Include="Index.html" />
+    <Content Include="login.html" />
+    <Content Include="Scripts\2DMap\2DMap.js" />
+    <Content Include="Scripts\2DMap\bootstrap.min.js" />
+    <Content Include="Scripts\2DMap\css\bootstrap.min.css" />
+    <Content Include="Scripts\2DMap\css\ol.css" />
+    <Content Include="Scripts\2DMap\css\popup.css" />
+    <Content Include="Scripts\2DMap\ol.js" />
+    <Content Include="Scripts\bottom\aj\ajtable.js" />
+    <Content Include="Scripts\bottom\bj\assemblyunit.js" />
+    <Content Include="Scripts\bottom\gzsb\gzsbbottom.js" />
+    <Content Include="Scripts\bottom\hwgg\daoqiguanggao.js" />
+    <Content Include="Scripts\bottom\hwgg\hwggbestnew.js" />
+    <Content Include="Scripts\bottom\hwgg\hwggpastdue.js" />
+    <Content Include="Scripts\bottom\rycl\UserTypeTable.js" />
+    <Content Include="Scripts\bottom\yjdj\yjdjcount.js" />
+    <Content Include="Scripts\camera\jquery-1.7.1.min.js" />
+    <Content Include="Scripts\camera\test.js" />
+    <Content Include="Scripts\camera\WebComponentsKit.exe" />
+    <Content Include="Scripts\camera\webVideoCtrl.js" />
+    <Content Include="Scripts\configs.js" />
+    <Content Include="Scripts\css3-mediaqueries.js" />
+    <Content Include="Scripts\echarts\echarts.js" />
+    <Content Include="Scripts\echarts\hwgg\pieggType.js" />
+    <Content Include="Scripts\echarts\Index\indexHistogram.js" />
+    <Content Include="Scripts\echarts\Index\Trendchart.js" />
+    <Content Include="Scripts\echarts\jk\cameraGrid.js" />
+    <Content Include="Scripts\echarts\jk\jkhistogram.js" />
+    <Content Include="Scripts\echarts\jk\jkPiecharts.js" />
+    <Content Include="Scripts\echarts\wrj\wrjPiecharts.js" />
+    <Content Include="Scripts\echarts\yjdj\yjdjaj.js" />
+    <Content Include="Scripts\echarts\yjdj\yjdjpie.js" />
+    <Content Include="Scripts\html5.js" />
+    <Content Include="Scripts\Index\getTimes.js" />
+    <Content Include="Scripts\Index\Main.js" />
+    <Content Include="Scripts\Index\drogMove.js" />
+    <Content Include="Scripts\jquery-3.0.0.js" />
+    <Content Include="Scripts\jquery.rotate.min.js" />
+    <Content Include="Scripts\jsScrool\jquery.nicescroll.js" />
+    <Content Include="Scripts\jsScrool\ShowScrool.js" />
+    <Content Include="Scripts\Map\cm7.js" />
+    <Content Include="Scripts\Map\cm7_sample_util.js" />
+    <Content Include="Scripts\Map\function.js" />
+    <Content Include="Scripts\Map\initMap.js" />
+    <Content Include="Scripts\Map\object.js" />
+    <Content Include="Scripts\number\jquery.animateNumber.min.js" />
+    <Content Include="Scripts\number\jquery.color.min.js" />
+    <Content Include="Scripts\Pager\goodPage.js" />
+    <Content Include="Scripts\Particles\canvas-particle.js" />
+    <Content Include="camera.html" />
+    <Content Include="Scripts\Tree\bootstrap-treeview.js" />
+    <Content Include="Scripts\Tree\css\bootstrap-treeview.css" />
+    <Content Include="Scripts\Tree\css\bootstrap.css" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Css\font\longzhoufeng.ttf" />
+    <Content Include="Css\font\longzhoufeng.eot" />
+    <Content Include="Images\skybox\skybox.lnk" />
+    <None Include="Properties\PublishProfiles\HZW.ZHCG.Web.pubxml" />
+    <None Include="Properties\PublishProfiles\hzwweb.pubxml" />
+    <Content Include="Scripts\2DMap\css\2dMap.css" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Scripts\getData\" />
+    <Folder Include="Views\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:27266/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

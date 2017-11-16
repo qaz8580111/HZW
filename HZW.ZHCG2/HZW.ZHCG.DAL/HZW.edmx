@@ -1,0 +1,2473 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="hzwModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="hzwModelStoreContainer">
+          <EntitySet Name="ad_classes" EntityType="hzwModel.Store.ad_classes" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="ad_outadverts" EntityType="hzwModel.Store.ad_outadverts" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="base_menus" EntityType="hzwModel.Store.base_menus" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="base_permissionmenus" EntityType="hzwModel.Store.base_permissionmenus" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="base_permissions" EntityType="hzwModel.Store.base_permissions" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="base_rolepermissions" EntityType="hzwModel.Store.base_rolepermissions" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="base_roles" EntityType="hzwModel.Store.base_roles" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="base_units" EntityType="hzwModel.Store.base_units" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="base_unittypes" EntityType="hzwModel.Store.base_unittypes" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="base_userroles" EntityType="hzwModel.Store.base_userroles" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="base_users" EntityType="hzwModel.Store.base_users" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="base_usertypes" EntityType="hzwModel.Store.base_usertypes" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="bd_jcbjxx" EntityType="hzwModel.Store.bd_jcbjxx" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="event_zfsjs" EntityType="hzwModel.Store.event_zfsjs" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="fi_camera_dev" EntityType="hzwModel.Store.fi_camera_dev" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="fi_camera_info" EntityType="hzwModel.Store.fi_camera_info" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="fi_camera_item" EntityType="hzwModel.Store.fi_camera_item" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="fi_camera_regions" EntityType="hzwModel.Store.fi_camera_regions" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="fi_camera_theme" EntityType="hzwModel.Store.fi_camera_theme" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="fi_camera_unit" EntityType="hzwModel.Store.fi_camera_unit" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="fi_cardevicetypes" EntityType="hzwModel.Store.fi_cardevicetypes" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="fi_carusagetypes" EntityType="hzwModel.Store.fi_carusagetypes" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="fi_tchumans" EntityType="hzwModel.Store.fi_tchumans" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="fi_tcpatrols" EntityType="hzwModel.Store.fi_tcpatrols" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="fi_tcunits" EntityType="hzwModel.Store.fi_tcunits" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="fi_tdeventsrcs" EntityType="hzwModel.Store.fi_tdeventsrcs" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="fi_topatrollatestpos" EntityType="hzwModel.Store.fi_topatrollatestpos" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="fi_topatrollogons" EntityType="hzwModel.Store.fi_topatrollogons" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="fi_topatrolpos" EntityType="hzwModel.Store.fi_topatrolpos" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="fi_torecmedias" EntityType="hzwModel.Store.fi_torecmedias" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="fi_torecprocess" EntityType="hzwModel.Store.fi_torecprocess" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="fi_torecs" EntityType="hzwModel.Store.fi_torecs" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="fi_tzcarlatestpositions" EntityType="hzwModel.Store.fi_tzcarlatestpositions" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="fi_tzcars" EntityType="hzwModel.Store.fi_tzcars" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="mapelementcoords" EntityType="hzwModel.Store.mapelementcoords" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="mapelements" EntityType="hzwModel.Store.mapelements" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="mh_categors" EntityType="hzwModel.Store.mh_categors" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="mh_news" EntityType="hzwModel.Store.mh_news" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="project01" EntityType="hzwModel.Store.project01" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="project02" EntityType="hzwModel.Store.project02" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="project03" EntityType="hzwModel.Store.project03" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="store_bases" EntityType="hzwModel.Store.store_bases" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="store_classes" EntityType="hzwModel.Store.store_classes" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="sys_positions" EntityType="hzwModel.Store.sys_positions" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="sys_regions" EntityType="hzwModel.Store.sys_regions" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="sys_zd" EntityType="hzwModel.Store.sys_zd" store:Type="Tables" Schema="hzw" />
+          <AssociationSet Name="FK_Reference_6" Association="hzwModel.Store.FK_Reference_6">
+            <End Role="store_classes" EntitySet="store_classes" />
+            <End Role="store_bases" EntitySet="store_bases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reference_7" Association="hzwModel.Store.FK_Reference_7">
+            <End Role="ad_classes" EntitySet="ad_classes" />
+            <End Role="ad_outadverts" EntitySet="ad_outadverts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reference_8" Association="hzwModel.Store.FK_Reference_8">
+            <End Role="mh_categors" EntitySet="mh_categors" />
+            <End Role="mh_news" EntitySet="mh_news" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="ad_classes">
+          <Key>
+            <PropertyRef Name="type_id" />
+          </Key>
+          <Property Name="type_id" Type="int" Nullable="false" />
+          <Property Name="type_name" Type="varchar" />
+          <Property Name="code" Type="varchar" MaxLength="255" />
+          <Property Name="seqno" Type="int" />
+          <Property Name="icon" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="ad_outadverts">
+          <Key>
+            <PropertyRef Name="ad_id" />
+          </Key>
+          <Property Name="ad_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="id_type" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="type_id" Type="int" />
+          <Property Name="ad_name" Type="varchar" Nullable="false" MaxLength="500" />
+          <Property Name="unit" Type="varchar" Nullable="false" MaxLength="500" />
+          <Property Name="unitperson" Type="varchar" MaxLength="100" />
+          <Property Name="unitphone" Type="varchar" MaxLength="100" />
+          <Property Name="producers" Type="varchar" Nullable="false" MaxLength="500" />
+          <Property Name="prophone" Type="varchar" MaxLength="100" />
+          <Property Name="state" Type="int" />
+          <Property Name="examunit" Type="varchar" Nullable="false" MaxLength="500" />
+          <Property Name="examdate" Type="date" Nullable="false" />
+          <Property Name="startdate" Type="date" Nullable="false" />
+          <Property Name="enddate" Type="date" Nullable="false" />
+          <Property Name="address" Type="varchar" Nullable="false" MaxLength="2000" />
+          <Property Name="photo1" Type="varchar" MaxLength="500" />
+          <Property Name="photo2" Type="varchar" MaxLength="500" />
+          <Property Name="photo3" Type="varchar" MaxLength="500" />
+          <Property Name="photo4" Type="varchar" MaxLength="500" />
+          <Property Name="filename1" Type="varchar" MaxLength="500" />
+          <Property Name="filepath1" Type="varchar" MaxLength="500" />
+          <Property Name="filename2" Type="varchar" MaxLength="500" />
+          <Property Name="filepath2" Type="varchar" MaxLength="500" />
+          <Property Name="filename3" Type="varchar" MaxLength="500" />
+          <Property Name="filepath3" Type="varchar" MaxLength="500" />
+          <Property Name="grometry" Type="varchar" MaxLength="500" />
+          <Property Name="volume" Type="double" />
+          <Property Name="long" Type="double" />
+          <Property Name="wide" Type="double" />
+          <Property Name="high" Type="double" />
+          <Property Name="materials" Type="varchar" MaxLength="500" />
+          <Property Name="curingunit" Type="varchar" MaxLength="500" />
+          <Property Name="superviseunit" Type="varchar" MaxLength="500" />
+          <Property Name="createtime" Type="date" />
+          <Property Name="createuserid" Type="int" />
+          <Property Name="status" Type="int" />
+          <Property Name="remark" Type="varchar" MaxLength="2000" />
+        </EntityType>
+        <EntityType Name="base_menus">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="name" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="parentid" Type="int" />
+          <Property Name="path" Type="varchar" />
+          <Property Name="url" Type="varchar" />
+          <Property Name="icon" Type="varchar" MaxLength="255" />
+          <Property Name="comment" Type="varchar" />
+          <Property Name="seqno" Type="int" />
+        </EntityType>
+        <EntityType Name="base_permissionmenus">
+          <Key>
+            <PropertyRef Name="permissioncode" />
+            <PropertyRef Name="menuid" />
+          </Key>
+          <Property Name="permissioncode" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="menuid" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="base_permissions">
+          <Key>
+            <PropertyRef Name="code" />
+          </Key>
+          <Property Name="code" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="name" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="parentcode" Type="varchar" MaxLength="50" />
+          <Property Name="path" Type="varchar" />
+          <Property Name="comment" Type="varchar" />
+          <Property Name="seqno" Type="int" />
+        </EntityType>
+        <EntityType Name="base_rolepermissions">
+          <Key>
+            <PropertyRef Name="permissioncode" />
+            <PropertyRef Name="roleid" />
+          </Key>
+          <Property Name="permissioncode" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="roleid" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="base_roles">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="comment" Type="varchar" />
+          <Property Name="issystem" Type="int" />
+          <Property Name="seqno" Type="int" />
+          <Property Name="createdtime" Type="datetime" />
+          <Property Name="updatedtime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="base_units">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="code" Type="varchar" MaxLength="50" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+          <Property Name="path" Type="varchar" />
+          <Property Name="unittypeid" Type="int" />
+          <Property Name="parentid" Type="int" />
+          <Property Name="createdtime" Type="datetime" />
+          <Property Name="updatedtime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="base_unittypes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="seqno" Type="int" />
+        </EntityType>
+        <EntityType Name="base_userroles">
+          <Key>
+            <PropertyRef Name="userid" />
+            <PropertyRef Name="roleid" />
+          </Key>
+          <Property Name="userid" Type="int" Nullable="false" />
+          <Property Name="roleid" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="base_users">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="code" Type="varchar" MaxLength="50" />
+          <Property Name="displayname" Type="varchar" MaxLength="50" />
+          <Property Name="unitid" Type="int" />
+          <Property Name="usertypeid" Type="int" />
+          <Property Name="loginname" Type="varchar" MaxLength="50" />
+          <Property Name="loginpwd" Type="varchar" MaxLength="50" />
+          <Property Name="avatar" Type="varchar" MaxLength="2000" />
+          <Property Name="regionid" Type="int" />
+          <Property Name="mapelementbiztype" Type="int" />
+          <Property Name="mapelementdevicetype" Type="int" />
+          <Property Name="sex" Type="varchar" MaxLength="255" />
+          <Property Name="birthday" Type="datetime" />
+          <Property Name="address" Type="varchar" MaxLength="2000" />
+          <Property Name="mobile" Type="varchar" MaxLength="255" />
+          <Property Name="telephone" Type="varchar" MaxLength="255" />
+          <Property Name="email" Type="varchar" MaxLength="255" />
+          <Property Name="isonline" Type="int" />
+          <Property Name="createdtime" Type="datetime" />
+          <Property Name="updatedtime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="base_usertypes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="seqno" Type="int" />
+        </EntityType>
+        <EntityType Name="bd_jcbjxx">
+          <Key>
+            <PropertyRef Name="jcsj_id" />
+          </Key>
+          <Property Name="jcsj_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="jcsj_bh" Type="varchar" />
+          <Property Name="gslx_type" Type="varchar" MaxLength="3000" />
+          <Property Name="jcsj_name" Type="varchar" MaxLength="255" />
+          <Property Name="swmx_id" Type="decimal" Precision="32" Scale="16" />
+          <Property Name="dltx" Type="text" />
+          <Property Name="zxdxzb" Type="decimal" Precision="32" Scale="16" />
+          <Property Name="zxdyzb" Type="decimal" Precision="32" Scale="16" />
+          <Property Name="gd" Type="decimal" Precision="32" Scale="16" />
+          <Property Name="sfyx" Type="varchar" MaxLength="3000" />
+          <Property Name="cjsj" Type="datetime" />
+          <Property Name="content" Type="varchar" MaxLength="4000" />
+          <Property Name="deptname1" Type="varchar" />
+        </EntityType>
+        <EntityType Name="event_zfsjs">
+          <Key>
+            <PropertyRef Name="event_id" />
+          </Key>
+          <Property Name="event_id" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="title" Type="varchar" MaxLength="2000" />
+          <Property Name="reporttime" Type="datetime" />
+          <Property Name="reportperson" Type="varchar" MaxLength="500" />
+          <Property Name="source" Type="varchar" MaxLength="500" />
+          <Property Name="contact" Type="varchar" />
+          <Property Name="content" Type="varchar" MaxLength="4000" />
+          <Property Name="photo1" Type="varchar" MaxLength="500" />
+          <Property Name="photo2" Type="varchar" MaxLength="500" />
+          <Property Name="photo3" Type="varchar" MaxLength="500" />
+          <Property Name="grometry" Type="varchar" MaxLength="500" />
+          <Property Name="isexamine" Type="int" />
+          <Property Name="inputperson" Type="int" />
+          <Property Name="inputtime" Type="datetime" />
+          <Property Name="inputcontent" Type="varchar" MaxLength="4000" />
+          <Property Name="invalisperson" Type="int" />
+          <Property Name="invalistime" Type="datetime" />
+          <Property Name="invaliscontent" Type="varchar" MaxLength="4000" />
+          <Property Name="ispush" Type="int" />
+        </EntityType>
+        <EntityType Name="fi_camera_dev">
+          <Key>
+            <PropertyRef Name="deviceid" />
+          </Key>
+          <Property Name="deviceid" Type="int" Nullable="false" />
+          <Property Name="indexcode" Type="varchar" MaxLength="255" />
+          <Property Name="typecode" Type="int" />
+          <Property Name="name" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="fi_camera_info">
+          <Key>
+            <PropertyRef Name="camera_id" />
+          </Key>
+          <Property Name="camera_id" Type="int" Nullable="false" />
+          <Property Name="region_id" Type="int" />
+          <Property Name="device_id" Type="int" />
+          <Property Name="index_code" Type="varchar" MaxLength="255" />
+          <Property Name="name" Type="varchar" MaxLength="255" />
+          <Property Name="camera_type" Type="int" />
+          <Property Name="stream_type" Type="int" />
+          <Property Name="ptz_control_type" Type="int" />
+          <Property Name="pixel" Type="int" />
+          <Property Name="ptz_type" Type="int" />
+          <Property Name="sound" Type="int" />
+          <Property Name="is_enable" Type="int" />
+          <Property Name="status" Type="int" />
+          <Property Name="longitude" Type="double" />
+          <Property Name="latitude" Type="double" />
+          <Property Name="elevation" Type="int" />
+          <Property Name="install_place" Type="varchar" MaxLength="255" />
+          <Property Name="note" Type="varchar" MaxLength="255" />
+          <Property Name="parameter" Type="varchar" MaxLength="5000" />
+          <Property Name="playback" Type="varchar" MaxLength="5000" />
+          <Property Name="scope" Type="text" />
+        </EntityType>
+        <EntityType Name="fi_camera_item">
+          <Key>
+            <PropertyRef Name="thcid" />
+          </Key>
+          <Property Name="thcid" Type="int" Nullable="false" />
+          <Property Name="themeid" Type="int" />
+          <Property Name="sortnum" Type="int" />
+          <Property Name="cameraid" Type="int" />
+          <Property Name="name" Type="varchar" MaxLength="255" />
+          <Property Name="index_code" Type="varchar" MaxLength="255" />
+          <Property Name="camera_type" Type="int" />
+          <Property Name="longitude" Type="double" />
+          <Property Name="latitude" Type="double" />
+        </EntityType>
+        <EntityType Name="fi_camera_regions">
+          <Key>
+            <PropertyRef Name="regionid" />
+          </Key>
+          <Property Name="regionid" Type="int" Nullable="false" />
+          <Property Name="regionname" Type="varchar" MaxLength="255" />
+          <Property Name="unitid" Type="int" />
+        </EntityType>
+        <EntityType Name="fi_camera_theme">
+          <Key>
+            <PropertyRef Name="themeid" />
+          </Key>
+          <Property Name="themeid" Type="int" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="255" />
+          <Property Name="parentid" Type="int" />
+          <Property Name="isline" Type="int" />
+          <Property Name="path" Type="varchar" MaxLength="255" />
+          <Property Name="note" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="fi_camera_unit">
+          <Key>
+            <PropertyRef Name="unitid" />
+          </Key>
+          <Property Name="unitid" Type="int" Nullable="false" />
+          <Property Name="unitname" Type="varchar" MaxLength="255" />
+          <Property Name="parentid" Type="int" />
+          <Property Name="path" Type="int" />
+        </EntityType>
+        <EntityType Name="fi_cardevicetypes">
+          <Key>
+            <PropertyRef Name="devicetypeid" />
+          </Key>
+          <Property Name="devicetypeid" Type="int" Nullable="false" />
+          <Property Name="seqno" Type="int" />
+          <Property Name="modifieddate" Type="datetime" />
+          <Property Name="createddate" Type="datetime" />
+          <Property Name="devicetypename" Type="varchar" MaxLength="2000" />
+          <Property Name="devicetypecode" Type="varchar" MaxLength="2000" />
+          <Property Name="devicetypedesc" Type="varchar" MaxLength="2000" />
+        </EntityType>
+        <EntityType Name="fi_carusagetypes">
+          <Key>
+            <PropertyRef Name="usagetypeid" />
+          </Key>
+          <Property Name="usagetypeid" Type="int" Nullable="false" />
+          <Property Name="seqno" Type="char" MaxLength="10" />
+          <Property Name="modifieddate" Type="datetime" />
+          <Property Name="createddate" Type="datetime" />
+          <Property Name="usagetypename" Type="varchar" MaxLength="2000" />
+          <Property Name="usagetypecode" Type="varchar" MaxLength="2000" />
+          <Property Name="usagetypedesc" Type="varchar" MaxLength="2000" />
+        </EntityType>
+        <EntityType Name="fi_tchumans">
+          <Key>
+            <PropertyRef Name="humanid" />
+          </Key>
+          <Property Name="humanid" Type="int" Nullable="false" />
+          <Property Name="humanname" Type="varchar" MaxLength="40" />
+          <Property Name="humancode" Type="varchar" MaxLength="80" />
+          <Property Name="unitid" Type="int" />
+          <Property Name="regionid" Type="int" />
+          <Property Name="regiontype" Type="int" />
+          <Property Name="telmobile" Type="varchar" MaxLength="80" />
+          <Property Name="photourl" Type="varchar" MaxLength="100" />
+          <Property Name="validflag" Type="int" />
+          <Property Name="deleteflag" Type="int" />
+          <Property Name="deletedate" Type="datetime" />
+          <Property Name="patrolflag" Type="int" />
+          <Property Name="datainsertdate" Type="datetime" />
+          <Property Name="dataupdatedate" Type="datetime" />
+          <Property Name="displayorder" Type="int" />
+          <Property Name="sex" Type="int" />
+        </EntityType>
+        <EntityType Name="fi_tcpatrols">
+          <Key>
+            <PropertyRef Name="patrolid" />
+          </Key>
+          <Property Name="patrolid" Type="int" Nullable="false" />
+          <Property Name="patrolname" Type="varchar" MaxLength="80" />
+          <Property Name="patroltypeid" Type="int" />
+          <Property Name="patrolcode" Type="varchar" MaxLength="80" />
+          <Property Name="cardid" Type="varchar" MaxLength="80" />
+          <Property Name="datainsertdate" Type="datetime" />
+          <Property Name="dataupdatedate" Type="datetime" />
+          <Property Name="is_online" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="fi_tcunits">
+          <Key>
+            <PropertyRef Name="unitid" />
+          </Key>
+          <Property Name="unitid" Type="int" Nullable="false" />
+          <Property Name="unitname" Type="varchar" MaxLength="80" />
+          <Property Name="unitcode" Type="varchar" MaxLength="80" />
+          <Property Name="unitdesc" Type="varchar" MaxLength="255" />
+          <Property Name="seniorid" Type="int" />
+          <Property Name="funcunitflag" Type="int" />
+          <Property Name="validflag" Type="int" />
+          <Property Name="deleteflag" Type="int" />
+          <Property Name="deletedate" Type="datetime" />
+          <Property Name="datainsertdate" Type="datetime" />
+          <Property Name="dataupdatedate" Type="datetime" />
+          <Property Name="displayorder" Type="int" />
+          <Property Name="regionid" Type="int" />
+        </EntityType>
+        <EntityType Name="fi_tdeventsrcs">
+          <Key>
+            <PropertyRef Name="eventsrcid" />
+          </Key>
+          <Property Name="eventsrcid" Type="int" Nullable="false" />
+          <Property Name="eventsrcname" Type="varchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="fi_topatrollatestpos">
+          <Key>
+            <PropertyRef Name="patrolid" />
+          </Key>
+          <Property Name="patrolid" Type="int" Nullable="false" />
+          <Property Name="updatetime" Type="datetime" />
+          <Property Name="coordinatex_84" Type="double" />
+          <Property Name="coordinatey_84" Type="double" />
+          <Property Name="coordinatex" Type="double" />
+          <Property Name="coordinatey" Type="double" />
+          <Property Name="stateid" Type="int" />
+          <Property Name="datainsertdate" Type="datetime" />
+          <Property Name="dataupdatedate" Type="datetime" />
+          <Property Name="coordtype" Type="varchar" MaxLength="10" />
+          <Property Name="syncflag" Type="int" />
+        </EntityType>
+        <EntityType Name="fi_topatrollogons">
+          <Key>
+            <PropertyRef Name="logid" />
+          </Key>
+          <Property Name="logid" Type="int" Nullable="false" />
+          <Property Name="patrolid" Type="int" />
+          <Property Name="patrolstateid" Type="int" />
+          <Property Name="updatetime" Type="datetime" />
+          <Property Name="datainsertdate" Type="datetime" />
+          <Property Name="dataupdatedate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="fi_topatrolpos">
+          <Key>
+            <PropertyRef Name="logid" />
+          </Key>
+          <Property Name="logid" Type="int" Nullable="false" />
+          <Property Name="patrolid" Type="int" />
+          <Property Name="updatetime" Type="datetime" />
+          <Property Name="coordinatex_84" Type="double" />
+          <Property Name="coordinatey_84" Type="double" />
+          <Property Name="coordinatex" Type="double" />
+          <Property Name="coordinatey" Type="double" />
+          <Property Name="stateid" Type="int" />
+          <Property Name="datainsertdate" Type="datetime" />
+          <Property Name="dataupdatedate" Type="datetime" />
+          <Property Name="coordtype" Type="varchar" MaxLength="10" />
+          <Property Name="syncflag" Type="int" />
+        </EntityType>
+        <EntityType Name="fi_torecmedias">
+          <Key>
+            <PropertyRef Name="recid" />
+            <PropertyRef Name="msgid" />
+            <PropertyRef Name="mediaid" />
+          </Key>
+          <Property Name="recid" Type="int" Nullable="false" />
+          <Property Name="msgid" Type="int" Nullable="false" />
+          <Property Name="mediaid" Type="int" Nullable="false" />
+          <Property Name="mediatype" Type="varchar" MaxLength="10" />
+          <Property Name="medianame" Type="varchar" MaxLength="200" />
+          <Property Name="mediausage" Type="varchar" MaxLength="10" />
+          <Property Name="createtime" Type="datetime" />
+          <Property Name="mediaurl" Type="varchar" />
+          <Property Name="datainsertdate" Type="datetime" />
+          <Property Name="dataupdatedate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="fi_torecprocess">
+          <Key>
+            <PropertyRef Name="recid" />
+            <PropertyRef Name="itemid" />
+          </Key>
+          <Property Name="recid" Type="int" Nullable="false" />
+          <Property Name="itemid" Type="int" Nullable="false" />
+          <Property Name="processdate" Type="datetime" />
+          <Property Name="humanname" Type="varchar" MaxLength="80" />
+          <Property Name="processname" Type="varchar" MaxLength="80" />
+          <Property Name="operationname" Type="varchar" MaxLength="80" />
+          <Property Name="processopinion" Type="varchar" MaxLength="4000" />
+          <Property Name="datainsertdate" Type="datetime" />
+          <Property Name="dataupdatedate" Type="datetime" />
+          <Property Name="humanid" Type="int" />
+        </EntityType>
+        <EntityType Name="fi_torecs">
+          <Key>
+            <PropertyRef Name="recid" />
+          </Key>
+          <Property Name="recid" Type="int" Nullable="false" />
+          <Property Name="tasknum" Type="varchar" MaxLength="40" />
+          <Property Name="eventsrcid" Type="int" />
+          <Property Name="eventsrcname" Type="varchar" MaxLength="40" />
+          <Property Name="eventtypeid" Type="int" />
+          <Property Name="eventtypename" Type="varchar" MaxLength="40" />
+          <Property Name="maintypeid" Type="int" />
+          <Property Name="maintypename" Type="varchar" MaxLength="80" />
+          <Property Name="subtypeid" Type="int" />
+          <Property Name="subtypename" Type="varchar" MaxLength="80" />
+          <Property Name="eventdesc" Type="varchar" MaxLength="2000" />
+          <Property Name="address" Type="varchar" MaxLength="2000" />
+          <Property Name="districtid" Type="int" />
+          <Property Name="districtname" Type="varchar" MaxLength="40" />
+          <Property Name="streetid" Type="int" />
+          <Property Name="streetname" Type="varchar" MaxLength="40" />
+          <Property Name="communityid" Type="int" />
+          <Property Name="communityname" Type="varchar" MaxLength="40" />
+          <Property Name="coordinatex" Type="double" />
+          <Property Name="coordinatey" Type="double" />
+          <Property Name="patrolid" Type="int" />
+          <Property Name="patrolname" Type="varchar" MaxLength="80" />
+          <Property Name="patrolunitid" Type="int" />
+          <Property Name="patrolunitname" Type="varchar" MaxLength="80" />
+          <Property Name="createtime" Type="datetime" />
+          <Property Name="datainsertdate" Type="datetime" />
+          <Property Name="dataupdatedate" Type="datetime" />
+          <Property Name="deleteflag" Type="int" />
+          <Property Name="deletedate" Type="datetime" />
+          <Property Name="actpropertyid" Type="int" />
+          <Property Name="emergencyflag" Type="int" />
+          <Property Name="istypical" Type="int" />
+          <Property Name="remark" Type="varchar" MaxLength="2000" />
+        </EntityType>
+        <EntityType Name="fi_tzcarlatestpositions">
+          <Key>
+            <PropertyRef Name="carid" />
+          </Key>
+          <Property Name="carid" Type="int" Nullable="false" />
+          <Property Name="modifieddate" Type="datetime" />
+          <Property Name="createddate" Type="datetime" />
+          <Property Name="positioningdate" Type="datetime" />
+          <Property Name="x" Type="double" />
+          <Property Name="y" Type="double" />
+          <Property Name="speed" Type="double" />
+          <Property Name="direction" Type="double" />
+          <Property Name="gpsstate" Type="varchar" MaxLength="2000" />
+          <Property Name="isparsed" Type="int" />
+          <Property Name="location" Type="varchar" MaxLength="4000" />
+          <Property Name="isalarm" Type="int" />
+          <Property Name="alarmtype" Type="varchar" MaxLength="4000" />
+          <Property Name="alarmdesc" Type="varchar" MaxLength="4000" />
+        </EntityType>
+        <EntityType Name="fi_tzcars">
+          <Key>
+            <PropertyRef Name="carid" />
+          </Key>
+          <Property Name="carid" Type="int" Nullable="false" />
+          <Property Name="seqno" Type="int" />
+          <Property Name="isvalid" Type="int" />
+          <Property Name="isdeleted" Type="int" />
+          <Property Name="deleteddate" Type="datetime" />
+          <Property Name="modifieddate" Type="datetime" />
+          <Property Name="createddate" Type="datetime" />
+          <Property Name="carname" Type="varchar" MaxLength="4000" />
+          <Property Name="carcode" Type="varchar" MaxLength="4000" />
+          <Property Name="unitid" Type="int" />
+          <Property Name="regiontypeid" Type="int" />
+          <Property Name="regionid" Type="int" />
+          <Property Name="devicetypeid" Type="int" />
+          <Property Name="usagetypeid" Type="int" />
+          <Property Name="isonline" Type="int" />
+          <Property Name="hascamera" Type="int" />
+          <Property Name="cameradeviceid" Type="int" />
+          <Property Name="camerachannelid" Type="int" />
+          <Property Name="sim" Type="varchar" />
+        </EntityType>
+        <EntityType Name="mapelementcoords">
+          <Key>
+            <PropertyRef Name="mapelementcategoryid" />
+            <PropertyRef Name="mapelementid" />
+          </Key>
+          <Property Name="mapelementcategoryid" Type="int" Nullable="false" />
+          <Property Name="mapelementid" Type="int" Nullable="false" />
+          <Property Name="shape1" Type="text" />
+          <Property Name="shape2" Type="text" />
+          <Property Name="satellitetime" Type="datetime" />
+          <Property Name="longitude" Type="decimal" Precision="32" Scale="16" />
+          <Property Name="latitude" Type="decimal" Precision="32" Scale="16" />
+          <Property Name="x" Type="decimal" Precision="32" Scale="16" />
+          <Property Name="y" Type="decimal" Precision="32" Scale="16" />
+          <Property Name="altitude" Type="int" />
+          <Property Name="speed" Type="int" />
+          <Property Name="direction" Type="int" />
+          <Property Name="accuracy" Type="int" />
+          <Property Name="satellites" Type="int" />
+          <Property Name="reportedtime" Type="datetime" />
+          <Property Name="createdtime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="mapelements">
+          <Key>
+            <PropertyRef Name="mapelementcategoryid" />
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="mapelementcategoryid" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="code" Type="varchar" MaxLength="100" />
+          <Property Name="avatar" Type="varchar" MaxLength="4000" />
+          <Property Name="regionid" Type="int" />
+          <Property Name="unitid" Type="int" />
+          <Property Name="mapelementbiztypeid" Type="int" />
+          <Property Name="mapelementdevicetypeid" Type="int" />
+          <Property Name="staticproperties" Type="text" />
+          <Property Name="dynamicproperties" Type="text" />
+          <Property Name="isonline" Type="int" />
+          <Property Name="mapelementstatusid" Type="int" />
+          <Property Name="reservedfield1" Type="varchar" MaxLength="4000" />
+          <Property Name="reservedfield2" Type="varchar" MaxLength="4000" />
+          <Property Name="reservedfield3" Type="varchar" MaxLength="4000" />
+          <Property Name="reservedfield4" Type="varchar" MaxLength="4000" />
+          <Property Name="reservedfield5" Type="text" />
+          <Property Name="reservedfield6" Type="text" />
+          <Property Name="reservedfield7" Type="int" />
+          <Property Name="reservedfield8" Type="int" />
+          <Property Name="reservedfield9" Type="datetime" />
+          <Property Name="reservedfield10" Type="datetime" />
+          <Property Name="createdtime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="mh_categors">
+          <Key>
+            <PropertyRef Name="categoryid" />
+          </Key>
+          <Property Name="categoryid" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="varchar" />
+          <Property Name="seqno" Type="int" />
+          <Property Name="createtime" Type="date" />
+          <Property Name="prentid" Type="int" />
+          <Property Name="status" Type="int" />
+          <Property Name="isonline" Type="int" />
+        </EntityType>
+        <EntityType Name="mh_news">
+          <Key>
+            <PropertyRef Name="articleid" />
+          </Key>
+          <Property Name="articleid" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="categoryid" Type="int" />
+          <Property Name="title" Type="varchar" />
+          <Property Name="content" Type="text" />
+          <Property Name="author" Type="varchar" MaxLength="100" />
+          <Property Name="createuserid" Type="int" />
+          <Property Name="createtime" Type="datetime" />
+          <Property Name="status" Type="int" />
+          <Property Name="filename" Type="varchar" />
+          <Property Name="filepath" Type="varchar" />
+          <Property Name="isonline" Type="int" />
+          <Property Name="categoryid_bid" Type="int" />
+          <Property Name="refilename" Type="varchar" />
+          <Property Name="refilepath" Type="varchar" />
+        </EntityType>
+        <EntityType Name="project01">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="msgId" Type="varchar" MaxLength="255" />
+          <Property Name="projectId" Type="varchar" MaxLength="255" />
+          <Property Name="waterPressure" Type="double" />
+          <Property Name="dumpingState" Type="int" />
+          <Property Name="gatewayVoltageState" Type="int" />
+          <Property Name="nodeState" Type="int" />
+          <Property Name="length" Type="int" />
+          <Property Name="formattedCreated" Type="datetime" />
+          <Property Name="formattedUpdated" Type="datetime" />
+          <Property Name="x" Type="double" />
+          <Property Name="y" Type="double" />
+          <Property Name="address" Type="varchar" MaxLength="2000" />
+        </EntityType>
+        <EntityType Name="project02">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="msgId" Type="varchar" MaxLength="255" />
+          <Property Name="projectId" Type="varchar" MaxLength="255" />
+          <Property Name="length" Type="int" />
+          <Property Name="data0" Type="int" />
+          <Property Name="data1" Type="int" />
+          <Property Name="data2" Type="int" />
+          <Property Name="formattedCreated" Type="datetime" />
+          <Property Name="formattedUpdated" Type="datetime" />
+          <Property Name="x" Type="double" />
+          <Property Name="y" Type="double" />
+          <Property Name="address" Type="varchar" MaxLength="2000" />
+        </EntityType>
+        <EntityType Name="project03">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="msgId" Type="varchar" MaxLength="255" />
+          <Property Name="projectId" Type="varchar" MaxLength="255" />
+          <Property Name="length" Type="int" />
+          <Property Name="templ" Type="double" />
+          <Property Name="damp" Type="double" />
+          <Property Name="pm25" Type="double" />
+          <Property Name="formattedCreated" Type="datetime" />
+          <Property Name="formattedUpdated" Type="datetime" />
+          <Property Name="x" Type="double" />
+          <Property Name="y" Type="double" />
+          <Property Name="address" Type="varchar" MaxLength="2000" />
+        </EntityType>
+        <EntityType Name="store_bases">
+          <Key>
+            <PropertyRef Name="store_id" />
+          </Key>
+          <Property Name="store_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="id_type" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="store_name" Type="varchar" Nullable="false" MaxLength="500" />
+          <Property Name="type_id" Type="int" Nullable="false" />
+          <Property Name="address" Type="varchar" Nullable="false" MaxLength="500" />
+          <Property Name="grometry" Type="varchar" MaxLength="500" />
+          <Property Name="person" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="businessperson" Type="varchar" MaxLength="200" />
+          <Property Name="businesscontact" Type="varchar" />
+          <Property Name="registnum" Type="varchar" MaxLength="200" />
+          <Property Name="registname" Type="varchar" MaxLength="200" />
+          <Property Name="registcontact" Type="varchar" />
+          <Property Name="businessscope" Type="varchar" MaxLength="2000" />
+          <Property Name="registdate" Type="date" />
+          <Property Name="businessenddate" Type="date" />
+          <Property Name="businesslicense" Type="int" />
+          <Property Name="healthcard" Type="int" />
+          <Property Name="mqsbperson" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="gridnum" Type="varchar" />
+          <Property Name="gridperson" Type="varchar" MaxLength="200" />
+          <Property Name="gridcontact" Type="varchar" />
+          <Property Name="createtime" Type="date" />
+          <Property Name="createuserid" Type="int" />
+          <Property Name="status" Type="int" />
+          <Property Name="remark" Type="varchar" MaxLength="2000" />
+          <Property Name="remark2" Type="text" />
+        </EntityType>
+        <EntityType Name="store_classes">
+          <Key>
+            <PropertyRef Name="type_id" />
+          </Key>
+          <Property Name="type_id" Type="int" Nullable="false" />
+          <Property Name="type_name" Type="varchar" />
+          <Property Name="seqno" Type="int" />
+          <Property Name="firstletter" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="icon" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="sys_positions">
+          <Key>
+            <PropertyRef Name="userid" />
+          </Key>
+          <Property Name="userid" Type="int" Nullable="false" />
+          <Property Name="longitude" Type="varchar" MaxLength="2000" />
+          <Property Name="latitude" Type="varchar" MaxLength="2000" />
+          <Property Name="positiontime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="sys_regions">
+          <Key>
+            <PropertyRef Name="regionid" />
+          </Key>
+          <Property Name="regionid" Type="int" Nullable="false" />
+          <Property Name="regionname" Type="varchar" MaxLength="2000" />
+          <Property Name="parentid" Type="int" />
+          <Property Name="regiontypeid" Type="int" />
+        </EntityType>
+        <EntityType Name="sys_zd">
+          <Key>
+            <PropertyRef Name="zd_id" />
+          </Key>
+          <Property Name="zd_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="zd_type" Type="varchar" MaxLength="200" />
+          <Property Name="zd_bh" Type="varchar" MaxLength="255" />
+          <Property Name="zd_name" Type="varchar" />
+          <Property Name="bz" Type="varchar" />
+          <Property Name="sfgd" Type="int" />
+          <Property Name="icon" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <Association Name="FK_Reference_6">
+          <End Role="store_classes" Type="hzwModel.Store.store_classes" Multiplicity="1" />
+          <End Role="store_bases" Type="hzwModel.Store.store_bases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="store_classes">
+              <PropertyRef Name="type_id" />
+            </Principal>
+            <Dependent Role="store_bases">
+              <PropertyRef Name="type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reference_7">
+          <End Role="ad_classes" Type="hzwModel.Store.ad_classes" Multiplicity="0..1" />
+          <End Role="ad_outadverts" Type="hzwModel.Store.ad_outadverts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ad_classes">
+              <PropertyRef Name="type_id" />
+            </Principal>
+            <Dependent Role="ad_outadverts">
+              <PropertyRef Name="type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reference_8">
+          <End Role="mh_categors" Type="hzwModel.Store.mh_categors" Multiplicity="0..1" />
+          <End Role="mh_news" Type="hzwModel.Store.mh_news" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mh_categors">
+              <PropertyRef Name="categoryid" />
+            </Principal>
+            <Dependent Role="mh_news">
+              <PropertyRef Name="categoryid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="pro_advertstate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="hzw">
+          <Parameter Name="function_advertstate" Type="int" Mode="InOut" />
+        </Function>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="hzwModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="hzwEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="ad_classes" EntityType="hzwModel.ad_classes" />
+          <EntitySet Name="ad_outadverts" EntityType="hzwModel.ad_outadverts" />
+          <EntitySet Name="base_menus" EntityType="hzwModel.base_menus" />
+          <EntitySet Name="base_permissionmenus" EntityType="hzwModel.base_permissionmenus" />
+          <EntitySet Name="base_permissions" EntityType="hzwModel.base_permissions" />
+          <EntitySet Name="base_rolepermissions" EntityType="hzwModel.base_rolepermissions" />
+          <EntitySet Name="base_roles" EntityType="hzwModel.base_roles" />
+          <EntitySet Name="base_units" EntityType="hzwModel.base_units" />
+          <EntitySet Name="base_unittypes" EntityType="hzwModel.base_unittypes" />
+          <EntitySet Name="base_userroles" EntityType="hzwModel.base_userroles" />
+          <EntitySet Name="base_users" EntityType="hzwModel.base_users" />
+          <EntitySet Name="base_usertypes" EntityType="hzwModel.base_usertypes" />
+          <EntitySet Name="bd_jcbjxx" EntityType="hzwModel.bd_jcbjxx" />
+          <EntitySet Name="event_zfsjs" EntityType="hzwModel.event_zfsjs" />
+          <EntitySet Name="fi_camera_dev" EntityType="hzwModel.fi_camera_dev" />
+          <EntitySet Name="fi_camera_info" EntityType="hzwModel.fi_camera_info" />
+          <EntitySet Name="fi_camera_item" EntityType="hzwModel.fi_camera_item" />
+          <EntitySet Name="fi_camera_regions" EntityType="hzwModel.fi_camera_regions" />
+          <EntitySet Name="fi_camera_theme" EntityType="hzwModel.fi_camera_theme" />
+          <EntitySet Name="fi_camera_unit" EntityType="hzwModel.fi_camera_unit" />
+          <EntitySet Name="fi_cardevicetypes" EntityType="hzwModel.fi_cardevicetypes" />
+          <EntitySet Name="fi_carusagetypes" EntityType="hzwModel.fi_carusagetypes" />
+          <EntitySet Name="fi_tchumans" EntityType="hzwModel.fi_tchumans" />
+          <EntitySet Name="fi_tcpatrols" EntityType="hzwModel.fi_tcpatrols" />
+          <EntitySet Name="fi_tcunits" EntityType="hzwModel.fi_tcunits" />
+          <EntitySet Name="fi_tdeventsrcs" EntityType="hzwModel.fi_tdeventsrcs" />
+          <EntitySet Name="fi_topatrollatestpos" EntityType="hzwModel.fi_topatrollatestpos" />
+          <EntitySet Name="fi_topatrollogons" EntityType="hzwModel.fi_topatrollogons" />
+          <EntitySet Name="fi_topatrolpos" EntityType="hzwModel.fi_topatrolpos" />
+          <EntitySet Name="fi_torecmedias" EntityType="hzwModel.fi_torecmedias" />
+          <EntitySet Name="fi_torecprocess" EntityType="hzwModel.fi_torecprocess" />
+          <EntitySet Name="fi_torecs" EntityType="hzwModel.fi_torecs" />
+          <EntitySet Name="fi_tzcarlatestpositions" EntityType="hzwModel.fi_tzcarlatestpositions" />
+          <EntitySet Name="fi_tzcars" EntityType="hzwModel.fi_tzcars" />
+          <EntitySet Name="mapelementcoords" EntityType="hzwModel.mapelementcoord" />
+          <EntitySet Name="mapelements" EntityType="hzwModel.mapelement" />
+          <EntitySet Name="mh_categors" EntityType="hzwModel.mh_categors" />
+          <EntitySet Name="mh_news" EntityType="hzwModel.mh_news" />
+          <EntitySet Name="project01" EntityType="hzwModel.project01" />
+          <EntitySet Name="project02" EntityType="hzwModel.project02" />
+          <EntitySet Name="project03" EntityType="hzwModel.project03" />
+          <EntitySet Name="store_bases" EntityType="hzwModel.store_bases" />
+          <EntitySet Name="store_classes" EntityType="hzwModel.store_classes" />
+          <EntitySet Name="sys_positions" EntityType="hzwModel.sys_positions" />
+          <EntitySet Name="sys_regions" EntityType="hzwModel.sys_regions" />
+          <EntitySet Name="sys_zd" EntityType="hzwModel.sys_zd" />
+          <AssociationSet Name="FK_Reference_7" Association="hzwModel.FK_Reference_7">
+            <End Role="ad_classes" EntitySet="ad_classes" />
+            <End Role="ad_outadverts" EntitySet="ad_outadverts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reference_8" Association="hzwModel.FK_Reference_8">
+            <End Role="mh_categors" EntitySet="mh_categors" />
+            <End Role="mh_news" EntitySet="mh_news" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reference_6" Association="hzwModel.FK_Reference_6">
+            <End Role="store_classes" EntitySet="store_classes" />
+            <End Role="store_bases" EntitySet="store_bases" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="ad_classes">
+          <Key>
+            <PropertyRef Name="type_id" />
+          </Key>
+          <Property Type="Int32" Name="type_id" Nullable="false" />
+          <Property Type="String" Name="type_name" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="code" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="seqno" />
+          <Property Type="String" Name="icon" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ad_outadverts" Relationship="hzwModel.FK_Reference_7" FromRole="ad_classes" ToRole="ad_outadverts" />
+        </EntityType>
+        <EntityType Name="ad_outadverts">
+          <Key>
+            <PropertyRef Name="ad_id" />
+          </Key>
+          <Property Type="Int32" Name="ad_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="id_type" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="type_id" />
+          <Property Type="String" Name="ad_name" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="unit" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="unitperson" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="unitphone" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="producers" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="prophone" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="state" />
+          <Property Type="String" Name="examunit" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="examdate" Nullable="false" Precision="0" />
+          <Property Type="DateTime" Name="startdate" Nullable="false" Precision="0" />
+          <Property Type="DateTime" Name="enddate" Nullable="false" Precision="0" />
+          <Property Type="String" Name="address" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="photo1" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="photo2" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="photo3" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="photo4" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="filename1" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="filepath1" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="filename2" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="filepath2" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="filename3" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="filepath3" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="grometry" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="Double" Name="volume" />
+          <Property Type="Double" Name="long" />
+          <Property Type="Double" Name="wide" />
+          <Property Type="Double" Name="high" />
+          <Property Type="String" Name="materials" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="curingunit" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="superviseunit" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="createtime" Precision="0" />
+          <Property Type="Int32" Name="createuserid" />
+          <Property Type="Int32" Name="status" />
+          <Property Type="String" Name="remark" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ad_classes" Relationship="hzwModel.FK_Reference_7" FromRole="ad_outadverts" ToRole="ad_classes" />
+        </EntityType>
+        <EntityType Name="base_menus">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="parentid" />
+          <Property Type="String" Name="path" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="url" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="icon" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="comment" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="seqno" />
+        </EntityType>
+        <EntityType Name="base_permissionmenus">
+          <Key>
+            <PropertyRef Name="permissioncode" />
+            <PropertyRef Name="menuid" />
+          </Key>
+          <Property Type="String" Name="permissioncode" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="menuid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="base_permissions">
+          <Key>
+            <PropertyRef Name="code" />
+          </Key>
+          <Property Type="String" Name="code" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="parentcode" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="path" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="comment" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="seqno" />
+        </EntityType>
+        <EntityType Name="base_rolepermissions">
+          <Key>
+            <PropertyRef Name="permissioncode" />
+            <PropertyRef Name="roleid" />
+          </Key>
+          <Property Type="String" Name="permissioncode" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="roleid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="base_roles">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="comment" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="issystem" />
+          <Property Type="Int32" Name="seqno" />
+          <Property Type="DateTime" Name="createdtime" Precision="0" />
+          <Property Type="DateTime" Name="updatedtime" Precision="0" />
+        </EntityType>
+        <EntityType Name="base_units">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="code" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="name" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="path" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="unittypeid" />
+          <Property Type="Int32" Name="parentid" />
+          <Property Type="DateTime" Name="createdtime" Precision="0" />
+          <Property Type="DateTime" Name="updatedtime" Precision="0" />
+        </EntityType>
+        <EntityType Name="base_unittypes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="seqno" />
+        </EntityType>
+        <EntityType Name="base_userroles">
+          <Key>
+            <PropertyRef Name="userid" />
+            <PropertyRef Name="roleid" />
+          </Key>
+          <Property Type="Int32" Name="userid" Nullable="false" />
+          <Property Type="Int32" Name="roleid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="base_users">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="code" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="displayname" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="unitid" />
+          <Property Type="Int32" Name="usertypeid" />
+          <Property Type="String" Name="loginname" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="loginpwd" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="avatar" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="regionid" />
+          <Property Type="Int32" Name="mapelementbiztype" />
+          <Property Type="Int32" Name="mapelementdevicetype" />
+          <Property Type="String" Name="sex" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="birthday" Precision="0" />
+          <Property Type="String" Name="address" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="mobile" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="telephone" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="email" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="isonline" />
+          <Property Type="DateTime" Name="createdtime" Precision="0" />
+          <Property Type="DateTime" Name="updatedtime" Precision="0" />
+        </EntityType>
+        <EntityType Name="base_usertypes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="seqno" />
+        </EntityType>
+        <EntityType Name="bd_jcbjxx">
+          <Key>
+            <PropertyRef Name="jcsj_id" />
+          </Key>
+          <Property Type="Int32" Name="jcsj_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="jcsj_bh" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="gslx_type" MaxLength="3000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="jcsj_name" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="swmx_id" Precision="32" Scale="16" />
+          <Property Type="String" Name="dltx" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="zxdxzb" Precision="32" Scale="16" />
+          <Property Type="Decimal" Name="zxdyzb" Precision="32" Scale="16" />
+          <Property Type="Decimal" Name="gd" Precision="32" Scale="16" />
+          <Property Type="String" Name="sfyx" MaxLength="3000" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="cjsj" Precision="0" />
+          <Property Type="String" Name="content" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="deptname1" MaxLength="1000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="event_zfsjs">
+          <Key>
+            <PropertyRef Name="event_id" />
+          </Key>
+          <Property Type="String" Name="event_id" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="title" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="reporttime" Precision="0" />
+          <Property Type="String" Name="reportperson" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="source" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="contact" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="content" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="photo1" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="photo2" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="photo3" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="grometry" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="isexamine" />
+          <Property Type="Int32" Name="inputperson" />
+          <Property Type="DateTime" Name="inputtime" Precision="0" />
+          <Property Type="String" Name="inputcontent" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="invalisperson" />
+          <Property Type="DateTime" Name="invalistime" Precision="0" />
+          <Property Type="String" Name="invaliscontent" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="ispush" />
+        </EntityType>
+        <EntityType Name="fi_camera_dev">
+          <Key>
+            <PropertyRef Name="deviceid" />
+          </Key>
+          <Property Type="Int32" Name="deviceid" Nullable="false" />
+          <Property Type="String" Name="indexcode" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="typecode" />
+          <Property Type="String" Name="name" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="fi_camera_info">
+          <Key>
+            <PropertyRef Name="camera_id" />
+          </Key>
+          <Property Type="Int32" Name="camera_id" Nullable="false" />
+          <Property Type="Int32" Name="region_id" />
+          <Property Type="Int32" Name="device_id" />
+          <Property Type="String" Name="index_code" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="name" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="camera_type" />
+          <Property Type="Int32" Name="stream_type" />
+          <Property Type="Int32" Name="ptz_control_type" />
+          <Property Type="Int32" Name="pixel" />
+          <Property Type="Int32" Name="ptz_type" />
+          <Property Type="Int32" Name="sound" />
+          <Property Type="Int32" Name="is_enable" />
+          <Property Type="Int32" Name="status" />
+          <Property Type="Double" Name="longitude" />
+          <Property Type="Double" Name="latitude" />
+          <Property Type="Int32" Name="elevation" />
+          <Property Type="String" Name="install_place" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="note" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="parameter" MaxLength="5000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="playback" MaxLength="5000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="scope" MaxLength="65535" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="fi_camera_item">
+          <Key>
+            <PropertyRef Name="thcid" />
+          </Key>
+          <Property Type="Int32" Name="thcid" Nullable="false" />
+          <Property Type="Int32" Name="themeid" />
+          <Property Type="Int32" Name="sortnum" />
+          <Property Type="Int32" Name="cameraid" />
+          <Property Type="String" Name="name" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="index_code" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="camera_type" />
+          <Property Type="Double" Name="longitude" />
+          <Property Type="Double" Name="latitude" />
+        </EntityType>
+        <EntityType Name="fi_camera_regions">
+          <Key>
+            <PropertyRef Name="regionid" />
+          </Key>
+          <Property Type="Int32" Name="regionid" Nullable="false" />
+          <Property Type="String" Name="regionname" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="unitid" />
+        </EntityType>
+        <EntityType Name="fi_camera_theme">
+          <Key>
+            <PropertyRef Name="themeid" />
+          </Key>
+          <Property Type="Int32" Name="themeid" Nullable="false" />
+          <Property Type="String" Name="name" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="parentid" />
+          <Property Type="Int32" Name="isline" />
+          <Property Type="String" Name="path" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="note" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="fi_camera_unit">
+          <Key>
+            <PropertyRef Name="unitid" />
+          </Key>
+          <Property Type="Int32" Name="unitid" Nullable="false" />
+          <Property Type="String" Name="unitname" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="parentid" />
+          <Property Type="Int32" Name="path" />
+        </EntityType>
+        <EntityType Name="fi_cardevicetypes">
+          <Key>
+            <PropertyRef Name="devicetypeid" />
+          </Key>
+          <Property Type="Int32" Name="devicetypeid" Nullable="false" />
+          <Property Type="Int32" Name="seqno" />
+          <Property Type="DateTime" Name="modifieddate" Precision="0" />
+          <Property Type="DateTime" Name="createddate" Precision="0" />
+          <Property Type="String" Name="devicetypename" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="devicetypecode" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="devicetypedesc" MaxLength="2000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="fi_carusagetypes">
+          <Key>
+            <PropertyRef Name="usagetypeid" />
+          </Key>
+          <Property Type="Int32" Name="usagetypeid" Nullable="false" />
+          <Property Type="String" Name="seqno" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Type="DateTime" Name="modifieddate" Precision="0" />
+          <Property Type="DateTime" Name="createddate" Precision="0" />
+          <Property Type="String" Name="usagetypename" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="usagetypecode" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="usagetypedesc" MaxLength="2000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="fi_tchumans">
+          <Key>
+            <PropertyRef Name="humanid" />
+          </Key>
+          <Property Type="Int32" Name="humanid" Nullable="false" />
+          <Property Type="String" Name="humanname" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="humancode" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="unitid" />
+          <Property Type="Int32" Name="regionid" />
+          <Property Type="Int32" Name="regiontype" />
+          <Property Type="String" Name="telmobile" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="photourl" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="validflag" />
+          <Property Type="Int32" Name="deleteflag" />
+          <Property Type="DateTime" Name="deletedate" Precision="0" />
+          <Property Type="Int32" Name="patrolflag" />
+          <Property Type="DateTime" Name="datainsertdate" Precision="0" />
+          <Property Type="DateTime" Name="dataupdatedate" Precision="0" />
+          <Property Type="Int32" Name="displayorder" />
+          <Property Type="Int32" Name="sex" />
+        </EntityType>
+        <EntityType Name="fi_tcpatrols">
+          <Key>
+            <PropertyRef Name="patrolid" />
+          </Key>
+          <Property Type="Int32" Name="patrolid" Nullable="false" />
+          <Property Type="String" Name="patrolname" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="patroltypeid" />
+          <Property Type="String" Name="patrolcode" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="cardid" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="datainsertdate" Precision="0" />
+          <Property Type="DateTime" Name="dataupdatedate" Precision="0" />
+          <Property Type="SByte" Name="is_online" />
+        </EntityType>
+        <EntityType Name="fi_tcunits">
+          <Key>
+            <PropertyRef Name="unitid" />
+          </Key>
+          <Property Type="Int32" Name="unitid" Nullable="false" />
+          <Property Type="String" Name="unitname" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="unitcode" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="unitdesc" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="seniorid" />
+          <Property Type="Int32" Name="funcunitflag" />
+          <Property Type="Int32" Name="validflag" />
+          <Property Type="Int32" Name="deleteflag" />
+          <Property Type="DateTime" Name="deletedate" Precision="0" />
+          <Property Type="DateTime" Name="datainsertdate" Precision="0" />
+          <Property Type="DateTime" Name="dataupdatedate" Precision="0" />
+          <Property Type="Int32" Name="displayorder" />
+          <Property Type="Int32" Name="regionid" />
+        </EntityType>
+        <EntityType Name="fi_tdeventsrcs">
+          <Key>
+            <PropertyRef Name="eventsrcid" />
+          </Key>
+          <Property Type="Int32" Name="eventsrcid" Nullable="false" />
+          <Property Type="String" Name="eventsrcname" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="fi_topatrollatestpos">
+          <Key>
+            <PropertyRef Name="patrolid" />
+          </Key>
+          <Property Type="Int32" Name="patrolid" Nullable="false" />
+          <Property Type="DateTime" Name="updatetime" Precision="0" />
+          <Property Type="Double" Name="coordinatex_84" />
+          <Property Type="Double" Name="coordinatey_84" />
+          <Property Type="Double" Name="coordinatex" />
+          <Property Type="Double" Name="coordinatey" />
+          <Property Type="Int32" Name="stateid" />
+          <Property Type="DateTime" Name="datainsertdate" Precision="0" />
+          <Property Type="DateTime" Name="dataupdatedate" Precision="0" />
+          <Property Type="String" Name="coordtype" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="syncflag" />
+        </EntityType>
+        <EntityType Name="fi_topatrollogons">
+          <Key>
+            <PropertyRef Name="logid" />
+          </Key>
+          <Property Type="Int32" Name="logid" Nullable="false" />
+          <Property Type="Int32" Name="patrolid" />
+          <Property Type="Int32" Name="patrolstateid" />
+          <Property Type="DateTime" Name="updatetime" Precision="0" />
+          <Property Type="DateTime" Name="datainsertdate" Precision="0" />
+          <Property Type="DateTime" Name="dataupdatedate" Precision="0" />
+        </EntityType>
+        <EntityType Name="fi_topatrolpos">
+          <Key>
+            <PropertyRef Name="logid" />
+          </Key>
+          <Property Type="Int32" Name="logid" Nullable="false" />
+          <Property Type="Int32" Name="patrolid" />
+          <Property Type="DateTime" Name="updatetime" Precision="0" />
+          <Property Type="Double" Name="coordinatex_84" />
+          <Property Type="Double" Name="coordinatey_84" />
+          <Property Type="Double" Name="coordinatex" />
+          <Property Type="Double" Name="coordinatey" />
+          <Property Type="Int32" Name="stateid" />
+          <Property Type="DateTime" Name="datainsertdate" Precision="0" />
+          <Property Type="DateTime" Name="dataupdatedate" Precision="0" />
+          <Property Type="String" Name="coordtype" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="syncflag" />
+        </EntityType>
+        <EntityType Name="fi_torecmedias">
+          <Key>
+            <PropertyRef Name="recid" />
+            <PropertyRef Name="msgid" />
+            <PropertyRef Name="mediaid" />
+          </Key>
+          <Property Type="Int32" Name="recid" Nullable="false" />
+          <Property Type="Int32" Name="msgid" Nullable="false" />
+          <Property Type="Int32" Name="mediaid" Nullable="false" />
+          <Property Type="String" Name="mediatype" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="medianame" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="mediausage" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="createtime" Precision="0" />
+          <Property Type="String" Name="mediaurl" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="datainsertdate" Precision="0" />
+          <Property Type="DateTime" Name="dataupdatedate" Precision="0" />
+        </EntityType>
+        <EntityType Name="fi_torecprocess">
+          <Key>
+            <PropertyRef Name="recid" />
+            <PropertyRef Name="itemid" />
+          </Key>
+          <Property Type="Int32" Name="recid" Nullable="false" />
+          <Property Type="Int32" Name="itemid" Nullable="false" />
+          <Property Type="DateTime" Name="processdate" Precision="0" />
+          <Property Type="String" Name="humanname" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="processname" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="operationname" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="processopinion" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="datainsertdate" Precision="0" />
+          <Property Type="DateTime" Name="dataupdatedate" Precision="0" />
+          <Property Type="Int32" Name="humanid" />
+        </EntityType>
+        <EntityType Name="fi_torecs">
+          <Key>
+            <PropertyRef Name="recid" />
+          </Key>
+          <Property Type="Int32" Name="recid" Nullable="false" />
+          <Property Type="String" Name="tasknum" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="eventsrcid" />
+          <Property Type="String" Name="eventsrcname" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="eventtypeid" />
+          <Property Type="String" Name="eventtypename" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="maintypeid" />
+          <Property Type="String" Name="maintypename" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="subtypeid" />
+          <Property Type="String" Name="subtypename" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="eventdesc" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="address" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="districtid" />
+          <Property Type="String" Name="districtname" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="streetid" />
+          <Property Type="String" Name="streetname" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="communityid" />
+          <Property Type="String" Name="communityname" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Type="Double" Name="coordinatex" />
+          <Property Type="Double" Name="coordinatey" />
+          <Property Type="Int32" Name="patrolid" />
+          <Property Type="String" Name="patrolname" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="patrolunitid" />
+          <Property Type="String" Name="patrolunitname" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="createtime" Precision="0" />
+          <Property Type="DateTime" Name="datainsertdate" Precision="0" />
+          <Property Type="DateTime" Name="dataupdatedate" Precision="0" />
+          <Property Type="Int32" Name="deleteflag" />
+          <Property Type="DateTime" Name="deletedate" Precision="0" />
+          <Property Type="Int32" Name="actpropertyid" />
+          <Property Type="Int32" Name="emergencyflag" />
+          <Property Type="Int32" Name="istypical" />
+          <Property Type="String" Name="remark" MaxLength="2000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="fi_tzcarlatestpositions">
+          <Key>
+            <PropertyRef Name="carid" />
+          </Key>
+          <Property Type="Int32" Name="carid" Nullable="false" />
+          <Property Type="DateTime" Name="modifieddate" Precision="0" />
+          <Property Type="DateTime" Name="createddate" Precision="0" />
+          <Property Type="DateTime" Name="positioningdate" Precision="0" />
+          <Property Type="Double" Name="x" />
+          <Property Type="Double" Name="y" />
+          <Property Type="Double" Name="speed" />
+          <Property Type="Double" Name="direction" />
+          <Property Type="String" Name="gpsstate" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="isparsed" />
+          <Property Type="String" Name="location" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="isalarm" />
+          <Property Type="String" Name="alarmtype" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="alarmdesc" MaxLength="4000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="fi_tzcars">
+          <Key>
+            <PropertyRef Name="carid" />
+          </Key>
+          <Property Type="Int32" Name="carid" Nullable="false" />
+          <Property Type="Int32" Name="seqno" />
+          <Property Type="Int32" Name="isvalid" />
+          <Property Type="Int32" Name="isdeleted" />
+          <Property Type="DateTime" Name="deleteddate" Precision="0" />
+          <Property Type="DateTime" Name="modifieddate" Precision="0" />
+          <Property Type="DateTime" Name="createddate" Precision="0" />
+          <Property Type="String" Name="carname" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="carcode" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="unitid" />
+          <Property Type="Int32" Name="regiontypeid" />
+          <Property Type="Int32" Name="regionid" />
+          <Property Type="Int32" Name="devicetypeid" />
+          <Property Type="Int32" Name="usagetypeid" />
+          <Property Type="Int32" Name="isonline" />
+          <Property Type="Int32" Name="hascamera" />
+          <Property Type="Int32" Name="cameradeviceid" />
+          <Property Type="Int32" Name="camerachannelid" />
+          <Property Type="String" Name="sim" MaxLength="1000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="mapelementcoord">
+          <Key>
+            <PropertyRef Name="mapelementcategoryid" />
+            <PropertyRef Name="mapelementid" />
+          </Key>
+          <Property Type="Int32" Name="mapelementcategoryid" Nullable="false" />
+          <Property Type="Int32" Name="mapelementid" Nullable="false" />
+          <Property Type="String" Name="shape1" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="shape2" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="satellitetime" Precision="0" />
+          <Property Type="Decimal" Name="longitude" Precision="32" Scale="16" />
+          <Property Type="Decimal" Name="latitude" Precision="32" Scale="16" />
+          <Property Type="Decimal" Name="x" Precision="32" Scale="16" />
+          <Property Type="Decimal" Name="y" Precision="32" Scale="16" />
+          <Property Type="Int32" Name="altitude" />
+          <Property Type="Int32" Name="speed" />
+          <Property Type="Int32" Name="direction" />
+          <Property Type="Int32" Name="accuracy" />
+          <Property Type="Int32" Name="satellites" />
+          <Property Type="DateTime" Name="reportedtime" Precision="0" />
+          <Property Type="DateTime" Name="createdtime" Precision="0" />
+        </EntityType>
+        <EntityType Name="mapelement">
+          <Key>
+            <PropertyRef Name="mapelementcategoryid" />
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="mapelementcategoryid" Nullable="false" />
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="code" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="avatar" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="regionid" />
+          <Property Type="Int32" Name="unitid" />
+          <Property Type="Int32" Name="mapelementbiztypeid" />
+          <Property Type="Int32" Name="mapelementdevicetypeid" />
+          <Property Type="String" Name="staticproperties" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="dynamicproperties" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="isonline" />
+          <Property Type="Int32" Name="mapelementstatusid" />
+          <Property Type="String" Name="reservedfield1" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="reservedfield2" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="reservedfield3" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="reservedfield4" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="reservedfield5" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="reservedfield6" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="reservedfield7" />
+          <Property Type="Int32" Name="reservedfield8" />
+          <Property Type="DateTime" Name="reservedfield9" Precision="0" />
+          <Property Type="DateTime" Name="reservedfield10" Precision="0" />
+          <Property Type="DateTime" Name="createdtime" Precision="0" />
+        </EntityType>
+        <EntityType Name="mh_categors">
+          <Key>
+            <PropertyRef Name="categoryid" />
+          </Key>
+          <Property Type="Int32" Name="categoryid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="name" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="seqno" />
+          <Property Type="DateTime" Name="createtime" Precision="0" />
+          <Property Type="Int32" Name="prentid" />
+          <Property Type="Int32" Name="status" />
+          <Property Type="Int32" Name="isonline" />
+          <NavigationProperty Name="mh_news" Relationship="hzwModel.FK_Reference_8" FromRole="mh_categors" ToRole="mh_news" />
+        </EntityType>
+        <EntityType Name="mh_news">
+          <Key>
+            <PropertyRef Name="articleid" />
+          </Key>
+          <Property Type="Int32" Name="articleid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="categoryid" />
+          <Property Type="String" Name="title" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="content" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="author" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="createuserid" />
+          <Property Type="DateTime" Name="createtime" Precision="0" />
+          <Property Type="Int32" Name="status" />
+          <Property Type="String" Name="filename" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="filepath" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="isonline" />
+          <Property Type="Int32" Name="categoryid_bid" />
+          <Property Type="String" Name="refilename" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="refilepath" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="mh_categors" Relationship="hzwModel.FK_Reference_8" FromRole="mh_news" ToRole="mh_categors" />
+        </EntityType>
+        <EntityType Name="project01">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="String" Name="id" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="msgId" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="projectId" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Double" Name="waterPressure" />
+          <Property Type="Int32" Name="dumpingState" />
+          <Property Type="Int32" Name="gatewayVoltageState" />
+          <Property Type="Int32" Name="nodeState" />
+          <Property Type="Int32" Name="length" />
+          <Property Type="DateTime" Name="formattedCreated" Precision="0" />
+          <Property Type="DateTime" Name="formattedUpdated" Precision="0" />
+          <Property Type="Double" Name="x" />
+          <Property Type="Double" Name="y" />
+          <Property Type="String" Name="address" MaxLength="2000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="project02">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="String" Name="id" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="msgId" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="projectId" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="length" />
+          <Property Type="Int32" Name="data0" />
+          <Property Type="Int32" Name="data1" />
+          <Property Type="Int32" Name="data2" />
+          <Property Type="DateTime" Name="formattedCreated" Precision="0" />
+          <Property Type="DateTime" Name="formattedUpdated" Precision="0" />
+          <Property Type="Double" Name="x" />
+          <Property Type="Double" Name="y" />
+          <Property Type="String" Name="address" MaxLength="2000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="project03">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="String" Name="id" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="msgId" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="projectId" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="length" />
+          <Property Type="Double" Name="templ" />
+          <Property Type="Double" Name="damp" />
+          <Property Type="Double" Name="pm25" />
+          <Property Type="DateTime" Name="formattedCreated" Precision="0" />
+          <Property Type="DateTime" Name="formattedUpdated" Precision="0" />
+          <Property Type="Double" Name="x" />
+          <Property Type="Double" Name="y" />
+          <Property Type="String" Name="address" MaxLength="2000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="store_bases">
+          <Key>
+            <PropertyRef Name="store_id" />
+          </Key>
+          <Property Type="Int32" Name="store_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="id_type" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="store_name" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="type_id" Nullable="false" />
+          <Property Type="String" Name="address" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="grometry" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="person" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="businessperson" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="businesscontact" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="registnum" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="registname" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="registcontact" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="businessscope" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="registdate" Precision="0" />
+          <Property Type="DateTime" Name="businessenddate" Precision="0" />
+          <Property Type="Int32" Name="businesslicense" />
+          <Property Type="Int32" Name="healthcard" />
+          <Property Type="String" Name="mqsbperson" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="gridnum" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="gridperson" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="gridcontact" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="createtime" Precision="0" />
+          <Property Type="Int32" Name="createuserid" />
+          <Property Type="Int32" Name="status" />
+          <Property Type="String" Name="remark" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="remark2" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="store_classes" Relationship="hzwModel.FK_Reference_6" FromRole="store_bases" ToRole="store_classes" />
+        </EntityType>
+        <EntityType Name="store_classes">
+          <Key>
+            <PropertyRef Name="type_id" />
+          </Key>
+          <Property Type="Int32" Name="type_id" Nullable="false" />
+          <Property Type="String" Name="type_name" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="seqno" />
+          <Property Type="String" Name="firstletter" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="icon" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="store_bases" Relationship="hzwModel.FK_Reference_6" FromRole="store_classes" ToRole="store_bases" />
+        </EntityType>
+        <EntityType Name="sys_positions">
+          <Key>
+            <PropertyRef Name="userid" />
+          </Key>
+          <Property Type="Int32" Name="userid" Nullable="false" />
+          <Property Type="String" Name="longitude" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="latitude" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="positiontime" Precision="0" />
+        </EntityType>
+        <EntityType Name="sys_regions">
+          <Key>
+            <PropertyRef Name="regionid" />
+          </Key>
+          <Property Type="Int32" Name="regionid" Nullable="false" />
+          <Property Type="String" Name="regionname" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="parentid" />
+          <Property Type="Int32" Name="regiontypeid" />
+        </EntityType>
+        <EntityType Name="sys_zd">
+          <Key>
+            <PropertyRef Name="zd_id" />
+          </Key>
+          <Property Type="Int32" Name="zd_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="zd_type" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="zd_bh" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="zd_name" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="bz" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="sfgd" />
+          <Property Type="String" Name="icon" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_Reference_7">
+          <End Type="hzwModel.ad_classes" Role="ad_classes" Multiplicity="0..1" />
+          <End Type="hzwModel.ad_outadverts" Role="ad_outadverts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ad_classes">
+              <PropertyRef Name="type_id" />
+            </Principal>
+            <Dependent Role="ad_outadverts">
+              <PropertyRef Name="type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reference_8">
+          <End Type="hzwModel.mh_categors" Role="mh_categors" Multiplicity="0..1" />
+          <End Type="hzwModel.mh_news" Role="mh_news" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mh_categors">
+              <PropertyRef Name="categoryid" />
+            </Principal>
+            <Dependent Role="mh_news">
+              <PropertyRef Name="categoryid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reference_6">
+          <End Type="hzwModel.store_classes" Role="store_classes" Multiplicity="1" />
+          <End Type="hzwModel.store_bases" Role="store_bases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="store_classes">
+              <PropertyRef Name="type_id" />
+            </Principal>
+            <Dependent Role="store_bases">
+              <PropertyRef Name="type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="hzwModelStoreContainer" CdmEntityContainer="hzwEntities">
+          <EntitySetMapping Name="ad_classes">
+            <EntityTypeMapping TypeName="hzwModel.ad_classes">
+              <MappingFragment StoreEntitySet="ad_classes">
+                <ScalarProperty Name="icon" ColumnName="icon" />
+                <ScalarProperty Name="seqno" ColumnName="seqno" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="type_name" ColumnName="type_name" />
+                <ScalarProperty Name="type_id" ColumnName="type_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ad_outadverts">
+            <EntityTypeMapping TypeName="hzwModel.ad_outadverts">
+              <MappingFragment StoreEntitySet="ad_outadverts">
+                <ScalarProperty Name="remark" ColumnName="remark" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="createuserid" ColumnName="createuserid" />
+                <ScalarProperty Name="createtime" ColumnName="createtime" />
+                <ScalarProperty Name="superviseunit" ColumnName="superviseunit" />
+                <ScalarProperty Name="curingunit" ColumnName="curingunit" />
+                <ScalarProperty Name="materials" ColumnName="materials" />
+                <ScalarProperty Name="high" ColumnName="high" />
+                <ScalarProperty Name="wide" ColumnName="wide" />
+                <ScalarProperty Name="long" ColumnName="long" />
+                <ScalarProperty Name="volume" ColumnName="volume" />
+                <ScalarProperty Name="grometry" ColumnName="grometry" />
+                <ScalarProperty Name="filepath3" ColumnName="filepath3" />
+                <ScalarProperty Name="filename3" ColumnName="filename3" />
+                <ScalarProperty Name="filepath2" ColumnName="filepath2" />
+                <ScalarProperty Name="filename2" ColumnName="filename2" />
+                <ScalarProperty Name="filepath1" ColumnName="filepath1" />
+                <ScalarProperty Name="filename1" ColumnName="filename1" />
+                <ScalarProperty Name="photo4" ColumnName="photo4" />
+                <ScalarProperty Name="photo3" ColumnName="photo3" />
+                <ScalarProperty Name="photo2" ColumnName="photo2" />
+                <ScalarProperty Name="photo1" ColumnName="photo1" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="enddate" ColumnName="enddate" />
+                <ScalarProperty Name="startdate" ColumnName="startdate" />
+                <ScalarProperty Name="examdate" ColumnName="examdate" />
+                <ScalarProperty Name="examunit" ColumnName="examunit" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="prophone" ColumnName="prophone" />
+                <ScalarProperty Name="producers" ColumnName="producers" />
+                <ScalarProperty Name="unitphone" ColumnName="unitphone" />
+                <ScalarProperty Name="unitperson" ColumnName="unitperson" />
+                <ScalarProperty Name="unit" ColumnName="unit" />
+                <ScalarProperty Name="ad_name" ColumnName="ad_name" />
+                <ScalarProperty Name="type_id" ColumnName="type_id" />
+                <ScalarProperty Name="id_type" ColumnName="id_type" />
+                <ScalarProperty Name="ad_id" ColumnName="ad_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="base_menus">
+            <EntityTypeMapping TypeName="hzwModel.base_menus">
+              <MappingFragment StoreEntitySet="base_menus">
+                <ScalarProperty Name="seqno" ColumnName="seqno" />
+                <ScalarProperty Name="comment" ColumnName="comment" />
+                <ScalarProperty Name="icon" ColumnName="icon" />
+                <ScalarProperty Name="url" ColumnName="url" />
+                <ScalarProperty Name="path" ColumnName="path" />
+                <ScalarProperty Name="parentid" ColumnName="parentid" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="base_permissionmenus">
+            <EntityTypeMapping TypeName="hzwModel.base_permissionmenus">
+              <MappingFragment StoreEntitySet="base_permissionmenus">
+                <ScalarProperty Name="menuid" ColumnName="menuid" />
+                <ScalarProperty Name="permissioncode" ColumnName="permissioncode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="base_permissions">
+            <EntityTypeMapping TypeName="hzwModel.base_permissions">
+              <MappingFragment StoreEntitySet="base_permissions">
+                <ScalarProperty Name="seqno" ColumnName="seqno" />
+                <ScalarProperty Name="comment" ColumnName="comment" />
+                <ScalarProperty Name="path" ColumnName="path" />
+                <ScalarProperty Name="parentcode" ColumnName="parentcode" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="code" ColumnName="code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="base_rolepermissions">
+            <EntityTypeMapping TypeName="hzwModel.base_rolepermissions">
+              <MappingFragment StoreEntitySet="base_rolepermissions">
+                <ScalarProperty Name="roleid" ColumnName="roleid" />
+                <ScalarProperty Name="permissioncode" ColumnName="permissioncode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="base_roles">
+            <EntityTypeMapping TypeName="hzwModel.base_roles">
+              <MappingFragment StoreEntitySet="base_roles">
+                <ScalarProperty Name="updatedtime" ColumnName="updatedtime" />
+                <ScalarProperty Name="createdtime" ColumnName="createdtime" />
+                <ScalarProperty Name="seqno" ColumnName="seqno" />
+                <ScalarProperty Name="issystem" ColumnName="issystem" />
+                <ScalarProperty Name="comment" ColumnName="comment" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="base_units">
+            <EntityTypeMapping TypeName="hzwModel.base_units">
+              <MappingFragment StoreEntitySet="base_units">
+                <ScalarProperty Name="updatedtime" ColumnName="updatedtime" />
+                <ScalarProperty Name="createdtime" ColumnName="createdtime" />
+                <ScalarProperty Name="parentid" ColumnName="parentid" />
+                <ScalarProperty Name="unittypeid" ColumnName="unittypeid" />
+                <ScalarProperty Name="path" ColumnName="path" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="base_unittypes">
+            <EntityTypeMapping TypeName="hzwModel.base_unittypes">
+              <MappingFragment StoreEntitySet="base_unittypes">
+                <ScalarProperty Name="seqno" ColumnName="seqno" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="base_userroles">
+            <EntityTypeMapping TypeName="hzwModel.base_userroles">
+              <MappingFragment StoreEntitySet="base_userroles">
+                <ScalarProperty Name="roleid" ColumnName="roleid" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="base_users">
+            <EntityTypeMapping TypeName="hzwModel.base_users">
+              <MappingFragment StoreEntitySet="base_users">
+                <ScalarProperty Name="updatedtime" ColumnName="updatedtime" />
+                <ScalarProperty Name="createdtime" ColumnName="createdtime" />
+                <ScalarProperty Name="isonline" ColumnName="isonline" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="telephone" ColumnName="telephone" />
+                <ScalarProperty Name="mobile" ColumnName="mobile" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="birthday" ColumnName="birthday" />
+                <ScalarProperty Name="sex" ColumnName="sex" />
+                <ScalarProperty Name="mapelementdevicetype" ColumnName="mapelementdevicetype" />
+                <ScalarProperty Name="mapelementbiztype" ColumnName="mapelementbiztype" />
+                <ScalarProperty Name="regionid" ColumnName="regionid" />
+                <ScalarProperty Name="avatar" ColumnName="avatar" />
+                <ScalarProperty Name="loginpwd" ColumnName="loginpwd" />
+                <ScalarProperty Name="loginname" ColumnName="loginname" />
+                <ScalarProperty Name="usertypeid" ColumnName="usertypeid" />
+                <ScalarProperty Name="unitid" ColumnName="unitid" />
+                <ScalarProperty Name="displayname" ColumnName="displayname" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="base_usertypes">
+            <EntityTypeMapping TypeName="hzwModel.base_usertypes">
+              <MappingFragment StoreEntitySet="base_usertypes">
+                <ScalarProperty Name="seqno" ColumnName="seqno" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bd_jcbjxx">
+            <EntityTypeMapping TypeName="hzwModel.bd_jcbjxx">
+              <MappingFragment StoreEntitySet="bd_jcbjxx">
+                <ScalarProperty Name="deptname1" ColumnName="deptname1" />
+                <ScalarProperty Name="content" ColumnName="content" />
+                <ScalarProperty Name="cjsj" ColumnName="cjsj" />
+                <ScalarProperty Name="sfyx" ColumnName="sfyx" />
+                <ScalarProperty Name="gd" ColumnName="gd" />
+                <ScalarProperty Name="zxdyzb" ColumnName="zxdyzb" />
+                <ScalarProperty Name="zxdxzb" ColumnName="zxdxzb" />
+                <ScalarProperty Name="dltx" ColumnName="dltx" />
+                <ScalarProperty Name="swmx_id" ColumnName="swmx_id" />
+                <ScalarProperty Name="jcsj_name" ColumnName="jcsj_name" />
+                <ScalarProperty Name="gslx_type" ColumnName="gslx_type" />
+                <ScalarProperty Name="jcsj_bh" ColumnName="jcsj_bh" />
+                <ScalarProperty Name="jcsj_id" ColumnName="jcsj_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="event_zfsjs">
+            <EntityTypeMapping TypeName="hzwModel.event_zfsjs">
+              <MappingFragment StoreEntitySet="event_zfsjs">
+                <ScalarProperty Name="ispush" ColumnName="ispush" />
+                <ScalarProperty Name="invaliscontent" ColumnName="invaliscontent" />
+                <ScalarProperty Name="invalistime" ColumnName="invalistime" />
+                <ScalarProperty Name="invalisperson" ColumnName="invalisperson" />
+                <ScalarProperty Name="inputcontent" ColumnName="inputcontent" />
+                <ScalarProperty Name="inputtime" ColumnName="inputtime" />
+                <ScalarProperty Name="inputperson" ColumnName="inputperson" />
+                <ScalarProperty Name="isexamine" ColumnName="isexamine" />
+                <ScalarProperty Name="grometry" ColumnName="grometry" />
+                <ScalarProperty Name="photo3" ColumnName="photo3" />
+                <ScalarProperty Name="photo2" ColumnName="photo2" />
+                <ScalarProperty Name="photo1" ColumnName="photo1" />
+                <ScalarProperty Name="content" ColumnName="content" />
+                <ScalarProperty Name="contact" ColumnName="contact" />
+                <ScalarProperty Name="source" ColumnName="source" />
+                <ScalarProperty Name="reportperson" ColumnName="reportperson" />
+                <ScalarProperty Name="reporttime" ColumnName="reporttime" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="event_id" ColumnName="event_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="fi_camera_dev">
+            <EntityTypeMapping TypeName="hzwModel.fi_camera_dev">
+              <MappingFragment StoreEntitySet="fi_camera_dev">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="typecode" ColumnName="typecode" />
+                <ScalarProperty Name="indexcode" ColumnName="indexcode" />
+                <ScalarProperty Name="deviceid" ColumnName="deviceid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="fi_camera_info">
+            <EntityTypeMapping TypeName="hzwModel.fi_camera_info">
+              <MappingFragment StoreEntitySet="fi_camera_info">
+                <ScalarProperty Name="scope" ColumnName="scope" />
+                <ScalarProperty Name="playback" ColumnName="playback" />
+                <ScalarProperty Name="parameter" ColumnName="parameter" />
+                <ScalarProperty Name="note" ColumnName="note" />
+                <ScalarProperty Name="install_place" ColumnName="install_place" />
+                <ScalarProperty Name="elevation" ColumnName="elevation" />
+                <ScalarProperty Name="latitude" ColumnName="latitude" />
+                <ScalarProperty Name="longitude" ColumnName="longitude" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="is_enable" ColumnName="is_enable" />
+                <ScalarProperty Name="sound" ColumnName="sound" />
+                <ScalarProperty Name="ptz_type" ColumnName="ptz_type" />
+                <ScalarProperty Name="pixel" ColumnName="pixel" />
+                <ScalarProperty Name="ptz_control_type" ColumnName="ptz_control_type" />
+                <ScalarProperty Name="stream_type" ColumnName="stream_type" />
+                <ScalarProperty Name="camera_type" ColumnName="camera_type" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="index_code" ColumnName="index_code" />
+                <ScalarProperty Name="device_id" ColumnName="device_id" />
+                <ScalarProperty Name="region_id" ColumnName="region_id" />
+                <ScalarProperty Name="camera_id" ColumnName="camera_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="fi_camera_item">
+            <EntityTypeMapping TypeName="hzwModel.fi_camera_item">
+              <MappingFragment StoreEntitySet="fi_camera_item">
+                <ScalarProperty Name="latitude" ColumnName="latitude" />
+                <ScalarProperty Name="longitude" ColumnName="longitude" />
+                <ScalarProperty Name="camera_type" ColumnName="camera_type" />
+                <ScalarProperty Name="index_code" ColumnName="index_code" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="cameraid" ColumnName="cameraid" />
+                <ScalarProperty Name="sortnum" ColumnName="sortnum" />
+                <ScalarProperty Name="themeid" ColumnName="themeid" />
+                <ScalarProperty Name="thcid" ColumnName="thcid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="fi_camera_regions">
+            <EntityTypeMapping TypeName="hzwModel.fi_camera_regions">
+              <MappingFragment StoreEntitySet="fi_camera_regions">
+                <ScalarProperty Name="unitid" ColumnName="unitid" />
+                <ScalarProperty Name="regionname" ColumnName="regionname" />
+                <ScalarProperty Name="regionid" ColumnName="regionid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="fi_camera_theme">
+            <EntityTypeMapping TypeName="hzwModel.fi_camera_theme">
+              <MappingFragment StoreEntitySet="fi_camera_theme">
+                <ScalarProperty Name="note" ColumnName="note" />
+                <ScalarProperty Name="path" ColumnName="path" />
+                <ScalarProperty Name="isline" ColumnName="isline" />
+                <ScalarProperty Name="parentid" ColumnName="parentid" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="themeid" ColumnName="themeid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="fi_camera_unit">
+            <EntityTypeMapping TypeName="hzwModel.fi_camera_unit">
+              <MappingFragment StoreEntitySet="fi_camera_unit">
+                <ScalarProperty Name="path" ColumnName="path" />
+                <ScalarProperty Name="parentid" ColumnName="parentid" />
+                <ScalarProperty Name="unitname" ColumnName="unitname" />
+                <ScalarProperty Name="unitid" ColumnName="unitid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="fi_cardevicetypes">
+            <EntityTypeMapping TypeName="hzwModel.fi_cardevicetypes">
+              <MappingFragment StoreEntitySet="fi_cardevicetypes">
+                <ScalarProperty Name="devicetypedesc" ColumnName="devicetypedesc" />
+                <ScalarProperty Name="devicetypecode" ColumnName="devicetypecode" />
+                <ScalarProperty Name="devicetypename" ColumnName="devicetypename" />
+                <ScalarProperty Name="createddate" ColumnName="createddate" />
+                <ScalarProperty Name="modifieddate" ColumnName="modifieddate" />
+                <ScalarProperty Name="seqno" ColumnName="seqno" />
+                <ScalarProperty Name="devicetypeid" ColumnName="devicetypeid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="fi_carusagetypes">
+            <EntityTypeMapping TypeName="hzwModel.fi_carusagetypes">
+              <MappingFragment StoreEntitySet="fi_carusagetypes">
+                <ScalarProperty Name="usagetypedesc" ColumnName="usagetypedesc" />
+                <ScalarProperty Name="usagetypecode" ColumnName="usagetypecode" />
+                <ScalarProperty Name="usagetypename" ColumnName="usagetypename" />
+                <ScalarProperty Name="createddate" ColumnName="createddate" />
+                <ScalarProperty Name="modifieddate" ColumnName="modifieddate" />
+                <ScalarProperty Name="seqno" ColumnName="seqno" />
+                <ScalarProperty Name="usagetypeid" ColumnName="usagetypeid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="fi_tchumans">
+            <EntityTypeMapping TypeName="hzwModel.fi_tchumans">
+              <MappingFragment StoreEntitySet="fi_tchumans">
+                <ScalarProperty Name="sex" ColumnName="sex" />
+                <ScalarProperty Name="displayorder" ColumnName="displayorder" />
+                <ScalarProperty Name="dataupdatedate" ColumnName="dataupdatedate" />
+                <ScalarProperty Name="datainsertdate" ColumnName="datainsertdate" />
+                <ScalarProperty Name="patrolflag" ColumnName="patrolflag" />
+                <ScalarProperty Name="deletedate" ColumnName="deletedate" />
+                <ScalarProperty Name="deleteflag" ColumnName="deleteflag" />
+                <ScalarProperty Name="validflag" ColumnName="validflag" />
+                <ScalarProperty Name="photourl" ColumnName="photourl" />
+                <ScalarProperty Name="telmobile" ColumnName="telmobile" />
+                <ScalarProperty Name="regiontype" ColumnName="regiontype" />
+                <ScalarProperty Name="regionid" ColumnName="regionid" />
+                <ScalarProperty Name="unitid" ColumnName="unitid" />
+                <ScalarProperty Name="humancode" ColumnName="humancode" />
+                <ScalarProperty Name="humanname" ColumnName="humanname" />
+                <ScalarProperty Name="humanid" ColumnName="humanid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="fi_tcpatrols">
+            <EntityTypeMapping TypeName="hzwModel.fi_tcpatrols">
+              <MappingFragment StoreEntitySet="fi_tcpatrols">
+                <ScalarProperty Name="is_online" ColumnName="is_online" />
+                <ScalarProperty Name="dataupdatedate" ColumnName="dataupdatedate" />
+                <ScalarProperty Name="datainsertdate" ColumnName="datainsertdate" />
+                <ScalarProperty Name="cardid" ColumnName="cardid" />
+                <ScalarProperty Name="patrolcode" ColumnName="patrolcode" />
+                <ScalarProperty Name="patroltypeid" ColumnName="patroltypeid" />
+                <ScalarProperty Name="patrolname" ColumnName="patrolname" />
+                <ScalarProperty Name="patrolid" ColumnName="patrolid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="fi_tcunits">
+            <EntityTypeMapping TypeName="hzwModel.fi_tcunits">
+              <MappingFragment StoreEntitySet="fi_tcunits">
+                <ScalarProperty Name="regionid" ColumnName="regionid" />
+                <ScalarProperty Name="displayorder" ColumnName="displayorder" />
+                <ScalarProperty Name="dataupdatedate" ColumnName="dataupdatedate" />
+                <ScalarProperty Name="datainsertdate" ColumnName="datainsertdate" />
+                <ScalarProperty Name="deletedate" ColumnName="deletedate" />
+                <ScalarProperty Name="deleteflag" ColumnName="deleteflag" />
+                <ScalarProperty Name="validflag" ColumnName="validflag" />
+                <ScalarProperty Name="funcunitflag" ColumnName="funcunitflag" />
+                <ScalarProperty Name="seniorid" ColumnName="seniorid" />
+                <ScalarProperty Name="unitdesc" ColumnName="unitdesc" />
+                <ScalarProperty Name="unitcode" ColumnName="unitcode" />
+                <ScalarProperty Name="unitname" ColumnName="unitname" />
+                <ScalarProperty Name="unitid" ColumnName="unitid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="fi_tdeventsrcs">
+            <EntityTypeMapping TypeName="hzwModel.fi_tdeventsrcs">
+              <MappingFragment StoreEntitySet="fi_tdeventsrcs">
+                <ScalarProperty Name="eventsrcname" ColumnName="eventsrcname" />
+                <ScalarProperty Name="eventsrcid" ColumnName="eventsrcid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="fi_topatrollatestpos">
+            <EntityTypeMapping TypeName="hzwModel.fi_topatrollatestpos">
+              <MappingFragment StoreEntitySet="fi_topatrollatestpos">
+                <ScalarProperty Name="syncflag" ColumnName="syncflag" />
+                <ScalarProperty Name="coordtype" ColumnName="coordtype" />
+                <ScalarProperty Name="dataupdatedate" ColumnName="dataupdatedate" />
+                <ScalarProperty Name="datainsertdate" ColumnName="datainsertdate" />
+                <ScalarProperty Name="stateid" ColumnName="stateid" />
+                <ScalarProperty Name="coordinatey" ColumnName="coordinatey" />
+                <ScalarProperty Name="coordinatex" ColumnName="coordinatex" />
+                <ScalarProperty Name="coordinatey_84" ColumnName="coordinatey_84" />
+                <ScalarProperty Name="coordinatex_84" ColumnName="coordinatex_84" />
+                <ScalarProperty Name="updatetime" ColumnName="updatetime" />
+                <ScalarProperty Name="patrolid" ColumnName="patrolid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="fi_topatrollogons">
+            <EntityTypeMapping TypeName="hzwModel.fi_topatrollogons">
+              <MappingFragment StoreEntitySet="fi_topatrollogons">
+                <ScalarProperty Name="dataupdatedate" ColumnName="dataupdatedate" />
+                <ScalarProperty Name="datainsertdate" ColumnName="datainsertdate" />
+                <ScalarProperty Name="updatetime" ColumnName="updatetime" />
+                <ScalarProperty Name="patrolstateid" ColumnName="patrolstateid" />
+                <ScalarProperty Name="patrolid" ColumnName="patrolid" />
+                <ScalarProperty Name="logid" ColumnName="logid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="fi_topatrolpos">
+            <EntityTypeMapping TypeName="hzwModel.fi_topatrolpos">
+              <MappingFragment StoreEntitySet="fi_topatrolpos">
+                <ScalarProperty Name="syncflag" ColumnName="syncflag" />
+                <ScalarProperty Name="coordtype" ColumnName="coordtype" />
+                <ScalarProperty Name="dataupdatedate" ColumnName="dataupdatedate" />
+                <ScalarProperty Name="datainsertdate" ColumnName="datainsertdate" />
+                <ScalarProperty Name="stateid" ColumnName="stateid" />
+                <ScalarProperty Name="coordinatey" ColumnName="coordinatey" />
+                <ScalarProperty Name="coordinatex" ColumnName="coordinatex" />
+                <ScalarProperty Name="coordinatey_84" ColumnName="coordinatey_84" />
+                <ScalarProperty Name="coordinatex_84" ColumnName="coordinatex_84" />
+                <ScalarProperty Name="updatetime" ColumnName="updatetime" />
+                <ScalarProperty Name="patrolid" ColumnName="patrolid" />
+                <ScalarProperty Name="logid" ColumnName="logid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="fi_torecmedias">
+            <EntityTypeMapping TypeName="hzwModel.fi_torecmedias">
+              <MappingFragment StoreEntitySet="fi_torecmedias">
+                <ScalarProperty Name="dataupdatedate" ColumnName="dataupdatedate" />
+                <ScalarProperty Name="datainsertdate" ColumnName="datainsertdate" />
+                <ScalarProperty Name="mediaurl" ColumnName="mediaurl" />
+                <ScalarProperty Name="createtime" ColumnName="createtime" />
+                <ScalarProperty Name="mediausage" ColumnName="mediausage" />
+                <ScalarProperty Name="medianame" ColumnName="medianame" />
+                <ScalarProperty Name="mediatype" ColumnName="mediatype" />
+                <ScalarProperty Name="mediaid" ColumnName="mediaid" />
+                <ScalarProperty Name="msgid" ColumnName="msgid" />
+                <ScalarProperty Name="recid" ColumnName="recid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="fi_torecprocess">
+            <EntityTypeMapping TypeName="hzwModel.fi_torecprocess">
+              <MappingFragment StoreEntitySet="fi_torecprocess">
+                <ScalarProperty Name="humanid" ColumnName="humanid" />
+                <ScalarProperty Name="dataupdatedate" ColumnName="dataupdatedate" />
+                <ScalarProperty Name="datainsertdate" ColumnName="datainsertdate" />
+                <ScalarProperty Name="processopinion" ColumnName="processopinion" />
+                <ScalarProperty Name="operationname" ColumnName="operationname" />
+                <ScalarProperty Name="processname" ColumnName="processname" />
+                <ScalarProperty Name="humanname" ColumnName="humanname" />
+                <ScalarProperty Name="processdate" ColumnName="processdate" />
+                <ScalarProperty Name="itemid" ColumnName="itemid" />
+                <ScalarProperty Name="recid" ColumnName="recid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="fi_torecs">
+            <EntityTypeMapping TypeName="hzwModel.fi_torecs">
+              <MappingFragment StoreEntitySet="fi_torecs">
+                <ScalarProperty Name="remark" ColumnName="remark" />
+                <ScalarProperty Name="istypical" ColumnName="istypical" />
+                <ScalarProperty Name="emergencyflag" ColumnName="emergencyflag" />
+                <ScalarProperty Name="actpropertyid" ColumnName="actpropertyid" />
+                <ScalarProperty Name="deletedate" ColumnName="deletedate" />
+                <ScalarProperty Name="deleteflag" ColumnName="deleteflag" />
+                <ScalarProperty Name="dataupdatedate" ColumnName="dataupdatedate" />
+                <ScalarProperty Name="datainsertdate" ColumnName="datainsertdate" />
+                <ScalarProperty Name="createtime" ColumnName="createtime" />
+                <ScalarProperty Name="patrolunitname" ColumnName="patrolunitname" />
+                <ScalarProperty Name="patrolunitid" ColumnName="patrolunitid" />
+                <ScalarProperty Name="patrolname" ColumnName="patrolname" />
+                <ScalarProperty Name="patrolid" ColumnName="patrolid" />
+                <ScalarProperty Name="coordinatey" ColumnName="coordinatey" />
+                <ScalarProperty Name="coordinatex" ColumnName="coordinatex" />
+                <ScalarProperty Name="communityname" ColumnName="communityname" />
+                <ScalarProperty Name="communityid" ColumnName="communityid" />
+                <ScalarProperty Name="streetname" ColumnName="streetname" />
+                <ScalarProperty Name="streetid" ColumnName="streetid" />
+                <ScalarProperty Name="districtname" ColumnName="districtname" />
+                <ScalarProperty Name="districtid" ColumnName="districtid" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="eventdesc" ColumnName="eventdesc" />
+                <ScalarProperty Name="subtypename" ColumnName="subtypename" />
+                <ScalarProperty Name="subtypeid" ColumnName="subtypeid" />
+                <ScalarProperty Name="maintypename" ColumnName="maintypename" />
+                <ScalarProperty Name="maintypeid" ColumnName="maintypeid" />
+                <ScalarProperty Name="eventtypename" ColumnName="eventtypename" />
+                <ScalarProperty Name="eventtypeid" ColumnName="eventtypeid" />
+                <ScalarProperty Name="eventsrcname" ColumnName="eventsrcname" />
+                <ScalarProperty Name="eventsrcid" ColumnName="eventsrcid" />
+                <ScalarProperty Name="tasknum" ColumnName="tasknum" />
+                <ScalarProperty Name="recid" ColumnName="recid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="fi_tzcarlatestpositions">
+            <EntityTypeMapping TypeName="hzwModel.fi_tzcarlatestpositions">
+              <MappingFragment StoreEntitySet="fi_tzcarlatestpositions">
+                <ScalarProperty Name="alarmdesc" ColumnName="alarmdesc" />
+                <ScalarProperty Name="alarmtype" ColumnName="alarmtype" />
+                <ScalarProperty Name="isalarm" ColumnName="isalarm" />
+                <ScalarProperty Name="location" ColumnName="location" />
+                <ScalarProperty Name="isparsed" ColumnName="isparsed" />
+                <ScalarProperty Name="gpsstate" ColumnName="gpsstate" />
+                <ScalarProperty Name="direction" ColumnName="direction" />
+                <ScalarProperty Name="speed" ColumnName="speed" />
+                <ScalarProperty Name="y" ColumnName="y" />
+                <ScalarProperty Name="x" ColumnName="x" />
+                <ScalarProperty Name="positioningdate" ColumnName="positioningdate" />
+                <ScalarProperty Name="createddate" ColumnName="createddate" />
+                <ScalarProperty Name="modifieddate" ColumnName="modifieddate" />
+                <ScalarProperty Name="carid" ColumnName="carid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="fi_tzcars">
+            <EntityTypeMapping TypeName="hzwModel.fi_tzcars">
+              <MappingFragment StoreEntitySet="fi_tzcars">
+                <ScalarProperty Name="sim" ColumnName="sim" />
+                <ScalarProperty Name="camerachannelid" ColumnName="camerachannelid" />
+                <ScalarProperty Name="cameradeviceid" ColumnName="cameradeviceid" />
+                <ScalarProperty Name="hascamera" ColumnName="hascamera" />
+                <ScalarProperty Name="isonline" ColumnName="isonline" />
+                <ScalarProperty Name="usagetypeid" ColumnName="usagetypeid" />
+                <ScalarProperty Name="devicetypeid" ColumnName="devicetypeid" />
+                <ScalarProperty Name="regionid" ColumnName="regionid" />
+                <ScalarProperty Name="regiontypeid" ColumnName="regiontypeid" />
+                <ScalarProperty Name="unitid" ColumnName="unitid" />
+                <ScalarProperty Name="carcode" ColumnName="carcode" />
+                <ScalarProperty Name="carname" ColumnName="carname" />
+                <ScalarProperty Name="createddate" ColumnName="createddate" />
+                <ScalarProperty Name="modifieddate" ColumnName="modifieddate" />
+                <ScalarProperty Name="deleteddate" ColumnName="deleteddate" />
+                <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+                <ScalarProperty Name="isvalid" ColumnName="isvalid" />
+                <ScalarProperty Name="seqno" ColumnName="seqno" />
+                <ScalarProperty Name="carid" ColumnName="carid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mapelementcoords">
+            <EntityTypeMapping TypeName="hzwModel.mapelementcoord">
+              <MappingFragment StoreEntitySet="mapelementcoords">
+                <ScalarProperty Name="createdtime" ColumnName="createdtime" />
+                <ScalarProperty Name="reportedtime" ColumnName="reportedtime" />
+                <ScalarProperty Name="satellites" ColumnName="satellites" />
+                <ScalarProperty Name="accuracy" ColumnName="accuracy" />
+                <ScalarProperty Name="direction" ColumnName="direction" />
+                <ScalarProperty Name="speed" ColumnName="speed" />
+                <ScalarProperty Name="altitude" ColumnName="altitude" />
+                <ScalarProperty Name="y" ColumnName="y" />
+                <ScalarProperty Name="x" ColumnName="x" />
+                <ScalarProperty Name="latitude" ColumnName="latitude" />
+                <ScalarProperty Name="longitude" ColumnName="longitude" />
+                <ScalarProperty Name="satellitetime" ColumnName="satellitetime" />
+                <ScalarProperty Name="shape2" ColumnName="shape2" />
+                <ScalarProperty Name="shape1" ColumnName="shape1" />
+                <ScalarProperty Name="mapelementid" ColumnName="mapelementid" />
+                <ScalarProperty Name="mapelementcategoryid" ColumnName="mapelementcategoryid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mapelements">
+            <EntityTypeMapping TypeName="hzwModel.mapelement">
+              <MappingFragment StoreEntitySet="mapelements">
+                <ScalarProperty Name="createdtime" ColumnName="createdtime" />
+                <ScalarProperty Name="reservedfield10" ColumnName="reservedfield10" />
+                <ScalarProperty Name="reservedfield9" ColumnName="reservedfield9" />
+                <ScalarProperty Name="reservedfield8" ColumnName="reservedfield8" />
+                <ScalarProperty Name="reservedfield7" ColumnName="reservedfield7" />
+                <ScalarProperty Name="reservedfield6" ColumnName="reservedfield6" />
+                <ScalarProperty Name="reservedfield5" ColumnName="reservedfield5" />
+                <ScalarProperty Name="reservedfield4" ColumnName="reservedfield4" />
+                <ScalarProperty Name="reservedfield3" ColumnName="reservedfield3" />
+                <ScalarProperty Name="reservedfield2" ColumnName="reservedfield2" />
+                <ScalarProperty Name="reservedfield1" ColumnName="reservedfield1" />
+                <ScalarProperty Name="mapelementstatusid" ColumnName="mapelementstatusid" />
+                <ScalarProperty Name="isonline" ColumnName="isonline" />
+                <ScalarProperty Name="dynamicproperties" ColumnName="dynamicproperties" />
+                <ScalarProperty Name="staticproperties" ColumnName="staticproperties" />
+                <ScalarProperty Name="mapelementdevicetypeid" ColumnName="mapelementdevicetypeid" />
+                <ScalarProperty Name="mapelementbiztypeid" ColumnName="mapelementbiztypeid" />
+                <ScalarProperty Name="unitid" ColumnName="unitid" />
+                <ScalarProperty Name="regionid" ColumnName="regionid" />
+                <ScalarProperty Name="avatar" ColumnName="avatar" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="mapelementcategoryid" ColumnName="mapelementcategoryid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mh_categors">
+            <EntityTypeMapping TypeName="hzwModel.mh_categors">
+              <MappingFragment StoreEntitySet="mh_categors">
+                <ScalarProperty Name="isonline" ColumnName="isonline" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="prentid" ColumnName="prentid" />
+                <ScalarProperty Name="createtime" ColumnName="createtime" />
+                <ScalarProperty Name="seqno" ColumnName="seqno" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="categoryid" ColumnName="categoryid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mh_news">
+            <EntityTypeMapping TypeName="hzwModel.mh_news">
+              <MappingFragment StoreEntitySet="mh_news">
+                <ScalarProperty Name="refilepath" ColumnName="refilepath" />
+                <ScalarProperty Name="refilename" ColumnName="refilename" />
+                <ScalarProperty Name="categoryid_bid" ColumnName="categoryid_bid" />
+                <ScalarProperty Name="isonline" ColumnName="isonline" />
+                <ScalarProperty Name="filepath" ColumnName="filepath" />
+                <ScalarProperty Name="filename" ColumnName="filename" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="createtime" ColumnName="createtime" />
+                <ScalarProperty Name="createuserid" ColumnName="createuserid" />
+                <ScalarProperty Name="author" ColumnName="author" />
+                <ScalarProperty Name="content" ColumnName="content" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="categoryid" ColumnName="categoryid" />
+                <ScalarProperty Name="articleid" ColumnName="articleid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="project01">
+            <EntityTypeMapping TypeName="hzwModel.project01">
+              <MappingFragment StoreEntitySet="project01">
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="y" ColumnName="y" />
+                <ScalarProperty Name="x" ColumnName="x" />
+                <ScalarProperty Name="formattedUpdated" ColumnName="formattedUpdated" />
+                <ScalarProperty Name="formattedCreated" ColumnName="formattedCreated" />
+                <ScalarProperty Name="length" ColumnName="length" />
+                <ScalarProperty Name="nodeState" ColumnName="nodeState" />
+                <ScalarProperty Name="gatewayVoltageState" ColumnName="gatewayVoltageState" />
+                <ScalarProperty Name="dumpingState" ColumnName="dumpingState" />
+                <ScalarProperty Name="waterPressure" ColumnName="waterPressure" />
+                <ScalarProperty Name="projectId" ColumnName="projectId" />
+                <ScalarProperty Name="msgId" ColumnName="msgId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="project02">
+            <EntityTypeMapping TypeName="hzwModel.project02">
+              <MappingFragment StoreEntitySet="project02">
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="y" ColumnName="y" />
+                <ScalarProperty Name="x" ColumnName="x" />
+                <ScalarProperty Name="formattedUpdated" ColumnName="formattedUpdated" />
+                <ScalarProperty Name="formattedCreated" ColumnName="formattedCreated" />
+                <ScalarProperty Name="data2" ColumnName="data2" />
+                <ScalarProperty Name="data1" ColumnName="data1" />
+                <ScalarProperty Name="data0" ColumnName="data0" />
+                <ScalarProperty Name="length" ColumnName="length" />
+                <ScalarProperty Name="projectId" ColumnName="projectId" />
+                <ScalarProperty Name="msgId" ColumnName="msgId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="project03">
+            <EntityTypeMapping TypeName="hzwModel.project03">
+              <MappingFragment StoreEntitySet="project03">
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="y" ColumnName="y" />
+                <ScalarProperty Name="x" ColumnName="x" />
+                <ScalarProperty Name="formattedUpdated" ColumnName="formattedUpdated" />
+                <ScalarProperty Name="formattedCreated" ColumnName="formattedCreated" />
+                <ScalarProperty Name="pm25" ColumnName="pm25" />
+                <ScalarProperty Name="damp" ColumnName="damp" />
+                <ScalarProperty Name="templ" ColumnName="templ" />
+                <ScalarProperty Name="length" ColumnName="length" />
+                <ScalarProperty Name="projectId" ColumnName="projectId" />
+                <ScalarProperty Name="msgId" ColumnName="msgId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="store_bases">
+            <EntityTypeMapping TypeName="hzwModel.store_bases">
+              <MappingFragment StoreEntitySet="store_bases">
+                <ScalarProperty Name="remark2" ColumnName="remark2" />
+                <ScalarProperty Name="remark" ColumnName="remark" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="createuserid" ColumnName="createuserid" />
+                <ScalarProperty Name="createtime" ColumnName="createtime" />
+                <ScalarProperty Name="gridcontact" ColumnName="gridcontact" />
+                <ScalarProperty Name="gridperson" ColumnName="gridperson" />
+                <ScalarProperty Name="gridnum" ColumnName="gridnum" />
+                <ScalarProperty Name="mqsbperson" ColumnName="mqsbperson" />
+                <ScalarProperty Name="healthcard" ColumnName="healthcard" />
+                <ScalarProperty Name="businesslicense" ColumnName="businesslicense" />
+                <ScalarProperty Name="businessenddate" ColumnName="businessenddate" />
+                <ScalarProperty Name="registdate" ColumnName="registdate" />
+                <ScalarProperty Name="businessscope" ColumnName="businessscope" />
+                <ScalarProperty Name="registcontact" ColumnName="registcontact" />
+                <ScalarProperty Name="registname" ColumnName="registname" />
+                <ScalarProperty Name="registnum" ColumnName="registnum" />
+                <ScalarProperty Name="businesscontact" ColumnName="businesscontact" />
+                <ScalarProperty Name="businessperson" ColumnName="businessperson" />
+                <ScalarProperty Name="person" ColumnName="person" />
+                <ScalarProperty Name="grometry" ColumnName="grometry" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="type_id" ColumnName="type_id" />
+                <ScalarProperty Name="store_name" ColumnName="store_name" />
+                <ScalarProperty Name="id_type" ColumnName="id_type" />
+                <ScalarProperty Name="store_id" ColumnName="store_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="store_classes">
+            <EntityTypeMapping TypeName="hzwModel.store_classes">
+              <MappingFragment StoreEntitySet="store_classes">
+                <ScalarProperty Name="icon" ColumnName="icon" />
+                <ScalarProperty Name="firstletter" ColumnName="firstletter" />
+                <ScalarProperty Name="seqno" ColumnName="seqno" />
+                <ScalarProperty Name="type_name" ColumnName="type_name" />
+                <ScalarProperty Name="type_id" ColumnName="type_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sys_positions">
+            <EntityTypeMapping TypeName="hzwModel.sys_positions">
+              <MappingFragment StoreEntitySet="sys_positions">
+                <ScalarProperty Name="positiontime" ColumnName="positiontime" />
+                <ScalarProperty Name="latitude" ColumnName="latitude" />
+                <ScalarProperty Name="longitude" ColumnName="longitude" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sys_regions">
+            <EntityTypeMapping TypeName="hzwModel.sys_regions">
+              <MappingFragment StoreEntitySet="sys_regions">
+                <ScalarProperty Name="regiontypeid" ColumnName="regiontypeid" />
+                <ScalarProperty Name="parentid" ColumnName="parentid" />
+                <ScalarProperty Name="regionname" ColumnName="regionname" />
+                <ScalarProperty Name="regionid" ColumnName="regionid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sys_zd">
+            <EntityTypeMapping TypeName="hzwModel.sys_zd">
+              <MappingFragment StoreEntitySet="sys_zd">
+                <ScalarProperty Name="icon" ColumnName="icon" />
+                <ScalarProperty Name="sfgd" ColumnName="sfgd" />
+                <ScalarProperty Name="bz" ColumnName="bz" />
+                <ScalarProperty Name="zd_name" ColumnName="zd_name" />
+                <ScalarProperty Name="zd_bh" ColumnName="zd_bh" />
+                <ScalarProperty Name="zd_type" ColumnName="zd_type" />
+                <ScalarProperty Name="zd_id" ColumnName="zd_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+        <DesignerProperty Name="UseLegacyProvider" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

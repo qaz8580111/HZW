@@ -1,9 +1,0 @@
-﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Taizhou.PLE.BLL.Properties" GeneratedClassName="Settings">
-  <Profiles />
-  <Settings>
-    <Setting Name="Taizhou_PLE_BLL_WebReference_SendSMS" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://10.1.1.30:1004/SendSMS.asmx</Value>
-    </Setting>
-  </Settings>
-</SettingsFile>

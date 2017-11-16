@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="../Css/bootstrap.min.css" rel="stylesheet" />
+    <script src="../../Scripts/jquery-3.0.0.js"></script>
+    <style type="text/css">
+        * {
+            font-family: "Microsoft Yahei", "微软雅黑", "宋体", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        #table {
+            width: 280px;
+            text-align: right;
+            font-size: 12px;
+            font-family: 'Microsoft Yahei", "微软雅黑", "宋体", "Helvetica Neue", Helvetica, Arial, sans-serif';
+            color: #333;
+        }
+
+            #table tr {
+                border: 0px;
+            }
+
+                #table tr td {
+                    border: 0px;
+                }
+
+        .controltext {
+            width: 190px;
+        }
+
+
+        .file {
+            position: relative;
+            display: inline-block;
+            background: #D0EEFF;
+            border: 1px solid #99D3F5;
+            border-radius: 4px;
+            padding: 4px 12px;
+            overflow: hidden;
+            color: #1E88C7;
+            text-decoration: none;
+            text-indent: 0;
+            line-height: 20px;
+            margin-left: 20px;
+        }
+
+            .file input {
+                position: absolute;
+                font-size: 100px;
+                right: 0;
+                top: 0;
+                opacity: 0;
+            }
+    </style>
+
+    <script type="text/javascript">
+        $(document).ready(init);
+        function init() {
+            $("#OnlineReport").prop("action", config.WebApi + "Event/AddEvent");
+        }
+        function fileUpload(fileid, imgid) {
+            $(imgid).val($(fileid).val());
+        }
+
+        function validate_form() {
+            if ($("input[name='Title']").val() == "") {
+                alert("标题不能为空!");
+                return false;
+            }
+            if ($("textarea[name='Content']").val() == "") {
+                alert("内容不能为空!");
+                return false;
+            }
+            if ($("input[name='ContactPerson']").val() == "") {
+                alert("联系人不能为空!");
+                return false;
+            }
+            if ($("input[name='ContactPhone']").val() == "") {
+                alert("联系方式不能为空!");
+                return false;
+            }
+            if ($("#img3").val() == "")
+            {
+                alert("请上传一张图片!");
+                return false;
+            }else {
+                $("form").submit(function (e) {
+                    alert("提交成功");
+                });
+                return true;
+            }
+        }
+    </script>
+</head>
+<body>
+    <form method="post" enctype="multipart/form-data" action="" target="hidden_frame" id="OnlineReport">
+        <table class="table" id="table">
+            <tr>
+                <td>标题:</td>
+                <td>
+                    <input type="text" name="Title" value="" class="form-control controltext"></td>
+            </tr>
+            <tr>
+                <td>内容:</td>
+                <td>
+                    <textarea class="form-control controltext"  name="Content" style="height: 130px; resize:none"></textarea></td>
+            </tr>
+            <tr>
+                <td>联系人:</td>
+                <td>
+                    <input type="text" value="" name="ContactPerson" class="form-control controltext" /></td>
+            </tr>
+            <tr>
+                <td>联系方式:</td>
+                <td>
+                    <input type="text" value="" name="ContactPhone" class="form-control controltext" /></td>
+            </tr>
+            <tr>
+                <td>附件:</td>
+                <td>
+                    <input id="img3" style="width: 99px; top: -10px; position: relative; border-radius: 4px;" />
+                    <a href="javascript:void(0)" class="file" style="color: #1E88C7;">选择图片
+                                                        <input type="file" name="material3" id="material3" onchange="fileUpload('#material3','#img3')" /></a></td>
+
+
+            </tr>
+            <tr>
+                <td colspan="2">
+                     <input type="submit" class="btn btn-primary" value="提交" onclick="return validate_form();" /></td>
+            </tr>
+        </table>
+    </form>
+     <iframe name='hidden_frame' id="hidden_frame" style="display: none"></iframe>
+</body>
+</html>

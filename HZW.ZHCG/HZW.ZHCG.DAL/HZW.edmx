@@ -1,0 +1,955 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="ad_classes" EntityType="Model.Store.ad_classes" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="ad_outadverts" EntityType="Model.Store.ad_outadverts" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="event_zfsjs" EntityType="Model.Store.event_zfsjs" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="mh_categors" EntityType="Model.Store.mh_categors" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="mh_news" EntityType="Model.Store.mh_news" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="store_bases" EntityType="Model.Store.store_bases" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="store_classes" EntityType="Model.Store.store_classes" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="sys_roles" EntityType="Model.Store.sys_roles" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="sys_units" EntityType="Model.Store.sys_units" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="sys_unittypes" EntityType="Model.Store.sys_unittypes" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="sys_userpositions" EntityType="Model.Store.sys_userpositions" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="sys_userroles" EntityType="Model.Store.sys_userroles" store:Type="Tables" Schema="hzw" />
+          <EntitySet Name="sys_users" EntityType="Model.Store.sys_users" store:Type="Tables" Schema="hzw" />
+          <AssociationSet Name="FK_Reference_20" Association="Model.Store.FK_Reference_20">
+            <End Role="sys_unittypes" EntitySet="sys_unittypes" />
+            <End Role="sys_units" EntitySet="sys_units" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reference_36" Association="Model.Store.FK_Reference_36">
+            <End Role="sys_units" EntitySet="sys_units" />
+            <End Role="sys_users" EntitySet="sys_users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reference_39" Association="Model.Store.FK_Reference_39">
+            <End Role="sys_roles" EntitySet="sys_roles" />
+            <End Role="sys_userroles" EntitySet="sys_userroles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reference_6" Association="Model.Store.FK_Reference_6">
+            <End Role="store_classes" EntitySet="store_classes" />
+            <End Role="store_bases" EntitySet="store_bases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reference_7" Association="Model.Store.FK_Reference_7">
+            <End Role="ad_classes" EntitySet="ad_classes" />
+            <End Role="ad_outadverts" EntitySet="ad_outadverts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reference_8" Association="Model.Store.FK_Reference_8">
+            <End Role="mh_categors" EntitySet="mh_categors" />
+            <End Role="mh_news" EntitySet="mh_news" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SU_SUP" Association="Model.Store.FK_SU_SUP">
+            <End Role="sys_userpositions" EntitySet="sys_userpositions" />
+            <End Role="sys_users" EntitySet="sys_users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SUR_SU" Association="Model.Store.FK_SUR_SU">
+            <End Role="sys_users" EntitySet="sys_users" />
+            <End Role="sys_userroles" EntitySet="sys_userroles" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="ad_classes">
+          <Key>
+            <PropertyRef Name="type_id" />
+          </Key>
+          <Property Name="type_id" Type="int" Nullable="false" />
+          <Property Name="type_name" Type="varchar" />
+          <Property Name="seqno" Type="int" />
+        </EntityType>
+        <EntityType Name="ad_outadverts">
+          <Key>
+            <PropertyRef Name="ad_id" />
+          </Key>
+          <Property Name="ad_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="id_type" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="type_id" Type="int" />
+          <Property Name="ad_name" Type="varchar" Nullable="false" MaxLength="500" />
+          <Property Name="unit" Type="varchar" Nullable="false" MaxLength="500" />
+          <Property Name="unitperson" Type="varchar" MaxLength="100" />
+          <Property Name="unitphone" Type="varchar" MaxLength="100" />
+          <Property Name="producers" Type="varchar" Nullable="false" MaxLength="500" />
+          <Property Name="prophone" Type="varchar" MaxLength="100" />
+          <Property Name="state" Type="int" />
+          <Property Name="examunit" Type="varchar" Nullable="false" MaxLength="500" />
+          <Property Name="examdate" Type="date" Nullable="false" />
+          <Property Name="startdate" Type="date" Nullable="false" />
+          <Property Name="enddate" Type="date" Nullable="false" />
+          <Property Name="address" Type="varchar" Nullable="false" MaxLength="2000" />
+          <Property Name="photo1" Type="varchar" MaxLength="500" />
+          <Property Name="photo2" Type="varchar" MaxLength="500" />
+          <Property Name="photo3" Type="varchar" MaxLength="500" />
+          <Property Name="grometry" Type="varchar" Nullable="false" MaxLength="500" />
+          <Property Name="volume" Type="double" />
+          <Property Name="long" Type="double" />
+          <Property Name="wide" Type="double" />
+          <Property Name="high" Type="double" />
+          <Property Name="materials" Type="varchar" MaxLength="500" />
+          <Property Name="curingunit" Type="varchar" MaxLength="500" />
+          <Property Name="superviseunit" Type="varchar" MaxLength="500" />
+          <Property Name="createtime" Type="date" />
+          <Property Name="createuserid" Type="int" />
+          <Property Name="status" Type="int" />
+        </EntityType>
+        <EntityType Name="event_zfsjs">
+          <Key>
+            <PropertyRef Name="event_id" />
+          </Key>
+          <Property Name="event_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="id_type" Type="varchar" MaxLength="50" />
+          <Property Name="title" Type="varchar" MaxLength="2000" />
+          <Property Name="reporttime" Type="date" />
+          <Property Name="reportperson" Type="varchar" MaxLength="500" />
+          <Property Name="source" Type="varchar" MaxLength="500" />
+          <Property Name="contact" Type="varchar" />
+          <Property Name="content" Type="varchar" MaxLength="4000" />
+          <Property Name="photo1" Type="varchar" MaxLength="500" />
+          <Property Name="photo2" Type="varchar" MaxLength="500" />
+          <Property Name="photo3" Type="varchar" MaxLength="500" />
+          <Property Name="grometry" Type="varchar" MaxLength="500" />
+          <Property Name="isexamine" Type="int" />
+          <Property Name="examineperson" Type="int" />
+          <Property Name="examinetime" Type="date" />
+          <Property Name="examinecontent" Type="varchar" MaxLength="4000" />
+          <Property Name="isinvalis" Type="int" />
+          <Property Name="isinput" Type="int" />
+          <Property Name="ispush" Type="int" />
+        </EntityType>
+        <EntityType Name="mh_categors">
+          <Key>
+            <PropertyRef Name="categoryid" />
+          </Key>
+          <Property Name="categoryid" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="varchar" />
+          <Property Name="seqno" Type="int" />
+          <Property Name="createtime" Type="date" />
+          <Property Name="prentid" Type="int" />
+          <Property Name="status" Type="int" />
+          <Property Name="isonline" Type="int" />
+        </EntityType>
+        <EntityType Name="mh_news">
+          <Key>
+            <PropertyRef Name="articleid" />
+          </Key>
+          <Property Name="articleid" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="categoryid" Type="int" />
+          <Property Name="title" Type="varchar" />
+          <Property Name="content" Type="text" />
+          <Property Name="author" Type="varchar" MaxLength="100" />
+          <Property Name="createuserid" Type="int" />
+          <Property Name="createtime" Type="date" />
+          <Property Name="status" Type="int" />
+          <Property Name="filename" Type="varchar" />
+          <Property Name="filepath" Type="varchar" />
+          <Property Name="isonline" Type="int" />
+          <Property Name="categoryid_bid" Type="int" />
+        </EntityType>
+        <EntityType Name="store_bases">
+          <Key>
+            <PropertyRef Name="store_id" />
+          </Key>
+          <Property Name="store_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="id_type" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="store_name" Type="varchar" Nullable="false" MaxLength="500" />
+          <Property Name="type_id" Type="int" Nullable="false" />
+          <Property Name="address" Type="varchar" Nullable="false" MaxLength="500" />
+          <Property Name="grometry" Type="varchar" Nullable="false" MaxLength="500" />
+          <Property Name="person" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="businessperson" Type="varchar" MaxLength="200" />
+          <Property Name="businesscontact" Type="varchar" Nullable="false" />
+          <Property Name="registnum" Type="varchar" MaxLength="200" />
+          <Property Name="registname" Type="varchar" MaxLength="200" />
+          <Property Name="registcontact" Type="varchar" />
+          <Property Name="businessscope" Type="varchar" MaxLength="2000" />
+          <Property Name="registdate" Type="date" />
+          <Property Name="businessenddate" Type="date" />
+          <Property Name="businesslicense" Type="int" />
+          <Property Name="healthcard" Type="int" />
+          <Property Name="mqsbperson" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="gridnum" Type="varchar" />
+          <Property Name="gridperson" Type="varchar" MaxLength="200" />
+          <Property Name="gridcontact" Type="varchar" />
+          <Property Name="createtime" Type="date" />
+          <Property Name="createuserid" Type="int" />
+          <Property Name="status" Type="int" />
+        </EntityType>
+        <EntityType Name="store_classes">
+          <Key>
+            <PropertyRef Name="type_id" />
+          </Key>
+          <Property Name="type_id" Type="int" Nullable="false" />
+          <Property Name="type_name" Type="varchar" />
+          <Property Name="seqno" Type="int" />
+        </EntityType>
+        <EntityType Name="sys_roles">
+          <Key>
+            <PropertyRef Name="ROLEID" />
+          </Key>
+          <Property Name="ROLEID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ROLENAME" Type="varchar" />
+          <Property Name="DESCRIPTION" Type="varchar" />
+          <Property Name="STATUSID" Type="int" />
+          <Property Name="SEQNUM" Type="int" />
+        </EntityType>
+        <EntityType Name="sys_units">
+          <Key>
+            <PropertyRef Name="UNITID" />
+          </Key>
+          <Property Name="UNITID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UNITNAME" Type="varchar" />
+          <Property Name="PATH" Type="varchar" />
+          <Property Name="PARENTID" Type="int" />
+          <Property Name="UNITTYPEID" Type="int" />
+          <Property Name="STATUSID" Type="int" />
+          <Property Name="DESCRIPTION" Type="varchar" />
+          <Property Name="ABBREVIATION" Type="varchar" />
+          <Property Name="SEQNUM" Type="int" />
+        </EntityType>
+        <EntityType Name="sys_unittypes">
+          <Key>
+            <PropertyRef Name="UNITTYPEID" />
+          </Key>
+          <Property Name="UNITTYPEID" Type="int" Nullable="false" />
+          <Property Name="UNITTYPENAME" Type="varchar" />
+        </EntityType>
+        <EntityType Name="sys_userpositions">
+          <Key>
+            <PropertyRef Name="USERPOSITIONID" />
+          </Key>
+          <Property Name="USERPOSITIONID" Type="int" Nullable="false" />
+          <Property Name="USERPOSITIONNAME" Type="varchar" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sys_userroles">
+          <Key>
+            <PropertyRef Name="URID" />
+          </Key>
+          <Property Name="URID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="USERID" Type="int" />
+          <Property Name="ROLEID" Type="int" />
+        </EntityType>
+        <EntityType Name="sys_users">
+          <Key>
+            <PropertyRef Name="USERID" />
+          </Key>
+          <Property Name="USERID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="USERNAME" Type="varchar" Nullable="false" MaxLength="60" />
+          <Property Name="UNITID" Type="int" Nullable="false" />
+          <Property Name="ACCOUNT" Type="varchar" Nullable="false" />
+          <Property Name="PASSWORD" Type="varchar" Nullable="false" />
+          <Property Name="USERPOSITIONID" Type="int" />
+          <Property Name="STATUSID" Type="int" Nullable="false" />
+          <Property Name="PHONE" Type="varchar" MaxLength="20" />
+          <Property Name="SPHONE" Type="varchar" MaxLength="200" />
+          <Property Name="ZFZBH" Type="varchar" MaxLength="50" />
+          <Property Name="PHONEIMEI" Type="varchar" MaxLength="200" />
+          <Property Name="SEX" Type="varchar" MaxLength="10" />
+          <Property Name="BIRTHDAY" Type="date" />
+          <Property Name="SEQNO" Type="int" />
+          <Property Name="AVATAR" Type="varchar" MaxLength="500" />
+          <Property Name="SLAVATAR" Type="varchar" MaxLength="500" />
+          <Property Name="SMALLAVATAR" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <Association Name="FK_Reference_20">
+          <End Role="sys_unittypes" Type="Model.Store.sys_unittypes" Multiplicity="0..1" />
+          <End Role="sys_units" Type="Model.Store.sys_units" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sys_unittypes">
+              <PropertyRef Name="UNITTYPEID" />
+            </Principal>
+            <Dependent Role="sys_units">
+              <PropertyRef Name="UNITTYPEID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reference_36">
+          <End Role="sys_units" Type="Model.Store.sys_units" Multiplicity="1" />
+          <End Role="sys_users" Type="Model.Store.sys_users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sys_units">
+              <PropertyRef Name="UNITID" />
+            </Principal>
+            <Dependent Role="sys_users">
+              <PropertyRef Name="UNITID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reference_39">
+          <End Role="sys_roles" Type="Model.Store.sys_roles" Multiplicity="0..1" />
+          <End Role="sys_userroles" Type="Model.Store.sys_userroles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sys_roles">
+              <PropertyRef Name="ROLEID" />
+            </Principal>
+            <Dependent Role="sys_userroles">
+              <PropertyRef Name="ROLEID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reference_6">
+          <End Role="store_classes" Type="Model.Store.store_classes" Multiplicity="1" />
+          <End Role="store_bases" Type="Model.Store.store_bases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="store_classes">
+              <PropertyRef Name="type_id" />
+            </Principal>
+            <Dependent Role="store_bases">
+              <PropertyRef Name="type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reference_7">
+          <End Role="ad_classes" Type="Model.Store.ad_classes" Multiplicity="0..1" />
+          <End Role="ad_outadverts" Type="Model.Store.ad_outadverts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ad_classes">
+              <PropertyRef Name="type_id" />
+            </Principal>
+            <Dependent Role="ad_outadverts">
+              <PropertyRef Name="type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reference_8">
+          <End Role="mh_categors" Type="Model.Store.mh_categors" Multiplicity="0..1" />
+          <End Role="mh_news" Type="Model.Store.mh_news" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mh_categors">
+              <PropertyRef Name="categoryid" />
+            </Principal>
+            <Dependent Role="mh_news">
+              <PropertyRef Name="categoryid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SU_SUP">
+          <End Role="sys_userpositions" Type="Model.Store.sys_userpositions" Multiplicity="0..1" />
+          <End Role="sys_users" Type="Model.Store.sys_users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sys_userpositions">
+              <PropertyRef Name="USERPOSITIONID" />
+            </Principal>
+            <Dependent Role="sys_users">
+              <PropertyRef Name="USERPOSITIONID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SUR_SU">
+          <End Role="sys_users" Type="Model.Store.sys_users" Multiplicity="0..1" />
+          <End Role="sys_userroles" Type="Model.Store.sys_userroles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sys_users">
+              <PropertyRef Name="USERID" />
+            </Principal>
+            <Dependent Role="sys_userroles">
+              <PropertyRef Name="USERID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="hzwEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="ad_classes" EntityType="Model.ad_classes" />
+          <EntitySet Name="ad_outadverts" EntityType="Model.ad_outadverts" />
+          <EntitySet Name="event_zfsjs" EntityType="Model.event_zfsjs" />
+          <EntitySet Name="mh_categors" EntityType="Model.mh_categors" />
+          <EntitySet Name="mh_news" EntityType="Model.mh_news" />
+          <EntitySet Name="store_bases" EntityType="Model.store_bases" />
+          <EntitySet Name="store_classes" EntityType="Model.store_classes" />
+          <EntitySet Name="sys_roles" EntityType="Model.sys_roles" />
+          <EntitySet Name="sys_units" EntityType="Model.sys_units" />
+          <EntitySet Name="sys_unittypes" EntityType="Model.sys_unittypes" />
+          <EntitySet Name="sys_userpositions" EntityType="Model.sys_userpositions" />
+          <EntitySet Name="sys_userroles" EntityType="Model.sys_userroles" />
+          <EntitySet Name="sys_users" EntityType="Model.sys_users" />
+          <AssociationSet Name="FK_Reference_7" Association="Model.FK_Reference_7">
+            <End Role="ad_classes" EntitySet="ad_classes" />
+            <End Role="ad_outadverts" EntitySet="ad_outadverts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reference_8" Association="Model.FK_Reference_8">
+            <End Role="mh_categors" EntitySet="mh_categors" />
+            <End Role="mh_news" EntitySet="mh_news" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reference_6" Association="Model.FK_Reference_6">
+            <End Role="store_classes" EntitySet="store_classes" />
+            <End Role="store_bases" EntitySet="store_bases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reference_39" Association="Model.FK_Reference_39">
+            <End Role="sys_roles" EntitySet="sys_roles" />
+            <End Role="sys_userroles" EntitySet="sys_userroles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reference_20" Association="Model.FK_Reference_20">
+            <End Role="sys_unittypes" EntitySet="sys_unittypes" />
+            <End Role="sys_units" EntitySet="sys_units" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reference_36" Association="Model.FK_Reference_36">
+            <End Role="sys_units" EntitySet="sys_units" />
+            <End Role="sys_users" EntitySet="sys_users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SU_SUP" Association="Model.FK_SU_SUP">
+            <End Role="sys_userpositions" EntitySet="sys_userpositions" />
+            <End Role="sys_users" EntitySet="sys_users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SUR_SU" Association="Model.FK_SUR_SU">
+            <End Role="sys_users" EntitySet="sys_users" />
+            <End Role="sys_userroles" EntitySet="sys_userroles" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="ad_classes">
+          <Key>
+            <PropertyRef Name="type_id" />
+          </Key>
+          <Property Name="type_id" Type="Int32" Nullable="false" />
+          <Property Name="type_name" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <Property Name="seqno" Type="Int32" />
+          <NavigationProperty Name="ad_outadverts" Relationship="Model.FK_Reference_7" FromRole="ad_classes" ToRole="ad_outadverts" />
+        </EntityType>
+        <EntityType Name="ad_outadverts">
+          <Key>
+            <PropertyRef Name="ad_id" />
+          </Key>
+          <Property Name="ad_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="id_type" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="type_id" Type="Int32" />
+          <Property Name="ad_name" Type="String" Nullable="false" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="unit" Type="String" Nullable="false" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="unitperson" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="unitphone" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="producers" Type="String" Nullable="false" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="prophone" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="state" Type="Int32" />
+          <Property Name="examunit" Type="String" Nullable="false" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="examdate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="startdate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="enddate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="address" Type="String" Nullable="false" MaxLength="2000" Unicode="false" FixedLength="false" />
+          <Property Name="photo1" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="photo2" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="photo3" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="grometry" Type="String" Nullable="false" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="volume" Type="Double" />
+          <Property Name="long" Type="Double" />
+          <Property Name="wide" Type="Double" />
+          <Property Name="high" Type="Double" />
+          <Property Name="materials" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="curingunit" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="superviseunit" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="createtime" Type="DateTime" Precision="0" />
+          <Property Name="createuserid" Type="Int32" />
+          <NavigationProperty Name="ad_classes" Relationship="Model.FK_Reference_7" FromRole="ad_outadverts" ToRole="ad_classes" />
+          <Property Type="Int32" Name="status" />
+        </EntityType>
+        <EntityType Name="event_zfsjs">
+          <Key>
+            <PropertyRef Name="event_id" />
+          </Key>
+          <Property Name="event_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="id_type" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="title" Type="String" MaxLength="2000" Unicode="false" FixedLength="false" />
+          <Property Name="reporttime" Type="DateTime" Precision="0" />
+          <Property Name="reportperson" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="source" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="contact" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <Property Name="content" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
+          <Property Name="photo1" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="photo2" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="photo3" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="grometry" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="isexamine" Type="Int32" />
+          <Property Name="examineperson" Type="Int32" />
+          <Property Name="examinetime" Type="DateTime" Precision="0" />
+          <Property Name="examinecontent" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
+          <Property Name="isinvalis" Type="Int32" />
+          <Property Name="isinput" Type="Int32" />
+          <Property Name="ispush" Type="Int32" />
+        </EntityType>
+        <EntityType Name="mh_categors">
+          <Key>
+            <PropertyRef Name="categoryid" />
+          </Key>
+          <Property Name="categoryid" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <Property Name="seqno" Type="Int32" />
+          <Property Name="createtime" Type="DateTime" Precision="0" />
+          <Property Name="prentid" Type="Int32" />
+          <Property Name="status" Type="Int32" />
+          <Property Name="isonline" Type="Int32" />
+          <NavigationProperty Name="mh_news" Relationship="Model.FK_Reference_8" FromRole="mh_categors" ToRole="mh_news" />
+        </EntityType>
+        <EntityType Name="mh_news">
+          <Key>
+            <PropertyRef Name="articleid" />
+          </Key>
+          <Property Name="articleid" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="categoryid" Type="Int32" />
+          <Property Name="title" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <Property Name="content" Type="String" MaxLength="65535" Unicode="false" FixedLength="false" />
+          <Property Name="author" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="createuserid" Type="Int32" />
+          <Property Name="createtime" Type="DateTime" Precision="0" />
+          <Property Name="status" Type="Int32" />
+          <Property Name="filename" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <Property Name="filepath" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <Property Name="isonline" Type="Int32" />
+          <Property Name="categoryid_bid" Type="Int32" />
+          <NavigationProperty Name="mh_categors" Relationship="Model.FK_Reference_8" FromRole="mh_news" ToRole="mh_categors" />
+        </EntityType>
+        <EntityType Name="store_bases">
+          <Key>
+            <PropertyRef Name="store_id" />
+          </Key>
+          <Property Name="store_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="id_type" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="store_name" Type="String" Nullable="false" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="type_id" Type="Int32" Nullable="false" />
+          <Property Name="address" Type="String" Nullable="false" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="grometry" Type="String" Nullable="false" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="person" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
+          <Property Name="businessperson" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
+          <Property Name="businesscontact" Type="String" Nullable="false" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <Property Name="registnum" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
+          <Property Name="registname" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
+          <Property Name="registcontact" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <Property Name="businessscope" Type="String" MaxLength="2000" Unicode="false" FixedLength="false" />
+          <Property Name="registdate" Type="DateTime" Precision="0" />
+          <Property Name="businessenddate" Type="DateTime" Precision="0" />
+          <Property Name="businesslicense" Type="Int32" />
+          <Property Name="healthcard" Type="Int32" />
+          <Property Name="mqsbperson" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
+          <Property Name="gridnum" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <Property Name="gridperson" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
+          <Property Name="gridcontact" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <Property Name="createtime" Type="DateTime" Precision="0" />
+          <Property Name="createuserid" Type="Int32" />
+          <NavigationProperty Name="store_classes" Relationship="Model.FK_Reference_6" FromRole="store_bases" ToRole="store_classes" />
+          <Property Type="Int32" Name="status" />
+        </EntityType>
+        <EntityType Name="store_classes">
+          <Key>
+            <PropertyRef Name="type_id" />
+          </Key>
+          <Property Name="type_id" Type="Int32" Nullable="false" />
+          <Property Name="type_name" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <Property Name="seqno" Type="Int32" />
+          <NavigationProperty Name="store_bases" Relationship="Model.FK_Reference_6" FromRole="store_classes" ToRole="store_bases" />
+        </EntityType>
+        <EntityType Name="sys_roles">
+          <Key>
+            <PropertyRef Name="ROLEID" />
+          </Key>
+          <Property Name="ROLEID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="ROLENAME" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <Property Name="DESCRIPTION" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <Property Name="STATUSID" Type="Int32" />
+          <Property Name="SEQNUM" Type="Int32" />
+          <NavigationProperty Name="sys_userroles" Relationship="Model.FK_Reference_39" FromRole="sys_roles" ToRole="sys_userroles" />
+        </EntityType>
+        <EntityType Name="sys_units">
+          <Key>
+            <PropertyRef Name="UNITID" />
+          </Key>
+          <Property Name="UNITID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="UNITNAME" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <Property Name="PATH" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <Property Name="PARENTID" Type="Int32" />
+          <Property Name="UNITTYPEID" Type="Int32" />
+          <Property Name="STATUSID" Type="Int32" />
+          <Property Name="DESCRIPTION" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <Property Name="ABBREVIATION" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <Property Name="SEQNUM" Type="Int32" />
+          <NavigationProperty Name="sys_unittypes" Relationship="Model.FK_Reference_20" FromRole="sys_units" ToRole="sys_unittypes" />
+          <NavigationProperty Name="sys_users" Relationship="Model.FK_Reference_36" FromRole="sys_units" ToRole="sys_users" />
+        </EntityType>
+        <EntityType Name="sys_unittypes">
+          <Key>
+            <PropertyRef Name="UNITTYPEID" />
+          </Key>
+          <Property Name="UNITTYPEID" Type="Int32" Nullable="false" />
+          <Property Name="UNITTYPENAME" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="sys_units" Relationship="Model.FK_Reference_20" FromRole="sys_unittypes" ToRole="sys_units" />
+        </EntityType>
+        <EntityType Name="sys_userpositions">
+          <Key>
+            <PropertyRef Name="USERPOSITIONID" />
+          </Key>
+          <Property Name="USERPOSITIONID" Type="Int32" Nullable="false" />
+          <Property Name="USERPOSITIONNAME" Type="String" Nullable="false" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="sys_users" Relationship="Model.FK_SU_SUP" FromRole="sys_userpositions" ToRole="sys_users" />
+        </EntityType>
+        <EntityType Name="sys_userroles">
+          <Key>
+            <PropertyRef Name="URID" />
+          </Key>
+          <Property Name="URID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="USERID" Type="Int32" />
+          <Property Name="ROLEID" Type="Int32" />
+          <NavigationProperty Name="sys_roles" Relationship="Model.FK_Reference_39" FromRole="sys_userroles" ToRole="sys_roles" />
+          <NavigationProperty Name="sys_users" Relationship="Model.FK_SUR_SU" FromRole="sys_userroles" ToRole="sys_users" />
+        </EntityType>
+        <EntityType Name="sys_users">
+          <Key>
+            <PropertyRef Name="USERID" />
+          </Key>
+          <Property Name="USERID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="USERNAME" Type="String" Nullable="false" MaxLength="60" Unicode="false" FixedLength="false" />
+          <Property Name="UNITID" Type="Int32" Nullable="false" />
+          <Property Name="ACCOUNT" Type="String" Nullable="false" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <Property Name="PASSWORD" Type="String" Nullable="false" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <Property Name="USERPOSITIONID" Type="Int32" />
+          <Property Name="STATUSID" Type="Int32" Nullable="false" />
+          <Property Name="PHONE" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+          <Property Name="SPHONE" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
+          <Property Name="ZFZBH" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="PHONEIMEI" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
+          <Property Name="SEX" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="BIRTHDAY" Type="DateTime" Precision="0" />
+          <Property Name="SEQNO" Type="Int32" />
+          <Property Name="AVATAR" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="SLAVATAR" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="SMALLAVATAR" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="sys_units" Relationship="Model.FK_Reference_36" FromRole="sys_users" ToRole="sys_units" />
+          <NavigationProperty Name="sys_userpositions" Relationship="Model.FK_SU_SUP" FromRole="sys_users" ToRole="sys_userpositions" />
+          <NavigationProperty Name="sys_userroles" Relationship="Model.FK_SUR_SU" FromRole="sys_users" ToRole="sys_userroles" />
+        </EntityType>
+        <Association Name="FK_Reference_7">
+          <End Role="ad_classes" Type="Model.ad_classes" Multiplicity="0..1" />
+          <End Role="ad_outadverts" Type="Model.ad_outadverts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ad_classes">
+              <PropertyRef Name="type_id" />
+            </Principal>
+            <Dependent Role="ad_outadverts">
+              <PropertyRef Name="type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reference_8">
+          <End Role="mh_categors" Type="Model.mh_categors" Multiplicity="0..1" />
+          <End Role="mh_news" Type="Model.mh_news" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mh_categors">
+              <PropertyRef Name="categoryid" />
+            </Principal>
+            <Dependent Role="mh_news">
+              <PropertyRef Name="categoryid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reference_6">
+          <End Role="store_classes" Type="Model.store_classes" Multiplicity="1" />
+          <End Role="store_bases" Type="Model.store_bases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="store_classes">
+              <PropertyRef Name="type_id" />
+            </Principal>
+            <Dependent Role="store_bases">
+              <PropertyRef Name="type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reference_39">
+          <End Role="sys_roles" Type="Model.sys_roles" Multiplicity="0..1" />
+          <End Role="sys_userroles" Type="Model.sys_userroles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sys_roles">
+              <PropertyRef Name="ROLEID" />
+            </Principal>
+            <Dependent Role="sys_userroles">
+              <PropertyRef Name="ROLEID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reference_20">
+          <End Role="sys_unittypes" Type="Model.sys_unittypes" Multiplicity="0..1" />
+          <End Role="sys_units" Type="Model.sys_units" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sys_unittypes">
+              <PropertyRef Name="UNITTYPEID" />
+            </Principal>
+            <Dependent Role="sys_units">
+              <PropertyRef Name="UNITTYPEID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reference_36">
+          <End Role="sys_units" Type="Model.sys_units" Multiplicity="1" />
+          <End Role="sys_users" Type="Model.sys_users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sys_units">
+              <PropertyRef Name="UNITID" />
+            </Principal>
+            <Dependent Role="sys_users">
+              <PropertyRef Name="UNITID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SU_SUP">
+          <End Role="sys_userpositions" Type="Model.sys_userpositions" Multiplicity="0..1" />
+          <End Role="sys_users" Type="Model.sys_users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sys_userpositions">
+              <PropertyRef Name="USERPOSITIONID" />
+            </Principal>
+            <Dependent Role="sys_users">
+              <PropertyRef Name="USERPOSITIONID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SUR_SU">
+          <End Role="sys_users" Type="Model.sys_users" Multiplicity="0..1" />
+          <End Role="sys_userroles" Type="Model.sys_userroles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sys_users">
+              <PropertyRef Name="USERID" />
+            </Principal>
+            <Dependent Role="sys_userroles">
+              <PropertyRef Name="USERID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="hzwEntities">
+          <EntitySetMapping Name="ad_classes">
+            <EntityTypeMapping TypeName="Model.ad_classes">
+              <MappingFragment StoreEntitySet="ad_classes">
+                <ScalarProperty Name="type_id" ColumnName="type_id" />
+                <ScalarProperty Name="type_name" ColumnName="type_name" />
+                <ScalarProperty Name="seqno" ColumnName="seqno" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ad_outadverts">
+            <EntityTypeMapping TypeName="Model.ad_outadverts">
+              <MappingFragment StoreEntitySet="ad_outadverts">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="ad_id" ColumnName="ad_id" />
+                <ScalarProperty Name="id_type" ColumnName="id_type" />
+                <ScalarProperty Name="type_id" ColumnName="type_id" />
+                <ScalarProperty Name="ad_name" ColumnName="ad_name" />
+                <ScalarProperty Name="unit" ColumnName="unit" />
+                <ScalarProperty Name="unitperson" ColumnName="unitperson" />
+                <ScalarProperty Name="unitphone" ColumnName="unitphone" />
+                <ScalarProperty Name="producers" ColumnName="producers" />
+                <ScalarProperty Name="prophone" ColumnName="prophone" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="examunit" ColumnName="examunit" />
+                <ScalarProperty Name="examdate" ColumnName="examdate" />
+                <ScalarProperty Name="startdate" ColumnName="startdate" />
+                <ScalarProperty Name="enddate" ColumnName="enddate" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="photo1" ColumnName="photo1" />
+                <ScalarProperty Name="photo2" ColumnName="photo2" />
+                <ScalarProperty Name="photo3" ColumnName="photo3" />
+                <ScalarProperty Name="grometry" ColumnName="grometry" />
+                <ScalarProperty Name="volume" ColumnName="volume" />
+                <ScalarProperty Name="long" ColumnName="long" />
+                <ScalarProperty Name="wide" ColumnName="wide" />
+                <ScalarProperty Name="high" ColumnName="high" />
+                <ScalarProperty Name="materials" ColumnName="materials" />
+                <ScalarProperty Name="curingunit" ColumnName="curingunit" />
+                <ScalarProperty Name="superviseunit" ColumnName="superviseunit" />
+                <ScalarProperty Name="createtime" ColumnName="createtime" />
+                <ScalarProperty Name="createuserid" ColumnName="createuserid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="event_zfsjs">
+            <EntityTypeMapping TypeName="Model.event_zfsjs">
+              <MappingFragment StoreEntitySet="event_zfsjs">
+                <ScalarProperty Name="event_id" ColumnName="event_id" />
+                <ScalarProperty Name="id_type" ColumnName="id_type" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="reporttime" ColumnName="reporttime" />
+                <ScalarProperty Name="reportperson" ColumnName="reportperson" />
+                <ScalarProperty Name="source" ColumnName="source" />
+                <ScalarProperty Name="contact" ColumnName="contact" />
+                <ScalarProperty Name="content" ColumnName="content" />
+                <ScalarProperty Name="photo1" ColumnName="photo1" />
+                <ScalarProperty Name="photo2" ColumnName="photo2" />
+                <ScalarProperty Name="photo3" ColumnName="photo3" />
+                <ScalarProperty Name="grometry" ColumnName="grometry" />
+                <ScalarProperty Name="isexamine" ColumnName="isexamine" />
+                <ScalarProperty Name="examineperson" ColumnName="examineperson" />
+                <ScalarProperty Name="examinetime" ColumnName="examinetime" />
+                <ScalarProperty Name="examinecontent" ColumnName="examinecontent" />
+                <ScalarProperty Name="isinvalis" ColumnName="isinvalis" />
+                <ScalarProperty Name="isinput" ColumnName="isinput" />
+                <ScalarProperty Name="ispush" ColumnName="ispush" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mh_categors">
+            <EntityTypeMapping TypeName="Model.mh_categors">
+              <MappingFragment StoreEntitySet="mh_categors">
+                <ScalarProperty Name="categoryid" ColumnName="categoryid" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="seqno" ColumnName="seqno" />
+                <ScalarProperty Name="createtime" ColumnName="createtime" />
+                <ScalarProperty Name="prentid" ColumnName="prentid" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="isonline" ColumnName="isonline" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mh_news">
+            <EntityTypeMapping TypeName="Model.mh_news">
+              <MappingFragment StoreEntitySet="mh_news">
+                <ScalarProperty Name="articleid" ColumnName="articleid" />
+                <ScalarProperty Name="categoryid" ColumnName="categoryid" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="content" ColumnName="content" />
+                <ScalarProperty Name="author" ColumnName="author" />
+                <ScalarProperty Name="createuserid" ColumnName="createuserid" />
+                <ScalarProperty Name="createtime" ColumnName="createtime" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="filename" ColumnName="filename" />
+                <ScalarProperty Name="filepath" ColumnName="filepath" />
+                <ScalarProperty Name="isonline" ColumnName="isonline" />
+                <ScalarProperty Name="categoryid_bid" ColumnName="categoryid_bid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="store_bases">
+            <EntityTypeMapping TypeName="Model.store_bases">
+              <MappingFragment StoreEntitySet="store_bases">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="store_id" ColumnName="store_id" />
+                <ScalarProperty Name="id_type" ColumnName="id_type" />
+                <ScalarProperty Name="store_name" ColumnName="store_name" />
+                <ScalarProperty Name="type_id" ColumnName="type_id" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="grometry" ColumnName="grometry" />
+                <ScalarProperty Name="person" ColumnName="person" />
+                <ScalarProperty Name="businessperson" ColumnName="businessperson" />
+                <ScalarProperty Name="businesscontact" ColumnName="businesscontact" />
+                <ScalarProperty Name="registnum" ColumnName="registnum" />
+                <ScalarProperty Name="registname" ColumnName="registname" />
+                <ScalarProperty Name="registcontact" ColumnName="registcontact" />
+                <ScalarProperty Name="businessscope" ColumnName="businessscope" />
+                <ScalarProperty Name="registdate" ColumnName="registdate" />
+                <ScalarProperty Name="businessenddate" ColumnName="businessenddate" />
+                <ScalarProperty Name="businesslicense" ColumnName="businesslicense" />
+                <ScalarProperty Name="healthcard" ColumnName="healthcard" />
+                <ScalarProperty Name="mqsbperson" ColumnName="mqsbperson" />
+                <ScalarProperty Name="gridnum" ColumnName="gridnum" />
+                <ScalarProperty Name="gridperson" ColumnName="gridperson" />
+                <ScalarProperty Name="gridcontact" ColumnName="gridcontact" />
+                <ScalarProperty Name="createtime" ColumnName="createtime" />
+                <ScalarProperty Name="createuserid" ColumnName="createuserid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="store_classes">
+            <EntityTypeMapping TypeName="Model.store_classes">
+              <MappingFragment StoreEntitySet="store_classes">
+                <ScalarProperty Name="type_id" ColumnName="type_id" />
+                <ScalarProperty Name="type_name" ColumnName="type_name" />
+                <ScalarProperty Name="seqno" ColumnName="seqno" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sys_roles">
+            <EntityTypeMapping TypeName="Model.sys_roles">
+              <MappingFragment StoreEntitySet="sys_roles">
+                <ScalarProperty Name="ROLEID" ColumnName="ROLEID" />
+                <ScalarProperty Name="ROLENAME" ColumnName="ROLENAME" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="STATUSID" ColumnName="STATUSID" />
+                <ScalarProperty Name="SEQNUM" ColumnName="SEQNUM" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sys_units">
+            <EntityTypeMapping TypeName="Model.sys_units">
+              <MappingFragment StoreEntitySet="sys_units">
+                <ScalarProperty Name="UNITID" ColumnName="UNITID" />
+                <ScalarProperty Name="UNITNAME" ColumnName="UNITNAME" />
+                <ScalarProperty Name="PATH" ColumnName="PATH" />
+                <ScalarProperty Name="PARENTID" ColumnName="PARENTID" />
+                <ScalarProperty Name="UNITTYPEID" ColumnName="UNITTYPEID" />
+                <ScalarProperty Name="STATUSID" ColumnName="STATUSID" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="ABBREVIATION" ColumnName="ABBREVIATION" />
+                <ScalarProperty Name="SEQNUM" ColumnName="SEQNUM" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sys_unittypes">
+            <EntityTypeMapping TypeName="Model.sys_unittypes">
+              <MappingFragment StoreEntitySet="sys_unittypes">
+                <ScalarProperty Name="UNITTYPEID" ColumnName="UNITTYPEID" />
+                <ScalarProperty Name="UNITTYPENAME" ColumnName="UNITTYPENAME" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sys_userpositions">
+            <EntityTypeMapping TypeName="Model.sys_userpositions">
+              <MappingFragment StoreEntitySet="sys_userpositions">
+                <ScalarProperty Name="USERPOSITIONID" ColumnName="USERPOSITIONID" />
+                <ScalarProperty Name="USERPOSITIONNAME" ColumnName="USERPOSITIONNAME" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sys_userroles">
+            <EntityTypeMapping TypeName="Model.sys_userroles">
+              <MappingFragment StoreEntitySet="sys_userroles">
+                <ScalarProperty Name="URID" ColumnName="URID" />
+                <ScalarProperty Name="USERID" ColumnName="USERID" />
+                <ScalarProperty Name="ROLEID" ColumnName="ROLEID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sys_users">
+            <EntityTypeMapping TypeName="Model.sys_users">
+              <MappingFragment StoreEntitySet="sys_users">
+                <ScalarProperty Name="USERID" ColumnName="USERID" />
+                <ScalarProperty Name="USERNAME" ColumnName="USERNAME" />
+                <ScalarProperty Name="UNITID" ColumnName="UNITID" />
+                <ScalarProperty Name="ACCOUNT" ColumnName="ACCOUNT" />
+                <ScalarProperty Name="PASSWORD" ColumnName="PASSWORD" />
+                <ScalarProperty Name="USERPOSITIONID" ColumnName="USERPOSITIONID" />
+                <ScalarProperty Name="STATUSID" ColumnName="STATUSID" />
+                <ScalarProperty Name="PHONE" ColumnName="PHONE" />
+                <ScalarProperty Name="SPHONE" ColumnName="SPHONE" />
+                <ScalarProperty Name="ZFZBH" ColumnName="ZFZBH" />
+                <ScalarProperty Name="PHONEIMEI" ColumnName="PHONEIMEI" />
+                <ScalarProperty Name="SEX" ColumnName="SEX" />
+                <ScalarProperty Name="BIRTHDAY" ColumnName="BIRTHDAY" />
+                <ScalarProperty Name="SEQNO" ColumnName="SEQNO" />
+                <ScalarProperty Name="AVATAR" ColumnName="AVATAR" />
+                <ScalarProperty Name="SLAVATAR" ColumnName="SLAVATAR" />
+                <ScalarProperty Name="SMALLAVATAR" ColumnName="SMALLAVATAR" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
